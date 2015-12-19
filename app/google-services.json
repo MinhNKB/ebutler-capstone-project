@@ -1,0 +1,51 @@
+{
+  "project_info": {
+    "project_id": "ebutler-c4bc5",
+    "project_number": "16375099791",
+    "name": "eButler"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16375099791:android:59d88248dc09d230",
+        "client_id": "android:com.guardian.ebutler.ebutler",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.guardian.ebutler.ebutler"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "16375099791-s0j8vghnkts1s760s8dil0o9jo96v499.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.guardian.ebutler.ebutler",
+            "certificate_hash": "6C3EAA4BA6103BC77F56F94B823361641A367228"
+          }
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}

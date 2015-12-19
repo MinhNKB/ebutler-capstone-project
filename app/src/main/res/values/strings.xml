@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">eButler</string>
+    <string name="login_text">Login</string>
+    <string name="signed_out">Signed Out</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="signed_in_fmt">Signed in Format</string>
+    <string name="loading">Loading</string>
 </resources>
