@@ -6,4 +6,6 @@
     <color name="colorTaskGreen">#22D622</color>
     <color name="colorTaskRed">#FF5757</color>
     <color name="colorTaskGrayBlue">#585876</color>
+    <color name="colorTaskGray">#999595</color>
+    <color name="colorTaskYellow">#FFF163</color>
 </resources>

@@ -22,9 +22,11 @@ public class TaskList {
     private ArrayList<Task> tasks;
     private TaskList() {
         tasks = new ArrayList<Task>();
-        tasks.add(new Task("Đóng tiền điện", ScheduleHelper.addHours(new Date(),2), true));
-        tasks.add(new Task("Đóng tiền nước", ScheduleHelper.addHours(new Date(),3), true));
+        tasks.add(new Task("Đóng tiền điện", ScheduleHelper.addHours(new Date(),2), false));
+        tasks.add(new Task("Đóng tiền nước", ScheduleHelper.addHours(new Date(),3), false));
         tasks.add(new Task("Lau nhà", ScheduleHelper.addHours(new Date(),1), true));
+        tasks.add(new Task("Tập thể dục", ScheduleHelper.addHours(new Date(),-1), true));
+        tasks.add(new Task("Đánh răng", ScheduleHelper.addHours(new Date(),-2), false));
     }
 
     public void sortTasks() {

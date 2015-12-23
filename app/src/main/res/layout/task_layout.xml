@@ -1,41 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
     android:paddingTop="10dp"
-    android:paddingBottom="10dp">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:id="@+id/taskTemplate">
-        <View
-            android:layout_width="5dp"
-            android:layout_height="80dp"
-            android:background="@color/colorTaskRed"
-            android:id="@+id/colorTaskState"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true">
-        </View>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Task Name"
-            android:textSize="20sp"
-            android:id="@+id/textTaskName"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
-            android:padding="10sp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:text="Date"
-            android:id="@+id/textTaskDate"
-            android:padding="10sp"/>
-    </RelativeLayout>
-</LinearLayout>
+    android:paddingBottom="10dp"
+    android:layout_height="80dp"
+    android:background="@android:drawable/dialog_holo_light_frame"
+    android:clipChildren="false">
+    <View
+        android:layout_width="5dp"
+        android:layout_height="70dp"
+        android:background="@color/colorTaskRed"
+        android:id="@+id/colorTaskState"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:padding="-5dp"
+        android:layout_margin="-5dp">
+    </View>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Task Name"
+        android:textSize="20sp"
+        android:id="@+id/textTaskName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:padding="10sp"
+        android:paddingLeft="20sp"
+        android:paddingStart="20sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="Date"
+        android:id="@+id/textTaskDate"
+        android:padding="10sp"/>
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="5dp"
+        android:foreground="@android:drawable/presence_away" />
+</RelativeLayout>
