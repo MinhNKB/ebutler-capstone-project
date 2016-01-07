@@ -1,48 +1,42 @@
 package com.guardian.ebutler.ebutler;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Debug;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.globalwarming.Sekai;
 import com.guardian.ebutler.displaydata.Task;
 import com.guardian.ebutler.displaydata.TaskList;
+import com.guardian.ebutler.screenhelper.FullScreenHelper;
 import com.luksprog.dp.adapter.FilterWithSpaceAdapter;
 
-import java.util.ArrayList;
 import java.util.Date;
 
-public class Dashboard extends AppCompatActivity {
+public class Dashboard extends Activity {
 
     private TaskList taskList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FullScreenHelper.setFullScreen(this);
         setContentView(R.layout.activity_dashboard);
-        Intent intent = getIntent();
-        String username = intent.getStringExtra(Login.EXTRA_USERNAME);
         TextView textview = (TextView)findViewById(R.id.user_name);
-        textview.setText("Hi, " + username);
+        textview.setText("Hi, " + Sekai.getInstance().userName);
         getTasks();
         fetchToView();
         revokeFocus();

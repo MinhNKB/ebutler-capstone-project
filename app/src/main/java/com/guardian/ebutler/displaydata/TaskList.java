@@ -19,7 +19,7 @@ public class TaskList {
         return instance;
     }
 
-    private ArrayList<Task> tasks;
+    public ArrayList<Task> tasks;
     private TaskList() {
         tasks = new ArrayList<Task>();
         tasks.add(new Task("Đóng tiền điện", ScheduleHelper.addHours(new Date(),2), false));

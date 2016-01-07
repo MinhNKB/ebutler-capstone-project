@@ -7,10 +7,100 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.guardian.ebutler.ebutler.AddTaskActivity">
-    <TextView
-        android:layout_width="wrap_content"
+    tools:context="com.guardian.ebutler.ebutler.AddTaskActivity"
+    android:id="@+id/new_task_layout">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Create new task"
-        android:id="@+id/textCreateNewTask"/>
+        android:id="@+id/createNewTaskHeader">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create new task"
+            android:id="@+id/textCreateNewTask"
+            android:textSize="30sp"/>
+    </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/createNewTaskHeader">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#eeeeee">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/taskNameLabel"
+                android:text="Task Name"
+                android:layout_margin="10dp"
+                android:textSize="18sp"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editCreateNewTaskName"
+                android:hint="Input new task name"
+                android:layout_margin="10dp"
+                android:layout_below="@id/taskNameLabel" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#dddddd"
+                android:layout_below="@id/editCreateNewTaskName">
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/taskDateLabel"
+                android:layout_below="@id/editCreateNewTaskName"
+                android:text="Date of task"
+                android:layout_margin="10dp"
+                android:textSize="18sp"/>
+            <DatePicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/taskDateLabel"
+                android:id="@+id/dateCreateNewTask"
+                android:layout_margin="10dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#dddddd"
+                android:layout_below="@id/dateCreateNewTask">
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/taskTimeLabel"
+                android:layout_below="@id/dateCreateNewTask"
+                android:text="Time of task"
+                android:layout_margin="10dp"
+                android:textSize="18sp"/>
+            <TimePicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/taskTimeLabel"
+                android:id="@+id/timeCreateNewTask"
+                android:layout_margin="10dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#dddddd"
+                android:layout_below="@id/timeCreateNewTask">
+            </LinearLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Create"
+                android:id="@+id/buttonCreateTask"
+                android:layout_below="@id/timeCreateNewTask"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="15dp"/>
+        </RelativeLayout>
+    </ScrollView>
+
 </RelativeLayout>
