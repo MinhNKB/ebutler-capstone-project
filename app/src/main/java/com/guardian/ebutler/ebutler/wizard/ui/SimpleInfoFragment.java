@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package com.example.android.wizardpager.wizard.ui;
+package com.guardian.ebutler.ebutler.wizard.ui;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -25,31 +24,31 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.example.android.wizardpager.wizard.model.Page;
 import com.example.android.wizardpager.wizard.model.SingleTextFieldPage;
+import com.example.android.wizardpager.wizard.ui.PageFragmentCallbacks;
 import com.guardian.ebutler.ebutler.R;
+import com.guardian.ebutler.ebutler.wizard.model.SimpleInfoPage;
 
-public class SingleTextFieldFragment extends Fragment {
+public class SimpleInfoFragment extends Fragment {
     private static final String ARG_KEY = "key";
 
     private PageFragmentCallbacks mCallbacks;
     private String mKey;
-    private SingleTextFieldPage mPage;
-    private TextView mFieldView;
+    private SimpleInfoPage mPage;
 
-    public static SingleTextFieldFragment create(String key) {
+    public static SimpleInfoFragment create(String key) {
         Bundle args = new Bundle();
         args.putString(ARG_KEY, key);
 
-        SingleTextFieldFragment fragment = new SingleTextFieldFragment();
+        SimpleInfoFragment fragment = new SimpleInfoFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    public SingleTextFieldFragment() {
+    public SimpleInfoFragment() {
     }
 
     @Override
@@ -58,19 +57,16 @@ public class SingleTextFieldFragment extends Fragment {
 
         Bundle args = getArguments();
         mKey = args.getString(ARG_KEY);
-        mPage = (SingleTextFieldPage) mCallbacks.onGetPage(mKey);
+        mPage = ((SimpleInfoPage) mCallbacks.onGetPage(mKey));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_page_single_text_field, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_page_simple_info, container, false);
         ((TextView) rootView.findViewById(android.R.id.title)).setText(mPage.getTitle());
-        ((TextView) rootView.findViewById(R.id.wizard_text_field_desc)).setText(mPage.getDesc());
+        ((TextView) rootView.findViewById(R.id.wizard_info_text)).setText(mPage.getDesc());
 
-        mFieldView = ((TextView) rootView.findViewById(R.id.wizard_text_field));
-        mFieldView.setHint(mPage.getTitle());
-        mFieldView.setText(mPage.getData().getString(Page.SIMPLE_DATA_KEY));
         return rootView;
     }
 
@@ -95,20 +91,6 @@ public class SingleTextFieldFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mFieldView.addTextChangedListener(new TextWatcher() {
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1,
-                    int i2) {
-            }
-
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            public void afterTextChanged(Editable editable) {
-                mPage.getData().putString(Page.SIMPLE_DATA_KEY,
-                        (editable != null) ? editable.toString() : null);
-                mPage.notifyDataChanged();
-            }
-        });
     }
 
     @Override

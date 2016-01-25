@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">eButler</string>
 
-    <string name="next">Next</string>
-    <string name="prev">Previous</string>
-    <string name="finish">Submit order</string>
+    <string name="next">Tiep tuc</string>
+    <string name="prev">Quay lai</string>
+    <string name="ok">Chap nhan</string>
+    <string name="decline">Bo qua</string>
+    <string name="finish">Ket thuc</string>
     <string name="review">Review</string>
     <string name="enabled">Enabled</string>
 
@@ -14,8 +16,29 @@
 
     <string name="submit_confirm_message">Place the order with the deli? You will receive an email
         confirmation.</string>
-    <string name="submit_confirm_button">Place order</string>
+    <string name="submit_confirm_button">Ve trang chinh</string>
 
 
-    <string name="butler_intro">Xin chao ban, Tu nay toi se la quan gia cua ban. Ban co the vui long cap nhat mot vai thong tin ca nhan giup toi khong?</string>
+    <string name="butler_intro">
+        Xin chao ban, Tu nay toi se la quan gia cua ban. Ban co the vui long cap nhat mot vai thong tin ca nhan giup toi khong?
+    </string>
+    <string name="butler_personalinfo_prompt">
+        Vui long nhap thong tin cua ban
+    </string>
+    <string name="butler_request_failed">
+        Ban da bo qua thong tin ca nhan, tuy nhien ban nen som cap nhat thong tin can thiet de co trai nghiem tot nhat voi toi
+    </string>
+    <string name="butler_finish_wizard">
+        Chuc mung! Ban da hoan tat viec cap nhat nhung thong tin can thiet
+    </string>
+    <string name="butler_confirm_personalinfo">
+        Thong tin ca nhan cua chu nhan da duoc cap nhat
+    </string>
+
+    <string name="wizard_form_name">Ho ten</string>
+    <string name="wizard_form_gender">Gioi tinh</string>
+    <string name="wizard_form_dob">Ngay sinh</string>
+    <string name="wizard_field_address">Dia chi</string>
+    <string name="wizard_form_marriedstats">Tinh trang gia dinh</string>
+
 </resources>

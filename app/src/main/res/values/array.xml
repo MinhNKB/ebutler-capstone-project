@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="GenderItems">
+        <item>Nam</item>
+        <item>Nu</item>
+    </string-array>
+    <string-array name="MarriedStatsItems">
+        <item>Ket Hon</item>
+        <item>Doc Than</item>
+    </string-array>
+</resources>

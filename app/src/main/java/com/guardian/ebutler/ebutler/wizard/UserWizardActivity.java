@@ -1,5 +1,9 @@
 
-package com.guardian.ebutler.ebutler;
+package com.guardian.ebutler.ebutler.wizard;
+
+import com.guardian.ebutler.ebutler.FinishWizardActivity;
+import com.guardian.ebutler.ebutler.InfoDeclinedActivity;
+import com.guardian.ebutler.ebutler.R;
 
 import com.example.android.wizardpager.wizard.model.AbstractWizardModel;
 import com.example.android.wizardpager.wizard.model.ModelCallbacks;
@@ -7,11 +11,15 @@ import com.example.android.wizardpager.wizard.model.Page;
 import com.example.android.wizardpager.wizard.ui.PageFragmentCallbacks;
 import com.example.android.wizardpager.wizard.ui.ReviewFragment;
 import com.example.android.wizardpager.wizard.ui.StepPagerStrip;
-import com.guardian.ebutler.ebutler.R;
-import com.guardian.ebutler.ebutler.wizard.UserWizardModel;
+import com.guardian.ebutler.ebutler.wizard.model.SimpleInfoPage;
+import com.guardian.ebutler.ebutler.wizard.model.UserWizardModel;
+import com.guardian.ebutler.ebutler.wizard.ui.FinishWizardFragment;
+import com.guardian.ebutler.ebutler.wizard.ui.SimpleInfoFragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -23,6 +31,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -35,25 +44,29 @@ public class UserWizardActivity extends FragmentActivity implements
 
     private boolean mEditingAfterReview;
 
-    private AbstractWizardModel mWizardModel = new UserWizardModel(this);
+    private UserWizardModel mWizardModel = new UserWizardModel(this);
 
     private boolean mConsumePageSelectedEvent;
 
+    private Button mDeclButton;
     private Button mNextButton;
     private Button mPrevButton;
+    private TextView mButlerSpeech;
 
     private List<Page> mCurrentPageSequence;
     private StepPagerStrip mStepPagerStrip;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_user_wizard);
 
         if (savedInstanceState != null) {
             mWizardModel.load(savedInstanceState.getBundle("model"));
         }
 
         mWizardModel.registerListener(this);
+
+        mButlerSpeech = (TextView) findViewById(R.id.wizard_butler_speechtext);
 
         mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         mPager = (ViewPager) findViewById(R.id.pager);
@@ -71,6 +84,7 @@ public class UserWizardActivity extends FragmentActivity implements
 
         mNextButton = (Button) findViewById(R.id.next_button);
         mPrevButton = (Button) findViewById(R.id.prev_button);
+        mDeclButton = (Button) findViewById(R.id.decline_button);
 
         mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
@@ -87,21 +101,18 @@ public class UserWizardActivity extends FragmentActivity implements
             }
         });
 
+        mDeclButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickDeclButton();
+            }
+        });
+
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mPager.getCurrentItem() == mCurrentPageSequence.size()) {
-                    DialogFragment dg = new DialogFragment() {
-                        @Override
-                        public Dialog onCreateDialog(Bundle savedInstanceState) {
-                            return new AlertDialog.Builder(getActivity())
-                                    .setMessage(R.string.submit_confirm_message)
-                                    .setPositiveButton(R.string.submit_confirm_button, null)
-                                    .setNegativeButton(android.R.string.cancel, null)
-                                    .create();
-                        }
-                    };
-                    dg.show(getSupportFragmentManager(), "place_order_dialog");
+                    onFinishWizard();
                 } else {
                     if (mEditingAfterReview) {
                         mPager.setCurrentItem(mPagerAdapter.getCount() - 1);
@@ -115,12 +126,75 @@ public class UserWizardActivity extends FragmentActivity implements
         mPrevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
             }
         });
 
         onPageTreeChanged();
         updateBottomBar();
+    }
+
+    //TODO:(nthoang/task1) Serialize Wizard Data here on Decline Button Click, please link the wizard decline with a landing page
+    //Example Implementation
+    private void onClickDeclButton() {
+        DialogFragment dg = new DialogFragment() {
+            @Override
+            public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+                Bundle model = mWizardModel.save();
+
+                return new AlertDialog.Builder(getActivity())
+                        //Here write what have been input into the wizard
+                        .setMessage(model.toString())
+                        .setPositiveButton(R.string.submit_confirm_button, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //Test landing page
+                                loadActivity(InfoDeclinedActivity.class);
+                            }
+                        })
+                        .create();
+            }
+        };
+        dg.show(getSupportFragmentManager(), "place_order_dialog");
+
+    }
+
+    //Handy method (^_^)
+    private void loadActivity(Class<?> activityclz) {
+        Intent i = new Intent(this, activityclz);
+        startActivity(i);
+    }
+
+
+    //TODO:(nthoang/task1) Serialize Wizard Data here after Finish Wizard, please link the wizard finish with a landing page
+    //Example Implementation
+    private void onFinishWizard() {
+        DialogFragment dg = new DialogFragment() {
+            @Override
+            public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+                Bundle model = mWizardModel.save();
+
+                return new AlertDialog.Builder(getActivity())
+                        //Here write what have been input into the wizard
+                        .setMessage(model.toString())
+                        .setPositiveButton(R.string.submit_confirm_button, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //Test landing page
+                                loadActivity(FinishWizardActivity.class);
+                            }
+                        })
+                        .create();
+            }
+        };
+        dg.show(getSupportFragmentManager(), "place_order_dialog");
+    }
+
+    //TODO:(nthoang/task1) Butler Speech manipulator method in the Info Wizard
+    private void updateButlerSpeech(String newspeech) {
+        mButlerSpeech.setText(newspeech);
     }
 
     @Override
@@ -130,6 +204,12 @@ public class UserWizardActivity extends FragmentActivity implements
         mStepPagerStrip.setPageCount(mCurrentPageSequence.size() + 1); // + 1 = review step
         mPagerAdapter.notifyDataSetChanged();
         updateBottomBar();
+
+        //TODO:(nthoang/task1) Butler Speech change when we move through the Info Wizard
+        //Zero mapped to the first wizard page
+        if (mPager.getCurrentItem() == 0) {
+            updateButlerSpeech(getString(R.string.butler_personalinfo_prompt));
+        }
     }
 
     private void updateBottomBar() {
@@ -227,7 +307,8 @@ public class UserWizardActivity extends FragmentActivity implements
         @Override
         public Fragment getItem(int i) {
             if (i >= mCurrentPageSequence.size()) {
-                return new ReviewFragment();
+                //TODO: Last Item of The User Wizard here
+                return new FinishWizardFragment();
             }
 
             return mCurrentPageSequence.get(i).createFragment();
