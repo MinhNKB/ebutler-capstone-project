@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="bill_list">
+        <item>Dong tien nuoc</item>
+        <item>Dong tien dien thoai</item>
+        <item>Dong tien quan li chung cu</item>
+        <item>Dong tien Internet</item>
+        <item>Dong tien hoc phi</item>
+        <item>Dong tien bao hiem y te</item>
+    </string-array>
+</resources>

@@ -16,6 +16,7 @@
     <string name="location_detail_labelDetail">Chi tiết địa điểm</string>
     <string name="choose_location_textButtonAddLocation">Thêm</string>
     <string name="location_detail_textButtionEditLocation">Chỉnh sửa</string>
+    <string name="butler_bill_detail">Hay chon viec ban can lam. Ban co the tim kiem bang khung o tren</string>
 
     <string-array name="task_detail_spinnerItemRepeat">
         <item>Once</item>
