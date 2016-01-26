@@ -17,13 +17,11 @@
 package com.guardian.ebutler.ebutler.wizard.model;
 
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 
 import com.example.android.wizardpager.wizard.model.ModelCallbacks;
 import com.example.android.wizardpager.wizard.model.Page;
 import com.example.android.wizardpager.wizard.model.ReviewItem;
-import com.example.android.wizardpager.wizard.model.SingleTextFieldPage;
-import com.example.android.wizardpager.wizard.ui.SingleTextFieldFragment;
+import com.guardian.ebutler.ebutler.wizard.ui.SimpleInfoFragment;
 
 import java.util.ArrayList;
 
@@ -49,7 +47,7 @@ public class SimpleInfoPage extends Page {
 
     @Override
     public Fragment createFragment() {
-        return SingleTextFieldFragment.create(getKey());
+        return SimpleInfoFragment.create(getKey());
     }
 
     @Override
