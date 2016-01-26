@@ -10,7 +10,7 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".wizard.UserWizardActivity" />
-        <activity android:name=".InfoRequestActivity">
+        <activity android:name=".InfoRequestActivity"/>
         <activity android:name=".Dashboard" />
         <activity android:name=".TaskDetail">
             <intent-filter>
