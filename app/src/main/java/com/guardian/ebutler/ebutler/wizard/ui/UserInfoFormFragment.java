@@ -101,7 +101,8 @@ public class UserInfoFormFragment extends Fragment {
             @Override
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 //TODO:(nthoang/task1) Format Date Data for UserInfo Wizard is dd-mm-yyyy
-                mPage.getData().putString(UserInfoFormPage.DOB_DATA_KEY, String.format("%d-%d-%d", dayOfMonth, monthOfYear, year));
+                //Fixed:(nthoang/task1) monthofYear should + 1
+                mPage.getData().putString(UserInfoFormPage.DOB_DATA_KEY, String.format("%d-%d-%d", dayOfMonth, monthOfYear + 1, year));
             }
         });
         mAddrField.addTextChangedListener(new TextWatcher() {
