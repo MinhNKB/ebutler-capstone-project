@@ -6,4 +6,9 @@
     <dimen name="step_pager_tab_width">32dp</dimen>
     <dimen name="step_pager_tab_height">3dp</dimen>
     <dimen name="step_pager_tab_spacing">4dp</dimen>
+
+    <dimen name="activity_horizontal_margin">0dp</dimen>
+    <dimen name="activity_vertical_margin">0dp</dimen>
+    <dimen name="layout_padding">15dp</dimen>
+    <dimen name="paragraph_padding">30dp</dimen>
 </resources>

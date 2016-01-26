@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">eButler</string>
+<<<<<<< HEAD
 
     <string name="next">Tiep tuc</string>
     <string name="prev">Quay lai</string>
@@ -40,5 +41,28 @@
     <string name="wizard_form_dob">Ngay sinh</string>
     <string name="wizard_field_address">Dia chi</string>
     <string name="wizard_form_marriedstats">Tinh trang gia dinh</string>
+
+    <string name="what_you_need_question"></string>
+    <string name="task_detail_hintTaskName">Tên công việc</string>
+    <string name="task_detail_labelTime">Lúc:</string>
+    <string name="task_detail_hintTime">giờ</string>
+    <string name="task_detail_hintDate">ngày</string>
+    <string name="task_detail_labelLocation">Địa điểm:</string>
+    <string name="task_detail_hintLocation">chọn địa điểm</string>
+    <string name="task_detail_labelRepeat">Lặp lại</string>
+    <string name="task_detail_labelCalling">Tôi sẽ nhắc bạn gọi</string>
+    <string name="task_detail_hintCalling">Mở danh bạ</string>
+    <string name="task_detail_textButtonAddPlugin">Thêm Checklist</string>
+    <string name="task_detail_textButtonFinish">Hoàn thành</string>
+    <string name="task_detail_textButtonCancel">Hủy</string>
+    <string name="location_detail_labelDetail">Chi tiết địa điểm</string>
+    <string name="choose_location_textButtonAddLocation">Thêm</string>
+    <string name="location_detail_textButtionEditLocation">Chỉnh sửa</string>
+
+    <string-array name="task_detail_spinnerItemRepeat">
+        <item>Once</item>
+        <item>Daily</item>
+        <item>Monthly</item>
+    </string-array>
 
 </resources>
