@@ -17,7 +17,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ChooseLocation" />
-        <activity android:name=".LocationDetail"></activity>
+        <activity android:name=".LocationDetail" />
+        <activity android:name=".CategoryDetailActivity" />
+        <activity android:name=".BillDetail"></activity>
     </application>
 
 </manifest>
