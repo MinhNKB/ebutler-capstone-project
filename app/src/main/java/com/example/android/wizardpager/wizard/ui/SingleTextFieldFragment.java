@@ -114,6 +114,13 @@ public class SingleTextFieldFragment extends Fragment {
     @Override
     public void setMenuVisibility(boolean menuVisible) {
         super.setMenuVisibility(menuVisible);
-
+        // In a future update to the support library, this should override setUserVisibleHint
+        // instead of setMenuVisibility.
+        if (mFieldView != null) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (!menuVisible) {
+                imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+            }
+        }
     }
 }
