@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="6dp">
+
+    <View
+        android:background="@color/colorAccent"
+        android:id="@+id/flag"
+        android:layout_width="5dp"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="6dp"/>
+    <TextView
+        android:id="@+id/firstLine"
+        android:layout_width="fill_parent"
+        android:layout_height="24dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/flag"
+        android:gravity="center_vertical"
+        android:text="Tập thể dục buổi sáng"
+        android:textSize="16dp" />
+    <TextView
+        android:id="@+id/secondLine"
+        android:layout_width="fill_parent"
+        android:layout_height="18dp"
+        android:layout_below="@id/firstLine"
+        android:layout_toRightOf="@id/flag"
+        android:singleLine="true"
+        android:text="Sáng nay 7 giờ 30 phút"
+        android:textSize="12dp"/>
+    <TextView
+        android:id="@+id/thirdLine"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/secondLine"
+        android:layout_toRightOf="@id/flag"
+        android:singleLine="true"
+        android:text="Đã trễ 20ph"
+        android:textSize="10sp" />
+</RelativeLayout>
