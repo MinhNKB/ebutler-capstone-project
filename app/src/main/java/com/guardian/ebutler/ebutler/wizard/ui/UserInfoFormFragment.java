@@ -13,12 +13,9 @@ import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.android.wizardpager.wizard.model.Page;
 import com.example.android.wizardpager.wizard.ui.PageFragmentCallbacks;
 import com.guardian.ebutler.ebutler.R;
 import com.guardian.ebutler.ebutler.wizard.model.UserInfoFormPage;
-
-import java.util.Date;
 
 /**
  * Created by mypc on 1/25/16.
@@ -62,7 +59,7 @@ public class UserInfoFormFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_page_userinfo_form, container, false);
         ((TextView) rootView.findViewById(android.R.id.title)).setText(mPage.getTitle());
 
-        ((TextView) rootView.findViewById(R.id.butler_info_text)).setText(getString(R.string.butler_personalinfo_prompt));
+        ((TextView) rootView.findViewById(R.id.butler_info_text)).setText(getString(R.string.user_info_butlerQuestion));
 
         mNameField = ((TextView) rootView.findViewById(R.id.wizard_field_name));
         mGenderField = ((Spinner) rootView.findViewById(R.id.wizard_field_gender));

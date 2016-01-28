@@ -22,24 +22,33 @@
             <SearchView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:queryHint="@string/what_you_need_question"
+                android:queryHint="@string/search_bar_queryHint"
                 />
         </RelativeLayout>
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Hãy chọn 1 mục"
-
-            android:id="@+id/textView"/>
+            android:layout_margin="@dimen/layout_padding"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_launcher"/>
+            <TextView
+                android:layout_marginTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category_detail_butlerSpeech"/>
+        </LinearLayout>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Hóa đơn"
-            android:id="@+id/button"
-            android:layout_alignParentTop="true"/>
+            android:id="@+id/category_detail_buttonBill"
+            android:layout_alignParentTop="true"
+            />
 
         <Button
             android:layout_width="match_parent"

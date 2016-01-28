@@ -1,9 +1,12 @@
 package com.guardian.ebutler.ebutler;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -32,6 +35,20 @@ public class Dashboard extends Activity {
 
         this.buttonArrow = (ImageButton) findViewById(R.id.button_arrow);
 
+        bindNavigationLocation();
+    }
+
+    private void bindNavigationLocation() {
+        final Context context = this;
+
+        Button button = (Button)findViewById(R.id.dashboard_buttonAddTask);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, CategoryDetail.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private List<DashboardTask> GetTasks()

@@ -1,8 +1,8 @@
 
 package com.guardian.ebutler.ebutler.wizard;
 
-import com.guardian.ebutler.ebutler.FinishWizardActivity;
-import com.guardian.ebutler.ebutler.InfoDeclinedActivity;
+import com.guardian.ebutler.ebutler.InfoFinish;
+import com.guardian.ebutler.ebutler.InfoDeclined;
 import com.guardian.ebutler.ebutler.R;
 
 import com.example.android.wizardpager.wizard.model.AbstractWizardModel;
@@ -11,10 +11,8 @@ import com.example.android.wizardpager.wizard.model.Page;
 import com.example.android.wizardpager.wizard.ui.PageFragmentCallbacks;
 import com.example.android.wizardpager.wizard.ui.ReviewFragment;
 import com.example.android.wizardpager.wizard.ui.StepPagerStrip;
-import com.guardian.ebutler.ebutler.wizard.model.SimpleInfoPage;
 import com.guardian.ebutler.ebutler.wizard.model.UserWizardModel;
 import com.guardian.ebutler.ebutler.wizard.ui.FinishWizardFragment;
-import com.guardian.ebutler.ebutler.wizard.ui.SimpleInfoFragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -31,11 +29,10 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import java.util.List;
 
-public class UserWizardActivity extends FragmentActivity implements
+public class UserWizard extends FragmentActivity implements
         PageFragmentCallbacks,
         ReviewFragment.Callbacks,
         ModelCallbacks {
@@ -143,11 +140,11 @@ public class UserWizardActivity extends FragmentActivity implements
                 return new AlertDialog.Builder(getActivity())
                         //Here write what have been input into the wizard
                         .setMessage(model.toString())
-                        .setPositiveButton(R.string.submit_confirm_button, new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.user_wizard_textButtonSubmitConfirm, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //Test landing page
-                                loadActivity(InfoDeclinedActivity.class);
+                                loadActivity(InfoDeclined.class);
                             }
                         })
                         .create();
@@ -176,11 +173,11 @@ public class UserWizardActivity extends FragmentActivity implements
                 return new AlertDialog.Builder(getActivity())
                         //Here write what have been input into the wizard
                         .setMessage(model.toString())
-                        .setPositiveButton(R.string.submit_confirm_button, new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.user_wizard_textButtonSubmitConfirm, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //Test landing page
-                                loadActivity(FinishWizardActivity.class);
+                                loadActivity(InfoFinish.class);
                             }
                         })
                         .create();
@@ -202,13 +199,13 @@ public class UserWizardActivity extends FragmentActivity implements
     private void updateBottomBar() {
         int position = mPager.getCurrentItem();
         if (position == mCurrentPageSequence.size()) {
-            mNextButton.setText(R.string.finish);
+            mNextButton.setText(R.string.textButtonFinish);
             mNextButton.setBackgroundResource(R.drawable.finish_background);
             mNextButton.setTextAppearance(this, R.style.TextAppearanceFinish);
         } else {
             mNextButton.setText(mEditingAfterReview
-                    ? R.string.review
-                    : R.string.next);
+                    ? R.string.textButtonReview
+                    : R.string.textButtonNext);
             mNextButton.setBackgroundResource(R.drawable.selectable_item_background);
             TypedValue v = new TypedValue();
             getTheme().resolveAttribute(android.R.attr.textAppearanceMedium, v, true);

@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.guardian.ebutler.ebutler.TimeDetail">
+    tools:context=".ChooseTime">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,12 +18,14 @@
         <DatePicker
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/datePicker"/>
+            android:id="@+id/choose_time_datePicker"
+            android:layout_marginBottom="@dimen/paragraph_padding"/>
 
         <TimePicker
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/timePicker"/>
+            android:id="@+id/choose_time_timePicker"
+            android:layout_gravity="center"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,14 +37,16 @@
             <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/task_detail_textButtonFinish"
+                android:text="@string/choose_time_textButtonConfirm"
                 android:layout_weight="0.5"
                 android:background="@drawable/blue_button"
                 android:textColor="@color/background"
                 android:drawableLeft="@mipmap/ic_done"
                 android:layout_marginLeft="@dimen/layout_padding"
                 android:layout_marginRight="@dimen/layout_padding"
-                android:layout_marginBottom="5dp"/>
+                android:layout_marginBottom="5dp"
+                android:id="@+id/choose_time_buttonConfirm"
+                />
             <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -54,6 +58,7 @@
                 android:layout_marginLeft="@dimen/layout_padding"
                 android:layout_marginRight="@dimen/layout_padding"
                 android:layout_marginBottom="5dp"
+                android:id="@+id/choose_time_buttonCancel"
                 />
         </LinearLayout>
 

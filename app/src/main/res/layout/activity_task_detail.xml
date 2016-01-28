@@ -19,7 +19,7 @@
         <SearchView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:queryHint="@string/what_you_need_question"
+            android:queryHint="@string/search_bar_queryHint"
             />
     </RelativeLayout>
 
@@ -57,12 +57,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:hint="@string/task_detail_hintTime"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:id="@+id/task_detail_editTextTime"/>
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:hint="@string/task_detail_hintDate"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:id="@+id/task_detail_editTextDate"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -93,7 +95,7 @@
                     <Spinner
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:entries="@array/task_detail_spinnerItemRepeat"
+                        android:entries="@array/task_detail_taskRepeatOptions"
                         android:layout_weight="1"/>
                 </LinearLayout>
             </LinearLayout>
@@ -137,6 +139,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/task_detail_textButtonAddPlugin"
+                    android:background="@drawable/border_button"
+                    android:textColor="@color/colorPrimary"
+                    android:paddingLeft="@dimen/layout_padding"
+                    android:paddingRight="@dimen/layout_padding"
                     android:layout_centerHorizontal="true"/>
             </RelativeLayout>
         </LinearLayout>
@@ -159,7 +165,8 @@
             android:drawableLeft="@mipmap/ic_done"
             android:layout_marginLeft="@dimen/layout_padding"
             android:layout_marginRight="@dimen/layout_padding"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp"
+            android:id="@+id/task_detail_buttonDone"/>
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -171,6 +178,7 @@
             android:layout_marginLeft="@dimen/layout_padding"
             android:layout_marginRight="@dimen/layout_padding"
             android:layout_marginBottom="5dp"
+            android:id="@+id/task_detail_buttonCancel"
             />
     </LinearLayout>
 </LinearLayout>

@@ -19,7 +19,7 @@
             android:orientation="vertical">
 
             <TextView style="@style/WizardFormLabel"
-                android:text="@string/wizard_form_name" />
+                android:text="@string/user_info_labelName" />
 
             <EditText android:id="@+id/wizard_field_name"
                 android:layout_width="match_parent"
@@ -30,7 +30,7 @@
 
 
             <TextView style="@style/WizardFormLabel"
-                android:text="@string/wizard_form_gender" />
+                android:text="@string/user_info_labelGender" />
 
             <Spinner android:id="@+id/wizard_field_gender"
                 android:layout_width="match_parent"
@@ -38,10 +38,10 @@
                 android:saveEnabled="false"
                 android:inputType="text"
                 android:layout_marginBottom="16dp"
-                android:entries="@array/GenderItems"/>
+                android:entries="@array/user_info_genderOptions"/>
 
             <TextView style="@style/WizardFormLabel"
-                android:text="@string/wizard_form_dob" />
+                android:text="@string/user_info_labelDOB" />
 
             <DatePicker android:id="@+id/wizard_field_dob"
                 android:layout_width="match_parent"
@@ -51,7 +51,7 @@
                 android:layout_marginBottom="16dp" />
 
             <TextView style="@style/WizardFormLabel"
-                android:text="@string/wizard_field_address" />
+                android:text="@string/wizard_field_labelAddress" />
 
             <EditText android:id="@+id/wizard_field_address"
                 android:layout_width="match_parent"
@@ -61,7 +61,7 @@
                 android:layout_marginBottom="16dp" />
 
             <TextView style="@style/WizardFormLabel"
-                android:text="@string/wizard_form_marriedstats" />
+                android:text="@string/wizard_form_labelMaritalStatus" />
 
             <Spinner android:id="@+id/wizard_field_marriedstats"
                 android:layout_width="match_parent"
@@ -69,7 +69,7 @@
                 android:saveEnabled="false"
                 android:inputType="text"
                 android:layout_marginBottom="16dp"
-                android:entries="@array/MarriedStatsItems"/>
+                android:entries="@array/user_info_maritalStatusOptions"/>
 
 
         </LinearLayout>
