@@ -1,4 +1,4 @@
-﻿package com.guardian.ebutler.ebutler;
+package com.guardian.ebutler.ebutler;
 
 import android.app.Activity;
 import android.content.Context;
