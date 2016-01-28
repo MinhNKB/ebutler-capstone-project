@@ -21,13 +21,13 @@
         </activity>
         <activity android:name=".TimeDetail"/>
         <activity android:name=".wizard.UserWizardActivity" />
-        <activity android:name=".InfoRequestActivity"></activity>
+        <activity android:name=".InfoRequestActivity"/>
         <activity android:name=".InfoDeclinedActivity" />
-        <activity android:name=".FinishWizardActivity"></activity>
+        <activity android:name=".FinishWizardActivity"/>
         <activity android:name=".TaskDetail">
         </activity>
         <activity android:name=".ChooseLocation" />
-        <activity android:name=".LocationDetail"></activity>
+        <activity android:name=".LocationDetail"/>
     </application>
 
 </manifest>
