@@ -8,13 +8,14 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Dashboard" />
-        <activity android:name=".TaskDetail">
+        <activity android:name=".Dashboard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".TaskDetail">
         </activity>
         <activity android:name=".ChooseLocation" />
         <activity android:name=".LocationDetail"></activity>
