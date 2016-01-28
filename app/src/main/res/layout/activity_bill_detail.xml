@@ -21,27 +21,31 @@
             <SearchView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:queryHint="@string/what_you_need_question"
+                android:queryHint="@string/search_bar_queryHint"
                 />
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="match_parent"
+            android:layout_margin="@dimen/layout_padding"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/butler_bill_detail"
-                android:textSize="20dp"/>
-
-
+                android:src="@mipmap/ic_launcher"/>
+            <TextView
+                android:layout_marginTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bill_detail_butlerSpeech"/>
         </LinearLayout>
 
         <ListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/bill_list">
+            android:entries="@array/bill_detail_billCategories"
+            android:id="@+id/bill_detail_listViewCategory">
         </ListView>
 
     </LinearLayout>

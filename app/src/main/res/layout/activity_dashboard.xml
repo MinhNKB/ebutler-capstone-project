@@ -13,7 +13,7 @@
     <LinearLayout
         android:layout_height="50dp"
         android:layout_width="match_parent"
-        android:background="#2962ff"
+        android:background="@color/colorPrimaryDark"
         android:orientation="horizontal">
         <!--<TextView-->
             <!--android:layout_width="wrap_content"-->
@@ -26,12 +26,14 @@
         <SearchView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:queryHint="@string/dashboard_queryHint">
+            android:queryHint="@string/search_bar_queryHint">
         </SearchView>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/layout_padding"
+        >
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -122,7 +124,9 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:background="@drawable/blue_button"
-            android:drawableTop="@mipmap/ic_menu"/>
+            android:drawableTop="@mipmap/ic_add"
+            android:id="@+id/dashboard_buttonAddTask"
+            />
         <AbsoluteLayout
             android:layout_width="1dp"
             android:layout_height="match_parent"/>
@@ -132,16 +136,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:background="@drawable/blue_button"
-            android:drawableTop="@mipmap/ic_add"/>
-        <AbsoluteLayout
-            android:layout_width="1dp"
-            android:layout_height="match_parent"/>
-        <Button
-            android:layout_margin="0dp"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:background="@drawable/blue_button"
-            android:drawableTop="@mipmap/ic_settings"/>
+            android:drawableTop="@mipmap/ic_settings"
+            android:id="@+id/dashboard_buttonSetting"/>
     </LinearLayout>
 </LinearLayout>

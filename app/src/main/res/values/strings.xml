@@ -1,48 +1,39 @@
 <resources>
     <string name="app_name">eButler</string>
 
+    <string name="search_bar_queryHint">Bạn cần giúp gì không?</string>
 
-    <string name="next">Tiếp Tục</string>
-    <string name="prev">Quay Lại</string>
-    <string name="ok">Chấp Nhận</string>
-    <string name="decline">Bỏ Qua</string>
-    <string name="finish">Kết Thúc</string>
-    <string name="review">Review</string>
-    <string name="enabled">Enabled</string>
+    <string name="textButtonNext">Tiếp Tục</string>
+    <string name="textButtonPrev">Quay Lại</string>
+    <string name="textButtonOk">Chấp Nhận</string>
+    <string name="textButtonDecline">Bỏ Qua</string>
+    <string name="textButtonFinish">Kết Thúc</string>
+    <string name="textButtonReview">Review</string>
 
-    <string name="label_your_name">Name</string>
-    <string name="label_your_email">Email</string>
-    <string name="hint_your_name">e.g. Larry</string>
-    <string name="hint_your_email">Optional</string>
+    <string name="user_wizard_textButtonSubmitConfirm">Về Trang Chính</string>
 
-    <string name="submit_confirm_message">Place the order with the deli? You will receive an email
-        confirmation.</string>
-    <string name="submit_confirm_button">Về Trang Chính</string>
-
-
-    <string name="butler_intro">
+    <string name="info_request_butlerIntroduction">
         Xin chào bạn, Từ nay tôi sẽ là quản gia của bạn. Bạn vui lòng cập nhật một vài thông tin cá nhân giúp tôi không?
     </string>
-    <string name="butler_personalinfo_prompt">
+    <string name="user_info_butlerQuestion">
         Vui lòng nhập thông tin của bạn
     </string>
-    <string name="butler_request_failed">
+    <string name="info_declined_butlerSpeech">
         Bạn đã bỏ qua thông tin cá nhân, Tuy nhiên bạn nên sớm cập nhật thông tin cần thiết để có trải nghiệm tốt nhất với tôi
     </string>
-    <string name="butler_finish_wizard">
+    <string name="info_finish_butlerSpeech">
         Chúc mừng! Bạn đã hoàn tất việc nhập những thông tin cần thiết
     </string>
-    <string name="butler_confirm_personalinfo">
+    <string name="info_finish_butlerConfirm">
         Thông tin cá nhân của bạn đã được cập nhật
     </string>
 
-    <string name="wizard_form_name">Họ Tên</string>
-    <string name="wizard_form_gender">Giới Tính</string>
-    <string name="wizard_form_dob">Ngày Sinh</string>
-    <string name="wizard_field_address">Địa chỉ</string>
-    <string name="wizard_form_marriedstats">Tình trạng Gia Định</string>
+    <string name="user_info_labelName">Họ Tên</string>
+    <string name="user_info_labelGender">Giới Tính</string>
+    <string name="user_info_labelDOB">Ngày Sinh</string>
+    <string name="wizard_field_labelAddress">Địa chỉ</string>
+    <string name="wizard_form_labelMaritalStatus">Tình trạng Gia Định</string>
 
-    <string name="what_you_need_question"></string>
     <string name="task_detail_hintTaskName">Tên công việc</string>
     <string name="task_detail_labelTime">Lúc:</string>
     <string name="task_detail_hintTime">giờ</string>
@@ -59,14 +50,9 @@
     <string name="choose_location_textButtonAddLocation">Thêm</string>
     <string name="location_detail_textButtionEditLocation">Chỉnh sửa</string>
 
-    <string name="butler_bill_detail">Hãy chọn việc bạn cần làm. Bạn có thể tìm kiếm bằng khung ở trên</string>
-    <string name="dashboard_queryHint">Bạn cần giúp gì không?</string>
+    <string name="bill_detail_butlerSpeech">Hãy chọn việc bạn cần làm. Bạn có thể tìm kiếm bằng khung ở trên</string>
+    <string name="category_detail_butlerSpeech">Bạn muốn tôi ghi lại công việc gì?</string>
+
     <string name="dashboard_script">Dưới đây là những việc bạn cần làm sắp tới\nBạn có thể tìm kiếm ở thanh phía trên</string>
-
-    <string-array name="task_detail_spinnerItemRepeat">
-        <item>Once</item>
-        <item>Daily</item>
-        <item>Monthly</item>
-    </string-array>
-
+    <string name="choose_time_textButtonConfirm">Xác nhận</string>
 </resources>

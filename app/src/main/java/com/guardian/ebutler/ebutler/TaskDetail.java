@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.guardian.ebutler.screenhelper.FullscreenHelper;
@@ -22,7 +23,7 @@ public class TaskDetail extends Activity {
         revokeFocus();
     }
     static final int GET_LOCATION = 1;  // The request code
-
+    static final int GET_TIME = 2;
     private void bindNavigationLocation() {
         EditText edit = (EditText)findViewById(R.id.task_detail_editTextLocation);
         final Context context = this;
@@ -36,6 +37,50 @@ public class TaskDetail extends Activity {
                                           }
                                       }
         );
+
+        edit = (EditText)findViewById(R.id.task_detail_editTextTime);
+        edit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                                          @Override
+                                          public void onFocusChange(View v, boolean hasFocus) {
+                                              if (hasFocus) {
+                                                  Intent intent = new Intent(context, ChooseTime.class);
+                                                  startActivityForResult(intent, GET_TIME);
+                                              }
+                                          }
+                                      }
+        );
+
+        edit = (EditText)findViewById(R.id.task_detail_editTextDate);
+        edit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                                          @Override
+                                          public void onFocusChange(View v, boolean hasFocus) {
+                                              if (hasFocus) {
+                                                  Intent intent = new Intent(context, ChooseTime.class);
+                                                  startActivityForResult(intent, GET_TIME);
+                                              }
+                                          }
+                                      }
+        );
+
+        Button button = (Button)findViewById(R.id.task_detail_buttonDone);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, Dashboard.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
+
+        button = (Button)findViewById(R.id.task_detail_buttonCancel);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, Dashboard.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -45,6 +90,16 @@ public class TaskDetail extends Activity {
                 EditText edit = (EditText)findViewById(R.id.task_detail_editTextLocation);
                 String location = data.getStringExtra("location");
                 edit.setText(location);
+                revokeFocus();
+            }
+        } else if (requestCode == GET_TIME) {
+            if (resultCode == RESULT_OK) {
+                EditText edit = (EditText)findViewById(R.id.task_detail_editTextTime);
+                String time = data.getStringExtra("time");
+                edit.setText(time);
+                edit = (EditText)findViewById(R.id.task_detail_editTextDate);
+                String date = data.getStringExtra("date");
+                edit.setText(date);
                 revokeFocus();
             }
         }

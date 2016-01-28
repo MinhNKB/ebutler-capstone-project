@@ -17,7 +17,7 @@
         <SearchView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:queryHint="@string/what_you_need_question"
+            android:queryHint="@string/search_bar_queryHint"
             />
     </RelativeLayout>
     <ScrollView
