@@ -62,6 +62,8 @@ public class UserInfoFormFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_page_userinfo_form, container, false);
         ((TextView) rootView.findViewById(android.R.id.title)).setText(mPage.getTitle());
 
+        ((TextView) rootView.findViewById(R.id.butler_info_text)).setText(getString(R.string.butler_personalinfo_prompt));
+
         mNameField = ((TextView) rootView.findViewById(R.id.wizard_field_name));
         mGenderField = ((Spinner) rootView.findViewById(R.id.wizard_field_gender));
         mDOBField = ((DatePicker) rootView.findViewById(R.id.wizard_field_dob));

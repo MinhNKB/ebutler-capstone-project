@@ -51,7 +51,6 @@ public class UserWizardActivity extends FragmentActivity implements
     private Button mDeclButton;
     private Button mNextButton;
     private Button mPrevButton;
-    private TextView mButlerSpeech;
 
     private List<Page> mCurrentPageSequence;
     private StepPagerStrip mStepPagerStrip;
@@ -65,8 +64,6 @@ public class UserWizardActivity extends FragmentActivity implements
         }
 
         mWizardModel.registerListener(this);
-
-        mButlerSpeech = (TextView) findViewById(R.id.wizard_butler_speechtext);
 
         mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         mPager = (ViewPager) findViewById(R.id.pager);
@@ -192,11 +189,6 @@ public class UserWizardActivity extends FragmentActivity implements
         dg.show(getSupportFragmentManager(), "place_order_dialog");
     }
 
-    //TODO:(nthoang/task1) Butler Speech manipulator method in the Info Wizard
-    private void updateButlerSpeech(String newspeech) {
-        mButlerSpeech.setText(newspeech);
-    }
-
     @Override
     public void onPageTreeChanged() {
         mCurrentPageSequence = mWizardModel.getCurrentPageSequence();
@@ -205,11 +197,6 @@ public class UserWizardActivity extends FragmentActivity implements
         mPagerAdapter.notifyDataSetChanged();
         updateBottomBar();
 
-        //TODO:(nthoang/task1) Butler Speech change when we move through the Info Wizard
-        //Zero mapped to the first wizard page
-        if (mPager.getCurrentItem() == 0) {
-            updateButlerSpeech(getString(R.string.butler_personalinfo_prompt));
-        }
     }
 
     private void updateBottomBar() {

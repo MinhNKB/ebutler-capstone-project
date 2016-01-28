@@ -1,9 +1,9 @@
 package com.guardian.ebutler.ebutler;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 
-public class InfoDeclinedActivity extends AppCompatActivity {
+public class InfoDeclinedActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

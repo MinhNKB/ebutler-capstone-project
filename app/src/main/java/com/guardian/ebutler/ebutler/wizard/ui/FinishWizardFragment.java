@@ -40,7 +40,7 @@ public class FinishWizardFragment extends Fragment implements ModelCallbacks {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_page_simple_info, container, false);
-        ((TextView) rootView.findViewById(R.id.wizard_info_text)).setText(getString(R.string.butler_confirm_personalinfo));
+        ((TextView) rootView.findViewById(R.id.butler_info_text)).setText(getString(R.string.butler_confirm_personalinfo));
 
         return rootView;
     }

@@ -61,7 +61,7 @@ public class SimpleInfoFragment extends Fragment {
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_page_simple_info, container, false);
         ((TextView) rootView.findViewById(android.R.id.title)).setText(mPage.getTitle());
-        ((TextView) rootView.findViewById(R.id.wizard_info_text)).setText(mPage.getDesc());
+        ((TextView) rootView.findViewById(R.id.butler_info_text)).setText(mPage.getDesc());
 
         return rootView;
     }

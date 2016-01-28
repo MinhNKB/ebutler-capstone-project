@@ -18,11 +18,11 @@
         android:gravity="left" />
 
 
-    <!--TODO:(nthoang/task1) Butler Image Here -->
-
-
-    <TextView style="@style/WizardFormLabel"
-        android:id="@+id/wizard_butler_speechtext" />
+    <!--TODO:(nthoang/task1) Butler Image Here (TEST)-->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/butler_placeholder"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
