@@ -3,10 +3,14 @@ package com.guardian.ebutler.ebutler;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.tyczj.extendedcalendarview.Day;
 import com.tyczj.extendedcalendarview.ExtendedCalendarView;
 
 import java.util.ArrayList;
@@ -17,6 +21,7 @@ public class Dashboard extends Activity {
     private ListView listView;
     private ExtendedCalendarView extendedCalendarView;
     private ImageButton buttonArrow;
+    private LinearLayout miniTaskView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +34,19 @@ public class Dashboard extends Activity {
 
         this.extendedCalendarView = (ExtendedCalendarView)findViewById(R.id.extendedCalendar);
         this.extendedCalendarView.setGesture(ExtendedCalendarView.LEFT_RIGHT_GESTURE);
+        this.extendedCalendarView.setOnDayClickListener(new ExtendedCalendarView.OnDayClickListener() {
+            @Override
+            public void onDayClicked(AdapterView<?> adapter, View view, int position, long id, Day day) {
+                if (day.getMonth() == 1 && (day.getDay() == 27 || day.getDay() == 28))
+                    miniTaskView.setVisibility(View.VISIBLE);
+                else
+                    miniTaskView.setVisibility(View.GONE);
+            }
+        });
 
         this.buttonArrow = (ImageButton) findViewById(R.id.button_arrow);
+
+        this.miniTaskView = (LinearLayout) findViewById(R.id.miniTaskView);
 
     }
 
@@ -91,6 +107,15 @@ public class Dashboard extends Activity {
             this.extendedCalendarView.setVisibility(View.GONE);
             this.listView.setVisibility(View.VISIBLE);
             this.buttonArrow.setImageResource(R.mipmap.ic_arrow_down_black);
+            this.miniTaskView.setVisibility(View.GONE);
         }
+    }
+
+    public void miniTaskView_onClick(View view)
+    {
+        this.extendedCalendarView.setVisibility(View.GONE);
+        this.listView.setVisibility(View.VISIBLE);
+        this.buttonArrow.setImageResource(R.mipmap.ic_arrow_down_black);
+        this.miniTaskView.setVisibility(View.GONE);
     }
 }
