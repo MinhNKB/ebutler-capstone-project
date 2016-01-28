@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="bill_list">
+        <item>Đóng tiền nước</item>
+        <item>Đóng tiền điện thoại</item>
+        <item>Đóng tiền quản lí chung cu</item>
+        <item>Đóng tiền Internet</item>
+        <item>Đóng tiền học phí</item>
+        <item>Đóng tiền bảo hiểm y tế</item>
+    </string-array>
+</resources>
