@@ -11,8 +11,7 @@
 
         <activity android:name=".wizard.UserWizardActivity" />
         <activity android:name=".InfoRequestActivity"></activity>
-        <activity android:name=".Dashboard" />
-        <activity android:name=".TaskDetail">
+        <activity android:name=".Dashboard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -21,6 +20,8 @@
 
         <activity android:name=".InfoDeclinedActivity" />
         <activity android:name=".FinishWizardActivity"></activity>
+        <activity android:name=".TaskDetail">
+        </activity>
         <activity android:name=".ChooseLocation" />
         <activity android:name=".LocationDetail"></activity>
     </application>
