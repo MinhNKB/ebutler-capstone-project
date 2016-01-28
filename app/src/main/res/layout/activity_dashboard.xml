@@ -35,7 +35,11 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher"/>
+            android:adjustViewBounds="true"
+            android:maxHeight="50dp"
+            android:maxWidth="50dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/butler_placeholder"/>
         <TextView
             android:layout_marginTop="8dp"
             android:layout_width="wrap_content"
@@ -51,12 +55,44 @@
             android:id="@+id/extendedCalendar"
             android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="410dp">
+            android:layout_height="370dp">
         </com.tyczj.extendedcalendarview.ExtendedCalendarView>
+        <LinearLayout
+            android:id="@+id/miniTaskView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:onClick="miniTaskView_onClick">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <View
+                    android:layout_width="5dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="@dimen/layout_padding"
+                    android:background="@color/review_green"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="Giặt đồ"/>
+                <View
+                    android:layout_width="5dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="@dimen/layout_padding"
+                    android:background="@color/colorAccent"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Đi đóng tiền điện"/>
+            </LinearLayout>
+        </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
+            android:layout_gravity="bottom">
             <ImageButton
                 android:id="@+id/button_arrow"
                 android:layout_centerInParent="true"
