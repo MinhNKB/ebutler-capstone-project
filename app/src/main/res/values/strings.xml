@@ -2,11 +2,11 @@
     <string name="app_name">eButler</string>
 
 
-    <string name="next">Tiep tuc</string>
-    <string name="prev">Quay lai</string>
-    <string name="ok">Chap nhan</string>
-    <string name="decline">Bo qua</string>
-    <string name="finish">Ket thuc</string>
+    <string name="next">Tiếp Tục</string>
+    <string name="prev">Quay Lại</string>
+    <string name="ok">Chấp Nhận</string>
+    <string name="decline">Bỏ Qua</string>
+    <string name="finish">Kết Thúc</string>
     <string name="review">Review</string>
     <string name="enabled">Enabled</string>
 
@@ -17,30 +17,30 @@
 
     <string name="submit_confirm_message">Place the order with the deli? You will receive an email
         confirmation.</string>
-    <string name="submit_confirm_button">Ve trang chinh</string>
+    <string name="submit_confirm_button">Về Trang Chính</string>
 
 
     <string name="butler_intro">
-        Xin chao ban, Tu nay toi se la quan gia cua ban. Ban co the vui long cap nhat mot vai thong tin ca nhan giup toi khong?
+        Xin chào bạn, Từ nay tôi sẽ là quản gia của bạn. Bạn vui lòng cập nhật một vài thông tin cá nhân giúp tôi không?
     </string>
     <string name="butler_personalinfo_prompt">
-        Vui long nhap thong tin cua ban
+        Vui lòng nhập thông tin của bạn
     </string>
     <string name="butler_request_failed">
-        Ban da bo qua thong tin ca nhan, tuy nhien ban nen som cap nhat thong tin can thiet de co trai nghiem tot nhat voi toi
+        Bạn đã bỏ qua thông tin cá nhân, Tuy nhiên bạn nên sớm cập nhật thông tin cần thiết để có trải nghiệm tốt nhất với tôi
     </string>
     <string name="butler_finish_wizard">
-        Chuc mung! Ban da hoan tat viec cap nhat nhung thong tin can thiet
+        Chúc mừng! Bạn đã hoàn tất việc nhập những thông tin cần thiết
     </string>
     <string name="butler_confirm_personalinfo">
-        Thong tin ca nhan cua chu nhan da duoc cap nhat
+        Thông tin cá nhân của bạn đã được cập nhật
     </string>
 
-    <string name="wizard_form_name">Ho ten</string>
-    <string name="wizard_form_gender">Gioi tinh</string>
-    <string name="wizard_form_dob">Ngay sinh</string>
-    <string name="wizard_field_address">Dia chi</string>
-    <string name="wizard_form_marriedstats">Tinh trang gia dinh</string>
+    <string name="wizard_form_name">Họ Tên</string>
+    <string name="wizard_form_gender">Giới Tính</string>
+    <string name="wizard_form_dob">Ngày Sinh</string>
+    <string name="wizard_field_address">Địa chỉ</string>
+    <string name="wizard_form_marriedstats">Tình trạng Gia Định</string>
 
     <string name="what_you_need_question"></string>
     <string name="task_detail_hintTaskName">Tên công việc</string>
