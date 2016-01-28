@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="GenderItems">
+        <item>Nam</item>
+        <item>Nữ</item>
+    </string-array>
+    <string-array name="MarriedStatsItems">
+        <item>Kết Hôn</item>
+        <item>Độc Thân</item>
+    </string-array>
     <string-array name="bill_list">
         <item>Đóng tiền nước</item>
         <item>Đóng tiền điện thoại</item>
