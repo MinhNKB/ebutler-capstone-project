@@ -16,7 +16,10 @@
     <string name="location_detail_labelDetail">Chi tiết địa điểm</string>
     <string name="choose_location_textButtonAddLocation">Thêm</string>
     <string name="location_detail_textButtionEditLocation">Chỉnh sửa</string>
+
     <string name="butler_bill_detail">Hãy chọn việc bạn cần làm. Bạn có thể tìm kiếm bằng khung ở trên</string>
+    <string name="dashboard_queryHint">Bạn cần giúp gì không?</string>
+    <string name="dashboard_script">Dưới đây là những việc bạn cần làm sắp tới\nBạn có thể tìm kiếm ở thanh phía trên</string>
 
     <string-array name="task_detail_spinnerItemRepeat">
         <item>Once</item>
