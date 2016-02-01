@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.guardian.ebutler.screenhelper.FullscreenHelper;
 
@@ -62,7 +62,7 @@ public class TaskDetail extends Activity {
                                       }
         );
 
-        Button button = (Button)findViewById(R.id.task_detail_buttonDone);
+        ImageButton button = (ImageButton)findViewById(R.id.task_detail_buttonDone);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +72,7 @@ public class TaskDetail extends Activity {
             }
         });
 
-        button = (Button)findViewById(R.id.task_detail_buttonCancel);
+        button = (ImageButton)findViewById(R.id.task_detail_buttonCancel);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

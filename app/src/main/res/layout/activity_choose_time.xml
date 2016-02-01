@@ -29,13 +29,13 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="42dp"
+            android:layout_height="@dimen/taskbar_height"
             android:gravity="bottom"
             android:layout_marginTop="10dp"
             android:background="@color/colorPrimary"
             >
             <ImageButton
-                android:layout_width="42dp"
+                android:layout_width="@dimen/taskbar_iconSize"
                 android:layout_height="match_parent"
                 android:background="@drawable/blue_button"
                 android:src="@mipmap/ic_done"
@@ -44,10 +44,12 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:id="@+id/choose_time_buttonConfirm"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
                 />
 
             <ImageButton
-                android:layout_width="42dp"
+                android:layout_width="@dimen/taskbar_iconSize"
                 android:layout_height="match_parent"
                 android:background="@drawable/blue_button"
                 android:src="@mipmap/ic_clear"
@@ -56,6 +58,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:id="@+id/choose_time_buttonCancel"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
                 />
         </RelativeLayout>
     </LinearLayout>

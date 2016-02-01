@@ -99,13 +99,13 @@
     </ScrollView>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="42dp"
+        android:layout_height="@dimen/taskbar_height"
         android:gravity="bottom"
         android:layout_marginTop="10dp"
         android:background="@color/colorPrimary"
         >
         <ImageButton
-            android:layout_width="42dp"
+            android:layout_width="@dimen/taskbar_iconSize"
             android:layout_height="match_parent"
             android:background="@drawable/blue_button"
             android:src="@mipmap/ic_edit"
@@ -114,6 +114,8 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:id="@+id/info_finish_buttonDashboard"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
             />
     </RelativeLayout>
 </LinearLayout>

@@ -2,16 +2,11 @@ package com.guardian.ebutler.ebutler;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 
 import com.guardian.ebutler.screenhelper.FullscreenHelper;
-import com.guardian.ebutler.world.Global;
-
-import java.util.HashMap;
 
 public class ChooseLocation extends Activity implements View.OnClickListener {
 
