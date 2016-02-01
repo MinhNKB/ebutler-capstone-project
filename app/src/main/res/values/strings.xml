@@ -48,11 +48,13 @@
     <string name="task_detail_textButtonCancel">Hủy</string>
     <string name="location_detail_labelDetail">Chi tiết địa điểm</string>
     <string name="choose_location_textButtonAddLocation">Thêm</string>
-    <string name="location_detail_textButtionEditLocation">Chỉnh sửa</string>
+    <string name="location_detail_textButtonEditLocation">Chỉnh sửa</string>
 
     <string name="bill_detail_butlerSpeech">Hãy chọn việc bạn cần làm. Bạn có thể tìm kiếm bằng khung ở trên</string>
     <string name="category_detail_butlerSpeech">Bạn muốn tôi ghi lại công việc gì?</string>
 
     <string name="dashboard_script">Dưới đây là những việc bạn cần làm sắp tới\nBạn có thể tìm kiếm ở thanh phía trên</string>
     <string name="choose_time_textButtonConfirm">Xác nhận</string>
+    <string name="taskbar_LabelSetting">Tùy chỉnh</string>
+    <string name="taskbar_LabelDashboard">Dashboard</string>
 </resources>
