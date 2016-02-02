@@ -13,7 +13,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/taskbar_height"
         android:background="@color/colorPrimaryDark"
         android:id="@+id/task_detail_searchBar">
         <SearchView
