@@ -147,38 +147,48 @@
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal"
+        android:layout_height="@dimen/taskbar_height"
         android:gravity="bottom"
-        android:weightSum="1.0"
-        android:layout_marginTop="10dp">
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/task_detail_textButtonFinish"
-            android:layout_weight="0.5"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorPrimary"
+        >
+        <ImageButton
+            android:layout_width="@dimen/taskbar_iconSize"
+            android:layout_height="match_parent"
             android:background="@drawable/blue_button"
-            android:textColor="@color/background"
-            android:drawableLeft="@mipmap/ic_done"
-            android:layout_marginLeft="@dimen/layout_padding"
-            android:layout_marginRight="@dimen/layout_padding"
-            android:layout_marginBottom="5dp"
-            android:id="@+id/task_detail_buttonDone"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/task_detail_textButtonCancel"
-            android:layout_weight="0.5"
-            android:background="@drawable/border_button"
-            android:textColor="@color/colorPrimary"
-            android:drawableLeft="@mipmap/ic_clear_blue"
-            android:layout_marginLeft="@dimen/layout_padding"
-            android:layout_marginRight="@dimen/layout_padding"
-            android:layout_marginBottom="5dp"
-            android:id="@+id/task_detail_buttonCancel"
+            android:src="@mipmap/ic_done"
+            android:contentDescription="@string/task_detail_textButtonFinish"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/task_detail_buttonDone"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
             />
-    </LinearLayout>
+        <!--<ImageButton-->
+            <!--android:layout_width="@dimen/taskbar_iconSize"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="@drawable/blue_button"-->
+            <!--android:src="@mipmap/ic_clear"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:scaleType="fitCenter"-->
+            <!--android:adjustViewBounds="true"-->
+            <!--/>-->
+        <ImageButton
+            android:layout_width="@dimen/taskbar_iconSize"
+            android:layout_height="match_parent"
+            android:background="@drawable/blue_button"
+            android:src="@mipmap/ic_clear"
+            android:contentDescription="@string/task_detail_textButtonCancel"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/task_detail_buttonCancel"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            />
+    </RelativeLayout>
 </LinearLayout>

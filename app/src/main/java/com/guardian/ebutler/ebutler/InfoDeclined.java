@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 public class InfoDeclined extends Activity {
 
@@ -19,7 +19,7 @@ public class InfoDeclined extends Activity {
     private void bindNavigationLocation() {
         final Context context = this;
 
-        Button button = (Button)findViewById(R.id.info_declined_buttonDashboard);
+        ImageButton button = (ImageButton)findViewById(R.id.info_declined_buttonDashboard);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -29,7 +29,7 @@ public class InfoDeclined extends Activity {
             }
         });
 
-        button = (Button)findViewById(R.id.info_declined_buttonAddTask);
+        button = (ImageButton)findViewById(R.id.info_declined_buttonAddTask);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

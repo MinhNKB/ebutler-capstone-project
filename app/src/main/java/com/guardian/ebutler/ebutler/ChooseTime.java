@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.TimePicker;
 
 public class ChooseTime extends Activity {
@@ -22,7 +22,7 @@ public class ChooseTime extends Activity {
     private void bindNavigationLocation() {
         final Context context = this;
 
-        Button button = (Button)findViewById(R.id.choose_time_buttonConfirm);
+        ImageButton button = (ImageButton)findViewById(R.id.choose_time_buttonConfirm);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,7 +57,7 @@ public class ChooseTime extends Activity {
             }
         });
 
-        button = (Button)findViewById(R.id.choose_time_buttonCancel);
+        button = (ImageButton)findViewById(R.id.choose_time_buttonCancel);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
