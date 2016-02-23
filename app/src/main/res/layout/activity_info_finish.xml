@@ -14,9 +14,9 @@
         >
 
         <ImageView
-            android:layout_width="240dp"
-            android:layout_height="240dp"
-            android:src="@drawable/butler_placeholder"
+            android:layout_width="360dp"
+            android:layout_height="360dp"
+            android:src="@drawable/butler"
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/paragraph_padding"/>
 
@@ -36,6 +36,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/info_finish_butlerSpeech"
+                    android:id="@+id/info_finish_chatText"
                     android:layout_weight=".5"
                     />
             </LinearLayout>
