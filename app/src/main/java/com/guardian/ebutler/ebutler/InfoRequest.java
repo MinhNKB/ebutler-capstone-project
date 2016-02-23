@@ -37,7 +37,8 @@ public class InfoRequest extends Activity {
     }
 
     private void onClickDeclButton() {
-        Intent i = new Intent(this, InfoDeclined.class);
+        Intent i = new Intent(this, InfoFinish.class);
+        i.putExtra("EXTRA_TYPE", "Declined");
         startActivity(i);
     }
 
