@@ -38,6 +38,7 @@ public class InfoRequest extends Activity {
 
     private void onClickDeclButton() {
         Intent i = new Intent(this, InfoFinish.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         i.putExtra("EXTRA_TYPE", "Declined");
         startActivity(i);
     }
