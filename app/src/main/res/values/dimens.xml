@@ -8,8 +8,9 @@
 
     <dimen name="activity_horizontal_margin">0dp</dimen>
     <dimen name="activity_vertical_margin">0dp</dimen>
-    <dimen name="layout_padding">15dp</dimen>
-    <dimen name="paragraph_padding">30dp</dimen>
+    <dimen name="layout_padding">6dp</dimen>
+    <dimen name="paragraph_padding">32dp</dimen>
     <dimen name="taskbar_height">42dp</dimen>
     <dimen name="taskbar_iconSize">30dp</dimen>
+    <dimen name="topbar_height">42dp</dimen>
 </resources>

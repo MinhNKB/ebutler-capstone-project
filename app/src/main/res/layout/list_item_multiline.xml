@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginRight="6dp"/>
     <TextView
-        android:id="@+id/firstLine"
+        android:id="@+id/list_item_multiline_firstLine"
         android:layout_width="fill_parent"
         android:layout_height="24dp"
         android:layout_alignParentTop="true"
@@ -21,21 +21,21 @@
         android:text="Tập thể dục buổi sáng"
         android:textSize="16dp" />
     <TextView
-        android:id="@+id/secondLine"
+        android:id="@+id/list_item_multiline_secondLine"
         android:layout_width="fill_parent"
         android:layout_height="18dp"
-        android:layout_below="@id/firstLine"
+        android:layout_below="@id/list_item_multiline_firstLine"
         android:layout_toRightOf="@id/flag"
         android:singleLine="true"
         android:text="Sáng nay 7 giờ 30 phút"
         android:textSize="12dp"/>
     <TextView
-        android:id="@+id/thirdLine"
+        android:id="@+id/list_item_multiline_thirdLine"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/secondLine"
+        android:layout_below="@id/list_item_multiline_secondLine"
         android:layout_toRightOf="@id/flag"
         android:singleLine="true"
         android:text="Đã trễ 20ph"
-        android:textSize="10sp" />
+        android:textSize="10dp" />
 </RelativeLayout>
