@@ -59,14 +59,14 @@ public class Dashboard extends Activity {
         this.initSearchView();
 
         setupUI(findViewById(R.id.dashboard_layout));
-
     }
+
 
     private void initializeCustomListView()
     {
         List<CustomListItem> lTasksList= this.getTasks();
         this.priCustomListAdapter = new CustomListAdapter(this, lTasksList);
-        priCustomListView.setAdapter(this.priCustomListAdapter);
+        this.priCustomListView.setAdapter(this.priCustomListAdapter);
     }
 
     private void initSearchView() {
@@ -219,8 +219,10 @@ public class Dashboard extends Activity {
     }
 
     public void buttonRoundAdd_onClick(View view) {
-        Intent intent = new Intent(this, TaskDetail.class);
-        startActivity(intent);
+        if (this.priSearchView.getQuery().toString() != null && !this.priSearchView.getQuery().toString().equals("")) {
+            Intent intent = new Intent(this, TaskDetail.class);
+            startActivity(intent);
+        }
     }
 
 

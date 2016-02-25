@@ -146,8 +146,10 @@ public class TaskList extends Activity {
     }
 
     public void buttonRoundAdd_onClick(View view) {
-        Intent intent = new Intent(this, TaskDetail.class);
-        startActivity(intent);
+        if (this.priSearchView.getQuery().toString() != null && !this.priSearchView.getQuery().toString().equals("")) {
+            Intent intent = new Intent(this, TaskDetail.class);
+            startActivity(intent);
+        }
     }
 
     public void buttonAdd_onClick(View view) {

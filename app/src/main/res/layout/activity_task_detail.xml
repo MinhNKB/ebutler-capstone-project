@@ -11,18 +11,6 @@
     android:orientation="vertical"
     android:id="@+id/task_detail_layout">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorPrimaryDark"
-        android:id="@+id/task_detail_searchBar">
-        <SearchView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:queryHint="@string/search_bar_queryHint"
-            />
-    </RelativeLayout>
-
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="0dp"
