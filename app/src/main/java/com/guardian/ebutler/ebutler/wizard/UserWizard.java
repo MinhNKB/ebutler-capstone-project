@@ -29,6 +29,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import java.util.List;
 
@@ -45,9 +46,9 @@ public class UserWizard extends FragmentActivity implements
 
     private boolean mConsumePageSelectedEvent;
 
-    private Button mDeclButton;
-    private Button mNextButton;
-    private Button mPrevButton;
+    private ImageButton mDeclButton;
+    private ImageButton mNextButton;
+    private ImageButton mPrevButton;
 
     private List<Page> mCurrentPageSequence;
     private StepPagerStrip mStepPagerStrip;
@@ -76,9 +77,9 @@ public class UserWizard extends FragmentActivity implements
             }
         });
 
-        mNextButton = (Button) findViewById(R.id.next_button);
-        mPrevButton = (Button) findViewById(R.id.prev_button);
-        mDeclButton = (Button) findViewById(R.id.decline_button);
+        mNextButton = (ImageButton) findViewById(R.id.next_button);
+        mPrevButton = (ImageButton) findViewById(R.id.prev_button);
+        mDeclButton = (ImageButton) findViewById(R.id.decline_button);
 
         mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
@@ -199,18 +200,20 @@ public class UserWizard extends FragmentActivity implements
     private void updateBottomBar() {
         int position = mPager.getCurrentItem();
         if (position == mCurrentPageSequence.size()) {
-            mNextButton.setText(R.string.textButtonFinish);
+            mNextButton.setImageResource(R.mipmap.ic_done);
+            /*mNextButton.setText(R.string.textButtonFinish);
             mNextButton.setBackgroundResource(R.drawable.finish_background);
-            mNextButton.setTextAppearance(this, R.style.TextAppearanceFinish);
+            mNextButton.setTextAppearance(this, R.style.TextAppearanceFinish);*/
         } else {
-            mNextButton.setText(mEditingAfterReview
+            mNextButton.setImageResource(R.mipmap.ic_navigate_next);
+          /*  mNextButton.setText(mEditingAfterReview
                     ? R.string.textButtonReview
                     : R.string.textButtonNext);
             mNextButton.setBackgroundResource(R.drawable.selectable_item_background);
             TypedValue v = new TypedValue();
             getTheme().resolveAttribute(android.R.attr.textAppearanceMedium, v, true);
             mNextButton.setTextAppearance(this, v.resourceId);
-            mNextButton.setEnabled(position != mPagerAdapter.getCutOffPage());
+            mNextButton.setEnabled(position != mPagerAdapter.getCutOffPage());*/
         }
 
         mPrevButton.setVisibility(position <= 0 ? View.INVISIBLE : View.VISIBLE);
