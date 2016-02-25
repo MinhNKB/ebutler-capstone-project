@@ -164,6 +164,7 @@ public class UserWizard extends FragmentActivity implements
     //TODO:(nthoang/task1) Serialize Wizard Data here after Finish Wizard, please link the wizard finish with a landing page
     //Example Implementation
     private void onFinishWizard() {
+        final FragmentActivity thisView = this;
         DialogFragment dg = new DialogFragment() {
             @Override
             public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -177,7 +178,9 @@ public class UserWizard extends FragmentActivity implements
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //Test landing page
-                                loadActivity(InfoFinish.class);
+                                Intent i = new Intent(thisView, InfoFinish.class);
+                                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(i);
                             }
                         })
                         .create();
