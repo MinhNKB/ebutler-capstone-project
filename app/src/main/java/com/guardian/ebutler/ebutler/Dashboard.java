@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -55,6 +58,8 @@ public class Dashboard extends Activity {
         this.initializeExtendedCalendarView();
         this.initSearchView();
 
+        setupUI(findViewById(R.id.dashboard_layout));
+
     }
 
     private void initializeCustomListView()
@@ -90,6 +95,10 @@ public class Dashboard extends Activity {
 
     private boolean searchView_onTextChange(String newText)
     {
+        if (newText != null && !newText.equals(""))
+            this.priButtonRoundAdd.setImageResource(R.mipmap.ic_add_round);
+        else
+            this.priButtonRoundAdd.setImageResource(R.mipmap.ic_add_round_disabled);
         switchToListView();
         this.priCustomListAdapter.getFilter().filter(newText);
         return true;
@@ -212,5 +221,28 @@ public class Dashboard extends Activity {
     public void buttonRoundAdd_onClick(View view) {
         Intent intent = new Intent(this, TaskDetail.class);
         startActivity(intent);
+    }
+
+
+    public static void hideSoftKeyboard(Activity iActivity) {
+        InputMethodManager lInputMethodManager = (InputMethodManager)  iActivity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        lInputMethodManager.hideSoftInputFromWindow(iActivity.getCurrentFocus().getWindowToken(), 0);
+    }
+
+    public void setupUI(View view) {
+        if(!(view instanceof EditText) || !(view instanceof SearchView)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(Dashboard.this);
+                    return false;
+                }
+            });
+        }
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
     }
 }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Duy on 1/27/2016.
@@ -95,15 +96,15 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
 
             @Override
             protected FilterResults performFiltering(CharSequence iConstraint) {
-                iConstraint = iConstraint.toString().toLowerCase();
+                iConstraint = normalizeVietnameseString(normalizeVietnameseString(iConstraint.toString()).toLowerCase());
                 FilterResults lResult = new FilterResults();
 
                 if (iConstraint != null && iConstraint.toString().length() > 0) {
                     List<CustomListItem> lFounded = new ArrayList<CustomListItem>();
                     for(CustomListItem item: priOriginalItems){
-                        if((item.pubFirstLine != null &&item.pubFirstLine.toLowerCase().contains(iConstraint))
-                                || (item.pubSecondLine != null && item.pubSecondLine.toLowerCase().contains(iConstraint))
-                                || (item.pubThirdLine != null && item.pubThirdLine.toLowerCase().contains(iConstraint))){
+                        if((item.pubFirstLine != null && normalizeVietnameseString(item.pubFirstLine).toLowerCase().contains(iConstraint))
+                                || (item.pubSecondLine != null && normalizeVietnameseString(item.pubSecondLine).toLowerCase().contains(iConstraint))
+                                || (item.pubThirdLine != null && normalizeVietnameseString(item.pubThirdLine).toLowerCase().contains(iConstraint))){
                             lFounded.add(item);
                         }
                     }
@@ -122,6 +123,148 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
             }
         };
     }
+
+    static public String normalizeVietnameseString(String iString){
+
+        String lResult = iString;
+        lResult = lResult.replace('ả', 'a');
+        lResult = lResult.replace('à', 'a');
+        lResult = lResult.replace('á', 'a');
+        lResult = lResult.replace('ã', 'a');
+        lResult = lResult.replace('ạ', 'a');
+
+        lResult = lResult.replace('ẳ', 'a');
+        lResult = lResult.replace('ằ', 'a');
+        lResult = lResult.replace('ắ', 'a');
+        lResult = lResult.replace('ẵ', 'a');
+        lResult = lResult.replace('ặ', 'a');
+
+        lResult = lResult.replace('ẩ', 'a');
+        lResult = lResult.replace('ầ', 'a');
+        lResult = lResult.replace('ấ', 'a');
+        lResult = lResult.replace('ẫ', 'a');
+        lResult = lResult.replace('ậ', 'a');
+
+        lResult = lResult.replace('ẻ', 'e');
+        lResult = lResult.replace('è', 'e');
+        lResult = lResult.replace('é', 'e');
+        lResult = lResult.replace('ẽ', 'e');
+        lResult = lResult.replace('ẹ', 'e');
+
+        lResult = lResult.replace('ể', 'e');
+        lResult = lResult.replace('ề', 'e');
+        lResult = lResult.replace('ế', 'e');
+        lResult = lResult.replace('ễ', 'e');
+        lResult = lResult.replace('ệ', 'e');
+
+        lResult = lResult.replace('ỉ', 'i');
+        lResult = lResult.replace('ì', 'i');
+        lResult = lResult.replace('í', 'i');
+        lResult = lResult.replace('ĩ', 'i');
+        lResult = lResult.replace('ị', 'i');
+
+        lResult = lResult.replace('ỏ', 'o');
+        lResult = lResult.replace('ò', 'o');
+        lResult = lResult.replace('ó', 'o');
+        lResult = lResult.replace('õ', 'o');
+        lResult = lResult.replace('ọ', 'o');
+
+        lResult = lResult.replace('ở', 'o');
+        lResult = lResult.replace('ờ', 'o');
+        lResult = lResult.replace('ớ', 'o');
+        lResult = lResult.replace('ỡ', 'o');
+        lResult = lResult.replace('ợ', 'o');
+
+        lResult = lResult.replace('ổ', 'o');
+        lResult = lResult.replace('ồ', 'o');
+        lResult = lResult.replace('ồ', 'o');
+        lResult = lResult.replace('ỗ', 'o');
+        lResult = lResult.replace('ộ', 'o');
+
+        lResult = lResult.replace('ủ', 'u');
+        lResult = lResult.replace('ù', 'u');
+        lResult = lResult.replace('ú', 'u');
+        lResult = lResult.replace('ũ', 'u');
+        lResult = lResult.replace('ụ', 'u');
+
+        lResult = lResult.replace('ử', 'u');
+        lResult = lResult.replace('ừ', 'u');
+        lResult = lResult.replace('ứ', 'u');
+        lResult = lResult.replace('ữ', 'u');
+        lResult = lResult.replace('ự', 'u');
+
+        lResult = lResult.replace('Ả', 'a');
+        lResult = lResult.replace('À', 'a');
+        lResult = lResult.replace('Á', 'a');
+        lResult = lResult.replace('Ã', 'a');
+        lResult = lResult.replace('Ạ', 'a');
+
+        lResult = lResult.replace('Ẳ', 'a');
+        lResult = lResult.replace('Ằ', 'a');
+        lResult = lResult.replace('Ắ', 'a');
+        lResult = lResult.replace('Ẵ', 'a');
+        lResult = lResult.replace('Ặ', 'a');
+
+        lResult = lResult.replace('Ẩ', 'a');
+        lResult = lResult.replace('Ầ', 'a');
+        lResult = lResult.replace('Ấ', 'a');
+        lResult = lResult.replace('Ẫ', 'a');
+        lResult = lResult.replace('Ậ', 'a');
+
+        lResult = lResult.replace('Ẻ', 'e');
+        lResult = lResult.replace('È', 'e');
+        lResult = lResult.replace('É', 'e');
+        lResult = lResult.replace('Ẽ', 'e');
+        lResult = lResult.replace('Ẹ', 'e');
+
+        lResult = lResult.replace('Ể', 'e');
+        lResult = lResult.replace('Ề', 'e');
+        lResult = lResult.replace('Ế', 'e');
+        lResult = lResult.replace('Ễ', 'e');
+        lResult = lResult.replace('Ệ', 'e');
+
+        lResult = lResult.replace('Ỉ', 'i');
+        lResult = lResult.replace('Ì', 'i');
+        lResult = lResult.replace('Í', 'i');
+        lResult = lResult.replace('Ĩ', 'i');
+        lResult = lResult.replace('Ị', 'i');
+
+        lResult = lResult.replace('Ỏ', 'o');
+        lResult = lResult.replace('Ò', 'o');
+        lResult = lResult.replace('Ó', 'o');
+        lResult = lResult.replace('Õ', 'o');
+        lResult = lResult.replace('Ọ', 'o');
+
+        lResult = lResult.replace('Ở', 'o');
+        lResult = lResult.replace('Ờ', 'o');
+        lResult = lResult.replace('Ớ', 'o');
+        lResult = lResult.replace('Ỡ', 'o');
+        lResult = lResult.replace('Ợ', 'o');
+
+        lResult = lResult.replace('Ổ', 'o');
+        lResult = lResult.replace('Ồ', 'o');
+        lResult = lResult.replace('Ố', 'o');
+        lResult = lResult.replace('Ỗ', 'o');
+        lResult = lResult.replace('Ộ', 'o');
+
+        lResult = lResult.replace('Ủ', 'u');
+        lResult = lResult.replace('Ù', 'u');
+        lResult = lResult.replace('Ú', 'u');
+        lResult = lResult.replace('Ũ', 'u');
+        lResult = lResult.replace('Ụ', 'u');
+
+        lResult = lResult.replace('Ử', 'u');
+        lResult = lResult.replace('Ừ', 'u');
+        lResult = lResult.replace('Ứ', 'u');
+        lResult = lResult.replace('Ữ', 'u');
+        lResult = lResult.replace('Ự', 'u');
+
+        lResult = lResult.replace('đ', 'd');
+        lResult = lResult.replace('Đ', 'd');
+
+        return  lResult;
+    }
+
 
 
 

@@ -8,7 +8,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context=".TaskList">
+    tools:context=".TaskList"
+    android:id="@+id/task_list_layout">
     <LinearLayout
         android:id="@+id/task_list_topBar"
         android:orientation="horizontal"
@@ -46,7 +47,7 @@
             android:layout_height="@dimen/taskbar_iconSize"
             android:layout_marginTop="@dimen/layout_padding"
             android:layout_alignParentBottom="true"
-            android:src="@mipmap/ic_add_round"
+            android:src="@mipmap/ic_add_round_disabled"
             android:onClick="buttonRoundAdd_onClick"/>
     </LinearLayout>
 

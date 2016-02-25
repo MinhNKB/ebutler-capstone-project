@@ -14,6 +14,7 @@ import com.example.android.wizardpager.wizard.ui.StepPagerStrip;
 import com.guardian.ebutler.ebutler.wizard.model.UserWizardModel;
 import com.guardian.ebutler.ebutler.wizard.ui.FinishWizardFragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -26,9 +27,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.SearchView;
 
 import java.util.List;
 
@@ -126,6 +131,7 @@ public class UserWizard extends FragmentActivity implements
 
         onPageTreeChanged();
         updateBottomBar();
+        setupUI(findViewById(R.id.user_wizard_layout));
     }
 
     //TODO:(nthoang/task1) Serialize Wizard Data here on Decline Button Click, please link the wizard decline with a landing page
@@ -332,6 +338,28 @@ public class UserWizard extends FragmentActivity implements
 
         public int getCutOffPage() {
             return mCutOffPage;
+        }
+    }
+
+    public static void hideSoftKeyboard(Activity iActivity) {
+        InputMethodManager lInputMethodManager = (InputMethodManager)  iActivity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        lInputMethodManager.hideSoftInputFromWindow(iActivity.getCurrentFocus().getWindowToken(), 0);
+    }
+
+    public void setupUI(View view) {
+        if(!(view instanceof EditText) || !(view instanceof SearchView)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(UserWizard.this);
+                    return false;
+                }
+            });
+        }
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
         }
     }
 }
