@@ -34,42 +34,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="1">
-                <Button
+                android:weightSum="1"
+                android:paddingTop="@dimen/layout_padding">
+                <ToggleButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nhà"
+                    android:textOff="Nhà"
+                    android:textOn="Nhà"
+                    android:background="@drawable/border_rounded_toggle"
                     android:id="@+id/button1"
-                    android:layout_weight="0.85"
+                    android:textColor="@drawable/border_rounded_toggle_text"
+                    android:layout_weight="1"
+                    android:tag="1"
                     />
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Detail"
-                    android:layout_weight="0.15"
-                    android:id="@+id/detail1"
-                    android:tag="button1"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="1">
-                <Button
+                android:weightSum="1"
+                android:paddingTop="@dimen/layout_padding">
+                <ToggleButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Công ti"
+                    android:textOff="Công ti"
+                    android:textOn="Công ti"
+                    android:background="@drawable/border_rounded_toggle"
                     android:id="@+id/button2"
-                    android:layout_weight="0.85"
-                    />
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Detail"
-                    android:layout_weight="0.15"
-                    android:id="@+id/detail2"
-                    android:tag="button2"
+                    android:textColor="@drawable/border_rounded_toggle_text"
+                    android:layout_weight="1"
+                    android:tag="2"
                     />
             </LinearLayout>
 
@@ -77,21 +72,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="1">
-                <Button
+                android:weightSum="1"
+                android:paddingTop="@dimen/layout_padding">
+                <ToggleButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nhà vợ"
+                    android:textOff="Nhà vợ"
+                    android:textOn="Nhà vợ"
+                    android:background="@drawable/border_rounded_toggle"
                     android:id="@+id/button3"
-                    android:layout_weight="0.85"
-                    />
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Detail"
-                    android:layout_weight="0.15"
-                    android:id="@+id/detail3"
-                    android:tag="button3"
+                    android:textColor="@drawable/border_rounded_toggle_text"
+                    android:layout_weight="1"
+                    android:tag="3"
                     />
             </LinearLayout>
         </LinearLayout>
@@ -108,19 +100,20 @@
             android:layout_width="@dimen/taskbar_iconSize"
             android:layout_height="match_parent"
             android:background="@drawable/blue_button"
-            android:src="@mipmap/ic_add"
+            android:src="@mipmap/ic_done"
             android:contentDescription="@string/choose_location_textButtonAddLocation"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:scaleType="fitCenter"
-            android:adjustViewBounds="true"/>
+            android:adjustViewBounds="true"
+            android:id="@+id/choose_location_DoneButton"/>
 
         <ImageButton
             android:layout_width="@dimen/taskbar_iconSize"
             android:layout_height="match_parent"
             android:background="@drawable/blue_button"
-            android:src="@mipmap/ic_clear"
+            android:src="@mipmap/ic_add"
             android:contentDescription="@string/task_detail_textButtonCancel"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
