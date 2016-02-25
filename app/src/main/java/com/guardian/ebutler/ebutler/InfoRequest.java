@@ -5,21 +5,22 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.guardian.ebutler.ebutler.wizard.UserWizard;
 
 public class InfoRequest extends Activity {
 
-    private Button mOkButton;
-    private Button mDeclButton;
+    private ImageButton mOkButton;
+    private ImageButton mDeclButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_request);
 
-        mOkButton = (Button) findViewById(R.id.ok_button);
-        mDeclButton = (Button) findViewById(R.id.decline_button);
+        mOkButton = (ImageButton) findViewById(R.id.ok_button);
+        mDeclButton = (ImageButton) findViewById(R.id.decline_button);
 
         mOkButton.setOnClickListener(new View.OnClickListener() {
             @Override

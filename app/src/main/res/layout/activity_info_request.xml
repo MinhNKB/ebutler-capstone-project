@@ -4,7 +4,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/layout_padding"
     >
 
     <ImageView
@@ -18,7 +17,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_margin="@dimen/layout_padding"
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,30 +35,37 @@
         </LinearLayout>
         <!-- TODO: latter, add chat here-->
     </LinearLayout>
-    <LinearLayout
-        style="?android:attr/buttonBarStyle"
+
+    <RelativeLayout
+        android:id="@+id/category_list_taskBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center|bottom"
-        >
-
-        <Button
-            style="?android:attr/buttonBarButtonStyle"
-            android:background="@drawable/selectable_item_background"
+        android:layout_height="@dimen/taskbar_height"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary">
+        <ImageButton
+            android:layout_width="@dimen/taskbar_iconSize"
+            android:layout_height="match_parent"
+            android:background="@drawable/blue_button"
+            android:src="@mipmap/ic_clear"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:id="@+id/decline_button"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/textButtonDecline" />
-
-        <Button
-            style="?android:attr/buttonBarButtonStyle"
-            android:background="@drawable/selectable_item_background"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            />
+        <ImageButton
+            android:layout_width="@dimen/taskbar_iconSize"
+            android:layout_height="match_parent"
+            android:background="@drawable/blue_button"
+            android:src="@mipmap/ic_done"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:id="@+id/ok_button"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/textButtonOk" />
-    </LinearLayout>
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            />
+    </RelativeLayout>
 </LinearLayout>
+
