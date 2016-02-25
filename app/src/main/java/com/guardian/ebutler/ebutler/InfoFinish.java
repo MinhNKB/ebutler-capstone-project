@@ -33,7 +33,7 @@ public class InfoFinish extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, CategoryDetail.class);
+                Intent intent = new Intent(context, CategoryList.class);
                 startActivity(intent);
             }
         });
