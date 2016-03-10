@@ -28,6 +28,7 @@
                 android:layout_marginTop="@dimen/layout_padding"
                 android:layout_marginBottom="@dimen/layout_padding">
                 <EditText
+                    android:id="@+id/task_detail_editTextTaskName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/task_detail_hintTaskName"/>

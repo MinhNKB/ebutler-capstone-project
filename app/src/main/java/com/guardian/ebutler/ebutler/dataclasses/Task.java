@@ -11,7 +11,7 @@ public class Task {
     public String pubCategory;
     public String pubDescription;
     public Date pubTime;
-    public Location pubLocation;
+    public List<Location> pubLocation;
     public Priority pubPriority;
     public Status pubStatus;
     public List<Plugin> pubPlugins;

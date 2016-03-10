@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.guardian.ebutler.screenhelper.FullscreenHelper;
+import com.guardian.ebutler.world.Global;
 
 public class TaskDetail extends Activity {
 
@@ -19,6 +20,10 @@ public class TaskDetail extends Activity {
         super.onCreate(savedInstanceState);
         FullscreenHelper.setFullScreen(this);
         setContentView(R.layout.activity_task_detail);
+
+        EditText lTaskName = (EditText) findViewById(R.id.task_detail_editTextTaskName);
+        lTaskName.setText(Global.getInstance().pubNewTask.pubName);
+
         bindNavigationLocation();
         revokeFocus();
     }
