@@ -1,5 +1,7 @@
 package com.guardian.ebutler.world;
 
+import com.guardian.ebutler.ebutler.dataclasses.Task;
+
 import java.util.HashMap;
 
 /**
@@ -17,5 +19,7 @@ public class Global {
         }
         return instance;
     }
+
+    public Task pubNewTask;
 }
 
