@@ -25,6 +25,7 @@ import com.tyczj.extendedcalendarview.Day;
 import com.tyczj.extendedcalendarview.ExtendedCalendarView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 enum ViewState
@@ -71,10 +72,25 @@ public class Dashboard extends Activity {
 
     private void initializeCustomListView()
     {
-        this.priTaskList = DatabaseHelper.getTasks();
-        List<CustomListItem> lTasksList= this.getCustomItems(this.priTaskList);
-        this.priCustomListAdapter = new CustomListAdapter(this, lTasksList);
-        this.priCustomListView.setAdapter(this.priCustomListAdapter);
+        try
+        {
+            DatabaseHelper iHelper = new DatabaseHelper(this);
+            this.priTaskList = iHelper.GetAllTasks();
+            Task iTask = new Task();
+            iTask.pubName = "abc";
+            iTask.pubTime = new Date();
+            //this.priTaskList = new ArrayList<Task>();
+
+            this.priTaskList.add(iTask);
+
+
+            List<CustomListItem> lTasksList = this.getCustomItems(this.priTaskList);
+            this.priCustomListAdapter = new CustomListAdapter(this, lTasksList);
+            this.priCustomListView.setAdapter(this.priCustomListAdapter);
+        }
+        catch (Exception ex){
+            String cause = ex.toString();
+        }
     }
 
     private void initSearchView() {
@@ -142,12 +158,12 @@ public class Dashboard extends Activity {
 
         for (Task lTask: iTaskList
              ) {
-            String lLocationName = "";
-            for (Location lLocation: lTask.pubLocation
-                 ) {
-                lLocationName += lLocation.pubName;
-            }
-            lCustomListItem = new CustomListItem(lTask.pubName, lTask.pubTime.toString(), lLocationName, 0xFFFF1744);
+//            String lLocationName = "";
+//            for (Location lLocation: lTask.pubLocation
+//                 ) {
+//                lLocationName += lLocation.pubName;
+//            }
+            lCustomListItem = new CustomListItem(lTask.pubName, lTask.pubTime.toString(), "Cong Ti", 0xFFFF1744);
             lResult.add(lCustomListItem);
         }
         return lResult;

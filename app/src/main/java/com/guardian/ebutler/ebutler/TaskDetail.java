@@ -10,11 +10,17 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
+import com.guardian.ebutler.ebutler.dataclasses.Priority;
+import com.guardian.ebutler.ebutler.dataclasses.Status;
 import com.guardian.ebutler.screenhelper.FullscreenHelper;
 import com.guardian.ebutler.world.Global;
 
+import java.util.Date;
+
 public class TaskDetail extends Activity {
 
+    TaskDetail priThis;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +29,7 @@ public class TaskDetail extends Activity {
 
         EditText lTaskName = (EditText) findViewById(R.id.task_detail_editTextTaskName);
         lTaskName.setText(Global.getInstance().pubNewTask.pubName);
-
+        this.priThis = this;
         bindNavigationLocation();
         revokeFocus();
     }
@@ -71,6 +77,18 @@ public class TaskDetail extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DatabaseHelper iHelper = new DatabaseHelper(priThis);
+                try
+                {
+                    Global.getInstance().pubNewTask.pubTime = new Date();
+                    Global.getInstance().pubNewTask.pubStatus = Status.Done;
+                    Global.getInstance().pubNewTask.pubPriority = Priority.Important;
+                    iHelper.InsertATask(Global.getInstance().pubNewTask);
+                }
+                catch (Exception ex)
+                {
+                    String cause = ex.toString();
+                }
                 Intent intent = new Intent(context, Dashboard.class);
                 startActivity(intent);
             }

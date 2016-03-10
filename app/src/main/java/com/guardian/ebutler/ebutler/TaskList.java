@@ -33,7 +33,7 @@ public class TaskList extends Activity {
     private ListView priListViewTask;
     private List<CustomListItem> priTaskCustomList;
     private CustomListAdapter priCustomListAdapter;
-    private List<Task> priTaskList;
+    private List<String> priTaskList;
 
     private ImageButton priButtonAdd;
     private ImageButton priButtonSearch;
@@ -46,7 +46,8 @@ public class TaskList extends Activity {
 
         this.findViewsByIds();
 
-        this.priTaskList = DatabaseHelper.getTasks(Global.getInstance().pubNewTask.pubCategory);
+        DatabaseHelper iHelper = new DatabaseHelper(this);
+        this.priTaskList = iHelper.GetAllTasks(Global.getInstance().pubNewTask.pubCategory);
         this.priTaskCustomList = this.getCategories(this.priTaskList);
         this.priCustomListAdapter = new CustomListAdapter(this, this.priTaskCustomList);
         this.priListViewTask.setAdapter(this.priCustomListAdapter);
@@ -67,7 +68,7 @@ public class TaskList extends Activity {
         this.priListViewTask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Global.getInstance().pubNewTask.pubName = priTaskList.get(position).pubName;
+                Global.getInstance().pubNewTask.pubName = priTaskList.get(position);
                 startActivity(lIntent);
             }
         });
@@ -116,13 +117,13 @@ public class TaskList extends Activity {
         this.priButtonSearch = (ImageButton) findViewById(R.id.task_list_buttonSearch);
     }
 
-    public List<CustomListItem> getCategories(List<Task> iTaskList) {
+    public List<CustomListItem> getCategories(List<String> iTaskList) {
         List<CustomListItem> result = new ArrayList<CustomListItem>();
         CustomListItem lCustomItem;
 
-        for (Task lTask: iTaskList
+        for (String lTask: iTaskList
              ) {
-            lCustomItem = new CustomListItem(lTask.pubName, "Hàng tháng", null, 0xFFFF1744);
+            lCustomItem = new CustomListItem(lTask, null, null, R.color.transparent);
             result.add(lCustomItem);
         }
 

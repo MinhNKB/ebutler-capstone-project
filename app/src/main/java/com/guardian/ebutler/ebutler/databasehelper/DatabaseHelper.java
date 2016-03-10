@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Debug;
+
 import com.guardian.ebutler.ebutler.dataclasses.*;
 
 import java.sql.Date;
@@ -16,29 +18,26 @@ import java.util.List;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static DatabaseHelper priInstance;
-    private static SQLiteDatabase priSqlDB;
     //Database information
     private static final String DATABASE_NAME = "eButlerDatabase";
     private static final int DATABASE_VERSION = 1;
-    public static synchronized DatabaseHelper getInstance(Context context) {
-
-        // Use the application context, which will ensure that you
-        // don't accidentally leak an Activity's context.
-        // See this article for more information: http://bit.ly/6LRzfx
-        if (priInstance == null) {
-            priInstance = new DatabaseHelper(context.getApplicationContext());
-        }
-        return priInstance;
-    }
+//    public static synchronized DatabaseHelper getInstance(Context context) {
+//
+//        // Use the application context, which will ensure that you
+//        // don't accidentally leak an Activity's context.
+//        // See this article for more information: http://bit.ly/6LRzfx
+//        if (priInstance == null) {
+//            priInstance = new DatabaseHelper(context.getApplicationContext());
+//        }
+//        return priInstance;
+//    }
 
     /**
      * Constructor should be private to prevent direct instantiation.
      * make call to static method "getInstance()" instead.
      */
-    private DatabaseHelper(Context iContext) {
+    public DatabaseHelper(Context iContext) {
         super(iContext, DATABASE_NAME, null, DATABASE_VERSION);
-        priSqlDB = this.getWritableDatabase();
     }
 
     @Override
@@ -55,10 +54,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "    Id integer  NOT NULL   PRIMARY KEY  AUTOINCREMENT,\n" +
                 "    Name varchar(255)  NOT NULL,\n" +
                 "    Category varchar(255)  NOT NULL,\n" +
-                "    Description text\n" +
+                "    Description text,\n" +
                 "    Time varchar(255),\n" +
                 "    Priority varchar(50)  NOT NULL,\n" +
-                "    Status varchar(50)  NOT NULL,\n" +
+                "    Status varchar(50)  NOT NULL\n" +
                 ");");
 
         iDB.execSQL("CREATE TABLE Task_Location (\n" +
@@ -86,7 +85,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return lResult;
     }
 
-    public List<String> GetAllTask(String iCategoryName)
+    public List<String> GetAllTasks(String iCategoryName)
     {
         List<String> lResult = new ArrayList<String>();
        if(iCategoryName.equals("Hóa đơn"))
@@ -122,6 +121,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //region Task table
     public long InsertATask(Task iTask)
     {
+        SQLiteDatabase lDB = this.getWritableDatabase();
         ContentValues lValues = new ContentValues();
         lValues.put("Name",iTask.pubName);
         lValues.put("Category",iTask.pubCategory);
@@ -129,13 +129,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         lValues.put("Time",iTask.pubTime.toString());
         lValues.put("Status", iTask.pubStatus.toString());
         lValues.put("Priority", iTask.pubPriority.toString());
-        return priSqlDB.insert("Task", null, lValues);
+        lDB.insert("Task", null, lValues);
+        lDB.close();
+        return 0;
     }
 
     public List<Task> GetAllTasks()
     {
         String[] columns = new String[] {"Name","Category","Description","Time","Priority","Status"};
-        Cursor lCursor = priSqlDB.query("Task", columns, null, null, null, null, null);
+        Cursor lCursor = this.getWritableDatabase().query("Task", columns, null, null, null, null, null);
         /*if(c==null)
             Log.v("Cursor", "C is NULL");*/
         List<Task> lResult = new ArrayList<Task>();
@@ -153,7 +155,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             lTempTask.pubName = lCursor.getString(lNameIndex);
             lTempTask.pubCategory = lCursor.getString(lCategoryIndex);
             lTempTask.pubDescription = lCursor.getString(lDescriptionIndex);
-            lTempTask.pubTime = Date.valueOf(lCursor.getString(lTimeIndex));
+            //lTempTask.pubTime = Date.valueOf(lCursor.getString(lTimeIndex));
+            lTempTask.pubTime = new java.util.Date();
             lTempTask.pubPriority = Priority.valueOf(lCursor.getString(lPriorityIndex));
             lTempTask.pubStatus = Status.valueOf(lCursor.getString(lStatusIndex));
             lResult.add(lTempTask);

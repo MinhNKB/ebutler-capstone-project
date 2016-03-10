@@ -47,7 +47,8 @@ public class CategoryList extends Activity {
 
         this.findViewsByIds();
 
-        this.priCategoryList = DatabaseHelper.getCategories();
+        DatabaseHelper iHelper = new DatabaseHelper(this);
+        this.priCategoryList = iHelper.GetAllCategories();
         this.priCategoryCustomList = this.getCategories(this.priCategoryList);
         this.priCustomListAdapter = new CustomListAdapter(this, this.priCategoryCustomList);
         this.priListViewCategory.setAdapter(this.priCustomListAdapter);
@@ -122,11 +123,12 @@ public class CategoryList extends Activity {
 
         for (String lCategory: iCategoryList
              ) {
-            List<Task> lTaskList = DatabaseHelper.getTasks(lCategory);
+            DatabaseHelper iHelper = new DatabaseHelper(this);
+            List<String> lTaskList = iHelper.GetAllTasks(lCategory);
             String lTasks = "";
-            for (Task lTask: lTaskList
+            for (String lTask: lTaskList
                  ) {
-                lTasks += (lTask.pubName + ", ");
+                lTasks += (lTask + ", ");
             }
             lCustomListItem = new CustomListItem(lCategory, lTasks, null, 0xFFFF1744);
             result.add(lCustomListItem);
