@@ -25,19 +25,28 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_margin="@dimen/layout_padding"
+            android:paddingStart="@dimen/layout_padding2"
+            android:paddingEnd="@dimen/layout_padding2"
+            android:paddingLeft="@dimen/layout_padding2"
+            android:paddingRight="@dimen/layout_padding2"
+            >
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="1"
+                android:layout_gravity="start"
+                android:background="@drawable/out_message_bg"
                 >
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/info_finish_butlerSpeech"
+                    android:maxWidth="240dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     android:id="@+id/info_finish_chatText"
-                    android:layout_weight=".5"
                     />
             </LinearLayout>
             <!-- TODO: latter, add chat here-->
