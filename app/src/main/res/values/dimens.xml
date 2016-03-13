@@ -9,9 +9,11 @@
     <dimen name="activity_horizontal_margin">0dp</dimen>
     <dimen name="activity_vertical_margin">0dp</dimen>
     <dimen name="layout_padding">6dp</dimen>
-    <dimen name="layout_padding2">12dp</dimen>
+    <dimen name="layout_padding_double">12dp</dimen>
     <dimen name="paragraph_padding">32dp</dimen>
     <dimen name="taskbar_height">42dp</dimen>
     <dimen name="taskbar_iconSize">30dp</dimen>
     <dimen name="topbar_height">42dp</dimen>
+
+    <dimen name="conversation_statement_maxWidth">240dp</dimen>
 </resources>

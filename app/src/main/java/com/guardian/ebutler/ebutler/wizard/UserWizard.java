@@ -26,12 +26,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.ImageButton;
@@ -84,7 +82,7 @@ public class UserWizard extends FragmentActivity implements
 
         mNextButton = (ImageButton) findViewById(R.id.next_button);
         mPrevButton = (ImageButton) findViewById(R.id.prev_button);
-        mDeclButton = (ImageButton) findViewById(R.id.decline_button);
+        mDeclButton = (ImageButton) findViewById(R.id.user_info_input_declineButton);
 
         mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override

@@ -60,4 +60,5 @@
     <string name="choose_time_textButtonConfirm">Xác nhận</string>
     <string name="taskbar_LabelSetting">Tùy chỉnh</string>
     <string name="taskbar_LabelDashboard">Dashboard</string>
+    <string name="title_activity_user_info_request">UserInfoRequestActivity</string>
 </resources>
