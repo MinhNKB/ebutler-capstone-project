@@ -16,6 +16,10 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
+import com.guardian.ebutler.ebutler.dataclasses.Task;
+import com.guardian.ebutler.world.Global;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +31,9 @@ public class TaskList extends Activity {
     private ImageView priButtonRoundAdd;
 
     private ListView priListViewTask;
-    private List<CustomListItem> priTaskList;
+    private List<CustomListItem> priTaskCustomList;
     private CustomListAdapter priCustomListAdapter;
+    private List<String> priTaskList;
 
     private ImageButton priButtonAdd;
     private ImageButton priButtonSearch;
@@ -41,8 +46,10 @@ public class TaskList extends Activity {
 
         this.findViewsByIds();
 
-        this.priTaskList = this.getCategories();
-        this.priCustomListAdapter = new CustomListAdapter(this, this.priTaskList);
+        DatabaseHelper iHelper = new DatabaseHelper(this);
+        this.priTaskList = iHelper.GetAllTasks(Global.getInstance().pubNewTask.pubCategory);
+        this.priTaskCustomList = this.getCategories(this.priTaskList);
+        this.priCustomListAdapter = new CustomListAdapter(this, this.priTaskCustomList);
         this.priListViewTask.setAdapter(this.priCustomListAdapter);
 
         this.initListeners();
@@ -61,6 +68,7 @@ public class TaskList extends Activity {
         this.priListViewTask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Global.getInstance().pubNewTask.pubName = priTaskList.get(position);
                 startActivity(lIntent);
             }
         });
@@ -109,27 +117,15 @@ public class TaskList extends Activity {
         this.priButtonSearch = (ImageButton) findViewById(R.id.task_list_buttonSearch);
     }
 
-    public List<CustomListItem> getCategories() {
+    public List<CustomListItem> getCategories(List<String> iTaskList) {
         List<CustomListItem> result = new ArrayList<CustomListItem>();
-        CustomListItem lTask;
+        CustomListItem lCustomItem;
 
-        lTask = new CustomListItem("Thanh toán tiền nước", "Hàng tháng", null, R.color.transparent);
-        result.add(lTask);
-
-        lTask = new CustomListItem("Đóng tiền học phí", "Học kỳ", null, R.color.transparent);
-        result.add(lTask);
-
-        lTask = new CustomListItem("Đóng tiền bảo hiểm", "Hàng năm", null, R.color.transparent);
-        result.add(lTask);
-
-        lTask = new CustomListItem("Thánh toán tiền điện thoại", "Hàng tháng", null, R.color.transparent);
-        result.add(lTask);
-
-        lTask = new CustomListItem("Đóng phí quản lý chung cư", "Mỗi 6 tháng", null, R.color.transparent);
-        result.add(lTask);
-
-        lTask = new CustomListItem("Thanh toán tiền internet", "Hàng tháng", null, R.color.transparent);
-        result.add(lTask);
+        for (String lTask: iTaskList
+             ) {
+            lCustomItem = new CustomListItem(lTask, null, null, R.color.transparent);
+            result.add(lCustomItem);
+        }
 
         return result;
     }

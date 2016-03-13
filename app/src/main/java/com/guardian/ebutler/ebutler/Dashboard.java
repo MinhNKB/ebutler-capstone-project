@@ -17,10 +17,15 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
+import com.guardian.ebutler.ebutler.dataclasses.Location;
+import com.guardian.ebutler.ebutler.dataclasses.Task;
+import com.guardian.ebutler.world.Global;
 import com.tyczj.extendedcalendarview.Day;
 import com.tyczj.extendedcalendarview.ExtendedCalendarView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 enum ViewState
@@ -39,11 +44,14 @@ public class Dashboard extends Activity {
     private ListView priCustomListView;
     private CustomListAdapter priCustomListAdapter;
 
+    private List<Task> priTaskList;
+
     private ExtendedCalendarView priExtendedCalendarView;
     private ImageButton priButtonArrow;
     private LinearLayout priMiniTaskView;
 
     private ViewState priViewState;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +72,25 @@ public class Dashboard extends Activity {
 
     private void initializeCustomListView()
     {
-        List<CustomListItem> lTasksList= this.getTasks();
-        this.priCustomListAdapter = new CustomListAdapter(this, lTasksList);
-        this.priCustomListView.setAdapter(this.priCustomListAdapter);
+        try
+        {
+            DatabaseHelper iHelper = new DatabaseHelper(this);
+            this.priTaskList = iHelper.GetAllTasks();
+            Task iTask = new Task();
+            iTask.pubName = "abc";
+            iTask.pubTime = new Date();
+            //this.priTaskList = new ArrayList<Task>();
+
+            this.priTaskList.add(iTask);
+
+
+            List<CustomListItem> lTasksList = this.getCustomItems(this.priTaskList);
+            this.priCustomListAdapter = new CustomListAdapter(this, lTasksList);
+            this.priCustomListView.setAdapter(this.priCustomListAdapter);
+        }
+        catch (Exception ex){
+            String cause = ex.toString();
+        }
     }
 
     private void initSearchView() {
@@ -128,47 +152,20 @@ public class Dashboard extends Activity {
     }
 
 
-
-    private List<CustomListItem> getTasks() {
+    private List<CustomListItem> getCustomItems(List<Task> iTaskList) {
         List<CustomListItem> lResult = new ArrayList<CustomListItem>();
-        CustomListItem lDashboardTask;
+        CustomListItem lCustomListItem;
 
-        lDashboardTask = new CustomListItem("Thể dục buổi sáng", "Sáng nay 7 giờ 30 phút", "Đã trễ 20 phút", 0xFFFF1744);
-        lResult.add(lDashboardTask);
-
-        lDashboardTask = new CustomListItem("Ủi đồ", "Sáng nay 8 giờ", "Còn 10 phút nữa", 0xFF2979FF);
-        lResult.add(lDashboardTask);
-
-        lDashboardTask = new CustomListItem("Đóng tiền điện", "Sáng nay 8 giờ 45 phút", "1.200.000 VND", 0xFF2979FF);
-        lResult.add(lDashboardTask);
-
-        lDashboardTask = new CustomListItem("Ủi đồ", "Sáng nay 8 giờ", "Còn 10 phút nữa", 0xFF1DE9B6);
-        lResult.add(lDashboardTask);
-
-        lDashboardTask = new CustomListItem("Thể dục buổi sáng", "Sáng nay 7 giờ 30 phút", "Đã trễ 20 phút", 0xFFFF1744);
-        lResult.add(lDashboardTask);
-
-        lDashboardTask = new CustomListItem("Ủi đồ", "Sáng nay 8 giờ", "Còn 10 phút nữa", 0xFF2979FF);
-        lResult.add(lDashboardTask);
-
-        lDashboardTask = new CustomListItem("Đóng tiền điện", "Sáng nay 8 giờ 45 phút", "1.200.000 VND", 0xFF2979FF);
-        lResult.add(lDashboardTask);
-
-        lDashboardTask = new CustomListItem("Ủi đồ", "Sáng nay 8 giờ", "Còn 10 phút nữa", 0xFF1DE9B6);
-        lResult.add(lDashboardTask);
-
-        lDashboardTask = new CustomListItem("Đóng tiền điện", "Sáng nay 8 giờ 45 phút", "1.200.000 VND", 0xFF2979FF);
-        lResult.add(lDashboardTask);
-
-        lDashboardTask = new CustomListItem("Đóng tiền điện", "Sáng nay 8 giờ 45 phút", "1.200.000 VND", 0xFF2979FF);
-        lResult.add(lDashboardTask);
-
-        lDashboardTask = new CustomListItem("Thể dục buổi sáng", "Sáng nay 7 giờ 30 phút", "Đã trễ 20 phút", 0xFFFF1744);
-        lResult.add(lDashboardTask);
-
-        lDashboardTask = new CustomListItem("Thể dục buổi sáng", "Sáng nay 7 giờ 30 phút", "Đã trễ 20 phút", 0xFFFF1744);
-        lResult.add(lDashboardTask);
-
+        for (Task lTask: iTaskList
+             ) {
+//            String lLocationName = "";
+//            for (Location lLocation: lTask.pubLocation
+//                 ) {
+//                lLocationName += lLocation.pubName;
+//            }
+            lCustomListItem = new CustomListItem(lTask.pubName, lTask.pubTime.toString(), "Cong Ti", 0xFFFF1744);
+            lResult.add(lCustomListItem);
+        }
         return lResult;
     }
 
@@ -204,6 +201,7 @@ public class Dashboard extends Activity {
     }
 
     public void buttonAdd_onClick(View view) {
+        Global.getInstance().pubNewTask = new Task();
         Intent intent = new Intent(this, CategoryList.class);
         startActivity(intent);
     }

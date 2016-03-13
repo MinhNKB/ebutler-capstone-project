@@ -16,6 +16,10 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
+import com.guardian.ebutler.ebutler.dataclasses.Task;
+import com.guardian.ebutler.world.Global;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,11 +31,13 @@ public class CategoryList extends Activity {
     private ImageView priButtonRoundAdd;
 
     private ListView priListViewCategory;
-    private List<CustomListItem> priCategoryList;
+    private List<CustomListItem> priCategoryCustomList;
     private CustomListAdapter priCustomListAdapter;
 
     private ImageButton priButtonAdd;
     private ImageButton priButtonSearch;
+
+    private List<String> priCategoryList;
 
 
     @Override
@@ -41,8 +47,10 @@ public class CategoryList extends Activity {
 
         this.findViewsByIds();
 
-        this.priCategoryList = this.getCategories();
-        this.priCustomListAdapter = new CustomListAdapter(this, this.priCategoryList);
+        DatabaseHelper iHelper = new DatabaseHelper(this);
+        this.priCategoryList = iHelper.GetAllCategories();
+        this.priCategoryCustomList = this.getCategories(this.priCategoryList);
+        this.priCustomListAdapter = new CustomListAdapter(this, this.priCategoryCustomList);
         this.priListViewCategory.setAdapter(this.priCustomListAdapter);
 
         this.initListeners();
@@ -60,6 +68,7 @@ public class CategoryList extends Activity {
         this.priListViewCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Global.getInstance().pubNewTask.pubCategory = priCategoryList.get(position);
                 startActivity(lIntent);
             }
         });
@@ -108,25 +117,22 @@ public class CategoryList extends Activity {
         this.priButtonSearch = (ImageButton) findViewById(R.id.category_list_buttonSearch);
     }
 
-    public List<CustomListItem> getCategories() {
+    public List<CustomListItem> getCategories(List<String> iCategoryList) {
         List<CustomListItem> result = new ArrayList<CustomListItem>();
-        CustomListItem lCategory;
+        CustomListItem lCustomListItem;
 
-        lCategory = new CustomListItem("Hóa đơn", "Điện, nước, truyền hình cáp, ...", null, R.color.transparent);
-        result.add(lCategory);
-
-        lCategory = new CustomListItem("Thiết bị", "Bảo trì tủ lạnh, điều hòa, ...", null, R.color.transparent);
-        result.add(lCategory);
-
-        lCategory = new CustomListItem("Sức khỏe", "Khám răng, đo mắt, sổ giun, ...", null, R.color.transparent);
-        result.add(lCategory);
-
-        lCategory = new CustomListItem("Việc cần làm", "Đi chợ, đón con, ...", null, R.color.transparent);
-        result.add(lCategory);
-
-        lCategory = new CustomListItem("Loại công việc mới", "Ví dụ 1, ví dụ 2, ...", null, R.color.transparent);
-        result.add(lCategory);
-
+        for (String lCategory: iCategoryList
+             ) {
+            DatabaseHelper iHelper = new DatabaseHelper(this);
+            List<String> lTaskList = iHelper.GetAllTasks(lCategory);
+            String lTasks = "";
+            for (String lTask: lTaskList
+                 ) {
+                lTasks += (lTask + ", ");
+            }
+            lCustomListItem = new CustomListItem(lCategory, lTasks, null, 0xFFFF1744);
+            result.add(lCustomListItem);
+        }
         return result;
     }
 
