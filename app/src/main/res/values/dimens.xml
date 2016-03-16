@@ -16,4 +16,5 @@
     <dimen name="topbar_height">42dp</dimen>
 
     <dimen name="conversation_statement_maxWidth">240dp</dimen>
+    <dimen name="answer_maxHeight">60dp</dimen>
 </resources>
