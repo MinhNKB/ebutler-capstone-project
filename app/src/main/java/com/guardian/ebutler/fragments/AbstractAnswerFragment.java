@@ -22,6 +22,11 @@ public class AbstractAnswerFragment extends Fragment implements AnswerFragmentIn
     public void setValuesToView(View view) {
 
     }
+
+    public String getChatStatement() {
+        return "Chat statement";
+    }
+
     public ArrayList<Condition> getValues() {
         return new ArrayList<>();
     };

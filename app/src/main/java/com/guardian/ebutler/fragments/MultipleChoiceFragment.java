@@ -1,18 +1,15 @@
 package com.guardian.ebutler.fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
 import com.guardian.ebutler.ebutler.R;
 import com.guardian.ebutler.ebutler.dataclasses.Condition;
+import com.guardian.ebutler.resourcehelper.EnumDisplayStringHelper;
 
 import java.util.ArrayList;
 
@@ -28,8 +25,7 @@ public class MultipleChoiceFragment extends AbstractAnswerFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "ConditionName";
-    private static final String ARG_PARAM2 = "OptionNameList";
-    private static final String ARG_PARAM3 = "EnumList";
+    private static final String ARG_PARAM2 = "EnumList";
 
     // TODO: Rename and change types of parameters
     private String priConditionName = "condition name";
@@ -47,17 +43,15 @@ public class MultipleChoiceFragment extends AbstractAnswerFragment {
      * this fragment using the provided parameters.
      *
      * @param iConditionName Parameter 1.
-     * @param rOptionNameList Parameter 2.
      * @param rEnumList Parameter 2.
      * @return A new instance of fragment MultipleChoiceFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MultipleChoiceFragment newInstance(String iConditionName, ArrayList<String> rOptionNameList, ArrayList<String> rEnumList) {
+    public static MultipleChoiceFragment newInstance(String iConditionName, ArrayList<String> rEnumList) {
         MultipleChoiceFragment fragment = new MultipleChoiceFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, iConditionName);
-        args.putSerializable(ARG_PARAM2, rOptionNameList);
-        args.putSerializable(ARG_PARAM3, rEnumList);
+        args.putSerializable(ARG_PARAM2, rEnumList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,14 +63,28 @@ public class MultipleChoiceFragment extends AbstractAnswerFragment {
             String lString = getArguments().getString(ARG_PARAM1);
             if (lString.length() > 0) {
                 priConditionName = lString;
-                priOptionNameList = (ArrayList<String>) getArguments().getSerializable(ARG_PARAM2);
-                priEnumList = (ArrayList<String>) getArguments().getSerializable(ARG_PARAM3);
+                priEnumList = (ArrayList<String>) getArguments().getSerializable(ARG_PARAM2);
             }
         }
     }
 
+    @Override
+    public String getChatStatement() {
+        String lReturnValue = getResources().getString(R.string.chat_fragment_AnswerPrefix);
+        for (String lOptionName :
+                priOptionNameList) {
+            if (((RadioButton) getView().findViewWithTag(lOptionName)).isChecked()) {
+                lReturnValue += lOptionName;
+                break;
+            }
+        }
+        return lReturnValue;
+    }
+
     public void setValuesToView(View view) {
         LinearLayout lLinearLayout = (LinearLayout) view.findViewById(R.id.fragment_multiple_choice_RadioBoxContainer);
+
+        priOptionNameList = EnumDisplayStringHelper.map(getActivity().getApplicationContext(), priEnumList);
 
         for (String lOptionName :
                 priOptionNameList) {

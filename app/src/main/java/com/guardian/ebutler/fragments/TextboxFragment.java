@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.guardian.ebutler.ebutler.R;
@@ -59,6 +60,13 @@ public class TextboxFragment extends AbstractAnswerFragment {
                 priConditionName = lString;
             }
         }
+    }
+
+    @Override
+    public String getChatStatement() {
+        String lReturnValue = getResources().getString(R.string.chat_fragment_AnswerPrefix);
+        lReturnValue += ((EditText) getView().findViewById(R.id.fragment_textbox_Input)).getText().toString();
+        return lReturnValue;
     }
 
     public ArrayList<Condition> getValues() {

@@ -3,6 +3,7 @@ package com.guardian.ebutler.fragments;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 
 import com.guardian.ebutler.ebutler.R;
 import com.guardian.ebutler.ebutler.dataclasses.Condition;
@@ -54,6 +55,17 @@ public class YesNoFragment extends AbstractAnswerFragment {
                 priConditionName = lString;
             }
         }
+    }
+
+
+    public String getChatStatement() {
+        String lReturnValue = getResources().getString(R.string.chat_fragment_AnswerPrefix);
+        if (((RadioButton) getView().findViewById(R.id.fragment_yes_no_RadioButtonAccept)).isChecked()) {
+            lReturnValue += getResources().getString(R.string.fragment_yes_no_StringAccept);
+        } else {
+            lReturnValue += getResources().getString(R.string.fragment_yes_no_StringDecline);
+        }
+        return lReturnValue;
     }
 
     public ArrayList<Condition> getValues() {

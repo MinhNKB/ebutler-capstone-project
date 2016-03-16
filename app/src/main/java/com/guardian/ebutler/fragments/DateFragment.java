@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 
 import com.guardian.ebutler.ebutler.R;
@@ -59,6 +60,19 @@ public class DateFragment extends AbstractAnswerFragment {
                 priConditionName = lString;
             }
         }
+    }
+
+    @Override
+    public String getChatStatement() {
+        String lReturnValue = getResources().getString(R.string.chat_fragment_AnswerPrefix);
+        DatePicker lDatePicker = (DatePicker)(getView().findViewById(R.id.fragment_date_DatePicker));
+        lDatePicker.clearFocus();
+        lReturnValue += String.format("%02d", lDatePicker.getDayOfMonth());
+        lReturnValue += "/";
+        lReturnValue += String.format("%02d", lDatePicker.getMonth() + 1);
+        lReturnValue += "/";
+        lReturnValue += String.format("%04d", lDatePicker.getYear());
+        return lReturnValue;
     }
 
     public ArrayList<Condition> getValues() {

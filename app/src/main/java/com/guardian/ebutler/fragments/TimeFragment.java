@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TimePicker;
 
 import com.guardian.ebutler.ebutler.R;
@@ -61,6 +62,22 @@ public class TimeFragment extends AbstractAnswerFragment {
                 priConditionName = lString;
             }
         }
+    }
+
+    public String getChatStatement() {
+        String lReturnValue = getResources().getString(R.string.chat_fragment_AnswerPrefix);
+        TimePicker lTimePicker = (TimePicker)(getView().findViewById(R.id.fragment_time_TimePicker));
+        lTimePicker.clearFocus();
+        if (Build.VERSION.SDK_INT >= 23 )
+            lReturnValue += String.format("%02d", lTimePicker.getHour());
+        else
+            lReturnValue += String.format("%02d", lTimePicker.getCurrentHour());
+        lReturnValue += ":";
+        if (Build.VERSION.SDK_INT >= 23 )
+            lReturnValue += String.format("%02d", lTimePicker.getMinute());
+        else
+            lReturnValue += String.format("%02d", lTimePicker.getCurrentMinute());
+        return lReturnValue;
     }
 
     @Override
