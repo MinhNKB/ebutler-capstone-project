@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RadioButton;
 
 import com.guardian.ebutler.ebutler.R;
 import com.guardian.ebutler.ebutler.dataclasses.Condition;
@@ -17,12 +18,12 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link TextboxFragment.OnFragmentInteractionListener} interface
+ * {@link YesNoFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link TextboxFragment#newInstance} factory method to
+ * Use the {@link YesNoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TextboxFragment extends Fragment implements AnswerFragmentInterface {
+public class YesNoFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "ConditionName";
@@ -32,7 +33,7 @@ public class TextboxFragment extends Fragment implements AnswerFragmentInterface
 
     private OnFragmentInteractionListener mListener;
 
-    public TextboxFragment() {
+    public YesNoFragment() {
         // Required empty public constructor
     }
 
@@ -40,12 +41,12 @@ public class TextboxFragment extends Fragment implements AnswerFragmentInterface
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param ConditionName Parameter 1.
-     * @return A new instance of fragment TextboxFragment.
+     * @param iConditionName Parameter 1.
+     * @return A new instance of fragment YesNoFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TextboxFragment newInstance(String iConditionName) {
-        TextboxFragment fragment = new TextboxFragment();
+    public static YesNoFragment newInstance(String iConditionName) {
+        YesNoFragment fragment = new YesNoFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, iConditionName);
         fragment.setArguments(args);
@@ -70,8 +71,9 @@ public class TextboxFragment extends Fragment implements AnswerFragmentInterface
         ArrayList<Condition> lReturnValues = new ArrayList<>();
         Condition lReturnValue = new Condition();
         lReturnValue.pubConditionName = priConditionName;
-        lReturnValue.pubType = "string";
-        lReturnValue.pubValue = ((EditText) getView().findViewById(R.id.fragment_textbox_Input)).getText().toString();
+        lReturnValue.pubType = "boolean";
+        lReturnValue.pubValue = ((RadioButton) getView().findViewById(R.id.fragment_yes_no_RadioButtonAccept)).isChecked() ? "true" : "false";
+
         lReturnValues.add(lReturnValue);
         return lReturnValues;
     }
@@ -80,8 +82,8 @@ public class TextboxFragment extends Fragment implements AnswerFragmentInterface
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_textbox, container, false);
-//        setValuesToView(view);
+        View view = inflater.inflate(R.layout.fragment_yes_no, container, false);
+        setValuesToView(view);
         return view;
     }
 

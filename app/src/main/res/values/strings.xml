@@ -60,6 +60,7 @@
     <string name="choose_time_textButtonConfirm">Xác nhận</string>
     <string name="taskbar_LabelSetting">Tùy chỉnh</string>
     <string name="taskbar_LabelDashboard">Dashboard</string>
-    <string name="fragment_control_PlaceHolder">Label</string>
 
+    <string name="fragment_yes_no_StringAccept">Có</string>
+    <string name="fragment_yes_no_StringDecline">Không</string>
 </resources>
