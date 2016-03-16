@@ -22,8 +22,8 @@ public class InfoRequest extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_request);
 
-        mOkButton = (ImageButton) findViewById(R.id.ok_button);
-        mDeclButton = (ImageButton) findViewById(R.id.decline_button);
+        mOkButton = (ImageButton) findViewById(R.id.user_info_input_okButton);
+        mDeclButton = (ImageButton) findViewById(R.id.user_info_input_declineButton);
 
         mOkButton.setOnClickListener(new View.OnClickListener() {
             @Override

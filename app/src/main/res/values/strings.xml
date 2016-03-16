@@ -63,4 +63,6 @@
 
     <string name="fragment_yes_no_StringAccept">Có</string>
     <string name="fragment_yes_no_StringDecline">Không</string>
+
+    <string name="title_activity_user_info_request">UserInfoRequestActivity</string>
 </resources>
