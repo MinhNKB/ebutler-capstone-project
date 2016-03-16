@@ -30,8 +30,12 @@ public class UserInfoInput extends Activity {
     public void buttonOk_onClick(View view) {
         RelativeLayout lNewConversationStatement = createConversationStatement(((EditText) findViewById(R.id.wel)).getText().toString(), false);
         this.priLinearLayoutConversation.addView(lNewConversationStatement);
-        //this.priScrollViewConversation.fullScroll(View.FOCUS_DOWN);
-        this.priScrollViewConversation.scrollTo(0, this.priScrollViewConversation.getBottom());
+        priScrollViewConversation.post(new Runnable() {
+            @Override
+            public void run() {
+                priScrollViewConversation.fullScroll(View.FOCUS_DOWN);
+            }
+        });
     }
 
     private RelativeLayout createConversationStatement(String iStatement, boolean iIsButler){
@@ -50,5 +54,4 @@ public class UserInfoInput extends Activity {
         lResult.addView(lStatement);
         return lResult;
     }
-
 }
