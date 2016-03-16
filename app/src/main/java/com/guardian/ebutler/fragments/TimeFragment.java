@@ -2,6 +2,7 @@ package com.guardian.ebutler.fragments;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 
 import com.guardian.ebutler.ebutler.R;
 import com.guardian.ebutler.ebutler.dataclasses.Condition;
@@ -18,12 +20,12 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link TextboxFragment.OnFragmentInteractionListener} interface
+ * {@link TimeFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link TextboxFragment#newInstance} factory method to
+ * Use the {@link TimeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TextboxFragment extends AbstractAnswerFragment {
+public class TimeFragment extends AbstractAnswerFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "ConditionName";
@@ -31,22 +33,22 @@ public class TextboxFragment extends AbstractAnswerFragment {
     // TODO: Rename and change types of parameters
     private String priConditionName = "condition name";
 
-    public TextboxFragment() {
-        proFragmentId = R.layout.fragment_textbox;
+    public TimeFragment() {
+        proFragmentId = R.layout.fragment_time;
     }
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param ConditionName Parameter 1.
-     * @return A new instance of fragment TextboxFragment.
+     * @param lConditionName Parameter 1.
+     * @return A new instance of fragment TimeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TextboxFragment newInstance(String iConditionName) {
-        TextboxFragment fragment = new TextboxFragment();
+    public static TimeFragment newInstance(String lConditionName) {
+        TimeFragment fragment = new TimeFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, iConditionName);
+        args.putString(ARG_PARAM1, lConditionName);
         fragment.setArguments(args);
         return fragment;
     }
@@ -62,19 +64,41 @@ public class TextboxFragment extends AbstractAnswerFragment {
         }
     }
 
-    @Override
     public String getChatStatement() {
         String lReturnValue = getResources().getString(R.string.chat_fragment_AnswerPrefix);
-        lReturnValue += ((EditText) getView().findViewById(R.id.fragment_textbox_Input)).getText().toString();
+        TimePicker lTimePicker = (TimePicker)(getView().findViewById(R.id.fragment_time_TimePicker));
+        lTimePicker.clearFocus();
+        if (Build.VERSION.SDK_INT >= 23 )
+            lReturnValue += String.format("%02d", lTimePicker.getHour());
+        else
+            lReturnValue += String.format("%02d", lTimePicker.getCurrentHour());
+        lReturnValue += ":";
+        if (Build.VERSION.SDK_INT >= 23 )
+            lReturnValue += String.format("%02d", lTimePicker.getMinute());
+        else
+            lReturnValue += String.format("%02d", lTimePicker.getCurrentMinute());
         return lReturnValue;
     }
 
+    @Override
     public ArrayList<Condition> getValues() {
         ArrayList<Condition> lReturnValues = new ArrayList<>();
         Condition lReturnValue = new Condition();
         lReturnValue.pubConditionName = priConditionName;
-        lReturnValue.pubType = "string";
-        lReturnValue.pubValue = ((EditText) getView().findViewById(R.id.fragment_textbox_Input)).getText().toString();
+        lReturnValue.pubType = "time";
+        TimePicker lTimePicker = (TimePicker)(getView().findViewById(R.id.fragment_time_TimePicker));
+        lTimePicker.clearFocus();
+        String result = "";
+        if (Build.VERSION.SDK_INT >= 23 )
+            result += String.format("%02d", lTimePicker.getHour());
+        else
+            result += String.format("%02d", lTimePicker.getCurrentHour());
+        result += ":";
+        if (Build.VERSION.SDK_INT >= 23 )
+            result += String.format("%02d", lTimePicker.getMinute());
+        else
+            result += String.format("%02d", lTimePicker.getCurrentMinute());
+        lReturnValue.pubValue = result;
         lReturnValues.add(lReturnValue);
         return lReturnValues;
     }

@@ -12,4 +12,5 @@ import java.util.ArrayList;
 public interface AnswerFragmentInterface {
     void setValuesToView(View view);
     ArrayList<Condition> getValues();
+    String getChatStatement();
 }

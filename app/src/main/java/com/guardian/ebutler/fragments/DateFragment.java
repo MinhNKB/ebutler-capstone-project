@@ -7,8 +7,8 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
-import android.widget.EditText;
 
 import com.guardian.ebutler.ebutler.R;
 import com.guardian.ebutler.ebutler.dataclasses.Condition;
@@ -18,12 +18,12 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link TextboxFragment.OnFragmentInteractionListener} interface
+ * {@link DateFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link TextboxFragment#newInstance} factory method to
+ * Use the {@link DateFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TextboxFragment extends AbstractAnswerFragment {
+public class DateFragment extends AbstractAnswerFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "ConditionName";
@@ -31,20 +31,20 @@ public class TextboxFragment extends AbstractAnswerFragment {
     // TODO: Rename and change types of parameters
     private String priConditionName = "condition name";
 
-    public TextboxFragment() {
-        proFragmentId = R.layout.fragment_textbox;
+    public DateFragment() {
+        proFragmentId = R.layout.fragment_date;
     }
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param ConditionName Parameter 1.
-     * @return A new instance of fragment TextboxFragment.
+     * @param iConditionName Parameter 1.
+     * @return A new instance of fragment DateFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TextboxFragment newInstance(String iConditionName) {
-        TextboxFragment fragment = new TextboxFragment();
+    public static DateFragment newInstance(String iConditionName) {
+        DateFragment fragment = new DateFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, iConditionName);
         fragment.setArguments(args);
@@ -65,7 +65,13 @@ public class TextboxFragment extends AbstractAnswerFragment {
     @Override
     public String getChatStatement() {
         String lReturnValue = getResources().getString(R.string.chat_fragment_AnswerPrefix);
-        lReturnValue += ((EditText) getView().findViewById(R.id.fragment_textbox_Input)).getText().toString();
+        DatePicker lDatePicker = (DatePicker)(getView().findViewById(R.id.fragment_date_DatePicker));
+        lDatePicker.clearFocus();
+        lReturnValue += String.format("%02d", lDatePicker.getDayOfMonth());
+        lReturnValue += "/";
+        lReturnValue += String.format("%02d", lDatePicker.getMonth() + 1);
+        lReturnValue += "/";
+        lReturnValue += String.format("%04d", lDatePicker.getYear());
         return lReturnValue;
     }
 
@@ -73,8 +79,16 @@ public class TextboxFragment extends AbstractAnswerFragment {
         ArrayList<Condition> lReturnValues = new ArrayList<>();
         Condition lReturnValue = new Condition();
         lReturnValue.pubConditionName = priConditionName;
-        lReturnValue.pubType = "string";
-        lReturnValue.pubValue = ((EditText) getView().findViewById(R.id.fragment_textbox_Input)).getText().toString();
+        lReturnValue.pubType = "date";
+        DatePicker lDatePicker = (DatePicker)(getView().findViewById(R.id.fragment_date_DatePicker));
+        lDatePicker.clearFocus();
+        String result = "";
+        result += String.format("%02d", lDatePicker.getDayOfMonth());
+        result += "/";
+        result += String.format("%02d", lDatePicker.getMonth() + 1);
+        result += "/";
+        result += String.format("%04d", lDatePicker.getYear());
+        lReturnValue.pubValue = result;
         lReturnValues.add(lReturnValue);
         return lReturnValues;
     }
