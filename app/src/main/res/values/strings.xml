@@ -65,4 +65,9 @@
     <string name="fragment_yes_no_StringDecline">Không</string>
 
     <string name="title_activity_user_info_request">UserInfoRequestActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_time_span_textStartTime">Thời gian bắt đầu:</string>
+    <string name="fragment_time_span_textEndTime">Thời gian kết thúc:</string>
 </resources>
