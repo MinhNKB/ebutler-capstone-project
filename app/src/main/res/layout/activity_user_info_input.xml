@@ -62,7 +62,7 @@
 
 
     <RelativeLayout
-        android:id="@+id/category_list_taskBar"
+        android:id="@+id/user_info_input_taskbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/taskbar_height"
         android:layout_alignParentBottom="true"
@@ -75,17 +75,11 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:id="@+id/user_info_input_declineButton"
+            android:id="@+id/user_info_input_buttonDecline"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
+            android:onClick="buttonClear_onClick"
             />
-        <EditText
-            android:id="@+id/wel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/user_info_input_declineButton"
-            android:layout_toLeftOf="@id/user_info_input_okButton"
-            android:textColor="@color/background"/>
         <ImageButton
             android:layout_width="@dimen/taskbar_iconSize"
             android:layout_height="match_parent"
@@ -94,10 +88,23 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:id="@+id/user_info_input_okButton"
+            android:id="@+id/user_info_input_buttonOk"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             android:onClick="buttonOk_onClick"
             />
     </RelativeLayout>
+    <ScrollView
+        android:id="@+id/user_info_input_scrollViewAnswer"
+        android:background="@color/background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:gravity="center_horizontal"
+            android:id="@+id/user_info_input_linearLayoutAnswer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

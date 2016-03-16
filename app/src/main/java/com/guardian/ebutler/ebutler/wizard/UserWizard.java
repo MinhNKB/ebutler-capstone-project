@@ -82,7 +82,7 @@ public class UserWizard extends FragmentActivity implements
 
         mNextButton = (ImageButton) findViewById(R.id.next_button);
         mPrevButton = (ImageButton) findViewById(R.id.prev_button);
-        mDeclButton = (ImageButton) findViewById(R.id.user_info_input_declineButton);
+        mDeclButton = (ImageButton) findViewById(R.id.user_info_input_buttonDecline);
 
         mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
