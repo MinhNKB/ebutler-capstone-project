@@ -67,6 +67,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "    FOREIGN KEY (TaskId) REFERENCES Task (Id),\n" +
                 "    FOREIGN KEY (LocationId) REFERENCES Location (Id)\n" +
                 ");");
+
+        iDB.execSQL("Table: QuestionGroup\n" +
+                "CREATE TABLE QuestionGroup (\n" +
+                "    Id integer  NOT NULL   PRIMARY KEY,\n" +
+                "    QuestionString text  NOT NULL\n" +
+                ");");
+
+        iDB.execSQL("CREATE TABLE Question (\n" +
+                "    Id integer  NOT NULL   PRIMARY KEY,\n" +
+                "    QuestionString text  NOT NULL,\n" +
+                "    Condition text,\n" +
+                "    OptionTypes varchar(255),\n" +
+                "    PropertiesNames text,\n" +
+                "    UIType varchar(255)  NOT NULL,\n" +
+                "    IsAsked boolean  NOT NULL,\n" +
+                "    Stage integer  NOT NULL,\n" +
+                "    QuestionGroup_Id integer  NOT NULL,\n" +
+                "    FOREIGN KEY (QuestionGroup_Id) REFERENCES QuestionGroup (Id)\n" +
+                ");\n");
+
+        iDB.execSQL("CREATE TABLE UserInformation (\n" +
+                "    Id integer  NOT NULL   PRIMARY KEY,\n" +
+                "    PropertyName varchar(255)  NOT NULL,\n" +
+                "    Value varchar(255)  NOT NULL,\n" +
+                "    Type varchar(255)  NOT NULL\n" +
+                ");\n");
     }
 
     @Override

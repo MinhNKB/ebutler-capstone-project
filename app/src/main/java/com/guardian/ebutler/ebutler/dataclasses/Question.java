@@ -7,10 +7,15 @@ import java.util.List;
 public class Question {
     public int pubId;
     public String pubQuestionString;
-    public String pubConditionExpressions;
+    public String pubConditions;
     public String pubOptionsType;
     public List<String> pubInformationPropertyNames;
     public UIType pubUIType;
     public boolean pubIsAsked;
     public byte pubStage;
+
+    public boolean CheckValid()
+    {
+        return true;
+    }
 }

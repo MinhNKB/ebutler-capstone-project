@@ -20,5 +20,10 @@ public class ScriptManager {
         return null;
     }
 
+    public void AnwserQuestion()
+    {
+
+    }
+
 
 }

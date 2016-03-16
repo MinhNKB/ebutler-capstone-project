@@ -9,4 +9,9 @@ import java.util.List;
 public class QuestionGroup {
     public String pubQuestionString;
     public List<Question> pubQuestions = new ArrayList<Question>();
+
+    public boolean CheckValid()
+    {
+        return true;
+    }
 }
