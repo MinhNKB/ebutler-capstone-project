@@ -70,5 +70,9 @@
     <string name="fragment_time_span_textEndTime">Thời gian kết thúc: </string>
 
     <string name="chat_fragment_AnswerPrefix">Bạn đã chọn: </string>
-    <string name="enum_value_Random1">AAAAA</string>
+    <string name="enum_value_Random1">String for random 1</string>
+    <string name="enum_value_Random2">String for random 2</string>
+    <string name="enum_value_Random3">String for random 3</string>
+    <string name="enum_value_Random4">String for random 4</string>
+    <string name="enum_value_Random5">String for random 5</string>
 </resources>

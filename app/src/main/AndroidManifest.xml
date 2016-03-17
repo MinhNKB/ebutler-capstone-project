@@ -12,24 +12,25 @@
         tools:replace="android:icon">
         <activity android:name=".Dashboard" />
         <activity android:name=".CategoryList" />
-        <activity android:name=".TaskList"></activity>
+        <activity android:name=".TaskList"/>
         <activity android:name=".ChooseTime" />
         <activity android:name=".wizard.UserWizard" />
         <activity android:name=".InfoRequest">
+        </activity>
+        <activity android:name=".InfoDeclined" />
+        <activity android:name=".InfoFinish" />
+        <activity android:name=".TaskDetail"/>
+        <activity android:name=".ChooseLocation" />
+        <activity android:name=".LocationDetail" />
+        <activity
+            android:name=".UserInfoInput"
+            android:label="@string/title_activity_user_info_request">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".InfoDeclined" />
-        <activity android:name=".InfoFinish" />
-        <activity android:name=".TaskDetail"></activity>
-        <activity android:name=".ChooseLocation" />
-        <activity android:name=".LocationDetail" />
-        <activity
-            android:name=".UserInfoInput"
-            android:label="@string/title_activity_user_info_request"></activity>
     </application>
 
 </manifest>

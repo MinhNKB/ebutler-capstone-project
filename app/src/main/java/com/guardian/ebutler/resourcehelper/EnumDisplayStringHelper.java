@@ -15,7 +15,12 @@ public class EnumDisplayStringHelper {
         ArrayList<String> lReturnValue = new ArrayList<>();
         for (Object lEnum:
              rEnumList) {
-            lReturnValue.add(rContext.getResources().getString(ResourceFromStringHelper.getResourceId(rContext, "enum_value_" + lEnum, "string", rContext.getPackageName())));
+            int lResourceId = ResourceFromStringHelper.getResourceId(rContext, "enum_value_" + lEnum, "string", rContext.getPackageName());
+            if (lResourceId != -1) {
+                lReturnValue.add(rContext.getResources().getString(lResourceId));
+            } else {
+                lReturnValue.add("");
+            }
         }
         return lReturnValue;
     }

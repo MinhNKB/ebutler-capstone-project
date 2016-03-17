@@ -60,13 +60,14 @@ public class CheckboxFragment extends AbstractAnswerFragment {
     @Override
     public String getChatStatement() {
         String lReturnValue = getResources().getString(R.string.chat_fragment_AnswerPrefix);
+        lReturnValue += " ";
+        Boolean lFirstAnswer = true;
         for (String lOptionName :
                 priOptionNameList) {
             if (((CheckBox) getView().findViewWithTag(lOptionName)).isChecked()) {
+                lReturnValue += lFirstAnswer ? "" : ", ";
+                lFirstAnswer = false;
                 lReturnValue += lOptionName;
-            }
-            if (priOptionNameList.indexOf(lOptionName) != priOptionNameList.size() - 1) {
-                lReturnValue += ", ";
             }
         }
         return lReturnValue;

@@ -71,6 +71,7 @@ public class MultipleChoiceFragment extends AbstractAnswerFragment {
     @Override
     public String getChatStatement() {
         String lReturnValue = getResources().getString(R.string.chat_fragment_AnswerPrefix);
+        lReturnValue += " ";
         for (String lOptionName :
                 priOptionNameList) {
             if (((RadioButton) getView().findViewWithTag(lOptionName)).isChecked()) {
