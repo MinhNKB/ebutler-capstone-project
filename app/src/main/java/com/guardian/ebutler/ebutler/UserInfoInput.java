@@ -40,7 +40,7 @@ public class UserInfoInput extends Activity {
         this.priRelativeLayoutTaskbar = (RelativeLayout) findViewById(R.id.user_info_input_taskbar);
         this.priButtonDecline = (ImageButton) findViewById(R.id.user_info_input_buttonDecline);
         this.priButtonOk = (ImageButton) findViewById(R.id.user_info_input_buttonOk);
-        this.priScrollViewAnswer = (ScrollView) findViewById(R.id.user_info_input_scrollViewAnswer);
+        this.priScrollViewAnswer = (ScrollView) findViewById(R.id.user_info_input_customScrollViewAnswer);
         this.priLinearLayoutAnswer = (LinearLayout) findViewById(R.id.user_info_input_linearLayoutAnswer);
         this.priRelativeLayoutForEditText = (RelativeLayout) findViewById(R.id.user_info_input_relativeLayoutForEditText);
     }
@@ -94,30 +94,13 @@ public class UserInfoInput extends Activity {
 
 //        swtich case of UI TYPE
 //        show answer and question
-//        this.priLinearLayoutConversation.addView(createConversationStatement("Ghê qué", false));
-//        this.priAnwserFragmentInterface = YesNoFragment.newInstance("wel");
+//        this.priLinearLayoutConversation.addView(createConversationStatement("Do you suck?", true));
+//        this.priAnwserFragmentInterface = YesNoFragment.newInstance("Do you suck?");
 //        getFragmentManager().beginTransaction().add(this.priLinearLayoutAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
 
-        switchTaskbarToLightTheme(false);
-        this.adjustScrollViewAnswer();
+        this.switchTaskbarToLightTheme(true);
         this.scrollScrollViewConversation(View.FOCUS_DOWN);
     }
-
-    private void adjustScrollViewAnswer() {
-        this.priScrollViewAnswer.post(new Runnable() {
-            public void run() {
-                int lAnswerMaxHeight = converToPixel(getResources().getDimension(R.dimen.answer_maxHeight));
-                if (priScrollViewAnswer.getHeight() > lAnswerMaxHeight)
-                    priScrollViewAnswer.setLayoutParams(
-                            new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, lAnswerMaxHeight));
-                else
-                    priScrollViewAnswer.setLayoutParams(
-                            new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            }
-        });
-
-    }
-
 
     private void switchTaskbarToLightTheme(boolean iIsLightTheme) {
         if (iIsLightTheme == true) {
@@ -137,13 +120,8 @@ public class UserInfoInput extends Activity {
 
     }
 
-    public int converToPixel(float idp) {
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        int px = Math.round(idp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-        return px;
-    }
-
     public void buttonClear_onClick(View view) {
         this.priLinearLayoutAnswer.removeAllViews();
+        this.switchTaskbarToLightTheme(false);
     }
 }

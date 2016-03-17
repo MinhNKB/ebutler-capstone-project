@@ -1,4 +1,4 @@
-package com.guardian.ebutler.ebutler;
+package com.guardian.ebutler.ebutler.custom;
 
 import java.util.jar.Attributes;
 

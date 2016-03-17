@@ -71,8 +71,8 @@
             android:onClick="buttonOk_onClick"
             />
     </RelativeLayout>
-    <ScrollView
-        android:id="@+id/user_info_input_scrollViewAnswer"
+    <com.guardian.ebutler.ebutler.custom.CustomScrollView
+        android:id="@+id/user_info_input_customScrollViewAnswer"
         android:background="@color/background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -83,5 +83,5 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
         </LinearLayout>
-    </ScrollView>
+    </com.guardian.ebutler.ebutler.custom.CustomScrollView>
 </LinearLayout>
