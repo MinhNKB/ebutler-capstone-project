@@ -3,7 +3,6 @@ package com.guardian.ebutler.ebutler;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.app.Activity;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
@@ -13,6 +12,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.guardian.ebutler.fragments.*;
+
+import java.util.ArrayList;
 
 public class UserInfoInput extends Activity {
 
@@ -24,7 +25,7 @@ public class UserInfoInput extends Activity {
     private ImageButton priButtonOk;
     private ScrollView priScrollViewAnswer;
     private LinearLayout priLinearLayoutAnswer;
-    private RelativeLayout priRelativeLayoutForEditText;
+    private RelativeLayout priRelativeLayoutForSimpleAnswer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +43,13 @@ public class UserInfoInput extends Activity {
         this.priButtonOk = (ImageButton) findViewById(R.id.user_info_input_buttonOk);
         this.priScrollViewAnswer = (ScrollView) findViewById(R.id.user_info_input_customScrollViewAnswer);
         this.priLinearLayoutAnswer = (LinearLayout) findViewById(R.id.user_info_input_linearLayoutAnswer);
-        this.priRelativeLayoutForEditText = (RelativeLayout) findViewById(R.id.user_info_input_relativeLayoutForEditText);
+        this.priRelativeLayoutForSimpleAnswer = (RelativeLayout) findViewById(R.id.user_info_input_relativeLayoutForEditText);
     }
 
     public void buttonOk_onClick(View view) {
+        this.createConversationStatement(this.priAnwserFragmentInterface.getChatStatement(), false);
+        clearQuestion();
         showQuestion();
-        this.scrollScrollViewConversation(View.FOCUS_DOWN);
     }
 
     private void scrollScrollViewConversation(final int iDirection) {
@@ -59,12 +61,12 @@ public class UserInfoInput extends Activity {
         });
     }
 
-    private RelativeLayout createConversationStatement(String iStatement, boolean iIsButler){
+    private void createConversationStatement(String iStatement, boolean iIsButler){
         RelativeLayout lResult = new RelativeLayout(this);
         lResult.setLayoutParams(this.createStatementLayoutParam(iIsButler));
         lResult.setBackgroundResource(R.drawable.out_message_bg);
         lResult.addView(this.createStatementTextView(iStatement));
-        return lResult;
+        this.priLinearLayoutConversation.addView(lResult);
     }
 
     private LinearLayout.LayoutParams createStatementLayoutParam(boolean iIsButler) {
@@ -94,12 +96,45 @@ public class UserInfoInput extends Activity {
 
 //        swtich case of UI TYPE
 //        show answer and question
-//        this.priLinearLayoutConversation.addView(createConversationStatement("Do you suck?", true));
-//        this.priAnwserFragmentInterface = YesNoFragment.newInstance("Do you suck?");
-//        getFragmentManager().beginTransaction().add(this.priLinearLayoutAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
+
+        this.priAnwserFragmentInterface = this.getQuestionFragment();
+        if (this.priAnwserFragmentInterface == null)
+            return;
+
+        if (this.priFakeEnum == 3 || this.priFakeEnum == 6)
+            getFragmentManager().beginTransaction().add(this.priRelativeLayoutForSimpleAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
+        else
+            getFragmentManager().beginTransaction().add(this.priLinearLayoutAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
+        this.createConversationStatement("Đây là câu hỏi", true);
 
         this.switchTaskbarToLightTheme(true);
         this.scrollScrollViewConversation(View.FOCUS_DOWN);
+        ++this.priFakeEnum;
+    }
+
+    private int priFakeEnum = 2;
+
+    private AnswerFragmentInterface getQuestionFragment() {
+        ArrayList<String> lStringList = new ArrayList<String>();
+        lStringList.add("Random1");lStringList.add("Random1");lStringList.add("Random1");lStringList.add("Random1");lStringList.add("Random1");
+        switch (priFakeEnum) {
+            case 0:
+                return CheckboxFragment.newInstance(lStringList);
+            case 1:
+                return DateFragment.newInstance("");
+            case 2:
+                return MultipleChoiceFragment.newInstance("aaa", lStringList);
+            case 3:
+                return TextboxFragment.newInstance("");
+            case 4:
+                return TimeFragment.newInstance("");
+            case 5:
+                return TimeSpanFragment.newInstance(new ArrayList<String>());
+            case 6:
+                return YesNoFragment.newInstance("");
+            default:
+                return null;
+        }
     }
 
     private void switchTaskbarToLightTheme(boolean iIsLightTheme) {
@@ -120,7 +155,11 @@ public class UserInfoInput extends Activity {
 
     }
 
-    public void buttonClear_onClick(View view) {
+    public void buttonClear_onClick(View view){
+    }
+
+    private void clearQuestion() {
+        this.priRelativeLayoutForSimpleAnswer.removeAllViews();
         this.priLinearLayoutAnswer.removeAllViews();
         this.switchTaskbarToLightTheme(false);
     }
