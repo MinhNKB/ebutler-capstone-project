@@ -66,6 +66,7 @@ public class TimeFragment extends AbstractAnswerFragment {
 
     public String getChatStatement() {
         String lReturnValue = getResources().getString(R.string.chat_fragment_AnswerPrefix);
+        lReturnValue += " ";
         TimePicker lTimePicker = (TimePicker)(getView().findViewById(R.id.fragment_time_TimePicker));
         lTimePicker.clearFocus();
         if (Build.VERSION.SDK_INT >= 23 )

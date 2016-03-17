@@ -65,6 +65,7 @@ public class DateFragment extends AbstractAnswerFragment {
     @Override
     public String getChatStatement() {
         String lReturnValue = getResources().getString(R.string.chat_fragment_AnswerPrefix);
+        lReturnValue += " ";
         DatePicker lDatePicker = (DatePicker)(getView().findViewById(R.id.fragment_date_DatePicker));
         lDatePicker.clearFocus();
         lReturnValue += String.format("%02d", lDatePicker.getDayOfMonth());

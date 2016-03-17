@@ -65,6 +65,7 @@ public class TextboxFragment extends AbstractAnswerFragment {
     @Override
     public String getChatStatement() {
         String lReturnValue = getResources().getString(R.string.chat_fragment_AnswerPrefix);
+        lReturnValue += " ";
         lReturnValue += ((EditText) getView().findViewById(R.id.fragment_textbox_Input)).getText().toString();
         return lReturnValue;
     }

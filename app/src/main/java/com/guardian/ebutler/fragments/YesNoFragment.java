@@ -60,6 +60,7 @@ public class YesNoFragment extends AbstractAnswerFragment {
 
     public String getChatStatement() {
         String lReturnValue = getResources().getString(R.string.chat_fragment_AnswerPrefix);
+        lReturnValue += " ";
         if (((RadioButton) getView().findViewById(R.id.fragment_yes_no_RadioButtonAccept)).isChecked()) {
             lReturnValue += getResources().getString(R.string.fragment_yes_no_StringAccept);
         } else {
