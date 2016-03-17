@@ -1,26 +1,18 @@
 package com.guardian.ebutler.ebutler;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.guardian.ebutler.fragments.AnswerFragmentInterface;
-import com.guardian.ebutler.fragments.TextboxFragment;
-import com.guardian.ebutler.fragments.YesNoFragment;
+import com.guardian.ebutler.fragments.*;
 
 public class UserInfoInput extends Activity {
 
@@ -32,13 +24,14 @@ public class UserInfoInput extends Activity {
     private ImageButton priButtonOk;
     private ScrollView priScrollViewAnswer;
     private LinearLayout priLinearLayoutAnswer;
+    private RelativeLayout priRelativeLayoutForEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info_input);
         this.findViewsByIds();
-        showQuestion();
+        this.showQuestion();
     }
 
     private void findViewsByIds() {
@@ -49,6 +42,7 @@ public class UserInfoInput extends Activity {
         this.priButtonOk = (ImageButton) findViewById(R.id.user_info_input_buttonOk);
         this.priScrollViewAnswer = (ScrollView) findViewById(R.id.user_info_input_scrollViewAnswer);
         this.priLinearLayoutAnswer = (LinearLayout) findViewById(R.id.user_info_input_linearLayoutAnswer);
+        this.priRelativeLayoutForEditText = (RelativeLayout) findViewById(R.id.user_info_input_relativeLayoutForEditText);
     }
 
     public void buttonOk_onClick(View view) {
@@ -67,38 +61,45 @@ public class UserInfoInput extends Activity {
 
     private RelativeLayout createConversationStatement(String iStatement, boolean iIsButler){
         RelativeLayout lResult = new RelativeLayout(this);
-        lResult.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-        if (iIsButler == true)
-            lResult.setGravity(Gravity.START);
-        else
-            lResult.setGravity(Gravity.END);
+        lResult.setLayoutParams(this.createStatementLayoutParam(iIsButler));
         lResult.setBackgroundResource(R.drawable.out_message_bg);
-        TextView lStatement = new TextView(this);
-        lStatement.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-        lStatement.setMaxWidth((int) (R.dimen.conversation_statement_maxWidth * this.getResources().getDisplayMetrics().density + 0.5f));
-        lStatement.setPadding(0, 5, 0, 5);
-        lStatement.setText(iStatement);
-        lResult.addView(lStatement);
+        lResult.addView(this.createStatementTextView(iStatement));
+        return lResult;
+    }
+
+    private LinearLayout.LayoutParams createStatementLayoutParam(boolean iIsButler) {
+        LinearLayout.LayoutParams lResult = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        if (iIsButler == true)
+            lResult.gravity = Gravity.LEFT;
+        else
+            lResult.gravity = Gravity.RIGHT;
+        return lResult;
+    }
+
+
+    private TextView createStatementTextView(String iStatement) {
+        TextView lResult = new TextView(this);
+        lResult.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+        lResult.setMaxWidth((int) (R.dimen.conversation_statement_maxWidth * this.getResources().getDisplayMetrics().density + 0.5f));
+        lResult.setPadding(0, 5, 0, 5);
+        lResult.setText(iStatement);
         return lResult;
     }
 
     private void showQuestion()
     {
-        //getquestion
-        //if there's no question -> show something nice -> return
-        //swtich case of UI TYPE
-        //show question
-        //show answer
-        this.priLinearLayoutConversation.addView(createConversationStatement("Ghê qué", true));
+//        getquestion
+//        if there's no question -> show something nice -> return
 
-        YesNoFragment lFragment = YesNoFragment.newInstance("wel");
-        this.priAnwserFragmentInterface = lFragment;
-        getFragmentManager().beginTransaction().add(this.priLinearLayoutAnswer.getId(), lFragment).commit();
 
+//        swtich case of UI TYPE
+//        show answer and question
+//        this.priLinearLayoutConversation.addView(createConversationStatement("Ghê qué", false));
+//        this.priAnwserFragmentInterface = YesNoFragment.newInstance("wel");
+//        getFragmentManager().beginTransaction().add(this.priLinearLayoutAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
+
+        switchTaskbarToLightTheme(false);
         this.adjustScrollViewAnswer();
-
-        //if it is edit text -> switch dark theme
-        switchTaskbar(true);
         this.scrollScrollViewConversation(View.FOCUS_DOWN);
     }
 
@@ -118,7 +119,7 @@ public class UserInfoInput extends Activity {
     }
 
 
-    private void switchTaskbar(boolean iIsLightTheme) {
+    private void switchTaskbarToLightTheme(boolean iIsLightTheme) {
         if (iIsLightTheme == true) {
             this.priRelativeLayoutTaskbar.setBackgroundColor(getResources().getColor(R.color.background));
             this.priButtonOk.setBackground(getResources().getDrawable(R.drawable.white_button));
@@ -127,12 +128,11 @@ public class UserInfoInput extends Activity {
             this.priButtonDecline.setImageResource(R.mipmap.ic_clear_blue);
         }
         else {
-            int iDarkColor = getResources().getColor(R.color.colorPrimary);
             this.priRelativeLayoutTaskbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-            this.priButtonOk.setBackgroundColor(iDarkColor);
-            this.priButtonDecline.setBackgroundColor(iDarkColor);
-            this.priButtonOk.setBackgroundResource(R.mipmap.ic_done);
-            this.priButtonDecline.setBackgroundResource(R.mipmap.ic_clear);
+            this.priButtonOk.setBackground(getResources().getDrawable(R.drawable.blue_button));
+            this.priButtonDecline.setBackground(getResources().getDrawable(R.drawable.blue_button));
+            this.priButtonOk.setImageResource(R.mipmap.ic_done);
+            this.priButtonDecline.setImageResource(R.mipmap.ic_clear);
         }
 
     }
