@@ -5,12 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Debug;
 
 import com.guardian.ebutler.ebutler.dataclasses.*;
 
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -21,16 +20,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Database information
     private static final String DATABASE_NAME = "eButlerDatabase";
     private static final int DATABASE_VERSION = 1;
-//    public static synchronized DatabaseHelper getInstance(Context context) {
-//
-//        // Use the application context, which will ensure that you
-//        // don't accidentally leak an Activity's context.
-//        // See this article for more information: http://bit.ly/6LRzfx
-//        if (priInstance == null) {
-//            priInstance = new DatabaseHelper(context.getApplicationContext());
-//        }
-//        return priInstance;
-//    }
+    private static DatabaseHelper priInstance;
+    public static synchronized DatabaseHelper getInstance(Context context) {
+
+        // Use the application context, which will ensure that you
+        // don't accidentally leak an Activity's context.
+        // See this article for more information: http://bit.ly/6LRzfx
+        if (priInstance == null) {
+            priInstance = new DatabaseHelper(context.getApplicationContext());
+        }
+        return priInstance;
+    }
 
     /**
      * Constructor should be private to prevent direct instantiation.
@@ -193,5 +193,110 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     //endregion
 
+    //region Question
+    public List<QuestionGroup> GetAllQuestionGroup()
+    {
+        String[] columns = new String[] {"Id","QuestionString"};
+        Cursor lCursor = this.getWritableDatabase().query("QuestionGroup", columns, null, null, null, null, null);
+        /*if(c==null)
+            Log.v("Cursor", "C is NULL");*/
+        List<QuestionGroup> lResult = new ArrayList<QuestionGroup>();
+        //getColumnIndex(COLUMN_ID); là lấy chỉ số, vị trí của cột COLUMN_ID ...
+        int lIdIndex = lCursor.getColumnIndex("Id");
+        int lQuestionStringIndex = lCursor.getColumnIndex("QuestionString");
 
+
+        //Vòng lặp lấy dữ liệu của con trỏ
+        for(lCursor.moveToFirst(); !lCursor.isAfterLast(); lCursor.moveToNext()){
+            QuestionGroup lQuestionGroupTemp = new QuestionGroup();
+            lQuestionGroupTemp.pubId = lCursor.getInt(lIdIndex);
+            lQuestionGroupTemp.pubQuestionString = lCursor.getString(lQuestionStringIndex);
+            lQuestionGroupTemp.pubQuestions = GetAllQuestionsOfAQuestionGroup(lQuestionGroupTemp.pubId);
+            lResult.add(lQuestionGroupTemp);
+        }
+        lCursor.close();
+        //Log.v("Result", result);
+        return lResult;
+    }
+
+    public List<Question> GetAllQuestionsOfAQuestionGroup(int iQuestionGroupId) {
+        String[] columns = new String[] {"Id","QuestionString","Condition","OptionTypes","PropertiesNames","UIType","IsAsked","Stage"};
+        Cursor lCursor = this.getWritableDatabase().query("QuestionGroup", columns, "QuestionGroup_Id=?", new String[]{String.valueOf(iQuestionGroupId)}, null, null, null);
+        /*if(c==null)
+            Log.v("Cursor", "C is NULL");*/
+        List<Question> lResult = new ArrayList<Question>();
+        //getColumnIndex(COLUMN_ID); là lấy chỉ số, vị trí của cột COLUMN_ID ...
+        int lIdIndex = lCursor.getColumnIndex("Id");
+        int lQuestionStringIndex = lCursor.getColumnIndex("QuestionString");
+        int lConditionIndex = lCursor.getColumnIndex("Condition");
+        int lOptionTypesIndex = lCursor.getColumnIndex("OptionTypes");
+        int lPropertiesNamesIndex = lCursor.getColumnIndex("PropertiesNames");
+        int lUITypeIndex = lCursor.getColumnIndex("UIType");
+        int lIsAskedIndex = lCursor.getColumnIndex("IsAsked");
+        int lStageIndex = lCursor.getColumnIndex("Stage");
+
+
+        //Vòng lặp lấy dữ liệu của con trỏ
+        for(lCursor.moveToFirst(); !lCursor.isAfterLast(); lCursor.moveToNext()){
+            Question lQuestionTemp = new Question();
+            lQuestionTemp.pubId = lCursor.getInt(lIdIndex);
+            lQuestionTemp.pubQuestionString = lCursor.getString(lQuestionStringIndex);
+            lQuestionTemp.pubConditions = lCursor.getString(lConditionIndex);
+            lQuestionTemp.pubOptionsType = lCursor.getString(lOptionTypesIndex);
+            lQuestionTemp.pubInformationPropertiesNames = ParsePropertyNames(lCursor.getString(lPropertiesNamesIndex));
+            lQuestionTemp.pubUIType = UIType.valueOf(lCursor.getString(lUITypeIndex));
+            lQuestionTemp.pubIsAsked = lCursor.getInt(lIsAskedIndex)==1;
+            lQuestionTemp.pubStage = lCursor.getInt(lStageIndex);
+
+            lResult.add(lQuestionTemp);
+        }
+        lCursor.close();
+        //Log.v("Result", result);
+        return lResult;
+    }
+
+    private List<String> ParsePropertyNames(String iPropertiesNamesString) {
+
+        String[] lTemp = iPropertiesNamesString.split(";");
+        List<String> lResult = new ArrayList<String>(Arrays.asList(lTemp));
+        return lResult;
+    }
+
+    public void InsertAQuestionGroup(QuestionGroup iQuestionGroup)
+    {
+        SQLiteDatabase lDB = this.getWritableDatabase();
+        ContentValues lValues = new ContentValues();
+        lValues.put("QuestionString",iQuestionGroup.pubQuestionString);
+        lDB.insert("QuestionGroup", null, lValues);
+        lDB.close();
+        for(int i=0;i<iQuestionGroup.pubQuestions.size();i++)
+        {
+            InsertAQuestion(iQuestionGroup.pubQuestions.get(i),1);
+        }
+    }
+
+    public void InsertAQuestion(Question iQuestion, int iQuestionGroupId)
+    {
+        SQLiteDatabase lDB = this.getWritableDatabase();
+        ContentValues lValues = new ContentValues();
+        lValues.put("QuestionString",iQuestion.pubQuestionString);
+        lValues.put("Condition",iQuestion.pubConditions);
+        lValues.put("OptionTypes",iQuestion.pubOptionsType);
+        lValues.put("PropertiesNames",MergePropertiesNames(iQuestion.pubInformationPropertiesNames));
+        lValues.put("UIType",iQuestion.pubUIType.toString());
+        lValues.put("IsAsked",iQuestion.pubIsAsked);
+        lValues.put("Stage",iQuestion.pubStage);
+        lValues.put("QuestionGroup_Id",iQuestionGroupId);
+        lDB.insert("Question", null, lValues);
+        lDB.close();
+    }
+
+    private String MergePropertiesNames(List<String> iPropertiesNames) {
+        String lResult = "";
+        for(int i=0;i<iPropertiesNames.size()-1;i++)
+            lResult += iPropertiesNames.get(i) + ";";
+        lResult += iPropertiesNames.get(iPropertiesNames.size()-1);
+        return lResult;
+    }
+    //endregion
 }

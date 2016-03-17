@@ -9,10 +9,10 @@ public class Question {
     public String pubQuestionString;
     public String pubConditions;
     public String pubOptionsType;
-    public List<String> pubInformationPropertyNames;
+    public List<String> pubInformationPropertiesNames;
     public UIType pubUIType;
     public boolean pubIsAsked;
-    public byte pubStage;
+    public int pubStage;
 
     public boolean CheckValid()
     {
