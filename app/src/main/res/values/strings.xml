@@ -66,8 +66,9 @@
 
     <string name="title_activity_user_info_request">UserInfoRequestActivity</string>
 
-    <string name="fragment_time_span_textStartTime">Thời gian bắt đầu:</string>
-    <string name="fragment_time_span_textEndTime">Thời gian kết thúc:</string>
+    <string name="fragment_time_span_textStartTime">Thời gian bắt đầu: </string>
+    <string name="fragment_time_span_textEndTime">Thời gian kết thúc: </string>
 
     <string name="chat_fragment_AnswerPrefix">Bạn đã chọn: </string>
+    <string name="enum_value_Random1">AAAAA</string>
 </resources>

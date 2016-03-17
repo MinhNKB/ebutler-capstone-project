@@ -1,4 +1,4 @@
-package com.guardian.ebutler.ebutler;
+package com.guardian.ebutler.ebutler.custom;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,9 +10,10 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import com.guardian.ebutler.ebutler.R;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by Duy on 1/27/2016.

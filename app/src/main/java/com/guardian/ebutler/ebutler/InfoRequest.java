@@ -1,8 +1,5 @@
 package com.guardian.ebutler.ebutler;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,7 +7,6 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.guardian.ebutler.ebutler.wizard.UserWizard;
-import com.guardian.ebutler.fragments.TextboxFragment;
 
 public class InfoRequest extends Activity {
 
@@ -22,8 +18,8 @@ public class InfoRequest extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_request);
 
-        mOkButton = (ImageButton) findViewById(R.id.user_info_input_okButton);
-        mDeclButton = (ImageButton) findViewById(R.id.user_info_input_declineButton);
+        mOkButton = (ImageButton) findViewById(R.id.user_info_input_buttonOk);
+        mDeclButton = (ImageButton) findViewById(R.id.user_info_input_buttonDecline);
 
         mOkButton.setOnClickListener(new View.OnClickListener() {
             @Override
