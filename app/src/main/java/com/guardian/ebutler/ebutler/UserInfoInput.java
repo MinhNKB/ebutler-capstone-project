@@ -112,11 +112,11 @@ public class UserInfoInput extends Activity {
         ++this.priFakeEnum;
     }
 
-    private int priFakeEnum = 2;
+    private int priFakeEnum = 0;
 
     private AnswerFragmentInterface getQuestionFragment() {
         ArrayList<String> lStringList = new ArrayList<String>();
-        lStringList.add("Random1");lStringList.add("Random1");lStringList.add("Random1");lStringList.add("Random1");lStringList.add("Random1");
+        lStringList.add("Random1");lStringList.add("Random2");lStringList.add("Random3");lStringList.add("Random4");lStringList.add("Random5");
         switch (priFakeEnum) {
             case 0:
                 return CheckboxFragment.newInstance(lStringList);
