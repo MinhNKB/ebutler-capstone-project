@@ -63,8 +63,7 @@ public class TimeSpanFragment extends AbstractAnswerFragment {
     }
 
     public String getChatStatement() {
-        String lReturnValue = getResources().getString(R.string.chat_fragment_AnswerPrefix);
-        lReturnValue += " ";
+        String lReturnValue = "";
         lReturnValue += ((Spinner)getView().findViewById(R.id.fragment_time_span_SpinnerStart)).getSelectedItem().toString();
         lReturnValue += " - ";
         lReturnValue += ((Spinner)getView().findViewById(R.id.fragment_time_span_SpinnerEnd)).getSelectedItem().toString();

@@ -23,11 +23,9 @@
         <activity android:name=".ChooseLocation" />
         <activity android:name=".LocationDetail" />
         <activity
-            android:name=".UserInfoInput"
-            android:label="@string/title_activity_user_info_request">
+            android:name=".UserInfoInput">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
