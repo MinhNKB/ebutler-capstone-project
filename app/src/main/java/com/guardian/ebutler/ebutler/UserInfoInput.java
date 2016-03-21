@@ -1,14 +1,20 @@
 package com.guardian.ebutler.ebutler;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.guardian.ebutler.fragments.*;
@@ -32,6 +38,7 @@ public class UserInfoInput extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info_input);
         this.findViewsByIds();
+        this.setupUI(findViewById(R.id.user_info_input_parent));
         this.showQuestion();
     }
 
@@ -48,8 +55,8 @@ public class UserInfoInput extends Activity {
 
     public void buttonOk_onClick(View view) {
         this.createConversationStatement(this.priAnwserFragmentInterface.getChatStatement(), false);
-        clearQuestion();
-        showQuestion();
+        this.clearQuestion();
+        this.showQuestion();
     }
 
     private void scrollScrollViewConversation(final int iDirection) {
@@ -57,6 +64,15 @@ public class UserInfoInput extends Activity {
             @Override
             public void run() {
                 priScrollViewConversation.fullScroll(iDirection);
+            }
+        });
+    }
+
+    private void scrollScrollViewQuestion(final int iDirection) {
+        priScrollViewConversation.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollScrollViewConversation(iDirection);
             }
         });
     }
@@ -100,15 +116,16 @@ public class UserInfoInput extends Activity {
         this.priAnwserFragmentInterface = this.getQuestionFragment();
         if (this.priAnwserFragmentInterface == null)
             return;
-
+        this.createConversationStatement("Đây là câu hỏi", true);
         if (this.priFakeEnum == 3 || this.priFakeEnum == 6)
+        {
             getFragmentManager().beginTransaction().add(this.priRelativeLayoutForSimpleAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
+        }
         else
             getFragmentManager().beginTransaction().add(this.priLinearLayoutAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
-        this.createConversationStatement("Đây là câu hỏi", true);
 
+        this.scrollScrollViewQuestion(View.FOCUS_DOWN);
         this.switchTaskbarToLightTheme(true);
-        this.scrollScrollViewConversation(View.FOCUS_DOWN);
         ++this.priFakeEnum;
     }
 
@@ -156,11 +173,35 @@ public class UserInfoInput extends Activity {
     }
 
     public void buttonClear_onClick(View view){
+        this.switchTaskbarToLightTheme(false);
+        Intent intent = new Intent(this, Dashboard.class);
+        startActivity(intent);
     }
 
     private void clearQuestion() {
         this.priRelativeLayoutForSimpleAnswer.removeAllViews();
         this.priLinearLayoutAnswer.removeAllViews();
         this.switchTaskbarToLightTheme(false);
+    }
+
+    public static void showSoftKeyboard(Activity iActivity, int iType) {
+        InputMethodManager lInputMethodManager = (InputMethodManager)  iActivity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        if (iActivity.getCurrentFocus() != null)
+            lInputMethodManager.hideSoftInputFromWindow(iActivity.getCurrentFocus().getWindowToken(), iType);
+    }
+
+    public void setupUI(View view) {
+        view.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                showSoftKeyboard(UserInfoInput.this, InputMethodManager.HIDE_NOT_ALWAYS);
+                return false;
+            }
+        });
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
     }
 }

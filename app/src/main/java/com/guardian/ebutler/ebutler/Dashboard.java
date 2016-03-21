@@ -67,7 +67,7 @@ public class Dashboard extends Activity {
         this.initializeExtendedCalendarView();
         this.initSearchView();
 
-        setupUI(findViewById(R.id.dashboard_layout));
+        setupUI(findViewById(R.id.dashboard_parent));
     }
 
 
@@ -227,7 +227,7 @@ public class Dashboard extends Activity {
 
     public static void hideSoftKeyboard(Activity iActivity) {
         InputMethodManager lInputMethodManager = (InputMethodManager)  iActivity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        lInputMethodManager.hideSoftInputFromWindow(iActivity.getCurrentFocus().getWindowToken(), 0);
+        lInputMethodManager.hideSoftInputFromWindow(iActivity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     public void setupUI(View view) {
