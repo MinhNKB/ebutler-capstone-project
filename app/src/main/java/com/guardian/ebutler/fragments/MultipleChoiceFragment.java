@@ -42,15 +42,15 @@ public class MultipleChoiceFragment extends AbstractAnswerFragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param iConditionName Parameter 1.
+     * @param iInformationPropertiesName Parameter 1.
      * @param rEnumList Parameter 2.
      * @return A new instance of fragment MultipleChoiceFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MultipleChoiceFragment newInstance(String iConditionName, ArrayList<String> rEnumList) {
+    public static MultipleChoiceFragment newInstance(String iInformationPropertiesName, ArrayList<String> rEnumList) {
         MultipleChoiceFragment fragment = new MultipleChoiceFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, iConditionName);
+        args.putString(ARG_PARAM1, iInformationPropertiesName);
         args.putSerializable(ARG_PARAM2, rEnumList);
         fragment.setArguments(args);
         return fragment;

@@ -1,5 +1,6 @@
 package com.guardian.ebutler.world;
 
+import com.guardian.ebutler.ebutler.dataclasses.ScriptManager;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
 
 import java.util.HashMap;

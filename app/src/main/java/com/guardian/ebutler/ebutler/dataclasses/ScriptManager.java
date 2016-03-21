@@ -50,7 +50,7 @@ public class ScriptManager {
 
     public void LoadAll()
     {
-        DatabaseHelper lDBHelper = DatabaseHelper.getInstance(priContext);
+        DatabaseHelper lDBHelper = new DatabaseHelper(priContext);
         //Load all question group data from the DB
         priQuestionGroups = lDBHelper.GetAllQuestionGroup();
     }

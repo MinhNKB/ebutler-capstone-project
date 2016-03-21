@@ -67,9 +67,5 @@
     <string name="fragment_time_span_textStartTime">Thời gian bắt đầu: </string>
     <string name="fragment_time_span_textEndTime">Thời gian kết thúc: </string>
 
-    <string name="enum_value_Random1">String for random 1</string>
-    <string name="enum_value_Random2">String for random 2</string>
-    <string name="enum_value_Random3">String for random 3</string>
-    <string name="enum_value_Random4">String for random 4</string>
-    <string name="enum_value_Random5">String for random 5</string>
+    <string name="user_info_input_greetings">Chào bạn, chúc một ngày tốt lành!</string>
 </resources>

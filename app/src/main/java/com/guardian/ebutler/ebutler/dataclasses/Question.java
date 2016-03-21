@@ -1,4 +1,5 @@
 package com.guardian.ebutler.ebutler.dataclasses;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ public class Question {
     public String pubQuestionString;
     public String pubConditions;
     public String pubOptionsType;
-    public List<String> pubInformationPropertiesNames;
+    public ArrayList<String> pubInformationPropertiesNames;
     public UIType pubUIType;
     public boolean pubIsAsked;
     public int pubStage;
@@ -17,5 +18,9 @@ public class Question {
     public boolean CheckValid()
     {
         return true;
+    }
+
+    public ArrayList<String> getOptions() {
+        return null;
     }
 }
