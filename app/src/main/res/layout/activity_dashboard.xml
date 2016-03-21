@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     tools:context="com.guardian.ebutler.ebutler.Dashboard"
-    android:id="@+id/dashboard_layout">
+    android:id="@+id/dashboard_parent">
 
     <LinearLayout
         android:id="@+id/dashboard_topBar"
