@@ -9,12 +9,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.guardian.ebutler.fragments.*;
@@ -40,6 +38,24 @@ public class UserInfoInput extends Activity {
         this.findViewsByIds();
         this.setupUI(findViewById(R.id.user_info_input_parent));
         this.showQuestion();
+
+//        GifImageView gifView = (GifImageView) findViewById(R.id.user_info_input_ButlerImage);
+//
+//        Drawable d;
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            d = getResources().getDrawable(R.drawable.butler_opaque, this.getTheme());
+//        } else {
+//            d = getResources().getDrawable(R.drawable.butler_opaque);
+//        }
+//
+//        Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
+//
+//        int bytes = bitmap.getByteCount();
+//
+//        ByteBuffer buffer = ByteBuffer.allocate(bytes); //Create a new buffer
+//        bitmap.copyPixelsToBuffer(buffer);
+//        byte[] byteArray = new byte[buffer.remaining()];
+//        gifView.setBytes(byteArray);
     }
 
     private void findViewsByIds() {
