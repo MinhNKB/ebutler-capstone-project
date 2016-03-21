@@ -39,14 +39,14 @@ public class DateFragment extends AbstractAnswerFragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param iConditionName Parameter 1.
+     * @param iInformationPropertiesNames Parameter 1.
      * @return A new instance of fragment DateFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static DateFragment newInstance(String iConditionName) {
+    public static DateFragment newInstance(String iInformationPropertiesNames) {
         DateFragment fragment = new DateFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, iConditionName);
+        args.putString(ARG_PARAM1, iInformationPropertiesNames);
         fragment.setArguments(args);
         return fragment;
     }

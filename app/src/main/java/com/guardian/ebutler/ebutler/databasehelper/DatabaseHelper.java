@@ -68,8 +68,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "    FOREIGN KEY (LocationId) REFERENCES Location (Id)\n" +
                 ");");
 
-        iDB.execSQL("Table: QuestionGroup\n" +
-                "CREATE TABLE QuestionGroup (\n" +
+        iDB.execSQL("CREATE TABLE QuestionGroup (\n" +
                 "    Id integer  NOT NULL   PRIMARY KEY,\n" +
                 "    QuestionString text  NOT NULL\n" +
                 ");");
@@ -255,10 +254,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return lResult;
     }
 
-    private List<String> ParsePropertyNames(String iPropertiesNamesString) {
+    private ArrayList<String> ParsePropertyNames(String iPropertiesNamesString) {
 
         String[] lTemp = iPropertiesNamesString.split(";");
-        List<String> lResult = new ArrayList<String>(Arrays.asList(lTemp));
+        ArrayList<String> lResult = new ArrayList<String>(Arrays.asList(lTemp));
         return lResult;
     }
 
@@ -293,6 +292,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private String MergePropertiesNames(List<String> iPropertiesNames) {
         String lResult = "";
+        if (iPropertiesNames.size() == 0)
+            return lResult;
         for(int i=0;i<iPropertiesNames.size()-1;i++)
             lResult += iPropertiesNames.get(i) + ";";
         lResult += iPropertiesNames.get(iPropertiesNames.size()-1);

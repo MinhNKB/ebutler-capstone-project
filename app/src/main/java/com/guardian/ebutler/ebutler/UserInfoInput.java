@@ -9,14 +9,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.guardian.ebutler.ebutler.dataclasses.Question;
+import com.guardian.ebutler.ebutler.dataclasses.ScriptManager;
+import com.guardian.ebutler.ebutler.dataclasses.UIType;
 import com.guardian.ebutler.fragments.*;
 
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class UserInfoInput extends Activity {
     private ScrollView priScrollViewAnswer;
     private LinearLayout priLinearLayoutAnswer;
     private RelativeLayout priRelativeLayoutForSimpleAnswer;
+    private ScriptManager priScriptManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class UserInfoInput extends Activity {
         setContentView(R.layout.activity_user_info_input);
         this.findViewsByIds();
         this.setupUI(findViewById(R.id.user_info_input_parent));
+        this.priScriptManager = new ScriptManager(this);
         this.showQuestion();
     }
 
@@ -106,18 +109,20 @@ public class UserInfoInput extends Activity {
 
     private void showQuestion()
     {
-//        getquestion
-//        if there's no question -> show something nice -> return
-
-
+        Question lQuestion = this.priScriptManager.GetAQuestion();
+        if (lQuestion == null)
+        {
+            this.createConversationStatement(getResources().getString(R.string.user_info_input_greetings), true);
+            return;
+        }
 //        swtich case of UI TYPE
 //        show answer and question
 
-        this.priAnwserFragmentInterface = this.getQuestionFragment();
+        this.priAnwserFragmentInterface = this.getQuestionFragment(lQuestion);
         if (this.priAnwserFragmentInterface == null)
             return;
-        this.createConversationStatement("Đây là câu hỏi", true);
-        if (this.priFakeEnum == 3 || this.priFakeEnum == 6)
+        this.createConversationStatement(lQuestion.pubQuestionString, true);
+        if (lQuestion.pubUIType == UIType.Textbox || lQuestion.pubUIType == UIType.YesNo)
         {
             getFragmentManager().beginTransaction().add(this.priRelativeLayoutForSimpleAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
         }
@@ -126,29 +131,25 @@ public class UserInfoInput extends Activity {
 
         this.scrollScrollViewQuestion(View.FOCUS_DOWN);
         this.switchTaskbarToLightTheme(true);
-        ++this.priFakeEnum;
     }
 
-    private int priFakeEnum = 0;
+    private AnswerFragmentInterface getQuestionFragment(Question iQuestion) {
 
-    private AnswerFragmentInterface getQuestionFragment() {
-        ArrayList<String> lStringList = new ArrayList<String>();
-        lStringList.add("Random1");lStringList.add("Random2");lStringList.add("Random3");lStringList.add("Random4");lStringList.add("Random5");
-        switch (priFakeEnum) {
-            case 0:
-                return CheckboxFragment.newInstance(lStringList);
-            case 1:
-                return DateFragment.newInstance("");
-            case 2:
-                return MultipleChoiceFragment.newInstance("aaa", lStringList);
-            case 3:
+        switch (iQuestion.pubUIType) {
+            case Checkbox:
+                return CheckboxFragment.newInstance(iQuestion.getOptions());
+            case Date:
+                return DateFragment.newInstance(iQuestion.pubInformationPropertiesNames.get(0));
+            case MultipleChoice:
+                return MultipleChoiceFragment.newInstance(iQuestion.pubInformationPropertiesNames.get(0), iQuestion.getOptions());
+            case Textbox:
                 return TextboxFragment.newInstance("");
-            case 4:
-                return TimeFragment.newInstance("");
-            case 5:
-                return TimeSpanFragment.newInstance(new ArrayList<String>());
-            case 6:
-                return YesNoFragment.newInstance("");
+            case Time:
+                return TimeFragment.newInstance(iQuestion.pubInformationPropertiesNames.get(0));
+            case TimeSpan:
+                return TimeSpanFragment.newInstance(iQuestion.pubInformationPropertiesNames);
+            case YesNo:
+                return YesNoFragment.newInstance(iQuestion.pubInformationPropertiesNames.get(0));
             default:
                 return null;
         }
