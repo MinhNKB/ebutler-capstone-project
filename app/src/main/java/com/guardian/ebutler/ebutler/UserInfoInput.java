@@ -80,17 +80,14 @@ public class UserInfoInput extends Activity {
     private void createConversationStatement(String iStatement, boolean iIsButler){
         RelativeLayout lResult = new RelativeLayout(this);
         lResult.setLayoutParams(this.createStatementLayoutParam(iIsButler));
-        lResult.setBackgroundResource(R.drawable.out_message_bg);
+        lResult.setBackgroundResource(iIsButler ? R.drawable.out_message_bg : R.drawable.out_message_bg_opposite);
         lResult.addView(this.createStatementTextView(iStatement));
         this.priLinearLayoutConversation.addView(lResult);
     }
 
     private LinearLayout.LayoutParams createStatementLayoutParam(boolean iIsButler) {
         LinearLayout.LayoutParams lResult = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        if (iIsButler == true)
-            lResult.gravity = Gravity.LEFT;
-        else
-            lResult.gravity = Gravity.RIGHT;
+        lResult.gravity = iIsButler ? Gravity.LEFT : Gravity.RIGHT;
         return lResult;
     }
 
