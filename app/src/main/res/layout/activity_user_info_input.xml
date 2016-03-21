@@ -51,7 +51,8 @@
             android:onClick="buttonClear_onClick"
             />
         <RelativeLayout
-            android:id="@+id/user_info_input_relativeLayoutForEditText"
+            android:id="@+id/user_info_input_relativeLayoutForSimpleAnswer"
+            android:layout_marginTop="@dimen/layout_padding_half"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"

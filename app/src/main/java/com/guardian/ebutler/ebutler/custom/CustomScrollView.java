@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.widget.ScrollView;
 
 import com.guardian.ebutler.ebutler.R;
+import com.guardian.ebutler.world.Global;
 
 /**
  * Created by Duy on 3/17/2016.
@@ -25,7 +26,8 @@ public class CustomScrollView extends ScrollView {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        heightMeasureSpec = MeasureSpec.makeMeasureSpec((int)(getResources().getDimension(R.dimen.answer_maxHeight)), MeasureSpec.AT_MOST);
+        int lMaxHeight = Global.getInstance().dpToPx(getContext(),(int)(getResources().getDimension(R.dimen.answer_maxHeight)));
+        heightMeasureSpec = MeasureSpec.makeMeasureSpec(lMaxHeight, MeasureSpec.AT_MOST);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 }

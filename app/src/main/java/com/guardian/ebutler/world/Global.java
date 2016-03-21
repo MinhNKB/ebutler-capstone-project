@@ -1,5 +1,8 @@
 package com.guardian.ebutler.world;
 
+import android.content.Context;
+import android.util.DisplayMetrics;
+
 import com.guardian.ebutler.ebutler.dataclasses.ScriptManager;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
 
@@ -22,5 +25,11 @@ public class Global {
     }
 
     public Task pubNewTask;
+
+    public int dpToPx(Context iContext, int idp) {
+        DisplayMetrics displayMetrics = iContext.getResources().getDisplayMetrics();
+        int px = Math.round(idp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        return px;
+    }
 }
 

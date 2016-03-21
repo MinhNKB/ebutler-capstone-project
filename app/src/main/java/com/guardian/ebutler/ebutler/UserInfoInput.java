@@ -34,6 +34,7 @@ public class UserInfoInput extends Activity {
     private LinearLayout priLinearLayoutAnswer;
     private RelativeLayout priRelativeLayoutForSimpleAnswer;
     private ScriptManager priScriptManager;
+    private Question priQuestion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class UserInfoInput extends Activity {
         this.priButtonOk = (ImageButton) findViewById(R.id.user_info_input_buttonOk);
         this.priScrollViewAnswer = (ScrollView) findViewById(R.id.user_info_input_customScrollViewAnswer);
         this.priLinearLayoutAnswer = (LinearLayout) findViewById(R.id.user_info_input_linearLayoutAnswer);
-        this.priRelativeLayoutForSimpleAnswer = (RelativeLayout) findViewById(R.id.user_info_input_relativeLayoutForEditText);
+        this.priRelativeLayoutForSimpleAnswer = (RelativeLayout) findViewById(R.id.user_info_input_relativeLayoutForSimpleAnswer);
     }
 
     public void buttonOk_onClick(View view) {
@@ -109,21 +110,20 @@ public class UserInfoInput extends Activity {
 
     private void showQuestion()
     {
-        Question lQuestion = this.priScriptManager.GetAQuestion();
-        if (lQuestion == null)
-        {
+        this.priQuestion = this.priScriptManager.GetAQuestion();
+        if (this.priQuestion == null) {
             this.createConversationStatement(getResources().getString(R.string.user_info_input_greetings), true);
             return;
         }
-//        swtich case of UI TYPE
-//        show answer and question
 
-        this.priAnwserFragmentInterface = this.getQuestionFragment(lQuestion);
-        if (this.priAnwserFragmentInterface == null)
+        this.priAnwserFragmentInterface = this.getQuestionFragment(this.priQuestion);
+        if (this.priAnwserFragmentInterface == null){
+            this.createConversationStatement(getResources().getString(R.string.user_info_input_greetings), true);
             return;
-        this.createConversationStatement(lQuestion.pubQuestionString, true);
-        if (lQuestion.pubUIType == UIType.Textbox || lQuestion.pubUIType == UIType.YesNo)
-        {
+        }
+
+        this.createConversationStatement(this.priQuestion.pubQuestionString, true);
+        if (this.priQuestion.pubUIType == UIType.Textbox || this.priQuestion.pubUIType == UIType.YesNo) {
             getFragmentManager().beginTransaction().add(this.priRelativeLayoutForSimpleAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
         }
         else
@@ -134,7 +134,6 @@ public class UserInfoInput extends Activity {
     }
 
     private AnswerFragmentInterface getQuestionFragment(Question iQuestion) {
-
         switch (iQuestion.pubUIType) {
             case Checkbox:
                 return CheckboxFragment.newInstance(iQuestion.getOptions());
