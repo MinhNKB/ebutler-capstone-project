@@ -12,6 +12,7 @@
 
     <pl.droidsonroids.gif.GifImageView
         android:layout_marginBottom="@dimen/paragraph_padding"
+        android:layout_marginTop="@dimen/paragraph_padding"
         android:layout_width="180dp"
         android:layout_height="180dp"
         android:src="@drawable/butler_gif"
