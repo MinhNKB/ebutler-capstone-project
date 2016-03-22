@@ -23,22 +23,29 @@ public class AbstractAnswerFragment extends Fragment implements AnswerFragmentIn
 
     }
 
-    public String getChatStatement() {
+    public String getChatStatement() throws Exception {
         return "Chat statement";
     }
 
+
+
     public ArrayList<Condition> getValues() {
         return new ArrayList<>();
-    };
+    }
+    ;
+
+    protected View proView;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(proFragmentId, container, false);
-        setValuesToView(view);
-        return view;
+        this.proView = inflater.inflate(proFragmentId, container, false);
+        setValuesToView(this.proView);
+        return this.proView;
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

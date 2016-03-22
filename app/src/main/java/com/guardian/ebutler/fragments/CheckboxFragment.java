@@ -69,6 +69,8 @@ public class CheckboxFragment extends AbstractAnswerFragment {
                 lReturnValue += lOptionName;
             }
         }
+        if (lReturnValue.equals(""))
+            lReturnValue = this.proView.getResources().getString(R.string.checkbox_fragment_null_string_true);
         return lReturnValue;
     }
 
