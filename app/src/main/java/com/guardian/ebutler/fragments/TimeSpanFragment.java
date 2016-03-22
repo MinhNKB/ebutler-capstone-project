@@ -62,12 +62,17 @@ public class TimeSpanFragment extends AbstractAnswerFragment {
         }
     }
 
-    public String getChatStatement() {
-        String lReturnValue = "";
-        lReturnValue += ((Spinner)getView().findViewById(R.id.fragment_time_span_SpinnerStart)).getSelectedItem().toString();
-        lReturnValue += " - ";
-        lReturnValue += ((Spinner)getView().findViewById(R.id.fragment_time_span_SpinnerEnd)).getSelectedItem().toString();
-        return lReturnValue;
+    public String getChatStatement() throws Exception {
+        String lFrom = ((Spinner)getView().findViewById(R.id.fragment_time_span_SpinnerStart)).getSelectedItem().toString();
+        String lTo = ((Spinner)getView().findViewById(R.id.fragment_time_span_SpinnerEnd)).getSelectedItem().toString();
+        try{
+            if (Integer.parseInt(lFrom.substring(0, 2)) - Integer.parseInt(lTo.substring(0, 2)) >= 0)
+                throw new Exception(this.proView.getResources().getString(R.string.timespan_fragment_wrong_format_false));
+        }
+        catch (Exception ex){
+            throw ex;
+        }
+        return lFrom + " - " + lTo;
     }
 
     @Override

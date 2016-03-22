@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.guardian.ebutler.ebutler.dataclasses.Question;
 import com.guardian.ebutler.ebutler.dataclasses.ScriptManager;
@@ -58,9 +59,20 @@ public class UserInfoInput extends Activity {
     }
 
     public void buttonOk_onClick(View view) {
-        this.createConversationStatement(this.priAnwserFragmentInterface.getChatStatement(), false);
-        this.clearQuestion();
-        this.showQuestion();
+        try{
+            this.createConversationStatement(this.priAnwserFragmentInterface.getChatStatement(), false);
+            this.clearQuestion();
+            this.showQuestion();
+        }
+        catch (Exception ex){
+            showToast(ex.getMessage());
+            return;
+        }
+    }
+
+    private void showToast(String iMessage){
+        Toast toast = Toast.makeText(this, iMessage, Toast.LENGTH_LONG);
+        toast.show();
     }
 
     private void scrollScrollViewConversation(final int iDirection) {
