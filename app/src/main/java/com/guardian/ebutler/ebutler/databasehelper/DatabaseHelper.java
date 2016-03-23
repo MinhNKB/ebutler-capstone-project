@@ -107,38 +107,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         lResult.add("Thiết bị");
         lResult.add("Sức khỏe");
         lResult.add("Việc cần làm");
+        lResult.add("Khác");
         return lResult;
     }
 
     public List<String> GetAllTasks(String iCategoryName)
     {
         List<String> lResult = new ArrayList<String>();
-       if(iCategoryName.equals("Hóa đơn"))
-       {
+        if(iCategoryName.equals("Hóa đơn"))
+        {
            lResult.add("Tiền điện");
            lResult.add("Tiền nước");
            lResult.add("Tiền điện thoại");
            lResult.add("Phí quản lí");
-       }
+        }
         else if(iCategoryName.equals("Thiết bị"))
-       {
+        {
            lResult.add("Bảo trì tủ lạnh");
            lResult.add("Rửa xe");
            lResult.add("Vệ sinh máy giặt");
-       }
-       else if(iCategoryName.equals("Sức khỏe"))
-       {
+        }
+        else if(iCategoryName.equals("Sức khỏe"))
+        {
            lResult.add("Khám răng");
            lResult.add("Đo mắt");
            lResult.add("Sổ giun");
-       }
-       else if(iCategoryName.equals("Việc cần làm"))
-       {
+        }
+        else if(iCategoryName.equals("Việc cần làm"))
+        {
            lResult.add("Đi chợ");
            lResult.add("Đón con");
            lResult.add("Đổ rác");
-       }
-
+        }
+        else if (iCategoryName.equals("Khác")) {
+        }
         return lResult;
     }
     //endregion

@@ -26,5 +26,10 @@
     <color name="textDisabledBlack">#9e9e9e</color>
 
     <color name="transparent">#00ffffff</color>
+    <color name="red_900">#C62828</color>
+    <color name="purple_900">#6A1B9A</color>
+    <color name="lightBlue_900">#0277BD</color>
+    <color name="green_900">#2E7D32</color>
+    <color name="yellow_900">#F9A825</color>
 
 </resources>

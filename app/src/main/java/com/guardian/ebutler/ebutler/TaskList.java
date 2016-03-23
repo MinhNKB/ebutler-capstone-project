@@ -145,6 +145,7 @@ public class TaskList extends Activity {
     public void buttonRoundAdd_onClick(View view) {
         if (this.priSearchView.getQuery().toString() != null && !this.priSearchView.getQuery().toString().equals("")) {
             Intent intent = new Intent(this, TaskDetail.class);
+            Global.getInstance().pubNewTask.pubName = this.priSearchView.getQuery().toString();
             startActivity(intent);
         }
     }
@@ -159,20 +160,19 @@ public class TaskList extends Activity {
         imm.showSoftInput(this.priSearchView, InputMethodManager.SHOW_IMPLICIT);
     }
 
-    public static void hideSoftKeyboard(Activity iActivity) {
+    public static void showSoftKeyboard(Activity iActivity, int iType) {
         InputMethodManager lInputMethodManager = (InputMethodManager)  iActivity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        lInputMethodManager.hideSoftInputFromWindow(iActivity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        if (iActivity.getCurrentFocus() != null)
+            lInputMethodManager.hideSoftInputFromWindow(iActivity.getCurrentFocus().getWindowToken(), iType);
     }
 
     public void setupUI(View view) {
-        if(!(view instanceof EditText) || !(view instanceof SearchView)) {
-            view.setOnTouchListener(new View.OnTouchListener() {
-                public boolean onTouch(View v, MotionEvent event) {
-                    hideSoftKeyboard(TaskList.this);
-                    return false;
-                }
-            });
-        }
+        view.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                showSoftKeyboard(TaskList.this, InputMethodManager.HIDE_NOT_ALWAYS);
+                return false;
+            }
+        });
         if (view instanceof ViewGroup) {
             for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
                 View innerView = ((ViewGroup) view).getChildAt(i);

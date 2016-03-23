@@ -1,9 +1,14 @@
 package com.guardian.ebutler.ebutler;
 
 import android.app.Fragment;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,7 +26,6 @@ import com.guardian.ebutler.ebutler.dataclasses.ScriptManager;
 import com.guardian.ebutler.ebutler.dataclasses.UIType;
 import com.guardian.ebutler.fragments.*;
 
-import java.util.ArrayList;
 
 public class UserInfoInput extends Activity {
 
@@ -46,23 +50,6 @@ public class UserInfoInput extends Activity {
         this.priScriptManager = new ScriptManager(this);
         this.showQuestion();
 
-//        GifImageView gifView = (GifImageView) findViewById(R.id.user_info_input_ButlerImage);
-//
-//        Drawable d;
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            d = getResources().getDrawable(R.drawable.butler_opaque, this.getTheme());
-//        } else {
-//            d = getResources().getDrawable(R.drawable.butler_opaque);
-//        }
-//
-//        Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
-//
-//        int bytes = bitmap.getByteCount();
-//
-//        ByteBuffer buffer = ByteBuffer.allocate(bytes); //Create a new buffer
-//        bitmap.copyPixelsToBuffer(buffer);
-//        byte[] byteArray = new byte[buffer.remaining()];
-//        gifView.setBytes(byteArray);
     }
 
     private void findViewsByIds() {

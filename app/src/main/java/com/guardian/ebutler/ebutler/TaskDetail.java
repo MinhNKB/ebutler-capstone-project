@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -13,6 +14,7 @@ import android.widget.ImageButton;
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 import com.guardian.ebutler.ebutler.dataclasses.Priority;
 import com.guardian.ebutler.ebutler.dataclasses.Status;
+import com.guardian.ebutler.ebutler.dataclasses.Task;
 import com.guardian.ebutler.screenhelper.FullscreenHelper;
 import com.guardian.ebutler.world.Global;
 
@@ -31,7 +33,8 @@ public class TaskDetail extends Activity {
         lTaskName.setText(Global.getInstance().pubNewTask.pubName);
         this.priThis = this;
         bindNavigationLocation();
-        revokeFocus();
+        setupUI(findViewById(R.id.task_detail_parent));
+
     }
     static final int GET_LOCATION = 1;  // The request code
     static final int GET_TIME = 2;
@@ -78,18 +81,20 @@ public class TaskDetail extends Activity {
             @Override
             public void onClick(View v) {
                 DatabaseHelper iHelper = new DatabaseHelper(priThis);
-                try
-                {
-                    Global.getInstance().pubNewTask.pubTime = new Date();
-                    Global.getInstance().pubNewTask.pubStatus = Status.Done;
-                    Global.getInstance().pubNewTask.pubPriority = Priority.Important;
-                    iHelper.InsertATask(Global.getInstance().pubNewTask);
-                }
-                catch (Exception ex)
-                {
-                    String cause = ex.toString();
-                }
+
+                Task lNewTask = Global.getInstance().pubNewTask;
+                if (lNewTask == null)
+                    lNewTask = new Task();
+                lNewTask.pubTime = new Date();
+                lNewTask.pubStatus = Status.Pending;
+                if (lNewTask.pubCategory == null || lNewTask.pubCategory.equals(""))
+                    lNewTask.pubCategory = "Khác";
+                lNewTask.pubPriority = Priority.Important;
+                iHelper.InsertATask(Global.getInstance().pubNewTask);
+                Global.getInstance().pubNewTask = null;
+
                 Intent intent = new Intent(context, Dashboard.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }
         });
@@ -111,7 +116,6 @@ public class TaskDetail extends Activity {
                 EditText edit = (EditText)findViewById(R.id.task_detail_editTextLocation);
                 String location = data.getStringExtra("location");
                 edit.setText(location);
-                revokeFocus();
             }
         } else if (requestCode == GET_TIME) {
             if (resultCode == RESULT_OK) {
@@ -121,25 +125,29 @@ public class TaskDetail extends Activity {
                 edit = (EditText)findViewById(R.id.task_detail_editTextDate);
                 String date = data.getStringExtra("date");
                 edit.setText(date);
-                revokeFocus();
             }
         }
     }
 
-    private void revokeFocus() {
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-        View thisView = findViewById(R.id.task_detail_layout);
-        thisView.requestFocus();
-        thisView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
+    public static void showSoftKeyboard(Activity iActivity, int iType) {
+        InputMethodManager lInputMethodManager = (InputMethodManager)  iActivity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        if (iActivity.getCurrentFocus() != null)
+            lInputMethodManager.hideSoftInputFromWindow(iActivity.getCurrentFocus().getWindowToken(), iType);
+    }
+
+    public void setupUI(View view) {
+        view.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
-                revokeFocus();
+                showSoftKeyboard(TaskDetail.this, InputMethodManager.HIDE_NOT_ALWAYS);
                 return false;
             }
         });
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
     }
+
 }
