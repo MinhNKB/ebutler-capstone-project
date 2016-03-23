@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.guardian.ebutler.ebutler.TaskDetail"
     android:orientation="vertical"
-    android:id="@+id/task_detail_layout">
+    android:id="@+id/task_detail_parent">
 
     <LinearLayout
         android:orientation="horizontal"

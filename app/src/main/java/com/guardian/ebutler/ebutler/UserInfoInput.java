@@ -1,10 +1,15 @@
 package com.guardian.ebutler.ebutler;
 
 import android.app.Fragment;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,7 +28,6 @@ import com.guardian.ebutler.ebutler.dataclasses.ScriptManager;
 import com.guardian.ebutler.ebutler.dataclasses.UIType;
 import com.guardian.ebutler.fragments.*;
 
-import java.util.ArrayList;
 
 public class UserInfoInput extends Activity {
 
@@ -48,23 +52,6 @@ public class UserInfoInput extends Activity {
         this.priScriptManager = new ScriptManager(this);
         this.showQuestion();
         DatabaseHelper.getInstance(this);
-//        GifImageView gifView = (GifImageView) findViewById(R.id.user_info_input_ButlerImage);
-//
-//        Drawable d;
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            d = getResources().getDrawable(R.drawable.butler_opaque, this.getTheme());
-//        } else {
-//            d = getResources().getDrawable(R.drawable.butler_opaque);
-//        }
-//
-//        Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
-//
-//        int bytes = bitmap.getByteCount();
-//
-//        ByteBuffer buffer = ByteBuffer.allocate(bytes); //Create a new buffer
-//        bitmap.copyPixelsToBuffer(buffer);
-//        byte[] byteArray = new byte[buffer.remaining()];
-//        gifView.setBytes(byteArray);
     }
 
     private void findViewsByIds() {
@@ -140,30 +127,26 @@ public class UserInfoInput extends Activity {
 
     private void showQuestion()
     {
-        try {
-            Question lQuestion = this.priScriptManager.GetAQuestion();
-            if (lQuestion == null) {
+        this.priQuestion = this.priScriptManager.GetAQuestion();
+        if (this.priQuestion == null) {
             this.createConversationStatement(getResources().getString(R.string.user_info_input_greetings), true);
             return;
         }
 
         this.priAnwserFragmentInterface = this.getQuestionFragment(this.priQuestion);
-        if (this.priAnwserFragmentInterface == null){
+        if (this.priAnwserFragmentInterface == null) {
             this.createConversationStatement(getResources().getString(R.string.user_info_input_greetings), true);
             return;
-            this.createConversationStatement(lQuestion.pubQuestionString, true);
-            if (lQuestion.pubUIType == UIType.Textbox || lQuestion.pubUIType == UIType.YesNo) {
+        }
+        this.createConversationStatement(this.priQuestion.pubQuestionString, true);
+        if (this.priQuestion.pubUIType == UIType.Textbox || this.priQuestion.pubUIType == UIType.YesNo) {
             getFragmentManager().beginTransaction().add(this.priRelativeLayoutForSimpleAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
-            } else
+        }
+        else
             getFragmentManager().beginTransaction().add(this.priLinearLayoutAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
 
         this.scrollScrollViewQuestion(View.FOCUS_DOWN);
         this.switchTaskbarToLightTheme(true);
-    }
-        catch (Exception ex)
-        {
-            Log.w("User",ex.getMessage());
-        }
     }
 
     private AnswerFragmentInterface getQuestionFragment(Question iQuestion) {

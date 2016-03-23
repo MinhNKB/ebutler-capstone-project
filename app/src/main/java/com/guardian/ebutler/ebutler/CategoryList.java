@@ -29,13 +29,11 @@ public class CategoryList extends Activity {
 
     private TextView priTextViewButlerSpeech;
     private SearchView priSearchView;
-    private ImageView priButtonRoundAdd;
 
     private ListView priListViewCategory;
     private List<CustomListItem> priCategoryCustomList;
     private CustomListAdapter priCustomListAdapter;
 
-    private ImageButton priButtonAdd;
     private ImageButton priButtonSearch;
 
     private List<String> priCategoryList;
@@ -93,7 +91,6 @@ public class CategoryList extends Activity {
             public boolean onClose() {
                 priSearchView.setVisibility(View.GONE);
                 priTextViewButlerSpeech.setVisibility(View.VISIBLE);
-                priButtonRoundAdd.setVisibility(View.GONE);
                 return true;
             }
         });
@@ -101,20 +98,14 @@ public class CategoryList extends Activity {
 
     private boolean searchView_onTextChange(String newText)
     {
-        if (newText != null && !newText.equals(""))
-            this.priButtonRoundAdd.setImageResource(R.mipmap.ic_add_round);
-        else
-            this.priButtonRoundAdd.setImageResource(R.mipmap.ic_add_round_disabled);
         this.priCustomListAdapter.getFilter().filter(newText);
         return true;
     }
 
     private void findViewsByIds() {
-        this.priButtonRoundAdd = (ImageView) findViewById(R.id.category_list_buttonRoundAdd);
         this.priTextViewButlerSpeech = (TextView) findViewById(R.id.category_list_textViewButlerSpeech);
         this.priSearchView = (SearchView) findViewById(R.id.category_list_searchView);
         this.priListViewCategory = (ListView) findViewById(R.id.category_list_listViewCategory);
-        this.priButtonAdd = (ImageButton) findViewById(R.id.category_list_buttonAdd);
         this.priButtonSearch = (ImageButton) findViewById(R.id.category_list_buttonSearch);
     }
 
@@ -131,7 +122,10 @@ public class CategoryList extends Activity {
                  ) {
                 lTasks += (lTask + ", ");
             }
-            lCustomListItem = new CustomListItem(lCategory, lTasks, null, 0xFFFF1744);
+            if (lTasks.equals(""))
+                lTasks = null;
+            lCustomListItem = new CustomListItem(
+                    lCategory, lTasks, null, Global.getInstance().getCategoryColor(this, lCategory));
             result.add(lCustomListItem);
         }
         return result;
@@ -139,7 +133,6 @@ public class CategoryList extends Activity {
 
 
     public void buttonSearch_onClick(View view) {
-        this.priButtonRoundAdd.setVisibility(View.VISIBLE);
         this.priTextViewButlerSpeech.setVisibility(View.GONE);
         this.priSearchView.setVisibility(View.VISIBLE);
         this.priSearchView.requestFocusFromTouch();
@@ -148,37 +141,19 @@ public class CategoryList extends Activity {
         imm.showSoftInput(this.priSearchView, InputMethodManager.SHOW_IMPLICIT);
     }
 
-    public void buttonRoundAdd_onClick(View view) {
-        if (this.priSearchView.getQuery().toString() != null && !this.priSearchView.getQuery().toString().equals("")) {
-            Intent intent = new Intent(this, TaskList.class);
-            startActivity(intent);
-        }
-    }
-
-    public void buttonAdd_onClick(View view) {
-        this.priButtonRoundAdd.setVisibility(View.VISIBLE);
-        this.priTextViewButlerSpeech.setVisibility(View.GONE);
-        this.priSearchView.setVisibility(View.VISIBLE);
-        this.priSearchView.requestFocusFromTouch();
-        this.priSearchView.setIconified(false);
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(this.priSearchView, InputMethodManager.SHOW_IMPLICIT);
-    }
-
-    public static void hideSoftKeyboard(Activity iActivity) {
+    public static void showSoftKeyboard(Activity iActivity, int iType) {
         InputMethodManager lInputMethodManager = (InputMethodManager)  iActivity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        lInputMethodManager.hideSoftInputFromWindow(iActivity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        if (iActivity.getCurrentFocus() != null)
+            lInputMethodManager.hideSoftInputFromWindow(iActivity.getCurrentFocus().getWindowToken(), iType);
     }
 
     public void setupUI(View view) {
-        if(!(view instanceof EditText) || !(view instanceof SearchView)) {
-            view.setOnTouchListener(new View.OnTouchListener() {
-                public boolean onTouch(View v, MotionEvent event) {
-                    hideSoftKeyboard(CategoryList.this);
-                    return false;
-                }
-            });
-        }
+        view.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                showSoftKeyboard(CategoryList.this, InputMethodManager.HIDE_NOT_ALWAYS);
+                return false;
+            }
+        });
         if (view instanceof ViewGroup) {
             for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
                 View innerView = ((ViewGroup) view).getChildAt(i);

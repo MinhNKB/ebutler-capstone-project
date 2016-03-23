@@ -77,14 +77,6 @@ public class Dashboard extends Activity {
         {
             DatabaseHelper iHelper = new DatabaseHelper(this);
             this.priTaskList = iHelper.GetAllTasks();
-            Task iTask = new Task();
-            iTask.pubName = "abc";
-            iTask.pubTime = new Date();
-            //this.priTaskList = new ArrayList<Task>();
-
-            this.priTaskList.add(iTask);
-
-
             List<CustomListItem> lTasksList = this.getCustomItems(this.priTaskList);
             this.priCustomListAdapter = new CustomListAdapter(this, lTasksList);
             this.priCustomListView.setAdapter(this.priCustomListAdapter);
@@ -164,7 +156,8 @@ public class Dashboard extends Activity {
 //                 ) {
 //                lLocationName += lLocation.pubName;
 //            }
-            lCustomListItem = new CustomListItem(lTask.pubName, lTask.pubTime.toString(), "Cong Ti", 0xFFFF1744);
+            lCustomListItem = new CustomListItem(
+                    lTask.pubName, lTask.pubTime.toString(), "Cong Ti", Global.getInstance().getCategoryColor(this, lTask.pubCategory));
             lResult.add(lCustomListItem);
         }
         return lResult;
@@ -219,26 +212,27 @@ public class Dashboard extends Activity {
 
     public void buttonRoundAdd_onClick(View view) {
         if (this.priSearchView.getQuery().toString() != null && !this.priSearchView.getQuery().toString().equals("")) {
+            Global.getInstance().pubNewTask = new Task();
+            Global.getInstance().pubNewTask.pubName = this.priSearchView.getQuery().toString();
             Intent intent = new Intent(this, TaskDetail.class);
             startActivity(intent);
         }
     }
 
 
-    public static void hideSoftKeyboard(Activity iActivity) {
+    public static void showSoftKeyboard(Activity iActivity, int iType) {
         InputMethodManager lInputMethodManager = (InputMethodManager)  iActivity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        lInputMethodManager.hideSoftInputFromWindow(iActivity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        if (iActivity.getCurrentFocus() != null)
+            lInputMethodManager.hideSoftInputFromWindow(iActivity.getCurrentFocus().getWindowToken(), iType);
     }
 
     public void setupUI(View view) {
-        if(!(view instanceof EditText) || !(view instanceof SearchView)) {
-            view.setOnTouchListener(new View.OnTouchListener() {
-                public boolean onTouch(View v, MotionEvent event) {
-                    hideSoftKeyboard(Dashboard.this);
-                    return false;
-                }
-            });
-        }
+        view.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                showSoftKeyboard(Dashboard.this, InputMethodManager.HIDE_NOT_ALWAYS);
+                return false;
+            }
+        });
         if (view instanceof ViewGroup) {
             for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
                 View innerView = ((ViewGroup) view).getChildAt(i);
