@@ -73,14 +73,20 @@
     <string name="textbox_fragment_null_string_false">Bạn không được để trống</string>
     <string name="timespan_fragment_wrong_format_false">Thời gian kết thúc phải lớn hơn bắt đầu</string>
 
-    <string name="enum_value_Random1">String for random 1</string>
-    <string name="enum_value_Random2">String for random 2</string>
-    <string name="enum_value_Random3">String for random 3</string>
-    <string name="enum_value_Random4">String for random 4</string>
-    <string name="enum_value_Random5">String for random 5</string>
     <string name="choose_time_ButlerChatStatment">Tôi sẽ nhắc bạn thực hiện công việc này lúc:</string>
     <string name="choose_time_DateLabel">Ngày:</string>
     <string name="choose_time_TimeLabel">Giờ:</string>
     <string name="choose_location_ButlerChatStatment">Tôi sẽ nhắc công việc này khi bạn ở:</string>
     <string name="task_detail_ButlerChatStatment">Hãy cho tôi biết thông tin công việc</string>
+
+    <string name="enum_value_male">Nam</string>
+    <string name="enum_value_female">Nữ</string>
+
+    <string name="enum_value_monday">Thứ hai</string>
+    <string name="enum_value_tuesday">Thứ ba</string>
+    <string name="enum_value_wednesday">Thứ tư</string>
+    <string name="enum_value_thursday">Thứ năm</string>
+    <string name="enum_value_friday">Thứ sáu</string>
+    <string name="enum_value_saturday">Thứ bảy</string>
+    <string name="enum_value_sunday">Chủ nhật</string>
 </resources>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Groups>
+	<QuestionGroup>
+		<QuestionString>Bạn có thể vui lòng cung cấp cho tôi một vài thông tin cơ bản không</QuestionString>
+		<Questions>
+			<Question>
+				<QuestionString>Họ tên của bạn là</QuestionString>
+				<Conditions></Conditions>
+				<OptionsType></OptionsType>
+				<PropertiesNames>Username</PropertiesNames>
+				<UIType>Textbox</UIType>
+				<Stage>1</Stage>
+			</Question>
+			<Question>
+				<QuestionString>Bạn thuộc giới tính</QuestionString>
+				<Conditions></Conditions>
+				<OptionsType>Gender</OptionsType>
+				<PropertiesNames>Gender</PropertiesNames>
+				<UIType>MultipleChoice</UIType>
+				<Stage>1</Stage>
+			</Question>
+			<Question>
+				<QuestionString>Địa chỉ của bạn là</QuestionString>
+				<Conditions></Conditions>
+				<OptionsType></OptionsType>
+				<PropertiesNames>Address</PropertiesNames>
+				<UIType>Textbox</UIType>
+				<Stage>1</Stage>
+			</Question>
+		</Questions>
+	</QuestionGroup>
+	
+	<QuestionGroup>
+		<QuestionString>Bạn có thể vui lòng cung cấp thêm cho tôi một vài thông tin cơ bản không</QuestionString>
+		<Questions>
+			<Question>
+				<QuestionString>Nghề nghiệp của bạn là</QuestionString>
+				<Conditions></Conditions>
+				<OptionsType></OptionsType>
+				<PropertiesNames>Job</PropertiesNames>
+				<UIType>Textbox</UIType>
+				<Stage>1</Stage>
+			</Question>
+			<Question>
+				<QuestionString>Những ngày bạn làm việc trong tuần là</QuestionString>
+				<Conditions></Conditions>
+				<OptionsType>Weekdays</OptionsType>
+				<PropertiesNames>IsMondayWork;IsTuesdayWork;IsWednesdayWork;IsThursdayWork;IsFridayWork;IsSaturdayWork;IsSundayWork</PropertiesNames>
+				<UIType>Checkbox</UIType>
+				<Stage>2</Stage>
+			</Question>		
+			<Question>
+				<QuestionString>Thường bạn bắt đầu làm việc vào lúc</QuestionString>
+				<Conditions></Conditions>
+				<OptionsType></OptionsType>
+				<PropertiesNames>StartWork</PropertiesNames>
+				<UIType>Time</UIType>
+				<Stage>2</Stage>
+			</Question>
+			<Question>
+				<QuestionString>Bạn kết thúc việc vào lúc</QuestionString>
+				<Conditions></Conditions>
+				<OptionsType></OptionsType>
+				<PropertiesNames>EndWork</PropertiesNames>
+				<UIType>Time</UIType>
+				<Stage>2</Stage>
+			</Question>
+		</Questions>
+	</QuestionGroup>
+</Groups>

@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -81,6 +82,7 @@ public class UserInfoInput extends Activity {
         try{
             this.createConversationStatement(this.priAnwserFragmentInterface.getChatStatement(), false);
             this.clearQuestion();
+        this.priScriptManager.AnwserQuestion(this.priAnwserFragmentInterface.getValues());
             this.showQuestion();
         }
         catch (Exception ex){
@@ -138,8 +140,9 @@ public class UserInfoInput extends Activity {
 
     private void showQuestion()
     {
-        this.priQuestion = this.priScriptManager.GetAQuestion();
-        if (this.priQuestion == null) {
+        try {
+            Question lQuestion = this.priScriptManager.GetAQuestion();
+            if (lQuestion == null) {
             this.createConversationStatement(getResources().getString(R.string.user_info_input_greetings), true);
             return;
         }
@@ -148,17 +151,19 @@ public class UserInfoInput extends Activity {
         if (this.priAnwserFragmentInterface == null){
             this.createConversationStatement(getResources().getString(R.string.user_info_input_greetings), true);
             return;
-        }
-
-        this.createConversationStatement(this.priQuestion.pubQuestionString, true);
-        if (this.priQuestion.pubUIType == UIType.Textbox || this.priQuestion.pubUIType == UIType.YesNo) {
+            this.createConversationStatement(lQuestion.pubQuestionString, true);
+            if (lQuestion.pubUIType == UIType.Textbox || lQuestion.pubUIType == UIType.YesNo) {
             getFragmentManager().beginTransaction().add(this.priRelativeLayoutForSimpleAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
-        }
-        else
+            } else
             getFragmentManager().beginTransaction().add(this.priLinearLayoutAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
 
         this.scrollScrollViewQuestion(View.FOCUS_DOWN);
         this.switchTaskbarToLightTheme(true);
+    }
+        catch (Exception ex)
+        {
+            Log.w("User",ex.getMessage());
+        }
     }
 
     private AnswerFragmentInterface getQuestionFragment(Question iQuestion) {

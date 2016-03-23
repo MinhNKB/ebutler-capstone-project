@@ -13,6 +13,11 @@ public class QuestionGroup {
 
     public boolean CheckValid()
     {
+        if(pubQuestions==null || pubQuestions.size()==0)
+            return false;
+        for(int i=0;i<pubQuestions.size();i++)
+            if(pubQuestions.get(i).pubStage==1 && pubQuestions.get(i).CheckValid()==false)
+                return false;
         return true;
     }
 }
