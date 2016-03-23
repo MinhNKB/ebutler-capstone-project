@@ -6,6 +6,9 @@ import android.content.pm.ActivityInfo;
 
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,13 +20,16 @@ public class ScriptManager {
     private Context priContext;
     private List<QuestionGroup> priQuestionGroups;
     private QuestionGroup priCurrentQuestionGroup;
+    private Question priCurrentQuestion;
 
     public ScriptManager(Context iContext)
     {
         priContext = iContext;
         LoadAll();
-        if(priQuestionGroups.size()==0)
+        if(priQuestionGroups.size()==0) {
             PushQuestionData();
+            LoadAll();
+        }
 
         //Set the current group
         priCurrentQuestionGroup = GetASuitableQuestionGroup();
@@ -31,21 +37,36 @@ public class ScriptManager {
 
     public void PushQuestionData()
     {
-        Question lQuestionTemp = new Question();
-        lQuestionTemp.pubQuestionString = "Họ tên của bạn là";
-        lQuestionTemp.pubStage = 1;
-        lQuestionTemp.pubIsAsked = false;
-        lQuestionTemp.pubUIType = UIType.Textbox;
-        lQuestionTemp.pubConditions = null;
-        lQuestionTemp.pubInformationPropertiesNames = new ArrayList<String>();
-        lQuestionTemp.pubOptionsType = null;
+        try {
+            XMLParser lParser = new XMLParser(priContext);
+            DatabaseHelper lDBHelper = DatabaseHelper.getInstance(priContext);
+            List<QuestionGroup> lGroups = lParser.ParseQuestionGroups();
 
-        QuestionGroup lQuestionGroupTemp = new QuestionGroup();
-        lQuestionGroupTemp.pubQuestions.add(lQuestionTemp);
-        priQuestionGroups.add(lQuestionGroupTemp);
+            for(int i=0;i<lGroups.size();i++)
+            {
+                lDBHelper.InsertAQuestionGroup(lGroups.get(i));
+            }
 
-        DatabaseHelper lDBHelper = DatabaseHelper.getInstance(priContext);
-        lDBHelper.InsertAQuestionGroup(lQuestionGroupTemp);
+//            Question lQuestionTemp = new Question();
+//            lQuestionTemp.pubQuestionString = "Họ tên của bạn là";
+//            lQuestionTemp.pubStage = 1;
+//            lQuestionTemp.pubIsAsked = false;
+//            lQuestionTemp.pubUIType = UIType.Textbox;
+//            lQuestionTemp.pubConditions = null;
+//            lQuestionTemp.pubInformationPropertiesNames = new ArrayList<String>();
+//            lQuestionTemp.pubOptionsType = null;
+//
+//            QuestionGroup lQuestionGroupTemp = new QuestionGroup();
+//            lQuestionGroupTemp.pubQuestions.add(lQuestionTemp);
+//            priQuestionGroups.add(lQuestionGroupTemp);
+//
+//
+
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void LoadAll()
@@ -72,15 +93,20 @@ public class ScriptManager {
             return null;
         for(int i=0;i<priCurrentQuestionGroup.pubQuestions.size();i++)
         {
-            if(priCurrentQuestionGroup.pubQuestions.get(i).CheckValid())
-                return priCurrentQuestionGroup.pubQuestions.get(i);
+            if(priCurrentQuestionGroup.pubQuestions.get(i).CheckValid() && priCurrentQuestionGroup.pubQuestions.get(i).pubIsAsked==false )
+            {
+                priCurrentQuestion = priCurrentQuestionGroup.pubQuestions.get(i);
+                return priCurrentQuestion;
+            }
         }
         return null;
     }
 
-    public void AnwserQuestion()
+    public void AnwserQuestion(List<Condition> iNewInformation)
     {
-
+        DatabaseHelper lHelper = DatabaseHelper.getInstance(null);
+        lHelper.InsertUserInformations(iNewInformation);
+        priCurrentQuestion.pubIsAsked = true;
     }
 
 

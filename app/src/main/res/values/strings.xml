@@ -68,4 +68,15 @@
     <string name="fragment_time_span_textEndTime">Thời gian kết thúc: </string>
 
     <string name="user_info_input_greetings">Chào bạn, chúc một ngày tốt lành!</string>
+
+    <string name="enum_value_male">Nam</string>
+    <string name="enum_value_female">Nữ</string>
+
+    <string name="enum_value_monday">Thứ hai</string>
+    <string name="enum_value_tuesday">Thứ ba</string>
+    <string name="enum_value_wednesday">Thứ tư</string>
+    <string name="enum_value_thursday">Thứ năm</string>
+    <string name="enum_value_friday">Thứ sáu</string>
+    <string name="enum_value_saturday">Thứ bảy</string>
+    <string name="enum_value_sunday">Chủ nhật</string>
 </resources>

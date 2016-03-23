@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.guardian.ebutler.ebutler.dataclasses.*;
 
@@ -21,6 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "eButlerDatabase";
     private static final int DATABASE_VERSION = 1;
     private static DatabaseHelper priInstance;
+
     public static synchronized DatabaseHelper getInstance(Context context) {
 
         // Use the application context, which will ensure that you
@@ -69,12 +71,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ");");
 
         iDB.execSQL("CREATE TABLE QuestionGroup (\n" +
-                "    Id integer  NOT NULL   PRIMARY KEY,\n" +
+                "    Id integer  NOT NULL   PRIMARY KEY  AUTOINCREMENT,\n" +
                 "    QuestionString text  NOT NULL\n" +
                 ");");
 
         iDB.execSQL("CREATE TABLE Question (\n" +
-                "    Id integer  NOT NULL   PRIMARY KEY,\n" +
+                "    Id integer  NOT NULL   PRIMARY KEY  AUTOINCREMENT,\n" +
                 "    QuestionString text  NOT NULL,\n" +
                 "    Condition text,\n" +
                 "    OptionTypes varchar(255),\n" +
@@ -87,7 +89,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ");\n");
 
         iDB.execSQL("CREATE TABLE UserInformation (\n" +
-                "    Id integer  NOT NULL   PRIMARY KEY,\n" +
+                "    Id integer  NOT NULL   PRIMARY KEY  AUTOINCREMENT,\n" +
                 "    PropertyName varchar(255)  NOT NULL,\n" +
                 "    Value varchar(255)  NOT NULL,\n" +
                 "    Type varchar(255)  NOT NULL\n" +
@@ -220,7 +222,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public List<Question> GetAllQuestionsOfAQuestionGroup(int iQuestionGroupId) {
         String[] columns = new String[] {"Id","QuestionString","Condition","OptionTypes","PropertiesNames","UIType","IsAsked","Stage"};
-        Cursor lCursor = this.getWritableDatabase().query("QuestionGroup", columns, "QuestionGroup_Id=?", new String[]{String.valueOf(iQuestionGroupId)}, null, null, null);
+        Cursor lCursor = this.getWritableDatabase().query("Question", columns, "QuestionGroup_Id=?", new String[]{String.valueOf(iQuestionGroupId)}, null, null, null);
         /*if(c==null)
             Log.v("Cursor", "C is NULL");*/
         List<Question> lResult = new ArrayList<Question>();
@@ -242,7 +244,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             lQuestionTemp.pubQuestionString = lCursor.getString(lQuestionStringIndex);
             lQuestionTemp.pubConditions = lCursor.getString(lConditionIndex);
             lQuestionTemp.pubOptionsType = lCursor.getString(lOptionTypesIndex);
-            lQuestionTemp.pubInformationPropertiesNames = ParsePropertyNames(lCursor.getString(lPropertiesNamesIndex));
+            lQuestionTemp.pubInformationPropertiesNames = ParsePropertiesNames(lCursor.getString(lPropertiesNamesIndex));
             lQuestionTemp.pubUIType = UIType.valueOf(lCursor.getString(lUITypeIndex));
             lQuestionTemp.pubIsAsked = lCursor.getInt(lIsAskedIndex)==1;
             lQuestionTemp.pubStage = lCursor.getInt(lStageIndex);
@@ -254,9 +256,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return lResult;
     }
 
-    private ArrayList<String> ParsePropertyNames(String iPropertiesNamesString) {
+    private ArrayList<String> ParsePropertiesNames(String iPropertiesNamesString) {
 
-        String[] lTemp = iPropertiesNamesString.split(";");
+        String[] lTemp = iPropertiesNamesString.replace(" ","").split(";");
         ArrayList<String> lResult = new ArrayList<String>(Arrays.asList(lTemp));
         return lResult;
     }
@@ -298,6 +300,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             lResult += iPropertiesNames.get(i) + ";";
         lResult += iPropertiesNames.get(iPropertiesNames.size()-1);
         return lResult;
+    }
+
+    public Condition GetUserInformation(String iPropertyName) {
+        String[] columns = new String[] {"PropertyName","Value","Type"};
+        Cursor lCursor = this.getWritableDatabase().query("UserInformation", columns, "PropertyName=?", new String[]{iPropertyName}, null, null, null);
+        /*if(c==null)
+            Log.v("Cursor", "C is NULL");*/
+
+        //getColumnIndex(COLUMN_ID); là lấy chỉ số, vị trí của cột COLUMN_ID ...
+        int lPropertyNameIndex = lCursor.getColumnIndex("PropertyName");
+        int lValueIndex = lCursor.getColumnIndex("Value");
+        int lTypeIndex = lCursor.getColumnIndex("Type");
+
+        Condition lResult = new Condition();
+
+        lResult.pubConditionName = lCursor.getString(lPropertyNameIndex);
+        lResult.pubValue = lCursor.getString(lValueIndex);
+        lResult.pubType = lCursor.getString(lTypeIndex);
+
+        lCursor.close();
+        //Log.v("Result", result);
+        return lResult;
+    }
+
+    public void InsertUserInformations(List<Condition> iNewInformation) {
+        try {
+            SQLiteDatabase lDB = this.getWritableDatabase();
+            for(int i =0;i<iNewInformation.size();i++) {
+                Condition lInformation = iNewInformation.get(i);
+                ContentValues lValues = new ContentValues();
+                lValues.put("PropertyName", lInformation.pubConditionName);
+                lValues.put("Value", lInformation.pubValue);
+                lValues.put("Type", lInformation.pubType);
+            }
+            lDB.close();
+        }
+        catch(Exception ex)
+        {
+            Log.w("DatabseHelper", ex.getMessage());
+
+        }
     }
     //endregion
 }

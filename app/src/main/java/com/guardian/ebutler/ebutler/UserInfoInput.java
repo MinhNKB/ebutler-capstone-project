@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -59,6 +60,7 @@ public class UserInfoInput extends Activity {
     public void buttonOk_onClick(View view) {
         this.createConversationStatement(this.priAnwserFragmentInterface.getChatStatement(), false);
         this.clearQuestion();
+        this.priScriptManager.AnwserQuestion(this.priAnwserFragmentInterface.getValues());
         this.showQuestion();
     }
 
@@ -109,28 +111,31 @@ public class UserInfoInput extends Activity {
 
     private void showQuestion()
     {
-        Question lQuestion = this.priScriptManager.GetAQuestion();
-        if (lQuestion == null)
-        {
-            this.createConversationStatement(getResources().getString(R.string.user_info_input_greetings), true);
-            return;
-        }
+        try {
+            Question lQuestion = this.priScriptManager.GetAQuestion();
+            if (lQuestion == null) {
+                this.createConversationStatement(getResources().getString(R.string.user_info_input_greetings), true);
+                return;
+            }
 //        swtich case of UI TYPE
 //        show answer and question
 
-        this.priAnwserFragmentInterface = this.getQuestionFragment(lQuestion);
-        if (this.priAnwserFragmentInterface == null)
-            return;
-        this.createConversationStatement(lQuestion.pubQuestionString, true);
-        if (lQuestion.pubUIType == UIType.Textbox || lQuestion.pubUIType == UIType.YesNo)
-        {
-            getFragmentManager().beginTransaction().add(this.priRelativeLayoutForSimpleAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
-        }
-        else
-            getFragmentManager().beginTransaction().add(this.priLinearLayoutAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
+            this.priAnwserFragmentInterface = this.getQuestionFragment(lQuestion);
+            if (this.priAnwserFragmentInterface == null)
+                return;
+            this.createConversationStatement(lQuestion.pubQuestionString, true);
+            if (lQuestion.pubUIType == UIType.Textbox || lQuestion.pubUIType == UIType.YesNo) {
+                getFragmentManager().beginTransaction().add(this.priRelativeLayoutForSimpleAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
+            } else
+                getFragmentManager().beginTransaction().add(this.priLinearLayoutAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
 
-        this.scrollScrollViewQuestion(View.FOCUS_DOWN);
-        this.switchTaskbarToLightTheme(true);
+            this.scrollScrollViewQuestion(View.FOCUS_DOWN);
+            this.switchTaskbarToLightTheme(true);
+        }
+        catch (Exception ex)
+        {
+            Log.w("User",ex.getMessage());
+        }
     }
 
     private AnswerFragmentInterface getQuestionFragment(Question iQuestion) {
