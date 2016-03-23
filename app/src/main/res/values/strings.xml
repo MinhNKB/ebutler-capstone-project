@@ -73,6 +73,11 @@
     <string name="textbox_fragment_null_string_false">Bạn không được để trống</string>
     <string name="timespan_fragment_wrong_format_false">Thời gian kết thúc phải lớn hơn bắt đầu</string>
 
+    <string name="choose_time_ButlerChatStatment">Tôi sẽ nhắc bạn thực hiện công việc này lúc:</string>
+    <string name="choose_time_DateLabel">Ngày:</string>
+    <string name="choose_time_TimeLabel">Giờ:</string>
+    <string name="choose_location_ButlerChatStatment">Tôi sẽ nhắc công việc này khi bạn ở:</string>
+    <string name="task_detail_ButlerChatStatment">Hãy cho tôi biết thông tin công việc</string>
 
     <string name="enum_value_male">Nam</string>
     <string name="enum_value_female">Nữ</string>

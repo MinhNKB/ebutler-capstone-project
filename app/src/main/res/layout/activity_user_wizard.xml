@@ -32,7 +32,7 @@
             android:adjustViewBounds="true"
             android:maxHeight="90dp"
             android:maxWidth="90dp"
-            android:src="@drawable/butler"
+            android:src="@drawable/butler_gif"
             android:layout_gravity="left"
             android:layout_marginBottom="@dimen/paragraph_padding"/>
 
