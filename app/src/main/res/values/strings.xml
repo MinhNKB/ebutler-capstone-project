@@ -78,4 +78,9 @@
     <string name="enum_value_Random3">String for random 3</string>
     <string name="enum_value_Random4">String for random 4</string>
     <string name="enum_value_Random5">String for random 5</string>
+    <string name="choose_time_ButlerChatStatment">Tôi sẽ nhắc bạn thực hiện công việc này lúc:</string>
+    <string name="choose_time_DateLabel">Ngày:</string>
+    <string name="choose_time_TimeLabel">Giờ:</string>
+    <string name="choose_location_ButlerChatStatment">Tôi sẽ nhắc công việc này khi bạn ở:</string>
+    <string name="task_detail_ButlerChatStatment">Hãy cho tôi biết thông tin công việc</string>
 </resources>

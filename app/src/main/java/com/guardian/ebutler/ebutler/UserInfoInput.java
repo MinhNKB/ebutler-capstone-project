@@ -16,6 +16,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 import com.guardian.ebutler.ebutler.dataclasses.Question;
 import com.guardian.ebutler.ebutler.dataclasses.ScriptManager;
 import com.guardian.ebutler.ebutler.dataclasses.UIType;
@@ -45,7 +46,7 @@ public class UserInfoInput extends Activity {
         this.setupUI(findViewById(R.id.user_info_input_parent));
         this.priScriptManager = new ScriptManager(this);
         this.showQuestion();
-
+        DatabaseHelper.getInstance(this);
 //        GifImageView gifView = (GifImageView) findViewById(R.id.user_info_input_ButlerImage);
 //
 //        Drawable d;

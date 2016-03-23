@@ -21,24 +21,40 @@ import java.util.Date;
 public class TaskDetail extends Activity {
 
     TaskDetail priThis;
+
+    private EditText priEditTextTaskName;
+    private EditText priEditTextLocation;
+    private EditText priEditTextTime;
+    private EditText priEditTextDate;
+    private ImageButton priButtonDone;
+    private ImageButton priButtonCancel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FullscreenHelper.setFullScreen(this);
         setContentView(R.layout.activity_task_detail);
 
-        EditText lTaskName = (EditText) findViewById(R.id.task_detail_editTextTaskName);
-        lTaskName.setText(Global.getInstance().pubNewTask.pubName);
+        this.findViewsByIds();
+        priEditTextTaskName.setText(Global.getInstance().pubNewTask.pubName);
         this.priThis = this;
         bindNavigationLocation();
         revokeFocus();
     }
+
+    private void findViewsByIds() {
+        priEditTextTaskName = (EditText) findViewById(R.id.task_detail_editTextTaskName);
+        priEditTextLocation = (EditText)findViewById(R.id.task_detail_editTextLocation);
+        priEditTextTime = (EditText)findViewById(R.id.task_detail_editTextTime);
+        priEditTextDate = (EditText)findViewById(R.id.task_detail_editTextDate);
+        priButtonDone = (ImageButton)findViewById(R.id.task_detail_buttonDone);
+        priButtonCancel = (ImageButton)findViewById(R.id.task_detail_buttonCancel);
+    }
+
     static final int GET_LOCATION = 1;  // The request code
     static final int GET_TIME = 2;
     private void bindNavigationLocation() {
-        EditText edit = (EditText)findViewById(R.id.task_detail_editTextLocation);
         final Context context = this;
-        edit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        priEditTextLocation.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                                           @Override
                                           public void onFocusChange(View v, boolean hasFocus) {
                                               if (hasFocus) {
@@ -49,8 +65,7 @@ public class TaskDetail extends Activity {
                                       }
         );
 
-        edit = (EditText)findViewById(R.id.task_detail_editTextTime);
-        edit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        priEditTextTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                                           @Override
                                           public void onFocusChange(View v, boolean hasFocus) {
                                               if (hasFocus) {
@@ -61,20 +76,18 @@ public class TaskDetail extends Activity {
                                       }
         );
 
-        edit = (EditText)findViewById(R.id.task_detail_editTextDate);
-        edit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                                          @Override
-                                          public void onFocusChange(View v, boolean hasFocus) {
-                                              if (hasFocus) {
-                                                  Intent intent = new Intent(context, ChooseTime.class);
-                                                  startActivityForResult(intent, GET_TIME);
-                                              }
-                                          }
-                                      }
+        priEditTextDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                                                     @Override
+                                                     public void onFocusChange(View v, boolean hasFocus) {
+                                                         if (hasFocus) {
+                                                             Intent intent = new Intent(context, ChooseTime.class);
+                                                             startActivityForResult(intent, GET_TIME);
+                                                         }
+                                                     }
+                                                 }
         );
 
-        ImageButton button = (ImageButton)findViewById(R.id.task_detail_buttonDone);
-        button.setOnClickListener(new View.OnClickListener() {
+        priButtonDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatabaseHelper iHelper = new DatabaseHelper(priThis);
@@ -94,8 +107,7 @@ public class TaskDetail extends Activity {
             }
         });
 
-        button = (ImageButton)findViewById(R.id.task_detail_buttonCancel);
-        button.setOnClickListener(new View.OnClickListener() {
+        priButtonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, Dashboard.class);
@@ -108,19 +120,16 @@ public class TaskDetail extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == GET_LOCATION) {
             if (resultCode == RESULT_OK) {
-                EditText edit = (EditText)findViewById(R.id.task_detail_editTextLocation);
                 String location = data.getStringExtra("location");
-                edit.setText(location);
+                priEditTextLocation.setText(location);
                 revokeFocus();
             }
         } else if (requestCode == GET_TIME) {
             if (resultCode == RESULT_OK) {
-                EditText edit = (EditText)findViewById(R.id.task_detail_editTextTime);
                 String time = data.getStringExtra("time");
-                edit.setText(time);
-                edit = (EditText)findViewById(R.id.task_detail_editTextDate);
+                priEditTextTime.setText(time);
                 String date = data.getStringExtra("date");
-                edit.setText(date);
+                priEditTextDate.setText(date);
                 revokeFocus();
             }
         }
