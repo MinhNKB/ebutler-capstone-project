@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:components="http://schemas.android.com/apk/res-auto"
     android:id="@+id/user_info_input_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,12 +10,16 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".UserInfoInput">
 
-    <ImageView
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_marginBottom="@dimen/paragraph_padding"
+        android:layout_marginTop="@dimen/paragraph_padding"
         android:layout_width="180dp"
         android:layout_height="180dp"
-        android:src="@drawable/butler"
+        android:src="@drawable/butler_gif"
         android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/paragraph_padding"/>
+        android:id="@+id/user_info_input_ButlerImage"
+        />
+
     <ScrollView
         android:id="@+id/user_info_input_scrollViewConversation"
         android:layout_width="match_parent"

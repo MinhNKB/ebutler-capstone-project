@@ -45,6 +45,24 @@ public class UserInfoInput extends Activity {
         this.setupUI(findViewById(R.id.user_info_input_parent));
         this.priScriptManager = new ScriptManager(this);
         this.showQuestion();
+
+//        GifImageView gifView = (GifImageView) findViewById(R.id.user_info_input_ButlerImage);
+//
+//        Drawable d;
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            d = getResources().getDrawable(R.drawable.butler_opaque, this.getTheme());
+//        } else {
+//            d = getResources().getDrawable(R.drawable.butler_opaque);
+//        }
+//
+//        Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
+//
+//        int bytes = bitmap.getByteCount();
+//
+//        ByteBuffer buffer = ByteBuffer.allocate(bytes); //Create a new buffer
+//        bitmap.copyPixelsToBuffer(buffer);
+//        byte[] byteArray = new byte[buffer.remaining()];
+//        gifView.setBytes(byteArray);
     }
 
     private void findViewsByIds() {
@@ -96,17 +114,14 @@ public class UserInfoInput extends Activity {
     private void createConversationStatement(String iStatement, boolean iIsButler){
         RelativeLayout lResult = new RelativeLayout(this);
         lResult.setLayoutParams(this.createStatementLayoutParam(iIsButler));
-        lResult.setBackgroundResource(R.drawable.out_message_bg);
+        lResult.setBackgroundResource(iIsButler ? R.drawable.out_message_bg : R.drawable.out_message_bg_opposite);
         lResult.addView(this.createStatementTextView(iStatement));
         this.priLinearLayoutConversation.addView(lResult);
     }
 
     private LinearLayout.LayoutParams createStatementLayoutParam(boolean iIsButler) {
         LinearLayout.LayoutParams lResult = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        if (iIsButler == true)
-            lResult.gravity = Gravity.LEFT;
-        else
-            lResult.gravity = Gravity.RIGHT;
+        lResult.gravity = iIsButler ? Gravity.LEFT : Gravity.RIGHT;
         return lResult;
     }
 
