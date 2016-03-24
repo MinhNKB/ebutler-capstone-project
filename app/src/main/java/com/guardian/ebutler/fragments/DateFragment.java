@@ -79,7 +79,7 @@ public class DateFragment extends AbstractAnswerFragment {
         ArrayList<Condition> lReturnValues = new ArrayList<>();
         Condition lReturnValue = new Condition();
         lReturnValue.pubConditionName = priConditionName;
-        lReturnValue.pubType = "date";
+        lReturnValue.pubType = "Date";
         DatePicker lDatePicker = (DatePicker)(getView().findViewById(R.id.fragment_date_DatePicker));
         lDatePicker.clearFocus();
         String result = "";

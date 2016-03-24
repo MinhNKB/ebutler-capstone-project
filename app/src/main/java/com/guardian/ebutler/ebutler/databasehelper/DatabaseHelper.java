@@ -9,9 +9,14 @@ import android.util.Log;
 
 import com.guardian.ebutler.ebutler.dataclasses.*;
 
+import java.text.DateFormat;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by nkbmi on 3/8/2016.
@@ -154,8 +159,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues lValues = new ContentValues();
         lValues.put("Name",iTask.pubName);
         lValues.put("Category",iTask.pubCategory);
-        lValues.put("Description",iTask.pubDescription);
-        lValues.put("Time",iTask.pubTime.toString());
+        lValues.put("Description", iTask.pubDescription);
+        lValues.put("Time", iTask.pubTime.toString());
         lValues.put("Status", iTask.pubStatus.toString());
         lValues.put("Priority", iTask.pubPriority.toString());
         lDB.insert("Task", null, lValues);
@@ -184,8 +189,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             lTempTask.pubName = lCursor.getString(lNameIndex);
             lTempTask.pubCategory = lCursor.getString(lCategoryIndex);
             lTempTask.pubDescription = lCursor.getString(lDescriptionIndex);
-            //lTempTask.pubTime = Date.valueOf(lCursor.getString(lTimeIndex));
-            lTempTask.pubTime = new java.util.Date();
+            lTempTask.pubTime = getTimeFromString(lCursor.getString(lTimeIndex));
             lTempTask.pubPriority = Priority.valueOf(lCursor.getString(lPriorityIndex));
             lTempTask.pubStatus = Status.valueOf(lCursor.getString(lStatusIndex));
             lResult.add(lTempTask);
@@ -193,6 +197,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         lCursor.close();
         //Log.v("Result", result);
         return lResult;
+    }
+
+    private Date getTimeFromString(String iDateString) {
+        Date lReturnDate = null;
+        try {
+            DateFormat lDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", new Locale("us"));
+            lReturnDate = lDateFormat.parse(iDateString);
+        }
+        catch (ParseException e) {
+            lReturnDate = null;
+            Log.w("debug", e.toString());
+        }
+        finally {
+            if (lReturnDate == null) {
+                lReturnDate = new Date();
+            }
+        }
+        return lReturnDate;
     }
     //endregion
 

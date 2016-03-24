@@ -97,7 +97,7 @@ public class CheckboxFragment extends AbstractAnswerFragment {
             ++index;
             Condition lReturnValue = new Condition();
             lReturnValue.pubConditionName = lEnumName;
-            lReturnValue.pubType = "boolean";
+            lReturnValue.pubType = "Boolean";
             lReturnValue.pubValue = ((CheckBox) getView().findViewWithTag(lOptionName)).isChecked() ? "true" : "false";
             lReturnValues.add(lReturnValue);
         }

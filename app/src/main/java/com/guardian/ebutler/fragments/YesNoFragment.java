@@ -72,7 +72,7 @@ public class YesNoFragment extends AbstractAnswerFragment {
         ArrayList<Condition> lReturnValues = new ArrayList<>();
         Condition lReturnValue = new Condition();
         lReturnValue.pubConditionName = priConditionName;
-        lReturnValue.pubType = "boolean";
+        lReturnValue.pubType = "Boolean";
         lReturnValue.pubValue = ((RadioButton) getView().findViewById(R.id.fragment_yes_no_RadioButtonAccept)).isChecked() ? "true" : "false";
 
         lReturnValues.add(lReturnValue);

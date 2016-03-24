@@ -75,7 +75,7 @@ public class TextboxFragment extends AbstractAnswerFragment {
         ArrayList<Condition> lReturnValues = new ArrayList<>();
         Condition lReturnValue = new Condition();
         lReturnValue.pubConditionName = priConditionName;
-        lReturnValue.pubType = "string";
+        lReturnValue.pubType = "String";
         lReturnValue.pubValue = ((EditText) getView().findViewById(R.id.fragment_textbox_Input)).getText().toString();
         lReturnValues.add(lReturnValue);
         return lReturnValues;
