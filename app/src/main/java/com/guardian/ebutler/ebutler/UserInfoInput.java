@@ -111,6 +111,7 @@ public class UserInfoInput extends Activity {
         lResult.setBackgroundResource(iIsButler ? R.drawable.out_message_bg : R.drawable.out_message_bg_opposite);
         lResult.addView(this.createStatementTextView(iStatement));
         this.priLinearLayoutConversation.addView(lResult);
+        this.scrollScrollViewQuestion(View.FOCUS_DOWN);
     }
 
     private LinearLayout.LayoutParams createStatementLayoutParam(boolean iIsButler) {
@@ -144,14 +145,13 @@ public class UserInfoInput extends Activity {
             this.switchTaskbarToLightTheme(false);
             return;
         }
-        this.createConversationStatement(this.priQuestion.pubQuestionString, true);
         if (this.priQuestion.pubUIType == UIType.Textbox || this.priQuestion.pubUIType == UIType.YesNo) {
             getFragmentManager().beginTransaction().add(this.priRelativeLayoutForSimpleAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
         }
         else
             getFragmentManager().beginTransaction().add(this.priLinearLayoutAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
 
-        this.scrollScrollViewQuestion(View.FOCUS_DOWN);
+        this.createConversationStatement(this.priQuestion.pubQuestionString, true);
         this.switchTaskbarToLightTheme(true);
     }
 

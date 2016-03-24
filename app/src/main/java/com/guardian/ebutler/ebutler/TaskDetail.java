@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 import com.guardian.ebutler.ebutler.dataclasses.Priority;
@@ -93,11 +94,17 @@ public class TaskDetail extends Activity {
         priButtonDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseHelper iHelper = new DatabaseHelper(priThis);
+                if (priEditTextTaskName.getText().toString().equals("")) {
+                    Toast toast = Toast.makeText(TaskDetail.this, "Bạn phải nhập tên công việc", Toast.LENGTH_LONG);
+                    toast.show();
+                    return;
+                }
 
+                DatabaseHelper iHelper = new DatabaseHelper(priThis);
                 Task lNewTask = Global.getInstance().pubNewTask;
                 if (lNewTask == null)
                     lNewTask = new Task();
+
                 lNewTask.pubTime = new Date();
                 lNewTask.pubStatus = Status.Pending;
                 if (lNewTask.pubCategory == null || lNewTask.pubCategory.equals(""))
