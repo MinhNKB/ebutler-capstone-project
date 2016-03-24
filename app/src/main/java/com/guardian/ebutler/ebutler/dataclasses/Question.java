@@ -93,6 +93,18 @@ public class Question {
             lResult.add("saturday");
             lResult.add("sunday");
         }
+        else if(pubOptionsType.equals("MaritalStatus"))
+        {
+            lResult.add("single");
+            lResult.add("married");
+        }
+        else if(pubOptionsType.equals("BillTypes"))
+        {
+            lResult.add("phone");
+            lResult.add("cable");
+            lResult.add("electric");
+            lResult.add("water");
+        }
         return lResult;
     }
 }

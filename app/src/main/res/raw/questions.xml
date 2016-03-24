@@ -29,7 +29,7 @@
 			</Question>
 		</Questions>
 	</QuestionGroup>
-	
+
 	<QuestionGroup>
 		<QuestionString>Bạn có thể vui lòng cung cấp thêm cho tôi một vài thông tin cơ bản không</QuestionString>
 		<Questions>
@@ -48,7 +48,7 @@
 				<PropertiesNames>IsMondayWork;IsTuesdayWork;IsWednesdayWork;IsThursdayWork;IsFridayWork;IsSaturdayWork;IsSundayWork</PropertiesNames>
 				<UIType>Checkbox</UIType>
 				<Stage>2</Stage>
-			</Question>		
+			</Question>
 			<Question>
 				<QuestionString>Thường bạn bắt đầu làm việc vào lúc</QuestionString>
 				<Conditions></Conditions>
@@ -63,6 +63,170 @@
 				<OptionsType></OptionsType>
 				<PropertiesNames>EndWork</PropertiesNames>
 				<UIType>Time</UIType>
+				<Stage>2</Stage>
+			</Question>
+		</Questions>
+	</QuestionGroup>
+	<QuestionGroup>
+		<QuestionString>Bạn vui lòng cung cấp một số thông tin về gia đình bạn</QuestionString>
+		<Questions>
+			<Question>
+				<QuestionString>Tình trạng hôn nhân hiện tại của bạn là</QuestionString>
+				<Conditions></Conditions>
+				<OptionsType>MaritalStatus</OptionsType>
+				<PropertiesNames>MaritalStatus</PropertiesNames>
+				<UIType>MultipleChoice</UIType>
+				<Stage>1</Stage>
+			</Question>
+			<Question>
+				<QuestionString>Tên của vợ/chồng bạn là</QuestionString>
+				<Conditions></Conditions>
+				<OptionsType></OptionsType>
+				<PropertiesNames>PartnerName</PropertiesNames>
+				<UIType>Textbox</UIType>
+				<Stage>2</Stage>
+			</Question>
+			<Question>
+				<QuestionString>Ngày cưới của bạn là ngày</QuestionString>
+				<Conditions></Conditions>
+				<OptionsType></OptionsType>
+				<PropertiesNames>MarriedDay</PropertiesNames>
+				<UIType>Date</UIType>
+				<Stage>2</Stage>
+			</Question>
+			<Question>
+				<QuestionString>Ngày sinh của vợ/chồng bạn là</QuestionString>
+				<Conditions></Conditions>
+				<OptionsType></OptionsType>
+				<PropertiesNames>PartnerDoB</PropertiesNames>
+				<UIType>Date</UIType>
+				<Stage>2</Stage>
+			</Question>
+			<Question>
+				<QuestionString>Bạn đã có người yêu chưa</QuestionString>
+				<Conditions></Conditions>
+				<OptionsType></OptionsType>
+				<PropertiesNames>HaveLover</PropertiesNames>
+				<UIType>YesNo</UIType>
+				<Stage>2</Stage>
+			</Question>
+			<Question>
+				<QuestionString>Tên người yêu của bạn là</QuestionString>
+				<Conditions></Conditions>
+				<OptionsType></OptionsType>
+				<PropertiesNames>LoverName</PropertiesNames>
+				<UIType>Textbox</UIType>
+				<Stage>3</Stage>
+			</Question>
+			<Question>
+				<QuestionString>Ngày kỉ niệm quen nhau là ngày</QuestionString>
+				<Conditions></Conditions>
+				<OptionsType></OptionsType>
+				<PropertiesNames>MeetLoverDay</PropertiesNames>
+				<UIType>Date</UIType>
+				<Stage>3</Stage>
+			</Question>
+		</Questions>
+	</QuestionGroup>
+	<QuestionGroup>
+		<QuestionString>Bạn vui lòng cung cấp thêm thông tin về trẻ nhỏ trong gia đình</QuestionString>
+		<Questions>
+			<Question>
+				<QuestionString>Ở nhà bạn có trẻ nhỏ hay không</QuestionString>
+				<Conditions></Conditions>
+				<OptionsType></OptionsType>
+				<PropertiesNames>HaveChildren</PropertiesNames>
+				<UIType>YesNo</UIType>
+				<Stage>1</Stage>
+			</Question>
+		</Questions>
+	</QuestionGroup>
+	<QuestionGroup>
+		<QuestionString>Bạn vui lòng cung cấp thêm thông tin về ba mẹ bạn</QuestionString>
+		<Questions>
+			<Question>
+				<QuestionString>Tên của ba bạn là</QuestionString>
+				<Conditions></Conditions>
+				<OptionsType></OptionsType>
+				<PropertiesNames>FatherName</PropertiesNames>
+				<UIType>Textbox</UIType>
+				<Stage>1</Stage>
+			</Question>
+			<Question>
+				<QuestionString>Ngày sinh của ba bạn là</QuestionString>
+				<Conditions></Conditions>
+				<OptionsType></OptionsType>
+				<PropertiesNames>FatherDoB</PropertiesNames>
+				<UIType>Date</UIType>
+				<Stage>1</Stage>
+			</Question>
+			<Question>
+				<QuestionString>Tên của mẹ bạn là</QuestionString>
+				<Conditions></Conditions>
+				<OptionsType></OptionsType>
+				<PropertiesNames>MotherName</PropertiesNames>
+				<UIType>Textbox</UIType>
+				<Stage>1</Stage>
+			</Question>
+			<Question>
+				<QuestionString>Ngày sinh của mẹ bạn là</QuestionString>
+				<Conditions></Conditions>
+				<OptionsType></OptionsType>
+				<PropertiesNames>MotherDoB</PropertiesNames>
+				<UIType>Date</UIType>
+				<Stage>1</Stage>
+			</Question>
+		</Questions>
+	</QuestionGroup>
+	<QuestionGroup>
+		<QuestionString>Bạn vui lòng cung cấp thêm thông tin về thu nhập và chi tiêu hàng tháng</QuestionString>
+		<Questions>
+			<Question>
+				<QuestionString>Thu nhập hàng tháng của gia đình bạn vào khoảng</QuestionString>
+				<Conditions></Conditions>
+				<OptionsType></OptionsType>
+				<PropertiesNames>Income</PropertiesNames>
+				<UIType>Textbox</UIType>
+				<Stage>1</Stage>
+			</Question>
+			<Question>
+				<QuestionString>Những chi phí bạn phải chi trả hàng tháng là</QuestionString>
+				<Conditions></Conditions>
+				<OptionsType>BillTypes</OptionsType>
+				<PropertiesNames>PhoneBill;CableBill;ElectricityBill;WaterBill</PropertiesNames>
+				<UIType>Checkbox</UIType>
+				<Stage>1</Stage>
+			</Question>
+			<Question>
+				<QuestionString>Ngày bạn thường trả tiền điện thoại hằng tháng là</QuestionString>
+				<Conditions></Conditions>
+				<OptionsType></OptionsType>
+				<PropertiesNames>PhoneDate</PropertiesNames>
+				<UIType>Date</UIType>
+				<Stage>2</Stage>
+			</Question>
+			<Question>
+				<QuestionString>Ngày bạn thường trả tiền cáp TV hằng tháng là</QuestionString>
+				<Conditions></Conditions>
+				<OptionsType></OptionsType>
+				<PropertiesNames>CableDate</PropertiesNames>
+				<UIType>Date</UIType>
+				<Stage>2</Stage>
+			</Question>
+			<Question>
+				<QuestionString>Ngày bạn thường trả tiền điện hằng tháng là</QuestionString>
+				<Conditions></Conditions>
+				<OptionsType></OptionsType>
+				<PropertiesNames>ElectricityDate</PropertiesNames>
+				<UIType>Date</UIType>
+				<Stage>2</Stage>
+			</Question>
+			<Question>
+				<QuestionString>Ngày bạn thường trả tiền nước hằng tháng là</QuestionString>
+				<Conditions></Conditions>
+				<OptionsType></OptionsType>
+				<PropertiesNames>WaterDate</PropertiesNames>
+				<UIType>Date</UIType>
 				<Stage>2</Stage>
 			</Question>
 		</Questions>
