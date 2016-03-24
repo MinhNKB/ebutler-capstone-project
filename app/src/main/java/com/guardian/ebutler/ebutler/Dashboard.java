@@ -195,7 +195,6 @@ public class Dashboard extends Activity {
     }
 
     public void buttonAdd_onClick(View view) {
-        Global.getInstance().pubNewTask = new Task();
         Intent intent = new Intent(this, CategoryList.class);
         startActivity(intent);
     }

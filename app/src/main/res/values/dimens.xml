@@ -18,6 +18,6 @@
     <dimen name="topbar_height">42dp</dimen>
 
     <dimen name="conversation_statement_maxWidth">240dp</dimen>
-    <dimen name="answer_maxHeight">320dp</dimen>
+    <dimen name="answer_maxHeight">100dp</dimen>
     <dimen name="choose_location_LabelSize">18sp</dimen>
 </resources>

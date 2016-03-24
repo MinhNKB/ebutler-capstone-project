@@ -69,7 +69,7 @@ public class MultipleChoiceFragment extends AbstractAnswerFragment {
     }
 
     @Override
-    public String getChatStatement() {
+    public String getChatStatement() throws Exception {
         String lReturnValue = "";
         for (String lOptionName :
                 priOptionNameList) {
@@ -78,6 +78,8 @@ public class MultipleChoiceFragment extends AbstractAnswerFragment {
                 break;
             }
         }
+        if (lReturnValue.equals(""))
+            throw new Exception(this.proView.getResources().getString(R.string.multipleChoice_fragment_null_option_false));
         return lReturnValue;
     }
 

@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.guardian.ebutler.ebutler.custom.CustomListAdapter;
 import com.guardian.ebutler.ebutler.custom.CustomListItem;
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
+import com.guardian.ebutler.ebutler.dataclasses.Task;
 import com.guardian.ebutler.world.Global;
 
 import java.util.ArrayList;
@@ -67,6 +68,7 @@ public class CategoryList extends Activity {
         this.priListViewCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Global.getInstance().pubNewTask = new Task();
                 Global.getInstance().pubNewTask.pubCategory = priCategoryList.get(position);
                 startActivity(lIntent);
             }

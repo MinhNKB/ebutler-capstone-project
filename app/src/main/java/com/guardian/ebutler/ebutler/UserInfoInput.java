@@ -37,6 +37,8 @@ public class UserInfoInput extends Activity {
     private AnswerFragmentInterface priAnwserFragmentInterface;
     private ImageButton priButtonDecline;
     private ImageButton priButtonOk;
+    private ImageButton priButtonDashboard;
+    private ImageButton priButtonAdd;
     private ScrollView priScrollViewAnswer;
     private LinearLayout priLinearLayoutAnswer;
     private RelativeLayout priRelativeLayoutForSimpleAnswer;
@@ -60,6 +62,8 @@ public class UserInfoInput extends Activity {
         this.priRelativeLayoutTaskbar = (RelativeLayout) findViewById(R.id.user_info_input_taskbar);
         this.priButtonDecline = (ImageButton) findViewById(R.id.user_info_input_buttonDecline);
         this.priButtonOk = (ImageButton) findViewById(R.id.user_info_input_buttonOk);
+        this.priButtonDashboard = (ImageButton) findViewById(R.id.user_info_input_buttonDashboard);
+        this.priButtonAdd = (ImageButton) findViewById(R.id.user_info_input_buttonAdd);
         this.priScrollViewAnswer = (ScrollView) findViewById(R.id.user_info_input_customScrollViewAnswer);
         this.priLinearLayoutAnswer = (LinearLayout) findViewById(R.id.user_info_input_linearLayoutAnswer);
         this.priRelativeLayoutForSimpleAnswer = (RelativeLayout) findViewById(R.id.user_info_input_relativeLayoutForSimpleAnswer);
@@ -69,7 +73,7 @@ public class UserInfoInput extends Activity {
         try{
             this.createConversationStatement(this.priAnwserFragmentInterface.getChatStatement(), false);
             this.clearQuestion();
-        this.priScriptManager.AnwserQuestion(this.priAnwserFragmentInterface.getValues());
+            this.priScriptManager.AnwserQuestion(this.priAnwserFragmentInterface.getValues());
             this.showQuestion();
         }
         catch (Exception ex){
@@ -129,13 +133,15 @@ public class UserInfoInput extends Activity {
     {
         this.priQuestion = this.priScriptManager.GetAQuestion();
         if (this.priQuestion == null) {
-            this.createConversationStatement(getResources().getString(R.string.user_info_input_greetings), true);
+            this.showFinishMessage();
+            this.switchTaskbarToLightTheme(false);
             return;
         }
 
         this.priAnwserFragmentInterface = this.getQuestionFragment(this.priQuestion);
         if (this.priAnwserFragmentInterface == null) {
-            this.createConversationStatement(getResources().getString(R.string.user_info_input_greetings), true);
+            this.showFinishMessage();
+            this.switchTaskbarToLightTheme(false);
             return;
         }
         this.createConversationStatement(this.priQuestion.pubQuestionString, true);
@@ -147,6 +153,10 @@ public class UserInfoInput extends Activity {
 
         this.scrollScrollViewQuestion(View.FOCUS_DOWN);
         this.switchTaskbarToLightTheme(true);
+    }
+
+    private void showFinishMessage(){
+        this.createConversationStatement(getResources().getString(R.string.user_info_input_greetings), true);
     }
 
     private AnswerFragmentInterface getQuestionFragment(Question iQuestion) {
@@ -171,33 +181,45 @@ public class UserInfoInput extends Activity {
     }
 
     private void switchTaskbarToLightTheme(boolean iIsLightTheme) {
-        if (iIsLightTheme == true) {
-            this.priRelativeLayoutTaskbar.setBackgroundColor(getResources().getColor(R.color.background));
-            this.priButtonOk.setBackground(getResources().getDrawable(R.drawable.white_button));
-            this.priButtonDecline.setBackground(getResources().getDrawable(R.drawable.white_button));
-            this.priButtonOk.setImageResource(R.mipmap.ic_done_blue);
-            this.priButtonDecline.setImageResource(R.mipmap.ic_clear_blue);
-        }
-        else {
-            this.priRelativeLayoutTaskbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-            this.priButtonOk.setBackground(getResources().getDrawable(R.drawable.blue_button));
-            this.priButtonDecline.setBackground(getResources().getDrawable(R.drawable.blue_button));
-            this.priButtonOk.setImageResource(R.mipmap.ic_done);
-            this.priButtonDecline.setImageResource(R.mipmap.ic_clear);
-        }
+        this.changeButtonSet(iIsLightTheme);
+        this.priRelativeLayoutTaskbar.setBackgroundColor(iIsLightTheme == true ?
+                getResources().getColor(R.color.background) : getResources().getColor(R.color.colorPrimary));
+    }
 
+    private void changeButtonSet(boolean iIsLightTheme){
+        this.changeButtonSetVisibility(iIsLightTheme);
+        this.changeButtonSetGraphics(iIsLightTheme);
+    }
+
+    private void changeButtonSetGraphics(boolean iIsLightTheme) {
+        this.priButtonOk.setBackground(iIsLightTheme == true ?
+                getResources().getDrawable(R.drawable.white_button) : getResources().getDrawable(R.drawable.blue_button));
+        this.priButtonDecline.setBackground(iIsLightTheme == true ?
+                getResources().getDrawable(R.drawable.white_button) : getResources().getDrawable(R.drawable.blue_button));
+        this.priButtonOk.setImageResource(iIsLightTheme == true ?
+                R.mipmap.ic_done_blue : R.mipmap.ic_done);
+        this.priButtonDecline.setImageResource(iIsLightTheme == true ?
+                R.mipmap.ic_clear_blue : R.mipmap.ic_clear);
+    }
+
+    private void changeButtonSetVisibility(boolean iIsLightTheme) {
+        this.priButtonOk.setVisibility(iIsLightTheme == true ? View.VISIBLE: View.GONE);
+        this.priButtonDecline.setVisibility(iIsLightTheme == true ? View.VISIBLE: View.GONE);
+        this.priButtonDashboard.setVisibility(iIsLightTheme == true ? View.GONE: View.VISIBLE);
+        this.priButtonAdd.setVisibility(iIsLightTheme == true ? View.GONE: View.VISIBLE);
     }
 
     public void buttonClear_onClick(View view){
+        this.priScriptManager.AnwserQuestion(this.priAnwserFragmentInterface == null ?
+                null : this.priAnwserFragmentInterface.getValues());
+        this.clearQuestion();
+        this.showFinishMessage();
         this.switchTaskbarToLightTheme(false);
-        Intent intent = new Intent(this, Dashboard.class);
-        startActivity(intent);
     }
 
     private void clearQuestion() {
         this.priRelativeLayoutForSimpleAnswer.removeAllViews();
         this.priLinearLayoutAnswer.removeAllViews();
-        this.switchTaskbarToLightTheme(false);
     }
 
     public static void showSoftKeyboard(Activity iActivity, int iType) {
@@ -219,5 +241,15 @@ public class UserInfoInput extends Activity {
                 setupUI(innerView);
             }
         }
+    }
+
+    public void buttonAdd_onClick(View view) {
+        Intent intent = new Intent(this, CategoryList.class);
+        startActivity(intent);
+    }
+
+    public void buttonMenu_onClick(View view) {
+        Intent intent = new Intent(this, Dashboard.class);
+        startActivity(intent);
     }
 }
