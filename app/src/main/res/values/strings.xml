@@ -72,6 +72,7 @@
     <string name="checkbox_fragment_null_string_true">Không chọn</string>
     <string name="textbox_fragment_null_string_false">Bạn không được để trống</string>
     <string name="timespan_fragment_wrong_format_false">Thời gian kết thúc phải lớn hơn bắt đầu</string>
+    <string name="multipleChoice_fragment_null_option_false">Bạn chưa chọn</string>
 
     <string name="choose_time_ButlerChatStatment">Tôi sẽ nhắc bạn thực hiện công việc này lúc:</string>
     <string name="choose_time_DateLabel">Ngày:</string>

@@ -19,7 +19,11 @@
         android:layout_gravity="center"
         android:id="@+id/user_info_input_ButlerImage"
         />
-
+    <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="0px"
+        android:layout_height="0px"/>
     <ScrollView
         android:id="@+id/user_info_input_scrollViewConversation"
         android:layout_width="match_parent"
@@ -55,6 +59,21 @@
             android:adjustViewBounds="true"
             android:onClick="buttonClear_onClick"
             />
+        <ImageButton
+            android:visibility="gone"
+            android:layout_width="@dimen/taskbar_iconSize"
+            android:layout_height="match_parent"
+            android:background="@drawable/blue_button"
+            android:src="@mipmap/ic_menu"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/user_info_input_buttonDashboard"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:onClick="buttonMenu_onClick"
+            />
+
         <RelativeLayout
             android:id="@+id/user_info_input_relativeLayoutForSimpleAnswer"
             android:layout_marginTop="@dimen/layout_padding_half"
@@ -77,6 +96,21 @@
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             android:onClick="buttonOk_onClick"
+            />
+
+        <ImageButton
+            android:visibility="gone"
+            android:layout_width="@dimen/taskbar_iconSize"
+            android:layout_height="match_parent"
+            android:background="@drawable/blue_button"
+            android:src="@mipmap/ic_add"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/user_info_input_buttonAdd"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:onClick="buttonAdd_onClick"
             />
     </RelativeLayout>
     <com.guardian.ebutler.ebutler.custom.CustomScrollView
