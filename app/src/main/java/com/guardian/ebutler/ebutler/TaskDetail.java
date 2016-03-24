@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import com.guardian.ebutler.ebutler.dataclasses.Task;
 import com.guardian.ebutler.screenhelper.FullscreenHelper;
 import com.guardian.ebutler.world.Global;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TaskDetail extends Activity {
@@ -96,14 +99,16 @@ public class TaskDetail extends Activity {
                 DatabaseHelper iHelper = new DatabaseHelper(priThis);
 
                 Task lNewTask = Global.getInstance().pubNewTask;
-                if (lNewTask == null)
+                if (lNewTask == null) {
                     lNewTask = new Task();
-                lNewTask.pubTime = new Date();
+                    Global.getInstance().pubNewTask = lNewTask;
+                }
+                lNewTask.pubTime = priThis.getTimeFromDateTextbox();
                 lNewTask.pubStatus = Status.Pending;
                 if (lNewTask.pubCategory == null || lNewTask.pubCategory.equals(""))
                     lNewTask.pubCategory = "Khác";
                 lNewTask.pubPriority = Priority.Important;
-                    iHelper.InsertATask(Global.getInstance().pubNewTask);
+                iHelper.InsertATask(Global.getInstance().pubNewTask);
                 Global.getInstance().pubNewTask = null;
 
                 Intent intent = new Intent(context, Dashboard.class);
@@ -119,6 +124,21 @@ public class TaskDetail extends Activity {
                 startActivity(intent);
             }
         });
+    }
+
+    private Date getTimeFromDateTextbox() {
+        SimpleDateFormat lDateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+        Date lDate = null;
+        try {
+            lDate = lDateFormat.parse(priEditTextDate.getText() + " " + priEditTextTime.getText());
+        } catch (ParseException e) {
+            lDate = null;
+        } finally {
+            if (lDate == null) {
+                lDate = new Date();
+            }
+        }
+        return lDate;
     }
 
     @Override

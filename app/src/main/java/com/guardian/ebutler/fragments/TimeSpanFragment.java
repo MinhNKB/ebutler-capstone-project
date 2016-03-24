@@ -91,13 +91,13 @@ public class TimeSpanFragment extends AbstractAnswerFragment {
         ArrayList<Condition> lReturnValues = new ArrayList<>();
         Condition lReturnValue = new Condition();
         lReturnValue.pubConditionName = priConditionNameList.get(0);
-        lReturnValue.pubType = "time";
+        lReturnValue.pubType = "Time";
         lReturnValue.pubValue = ((Spinner)getView().findViewById(R.id.fragment_time_span_SpinnerStart)).getSelectedItem().toString();
         lReturnValues.add(lReturnValue);
 
         lReturnValue = new Condition();
         lReturnValue.pubConditionName = priConditionNameList.get(1);
-        lReturnValue.pubType = "time";
+        lReturnValue.pubType = "Time";
         lReturnValue.pubValue = ((Spinner)getView().findViewById(R.id.fragment_time_span_SpinnerEnd)).getSelectedItem().toString();
         lReturnValues.add(lReturnValue);
         return lReturnValues;

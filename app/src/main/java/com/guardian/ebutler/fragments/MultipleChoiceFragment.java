@@ -99,7 +99,7 @@ public class MultipleChoiceFragment extends AbstractAnswerFragment {
         ArrayList<Condition> lReturnValues = new ArrayList<>();
         Condition lReturnValue = new Condition();
         lReturnValue.pubConditionName = priConditionName;
-        lReturnValue.pubType = "enum";
+        lReturnValue.pubType = "String";
         int index = 0;
         for (String lOptionName :
                 priOptionNameList) {

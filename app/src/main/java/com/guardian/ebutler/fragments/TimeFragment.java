@@ -85,7 +85,7 @@ public class TimeFragment extends AbstractAnswerFragment {
         ArrayList<Condition> lReturnValues = new ArrayList<>();
         Condition lReturnValue = new Condition();
         lReturnValue.pubConditionName = priConditionName;
-        lReturnValue.pubType = "time";
+        lReturnValue.pubType = "Time";
         TimePicker lTimePicker = (TimePicker)(getView().findViewById(R.id.fragment_time_TimePicker));
         lTimePicker.clearFocus();
         String result = "";
