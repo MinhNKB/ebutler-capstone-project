@@ -12,7 +12,8 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
         <activity android:name=".Dashboard" />
-        <activity android:name=".CategoryList" />
+        <activity android:name=".CategoryList">
+        </activity>
         <activity android:name=".TaskList"/>
         <activity android:name=".ChooseTime" />
         <activity android:name=".wizard.UserWizard" />

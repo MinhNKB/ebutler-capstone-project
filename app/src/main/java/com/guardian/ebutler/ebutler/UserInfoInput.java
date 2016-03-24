@@ -11,6 +11,7 @@ import android.util.Log;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -205,8 +206,8 @@ public class UserInfoInput extends Activity {
     private void changeButtonSetVisibility(boolean iIsLightTheme) {
         this.priButtonOk.setVisibility(iIsLightTheme == true ? View.VISIBLE: View.GONE);
         this.priButtonDecline.setVisibility(iIsLightTheme == true ? View.VISIBLE: View.GONE);
-        this.priButtonDashboard.setVisibility(iIsLightTheme == true ? View.GONE: View.VISIBLE);
-        this.priButtonAdd.setVisibility(iIsLightTheme == true ? View.GONE: View.VISIBLE);
+        this.priButtonDashboard.setVisibility(iIsLightTheme == true ? View.GONE : View.VISIBLE);
+        this.priButtonAdd.setVisibility(iIsLightTheme == true ? View.GONE : View.VISIBLE);
     }
 
     public void buttonClear_onClick(View view){
