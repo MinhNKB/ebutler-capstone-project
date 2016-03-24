@@ -157,7 +157,7 @@ public class Dashboard extends Activity {
 //                lLocationName += lLocation.pubName;
 //            }
             lCustomListItem = new CustomListItem(
-                    lTask.pubName, lTask.pubTime.toString(), "Cong Ti", Global.getInstance().getCategoryColor(this, lTask.pubCategory));
+                    lTask.pubName, lTask.pubTime.toString(), lTask.pubPriority.toString(), Global.getInstance().getCategoryColor(this, lTask.pubCategory));
             lResult.add(lCustomListItem);
         }
         return lResult;
