@@ -9,7 +9,10 @@ import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -79,6 +82,37 @@ public class ScriptManager {
     private QuestionGroup GetASuitableQuestionGroup() {
         if(priQuestionGroups==null)
             return null;
+
+//        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+//        Date date = new Date();
+//        DatabaseHelper lDBHelper = new DatabaseHelper(null);
+//        Condition lLastDateAsked = lDBHelper.GetUserInformation("LastDateAsked");
+//        boolean lIsAsked = false;
+//        if(lLastDateAsked==null)
+//        {
+//            List<Condition> lTemp = new ArrayList<Condition>();
+//            lLastDateAsked = new Condition();
+//            lLastDateAsked.pubConditionName = "LastDateAsked";
+//            lLastDateAsked.pubValue = dateFormat.format(date);
+//            lLastDateAsked.pubType = "Date";
+//            lTemp.add(lLastDateAsked);
+//            lDBHelper.InsertUserInformations(lTemp);
+//        }
+//        {
+//            if(lLastDateAsked.pubValue.equals(dateFormat.format(date)))
+//            {
+//                lIsAsked = true;
+//            }
+//            else
+//            {
+//                lLastDateAsked.pubValue = dateFormat.format(date);
+//                lDBHelper.UpdateUserInformations(lLastDateAsked);
+//            }
+//        }
+//
+//        if(lIsAsked==true)
+//            return null;
+
         for(int i=0;i<priQuestionGroups.size();i++)
         {
             if(priQuestionGroups.get(i).CheckValid())
@@ -105,8 +139,11 @@ public class ScriptManager {
     public void AnwserQuestion(List<Condition> iNewInformation)
     {
         DatabaseHelper lHelper = DatabaseHelper.getInstance(null);
-        lHelper.InsertUserInformations(iNewInformation);
+        if(iNewInformation!=null) {
+            lHelper.InsertUserInformations(iNewInformation);
+        }
         priCurrentQuestion.pubIsAsked = true;
+        lHelper.UpdateAQuestion(priCurrentQuestion);
     }
 
 

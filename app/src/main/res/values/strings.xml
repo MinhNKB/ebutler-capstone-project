@@ -89,4 +89,12 @@
     <string name="enum_value_friday">Thứ sáu</string>
     <string name="enum_value_saturday">Thứ bảy</string>
     <string name="enum_value_sunday">Chủ nhật</string>
+
+    <string name="enum_value_single">Độc thân</string>
+    <string name="enum_value_married">Đã kết hôn</string>
+
+    <string name="enum_value_phone">Điện thoại</string>
+    <string name="enum_value_cable">Cáp TV</string>
+    <string name="enum_value_electric">Điện</string>
+    <string name="enum_value_water">Nước</string>
 </resources>

@@ -271,10 +271,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues lValues = new ContentValues();
         lValues.put("QuestionString",iQuestionGroup.pubQuestionString);
         lDB.insert("QuestionGroup", null, lValues);
+        Cursor lCursor = lDB.query("QuestionGroup", new String[]{"Id"}, null, null, null, null, "Id DESC");
+        lCursor.moveToFirst();
+        int lIdIndex = lCursor.getColumnIndex("Id");
+        int lLastID = lCursor.getInt(lIdIndex);
         lDB.close();
         for(int i=0;i<iQuestionGroup.pubQuestions.size();i++)
         {
-            InsertAQuestion(iQuestionGroup.pubQuestions.get(i),1);
+            InsertAQuestion(iQuestionGroup.pubQuestions.get(i),lLastID);
         }
     }
 
@@ -283,14 +287,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase lDB = this.getWritableDatabase();
         ContentValues lValues = new ContentValues();
         lValues.put("QuestionString",iQuestion.pubQuestionString);
-        lValues.put("Condition",iQuestion.pubConditions);
+        lValues.put("Condition", iQuestion.pubConditions);
         lValues.put("OptionTypes",iQuestion.pubOptionsType);
         lValues.put("PropertiesNames",MergePropertiesNames(iQuestion.pubInformationPropertiesNames));
         lValues.put("UIType",iQuestion.pubUIType.toString());
         lValues.put("IsAsked",iQuestion.pubIsAsked);
         lValues.put("Stage",iQuestion.pubStage);
-        lValues.put("QuestionGroup_Id",iQuestionGroupId);
+        lValues.put("QuestionGroup_Id", iQuestionGroupId);
         lDB.insert("Question", null, lValues);
+        lDB.close();
+    }
+
+    public void UpdateAQuestion(Question iQuestion)
+    {
+        ContentValues lValues = new ContentValues();
+        lValues.put("QuestionString",iQuestion.pubQuestionString);
+        lValues.put("Condition", iQuestion.pubConditions);
+        lValues.put("OptionTypes",iQuestion.pubOptionsType);
+        lValues.put("PropertiesNames",MergePropertiesNames(iQuestion.pubInformationPropertiesNames));
+        lValues.put("UIType",iQuestion.pubUIType.toString());
+        lValues.put("IsAsked",iQuestion.pubIsAsked);
+        lValues.put("Stage",iQuestion.pubStage);
+        SQLiteDatabase lDB = this.getWritableDatabase();
+        lDB.update("Question",lValues,"Id=?",new String[]{String.valueOf(iQuestion.pubId)});
         lDB.close();
     }
 
@@ -307,8 +326,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Condition GetUserInformation(String iPropertyName) {
         String[] columns = new String[] {"PropertyName","Value","Type"};
         Cursor lCursor = this.getWritableDatabase().query("UserInformation", columns, "PropertyName=?", new String[]{iPropertyName}, null, null, null);
-        /*if(c==null)
-            Log.v("Cursor", "C is NULL");*/
+        if(lCursor==null)
+            return null;
 
         //getColumnIndex(COLUMN_ID); là lấy chỉ số, vị trí của cột COLUMN_ID ...
         int lPropertyNameIndex = lCursor.getColumnIndex("PropertyName");
@@ -335,6 +354,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 lValues.put("PropertyName", lInformation.pubConditionName);
                 lValues.put("Value", lInformation.pubValue);
                 lValues.put("Type", lInformation.pubType);
+                lDB.insert("UserInformation", null, lValues);
             }
             lDB.close();
         }
@@ -344,5 +364,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         }
     }
+
+    public void UpdateUserInformations(Condition iInformation)
+    {
+        ContentValues lValues = new ContentValues();
+        lValues.put("PropertyName", iInformation.pubConditionName);
+        lValues.put("Value", iInformation.pubValue);
+        lValues.put("Type", iInformation.pubType);
+        SQLiteDatabase lDB = this.getWritableDatabase();
+        lDB.update("UserInformation",lValues,"PropertyName=?",new String[]{iInformation.pubConditionName});
+        lDB.close();
+    }
     //endregion
+
 }
