@@ -43,7 +43,7 @@
 			</Question>
 			<Question>
 				<QuestionString>Những ngày bạn làm việc trong tuần là</QuestionString>
-				<Conditions></Conditions>
+				<Conditions>Job!=null</Conditions>
 				<OptionsType>Weekdays</OptionsType>
 				<PropertiesNames>IsMondayWork;IsTuesdayWork;IsWednesdayWork;IsThursdayWork;IsFridayWork;IsSaturdayWork;IsSundayWork</PropertiesNames>
 				<UIType>Checkbox</UIType>
@@ -51,7 +51,7 @@
 			</Question>
 			<Question>
 				<QuestionString>Thường bạn bắt đầu làm việc vào lúc</QuestionString>
-				<Conditions></Conditions>
+				<Conditions>Job!=null</Conditions>
 				<OptionsType></OptionsType>
 				<PropertiesNames>StartWork</PropertiesNames>
 				<UIType>Time</UIType>
@@ -59,7 +59,7 @@
 			</Question>
 			<Question>
 				<QuestionString>Bạn kết thúc việc vào lúc</QuestionString>
-				<Conditions></Conditions>
+				<Conditions>Job!=null</Conditions>
 				<OptionsType></OptionsType>
 				<PropertiesNames>EndWork</PropertiesNames>
 				<UIType>Time</UIType>
@@ -80,7 +80,7 @@
 			</Question>
 			<Question>
 				<QuestionString>Tên của vợ/chồng bạn là</QuestionString>
-				<Conditions></Conditions>
+				<Conditions>MaritalStatus!=single</Conditions>
 				<OptionsType></OptionsType>
 				<PropertiesNames>PartnerName</PropertiesNames>
 				<UIType>Textbox</UIType>
@@ -88,7 +88,7 @@
 			</Question>
 			<Question>
 				<QuestionString>Ngày cưới của bạn là ngày</QuestionString>
-				<Conditions></Conditions>
+				<Conditions>MaritalStatus!=single</Conditions>
 				<OptionsType></OptionsType>
 				<PropertiesNames>MarriedDay</PropertiesNames>
 				<UIType>Date</UIType>
@@ -96,7 +96,7 @@
 			</Question>
 			<Question>
 				<QuestionString>Ngày sinh của vợ/chồng bạn là</QuestionString>
-				<Conditions></Conditions>
+				<Conditions>MaritalStatus!=single</Conditions>
 				<OptionsType></OptionsType>
 				<PropertiesNames>PartnerDoB</PropertiesNames>
 				<UIType>Date</UIType>
@@ -104,7 +104,7 @@
 			</Question>
 			<Question>
 				<QuestionString>Bạn đã có người yêu chưa</QuestionString>
-				<Conditions></Conditions>
+				<Conditions>MaritalStatus!=married</Conditions>
 				<OptionsType></OptionsType>
 				<PropertiesNames>HaveLover</PropertiesNames>
 				<UIType>YesNo</UIType>
@@ -112,7 +112,7 @@
 			</Question>
 			<Question>
 				<QuestionString>Tên người yêu của bạn là</QuestionString>
-				<Conditions></Conditions>
+				<Conditions>HaveLover==true</Conditions>
 				<OptionsType></OptionsType>
 				<PropertiesNames>LoverName</PropertiesNames>
 				<UIType>Textbox</UIType>
@@ -120,7 +120,7 @@
 			</Question>
 			<Question>
 				<QuestionString>Ngày kỉ niệm quen nhau là ngày</QuestionString>
-				<Conditions></Conditions>
+				<Conditions>HaveLover==true</Conditions>
 				<OptionsType></OptionsType>
 				<PropertiesNames>MeetLoverDay</PropertiesNames>
 				<UIType>Date</UIType>
@@ -199,7 +199,7 @@
 			</Question>
 			<Question>
 				<QuestionString>Ngày bạn thường trả tiền điện thoại hằng tháng là</QuestionString>
-				<Conditions></Conditions>
+				<Conditions>PhoneBill==true</Conditions>
 				<OptionsType></OptionsType>
 				<PropertiesNames>PhoneDate</PropertiesNames>
 				<UIType>Date</UIType>
@@ -207,7 +207,7 @@
 			</Question>
 			<Question>
 				<QuestionString>Ngày bạn thường trả tiền cáp TV hằng tháng là</QuestionString>
-				<Conditions></Conditions>
+				<Conditions>CableBill==true</Conditions>
 				<OptionsType></OptionsType>
 				<PropertiesNames>CableDate</PropertiesNames>
 				<UIType>Date</UIType>
@@ -215,7 +215,7 @@
 			</Question>
 			<Question>
 				<QuestionString>Ngày bạn thường trả tiền điện hằng tháng là</QuestionString>
-				<Conditions></Conditions>
+				<Conditions>ElectricityBill==true</Conditions>
 				<OptionsType></OptionsType>
 				<PropertiesNames>ElectricityDate</PropertiesNames>
 				<UIType>Date</UIType>
@@ -223,7 +223,7 @@
 			</Question>
 			<Question>
 				<QuestionString>Ngày bạn thường trả tiền nước hằng tháng là</QuestionString>
-				<Conditions></Conditions>
+				<Conditions>WaterBill==true</Conditions>
 				<OptionsType></OptionsType>
 				<PropertiesNames>WaterDate</PropertiesNames>
 				<UIType>Date</UIType>

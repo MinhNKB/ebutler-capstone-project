@@ -127,10 +127,18 @@ public class ScriptManager {
             return null;
         for(int i=0;i<priCurrentQuestionGroup.pubQuestions.size();i++)
         {
-            if(priCurrentQuestionGroup.pubQuestions.get(i).CheckValid() && priCurrentQuestionGroup.pubQuestions.get(i).pubIsAsked==false )
+            if(priCurrentQuestionGroup.pubQuestions.get(i).CheckValid())
             {
-                priCurrentQuestion = priCurrentQuestionGroup.pubQuestions.get(i);
-                return priCurrentQuestion;
+                if(priCurrentQuestionGroup.pubQuestions.get(i).pubIsAsked==false) {
+                    priCurrentQuestion = priCurrentQuestionGroup.pubQuestions.get(i);
+                    return priCurrentQuestion;
+                }
+            }
+            else
+            {
+                DatabaseHelper lHelper = DatabaseHelper.getInstance(null);
+                priCurrentQuestionGroup.pubQuestions.get(i).pubIsAsked = true;
+                lHelper.UpdateAQuestion(priCurrentQuestionGroup.pubQuestions.get(i));
             }
         }
         return null;
