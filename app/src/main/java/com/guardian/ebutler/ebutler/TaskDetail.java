@@ -40,11 +40,16 @@ public class TaskDetail extends Activity {
         FullscreenHelper.setFullScreen(this);
         setContentView(R.layout.activity_task_detail);
 
-        this.findViewsByIds();
+        findViewsByIds();
         priEditTextTaskName.setText(Global.getInstance().pubNewTask.pubName);
-        this.priThis = this;
+        buildTaskFragment();
+        priThis = this;
         bindNavigationLocation();
         setupUI(findViewById(R.id.task_detail_parent));
+
+    }
+
+    private void buildTaskFragment() {
 
     }
 

@@ -98,4 +98,6 @@
     <string name="enum_value_cable">Cáp TV</string>
     <string name="enum_value_electric">Điện</string>
     <string name="enum_value_water">Nước</string>
+
+    <string name="fragment_note_HintNote">Nội dung ghi chú</string>
 </resources>
