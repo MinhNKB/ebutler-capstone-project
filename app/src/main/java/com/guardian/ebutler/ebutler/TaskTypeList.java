@@ -4,14 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -20,57 +19,64 @@ import com.guardian.ebutler.ebutler.custom.CustomListAdapter;
 import com.guardian.ebutler.ebutler.custom.CustomListItem;
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
+import com.guardian.ebutler.ebutler.dataclasses.TaskType;
 import com.guardian.ebutler.world.Global;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class CategoryList extends Activity {
+public class TaskTypeList extends Activity {
 
     private TextView priTextViewButlerSpeech;
     private SearchView priSearchView;
 
-    private ListView priListViewCategory;
-    private List<CustomListItem> priCategoryCustomList;
+    private ListView priListViewTaskType;
+    private List<CustomListItem> priTaskTypeCustomList;
     private CustomListAdapter priCustomListAdapter;
 
     private ImageButton priButtonSearch;
 
-    private List<String> priCategoryList;
+    private TaskType[] priTaskTypeList;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_list);
+        setContentView(R.layout.activity_task_type_list);
 
         this.findViewsByIds();
 
-        DatabaseHelper iHelper = new DatabaseHelper(this);
-        this.priCategoryList = iHelper.GetAllCategories();
-        this.priCategoryCustomList = this.getCategories(this.priCategoryList);
-        this.priCustomListAdapter = new CustomListAdapter(this, this.priCategoryCustomList);
-        this.priListViewCategory.setAdapter(this.priCustomListAdapter);
+        this.priTaskTypeCustomList = this.getTaskTypes();
+        this.priCustomListAdapter = new CustomListAdapter(this, this.priTaskTypeCustomList);
+        this.priListViewTaskType.setAdapter(this.priCustomListAdapter);
+        this.priTaskTypeList = TaskType.values();
 
         this.initListeners();
-        setupUI(findViewById(R.id.category_list_layout));
+        setupUI(findViewById(R.id.task_type_list_layout));
     }
 
     private void initListeners() {
         this.initSearchViewListeners();
-        this.initListViewCategoryListeners();
+        this.initListViewTaskTypeListeners();
     }
 
-    private void initListViewCategoryListeners()
+    private void initListViewTaskTypeListeners()
     {
-        final Intent lIntent = new Intent(this, TaskList.class);
-        this.priListViewCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        this.priListViewTaskType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Global.getInstance().pubNewTask.pubCategory = priCategoryList.get(position);
+                final Intent lIntent;
+                if (Global.getInstance().pubNewTask == null)
+                    Global.getInstance().pubNewTask = new Task();
+                Global.getInstance().pubTaskType = priTaskTypeList[position];
+                if (Global.getInstance().pubTaskType == TaskType.PeriodicReminder)
+                    lIntent = new Intent(TaskTypeList.this, CategoryList.class);
+                else
+                    lIntent = new Intent(TaskTypeList.this, TaskDetail.class);
                 startActivity(lIntent);
-            }
+        }
         });
     }
 
@@ -104,32 +110,41 @@ public class CategoryList extends Activity {
     }
 
     private void findViewsByIds() {
-        this.priTextViewButlerSpeech = (TextView) findViewById(R.id.category_list_textViewButlerSpeech);
-        this.priSearchView = (SearchView) findViewById(R.id.category_list_searchView);
-        this.priListViewCategory = (ListView) findViewById(R.id.category_list_listViewCategory);
-        this.priButtonSearch = (ImageButton) findViewById(R.id.category_list_buttonSearch);
+        this.priTextViewButlerSpeech = (TextView) findViewById(R.id.task_type_list_textViewButlerSpeech);
+        this.priSearchView = (SearchView) findViewById(R.id.task_type_list_searchView);
+        this.priListViewTaskType = (ListView) findViewById(R.id.task_type_list_listViewTaskType);
+        this.priButtonSearch = (ImageButton) findViewById(R.id.task_type_list_buttonSearch);
     }
 
-    public List<CustomListItem> getCategories(List<String> iCategoryList) {
+    public List<CustomListItem> getTaskTypes() {
         List<CustomListItem> result = new ArrayList<CustomListItem>();
         CustomListItem lCustomListItem;
 
-        for (String lCategory: iCategoryList
-             ) {
-            DatabaseHelper iHelper = new DatabaseHelper(this);
-            List<String> lTaskList = iHelper.GetAllTasks(lCategory);
-            String lTasks = "";
-            for (String lTask: lTaskList
-                 ) {
-                lTasks += (lTask + ", ");
-            }
-            if (lTasks.equals(""))
-                lTasks = null;
+        TaskType[] lTaskTypeList = TaskType.values();
+
+        for (TaskType lTaskType: lTaskTypeList
+                ) {
+            Pair<String, String> lTaskTypeInfo = this.getTaskTypeString(lTaskType);
             lCustomListItem = new CustomListItem(
-                    lCategory, lTasks, null, Global.getInstance().getCategoryColor(this, lCategory));
+                    lTaskTypeInfo.first, null, null, Global.getInstance().getTaskTypeColor(this, lTaskType));
             result.add(lCustomListItem);
         }
         return result;
+    }
+
+    public Pair<String, String> getTaskTypeString(TaskType iTaskType){
+        switch (iTaskType){
+            case Note:
+                return new Pair<String, String>(getResources().getString(R.string.task_type_name_note), getResources().getString(R.string.task_type_description_note));
+            case CheckList:
+                return new Pair<String, String>(getResources().getString(R.string.task_type_name_checkList), getResources().getString(R.string.task_type_description_checkList));
+            case PeriodicReminder:
+                return new Pair<String, String>(getResources().getString(R.string.task_type_name_periodicReminder), getResources().getString(R.string.task_type_description_periodicReminder));
+            case OneTimeReminder:
+                return new Pair<String, String>(getResources().getString(R.string.task_type_name_oneTimeReminder), getResources().getString(R.string.task_type_description_oneTimeReminder));
+            default:
+                return null;
+        }
     }
 
 
@@ -151,7 +166,7 @@ public class CategoryList extends Activity {
     public void setupUI(View view) {
         view.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
-                showSoftKeyboard(CategoryList.this, InputMethodManager.HIDE_NOT_ALWAYS);
+                showSoftKeyboard(TaskTypeList.this, InputMethodManager.HIDE_NOT_ALWAYS);
                 return false;
             }
         });
