@@ -49,7 +49,16 @@ public class Question {
 
     private boolean CheckACondition(String iConditionString) {
         try {
-            String[] lTemp = iConditionString.replace(" ","").split("=");
+            String[] lTemp = null;
+            if(iConditionString.contains("=="))
+            {
+                lTemp = iConditionString.replace(" ","").split("==");
+            }
+            else if(iConditionString.contains("!="))
+            {
+                lTemp = iConditionString.replace(" ","").split("!=");
+            }
+
 
             String lPropertyName,lValue;
             lPropertyName = lTemp[0];
@@ -58,9 +67,59 @@ public class Question {
             DatabaseHelper lHelper = DatabaseHelper.getInstance(null);
             Condition lConditionInDB = lHelper.GetUserInformation(lPropertyName);
 
-            if(lValue.equals(lConditionInDB.pubValue.replace(" ","")))
-                return true;
+            if(lConditionInDB == null)
+            {
+                if(lValue.equals("null"))
+                {
+                    if(iConditionString.contains("=="))
+                        return true;
+                    else if (iConditionString.contains("!="))
+                        return false;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                if(lValue.equals("null"))
+                {
+                    if(iConditionString.contains("=="))
+                        return false;
+                    else if (iConditionString.contains("!="))
+                        return true;
+                }
 
+                if(iConditionString.contains("=="))
+                {
+                    if (lValue.equals(lConditionInDB.pubValue.replace(" ", "")))
+                        return true;
+                    return false;
+                }
+                else if (iConditionString.contains("!="))
+                {
+                    if (!lValue.equals(lConditionInDB.pubValue.replace(" ", "")))
+                        return true;
+                    return false;
+                }
+                else
+                {
+                    double lRight,lLeft;
+                    lRight = Double.parseDouble(lValue);
+                    lLeft = Double.parseDouble(lConditionInDB.pubValue);
+                    if(iConditionString.contains(">"))
+                        if(lLeft>lRight)
+                            return true;
+                        else
+                            return false;
+                    else if(iConditionString.contains(">"))
+                        if(lLeft<lRight)
+                            return true;
+                        else
+                            return false;
+                }
+            }
             return false;
         }
         catch (Exception ex)

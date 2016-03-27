@@ -23,9 +23,11 @@ import java.util.ArrayList;
 public class CheckboxFragment extends AbstractAnswerFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "EnumList";
+    private static final String ARG_PARAM1 = "ConditionList";
+    private static final String ARG_PARAM2 = "EnumList";
 
     // TODO: Rename and change types of parameters
+    private ArrayList<String> priConditionList = new ArrayList<String>();
     private ArrayList<String> priEnumList = new ArrayList<String>();
     private ArrayList<String> priOptionNameList = new ArrayList<String>();
 
@@ -41,10 +43,11 @@ public class CheckboxFragment extends AbstractAnswerFragment {
      * @return A new instance of fragment CheckboxFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CheckboxFragment newInstance(ArrayList<String> rEnumList) {
+    public static CheckboxFragment newInstance(ArrayList<String> rConditionList, ArrayList<String> rEnumList) {
         CheckboxFragment fragment = new CheckboxFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_PARAM1, rEnumList);
+        args.putSerializable(ARG_PARAM1, rConditionList);
+        args.putSerializable(ARG_PARAM2, rEnumList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,7 +56,8 @@ public class CheckboxFragment extends AbstractAnswerFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            priEnumList = (ArrayList<String>) getArguments().getSerializable(ARG_PARAM1);
+            priConditionList = (ArrayList<String>) getArguments().getSerializable(ARG_PARAM1);
+            priEnumList = (ArrayList<String>) getArguments().getSerializable(ARG_PARAM2);
         }
     }
 
@@ -91,12 +95,12 @@ public class CheckboxFragment extends AbstractAnswerFragment {
     public ArrayList<Condition> getValues() {
         ArrayList<Condition> lReturnValues = new ArrayList<>();
         int index = 0;
-        for (String lEnumName :
-                priEnumList) {
+        for (String lConditionName :
+                priConditionList) {
             String lOptionName = priOptionNameList.get(index);
             ++index;
             Condition lReturnValue = new Condition();
-            lReturnValue.pubConditionName = lEnumName;
+            lReturnValue.pubConditionName = lConditionName;
             lReturnValue.pubType = "Boolean";
             lReturnValue.pubValue = ((CheckBox) getView().findViewWithTag(lOptionName)).isChecked() ? "true" : "false";
             lReturnValues.add(lReturnValue);
