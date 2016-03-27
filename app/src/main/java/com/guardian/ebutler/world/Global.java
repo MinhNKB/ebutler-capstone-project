@@ -5,6 +5,7 @@ import android.util.DisplayMetrics;
 
 import com.guardian.ebutler.ebutler.R;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
+import com.guardian.ebutler.ebutler.dataclasses.TaskType;
 
 /**
  * Created by Tabuzaki IA on 12/24/2015.
@@ -30,6 +31,8 @@ public class Global {
         return px;
     }
 
+    public TaskType pubTaskType;
+
     public int getCategoryColor(Context iContext, String iCategory){
         switch (iCategory){
             case "Hóa đơn":
@@ -46,5 +49,6 @@ public class Global {
                 return iContext.getResources().getColor(R.color.transparent);
         }
     }
+
 }
 
