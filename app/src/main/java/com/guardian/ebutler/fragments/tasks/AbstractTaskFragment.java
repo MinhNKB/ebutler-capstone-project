@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.guardian.ebutler.ebutler.dataclasses.Condition;
+import com.guardian.ebutler.ebutler.dataclasses.Task;
 import com.guardian.ebutler.fragments.tasks.TaskFragmentInterface;
 
 import java.util.ArrayList;
@@ -24,19 +25,16 @@ public class AbstractTaskFragment extends Fragment implements TaskFragmentInterf
 
     }
 
-    public String getChatStatement() throws Exception {
-        return "Chat statement";
+    public void getValues(Task rTask) {
+
     }
-
-
-
-    public ArrayList<Condition> getValues() {
-        return new ArrayList<>();
-    }
-    ;
 
     protected View proView;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

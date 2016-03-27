@@ -11,14 +11,10 @@
         android:weightSum="1">
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="@dimen/task_detail_TextTitleHeight"
-            android:hint="@string/task_detail_hintTaskName"
-            />
-        <EditText
-            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textMultiLine"
             android:hint="@string/fragment_note_HintNote"
+            android:id="@+id/fragment_note_description"
             />
     </LinearLayout>
 

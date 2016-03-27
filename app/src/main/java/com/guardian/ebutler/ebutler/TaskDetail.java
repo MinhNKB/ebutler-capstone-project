@@ -1,6 +1,7 @@
 package com.guardian.ebutler.ebutler;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +18,9 @@ import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 import com.guardian.ebutler.ebutler.dataclasses.Priority;
 import com.guardian.ebutler.ebutler.dataclasses.Status;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
+import com.guardian.ebutler.ebutler.dataclasses.TaskType;
+import com.guardian.ebutler.fragments.tasks.AbstractTaskFragment;
+import com.guardian.ebutler.fragments.tasks.NoteFragment;
 import com.guardian.ebutler.screenhelper.FullscreenHelper;
 import com.guardian.ebutler.world.Global;
 
@@ -34,6 +38,8 @@ public class TaskDetail extends Activity {
     private EditText priEditTextDate;
     private ImageButton priButtonDone;
     private ImageButton priButtonCancel;
+    private View priTaskFragmentContainer;
+    private AbstractTaskFragment priTaskFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,25 +47,35 @@ public class TaskDetail extends Activity {
         setContentView(R.layout.activity_task_detail);
 
         findViewsByIds();
-        priEditTextTaskName.setText(Global.getInstance().pubNewTask.pubName);
-        buildTaskFragment();
+        if (Global.getInstance().pubNewTask != null) {
+            priEditTextTaskName.setText(Global.getInstance().pubNewTask.pubName);
+        }
+        createTaskFragment();
         priThis = this;
         bindNavigationLocation();
         setupUI(findViewById(R.id.task_detail_parent));
 
     }
 
-    private void buildTaskFragment() {
-
+    private void createTaskFragment() {
+        switch (Global.getInstance().pubTaskType) {
+            case Note:
+                priTaskFragment = NoteFragment.newInstance();
+                break;
+            default:
+                break;
+        }
+        getFragmentManager().beginTransaction().add(priTaskFragmentContainer.getId(), priTaskFragment).commit();
     }
 
     private void findViewsByIds() {
         priEditTextTaskName = (EditText) findViewById(R.id.task_detail_editTextTaskName);
-        priEditTextLocation = (EditText)findViewById(R.id.task_detail_editTextLocation);
-        priEditTextTime = (EditText)findViewById(R.id.task_detail_editTextTime);
-        priEditTextDate = (EditText)findViewById(R.id.task_detail_editTextDate);
-        priButtonDone = (ImageButton)findViewById(R.id.task_detail_buttonDone);
-        priButtonCancel = (ImageButton)findViewById(R.id.task_detail_buttonCancel);
+        priEditTextLocation = (EditText) findViewById(R.id.task_detail_editTextLocation);
+        priEditTextTime = (EditText) findViewById(R.id.task_detail_editTextTime);
+        priEditTextDate = (EditText) findViewById(R.id.task_detail_editTextDate);
+        priButtonDone = (ImageButton) findViewById(R.id.task_detail_buttonDone);
+        priButtonCancel = (ImageButton) findViewById(R.id.task_detail_buttonCancel);
+        priTaskFragmentContainer = findViewById(R.id.task_detail_TaskFragmentContainer);
     }
 
     static final int GET_LOCATION = 1;  // The request code
