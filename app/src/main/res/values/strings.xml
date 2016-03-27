@@ -111,6 +111,6 @@
     <string name="title_activity_task_type_list">TaskTypeList</string>
 
     <string name="task_type_list_butlerSpeechGreetings">Vui lòng chọn loại công việc</string>
-    
+
     <string name="fragment_note_HintNote">Nội dung ghi chú</string>
 </resources>

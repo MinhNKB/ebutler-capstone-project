@@ -18,7 +18,7 @@ import com.guardian.ebutler.ebutler.dataclasses.Task;
  */
 public class NoteFragment extends AbstractTaskFragment {
     public NoteFragment() {
-        // Required empty public constructor
+        proFragmentId = R.layout.fragment_note;
     }
 
     public static NoteFragment newInstance() {
