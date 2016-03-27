@@ -35,16 +35,33 @@ public class Global {
 
     public int getCategoryColor(Context iContext, String iCategory){
         switch (iCategory){
-            case "Hóa đơn":
+//            case "Hóa đơn":
+//                return iContext.getResources().getColor(R.color.red_900);
+//            case "Thiết bị":
+//                return iContext.getResources().getColor(R.color.purple_900);
+//            case "Sức khỏe":
+//                return iContext.getResources().getColor(R.color.lightBlue_900);
+//            case "Việc cần làm":
+//                return iContext.getResources().getColor(R.color.green_900);
+//            case "Khác":
+//                return iContext.getResources().getColor(R.color.yellow_900);
+            default:
+                return iContext.getResources().getColor(R.color.transparent);
+        }
+    }
+
+    public int getTaskTypeColor(Context iContext, TaskType iCategory){
+        switch (iCategory){
+            case Note:
                 return iContext.getResources().getColor(R.color.red_900);
-            case "Thiết bị":
+            case OneTimeReminder:
                 return iContext.getResources().getColor(R.color.purple_900);
-            case "Sức khỏe":
+            case PeriodicReminder:
                 return iContext.getResources().getColor(R.color.lightBlue_900);
-            case "Việc cần làm":
+            case CheckList:
                 return iContext.getResources().getColor(R.color.green_900);
-            case "Khác":
-                return iContext.getResources().getColor(R.color.yellow_900);
+//            case "Khác":
+//                return iContext.getResources().getColor(R.color.yellow_900);
             default:
                 return iContext.getResources().getColor(R.color.transparent);
         }

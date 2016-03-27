@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.guardian.ebutler.ebutler.custom.CustomListAdapter;
 import com.guardian.ebutler.ebutler.custom.CustomListItem;
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
+import com.guardian.ebutler.ebutler.dataclasses.Location;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
 import com.guardian.ebutler.world.Global;
 import com.tyczj.extendedcalendarview.Day;
@@ -152,13 +153,20 @@ public class Dashboard extends Activity {
 
         for (Task lTask: iTaskList
              ) {
-//            String lLocationName = "";
-//            for (Location lLocation: lTask.pubLocation
-//                 ) {
-//                lLocationName += lLocation.pubName;
-//            }
+            String lSecondLine = "";
+            if (lTask.pubDescription != null && !lTask.pubDescription.equals(""))
+                lSecondLine = lTask.pubDescription;
+            else if (lTask.pubTime != null)
+                lSecondLine = lTask.pubTime.toString();
+            else if (lTask.pubLocation != null){
+                for (Location lLocation:lTask.pubLocation
+                     ) {
+                    lSecondLine += lLocation.pubName;
+                }
+            }
+
             lCustomListItem = new CustomListItem(
-                    lTask.pubName, lTask.pubTime.toString(), lTask.pubPriority.toString(), Global.getInstance().getCategoryColor(this, lTask.pubCategory));
+                    lTask.pubName, lSecondLine, lTask.pubPriority.toString(), Global.getInstance().getCategoryColor(this, lTask.pubCategory));
             lResult.add(lCustomListItem);
         }
         return lResult;
@@ -196,7 +204,7 @@ public class Dashboard extends Activity {
     }
 
     public void buttonAdd_onClick(View view) {
-        Intent intent = new Intent(this, CategoryList.class);
+        Intent intent = new Intent(this, TaskTypeList.class);
         startActivity(intent);
     }
 
