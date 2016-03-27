@@ -1,17 +1,10 @@
 package com.guardian.ebutler.ebutler;
 
 import android.app.Fragment;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
-import android.util.Log;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +20,14 @@ import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 import com.guardian.ebutler.ebutler.dataclasses.Question;
 import com.guardian.ebutler.ebutler.dataclasses.ScriptManager;
 import com.guardian.ebutler.ebutler.dataclasses.UIType;
-import com.guardian.ebutler.fragments.*;
+import com.guardian.ebutler.fragments.answers.AnswerFragmentInterface;
+import com.guardian.ebutler.fragments.answers.CheckboxFragment;
+import com.guardian.ebutler.fragments.answers.DateFragment;
+import com.guardian.ebutler.fragments.answers.MultipleChoiceFragment;
+import com.guardian.ebutler.fragments.answers.TextboxFragment;
+import com.guardian.ebutler.fragments.answers.TimeFragment;
+import com.guardian.ebutler.fragments.answers.TimeSpanFragment;
+import com.guardian.ebutler.fragments.answers.YesNoFragment;
 
 
 public class UserInfoInput extends Activity {

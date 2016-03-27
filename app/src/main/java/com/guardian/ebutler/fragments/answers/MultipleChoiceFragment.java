@@ -1,9 +1,8 @@
-package com.guardian.ebutler.fragments;
+package com.guardian.ebutler.fragments.answers;
 
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 

@@ -1,4 +1,4 @@
-package com.guardian.ebutler.fragments;
+package com.guardian.ebutler.fragments.answers;
 
 import android.app.Fragment;
 import android.content.Context;
