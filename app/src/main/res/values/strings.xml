@@ -99,5 +99,18 @@
     <string name="enum_value_electric">Điện</string>
     <string name="enum_value_water">Nước</string>
 
+    <string name="task_type_name_note">Ghi chú</string>
+    <string name="task_type_name_checkList">Danh sách</string>
+    <string name="task_type_name_oneTimeReminder">Nhắc nhớ</string>
+    <string name="task_type_name_periodicReminder">Nhắc nhở định kỳ</string>
+
+    <string name="task_type_description_note">Ghi chú</string>
+    <string name="task_type_description_checkList">Danh sách</string>
+    <string name="task_type_description_oneTimeReminder">Nhắc nhớ</string>
+    <string name="task_type_description_periodicReminder">Nhắc nhở định kỳ</string>
+    <string name="title_activity_task_type_list">TaskTypeList</string>
+
+    <string name="task_type_list_butlerSpeechGreetings">Vui lòng chọn loại công việc</string>
+    
     <string name="fragment_note_HintNote">Nội dung ghi chú</string>
 </resources>

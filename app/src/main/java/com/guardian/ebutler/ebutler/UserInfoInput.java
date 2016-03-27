@@ -163,13 +163,13 @@ public class UserInfoInput extends Activity {
     private AnswerFragmentInterface getQuestionFragment(Question iQuestion) {
         switch (iQuestion.pubUIType) {
             case Checkbox:
-                return CheckboxFragment.newInstance(iQuestion.getOptions());
+                return CheckboxFragment.newInstance(iQuestion.pubInformationPropertiesNames, iQuestion.getOptions());
             case Date:
                 return DateFragment.newInstance(iQuestion.pubInformationPropertiesNames.get(0));
             case MultipleChoice:
                 return MultipleChoiceFragment.newInstance(iQuestion.pubInformationPropertiesNames.get(0), iQuestion.getOptions());
             case Textbox:
-                return TextboxFragment.newInstance("");
+                return TextboxFragment.newInstance(iQuestion.pubInformationPropertiesNames.get(0));
             case Time:
                 return TimeFragment.newInstance(iQuestion.pubInformationPropertiesNames.get(0));
             case TimeSpan:

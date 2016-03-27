@@ -354,7 +354,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int lPropertyNameIndex = lCursor.getColumnIndex("PropertyName");
         int lValueIndex = lCursor.getColumnIndex("Value");
         int lTypeIndex = lCursor.getColumnIndex("Type");
-
+        lCursor.moveToFirst();
         Condition lResult = new Condition();
 
         lResult.pubConditionName = lCursor.getString(lPropertyNameIndex);

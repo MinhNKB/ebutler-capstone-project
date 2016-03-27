@@ -7,30 +7,31 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:supportsRtl="true"
         android:screenOrientation="portrait"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
         <activity android:name=".Dashboard" />
-        <activity android:name=".CategoryList">
-        </activity>
-        <activity android:name=".TaskList"/>
+        <activity android:name=".CategoryList"></activity>
+        <activity android:name=".TaskList" />
         <activity android:name=".ChooseTime" />
         <activity android:name=".wizard.UserWizard" />
-        <activity android:name=".InfoRequest">
-        </activity>
+        <activity android:name=".InfoRequest"></activity>
         <activity android:name=".InfoDeclined" />
         <activity android:name=".InfoFinish" />
-        <activity android:name=".TaskDetail"/>
+        <activity android:name=".TaskDetail" />
         <activity android:name=".ChooseLocation" />
         <activity android:name=".LocationDetail" />
-        <activity
-            android:name=".UserInfoInput">
+        <activity android:name=".UserInfoInput">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".TaskTypeList"
+            android:label="@string/title_activity_task_type_list"></activity>
     </application>
 
 </manifest>
