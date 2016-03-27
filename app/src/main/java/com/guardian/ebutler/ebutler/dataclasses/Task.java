@@ -9,6 +9,7 @@ import java.util.List;
 public class Task {
     public String pubName;
     public String pubCategory;
+    public TaskType pubTaskType;
     public String pubDescription;
     public Date pubTime;
     public List<Location> pubLocation;

@@ -61,6 +61,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "    Id integer  NOT NULL   PRIMARY KEY  AUTOINCREMENT,\n" +
                 "    Name varchar(255)  NOT NULL,\n" +
                 "    Category varchar(255)  NOT NULL,\n" +
+                "    TaskType varchar(255)  NOT NULL,\n" +
                 "    Description text,\n" +
                 "    Time varchar(255),\n" +
                 "    Priority varchar(50)  NOT NULL,\n" +
@@ -159,6 +160,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues lValues = new ContentValues();
         lValues.put("Name",iTask.pubName);
         lValues.put("Category",iTask.pubCategory);
+        lValues.put("TaskType",iTask.pubTaskType.toString());
         lValues.put("Description", iTask.pubDescription);
         lValues.put("Time", iTask.pubTime.toString());
         lValues.put("Status", iTask.pubStatus.toString());
@@ -170,7 +172,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public List<Task> GetAllTasks()
     {
-        String[] columns = new String[] {"Name","Category","Description","Time","Priority","Status"};
+        String[] columns = new String[] {"Name","Category", "TaskType","Description","Time","Priority","Status"};
         Cursor lCursor = this.getWritableDatabase().query("Task", columns, null, null, null, null, null);
         /*if(c==null)
             Log.v("Cursor", "C is NULL");*/
@@ -178,6 +180,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //getColumnIndex(COLUMN_ID); là lấy chỉ số, vị trí của cột COLUMN_ID ...
         int lNameIndex = lCursor.getColumnIndex("Name");
         int lCategoryIndex = lCursor.getColumnIndex("Category");
+        int lTaskTypeIndex = lCursor.getColumnIndex("TaskType");
         int lDescriptionIndex = lCursor.getColumnIndex("Description");
         int lTimeIndex = lCursor.getColumnIndex("Time");
         int lPriorityIndex = lCursor.getColumnIndex("Priority");
@@ -188,6 +191,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Task lTempTask = new Task();
             lTempTask.pubName = lCursor.getString(lNameIndex);
             lTempTask.pubCategory = lCursor.getString(lCategoryIndex);
+            lTempTask.pubTaskType = TaskType.valueOf(lCursor.getString(lTaskTypeIndex));
             lTempTask.pubDescription = lCursor.getString(lDescriptionIndex);
             lTempTask.pubTime = getTimeFromString(lCursor.getString(lTimeIndex));
             lTempTask.pubPriority = Priority.valueOf(lCursor.getString(lPriorityIndex));
@@ -208,11 +212,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         catch (ParseException e) {
             lReturnDate = null;
             Log.w("debug", e.toString());
-        }
-        finally {
-            if (lReturnDate == null) {
-                lReturnDate = new Date();
-            }
         }
         return lReturnDate;
     }

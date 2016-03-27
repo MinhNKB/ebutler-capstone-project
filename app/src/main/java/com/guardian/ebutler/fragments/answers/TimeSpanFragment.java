@@ -1,17 +1,10 @@
-package com.guardian.ebutler.fragments;
+package com.guardian.ebutler.fragments.answers;
 
-import android.content.Context;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
 import android.widget.Spinner;
-import android.widget.TimePicker;
 
 import com.guardian.ebutler.ebutler.R;
 import com.guardian.ebutler.ebutler.dataclasses.Condition;
