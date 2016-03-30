@@ -113,4 +113,8 @@
     <string name="task_type_list_butlerSpeechGreetings">Vui lòng chọn loại công việc</string>
 
     <string name="fragment_note_HintNote">Nội dung ghi chú</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_checklist_HintCheckList">Thêm vào danh sách</string>
 </resources>

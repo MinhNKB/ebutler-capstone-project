@@ -21,4 +21,5 @@
     <dimen name="answer_maxHeight">100dp</dimen>
     <dimen name="choose_location_LabelSize">18sp</dimen>
     <dimen name="task_detail_TextTitleHeight">48dp</dimen>
+    <dimen name="inline_icon_size">12dp</dimen>
 </resources>

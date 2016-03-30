@@ -1,11 +1,9 @@
 package com.guardian.ebutler.ebutler;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +16,8 @@ import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 import com.guardian.ebutler.ebutler.dataclasses.Priority;
 import com.guardian.ebutler.ebutler.dataclasses.Status;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
-import com.guardian.ebutler.ebutler.dataclasses.TaskType;
 import com.guardian.ebutler.fragments.tasks.AbstractTaskFragment;
+import com.guardian.ebutler.fragments.tasks.CheckListFragment;
 import com.guardian.ebutler.fragments.tasks.NoteFragment;
 import com.guardian.ebutler.screenhelper.FullscreenHelper;
 import com.guardian.ebutler.world.Global;
@@ -61,6 +59,9 @@ public class TaskDetail extends Activity {
         switch (Global.getInstance().pubTaskType) {
             case Note:
                 priTaskFragment = NoteFragment.newInstance();
+                break;
+            case CheckList:
+                priTaskFragment = CheckListFragment.newInstance();
                 break;
             default:
                 break;
