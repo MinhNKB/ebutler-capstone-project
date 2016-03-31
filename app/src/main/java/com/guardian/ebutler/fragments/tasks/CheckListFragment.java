@@ -1,14 +1,17 @@
 package com.guardian.ebutler.fragments.tasks;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.guardian.ebutler.ebutler.Dashboard;
 import com.guardian.ebutler.ebutler.R;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
 
@@ -28,8 +31,11 @@ public class CheckListFragment extends AbstractTaskFragment {
         proFragmentId = R.layout.fragment_checklist;
     }
 
-    public static CheckListFragment newInstance() {
+    public Activity pubActivity;
+
+    public static CheckListFragment newInstance(Activity iActivity) {
         CheckListFragment fragment = new CheckListFragment();
+        fragment.pubActivity = iActivity;
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -65,6 +71,9 @@ public class CheckListFragment extends AbstractTaskFragment {
         CheckBox lCheckBox = ((CheckBox) proView.findViewById(R.id.fragment_checklist_TemplateCheckbox));
         Boolean lIsChecked = lCheckBox.isChecked();
         lCheckBox.setChecked(false);
+
+        lEditBox.requestFocusFromTouch();
+        Dashboard.showSoftKeyboard(pubActivity, InputMethodManager.SHOW_IMPLICIT);
 
         CheckListItemFragment lChecklistItemFragment = CheckListItemFragment.newInstance(lTemplateString, lIsChecked);
         proFragmentList.add(lChecklistItemFragment);
