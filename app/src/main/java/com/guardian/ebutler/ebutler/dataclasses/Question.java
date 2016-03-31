@@ -67,9 +67,9 @@ public class Question {
             DatabaseHelper lHelper = DatabaseHelper.getInstance(null);
             Condition lConditionInDB = lHelper.GetUserInformation(lPropertyName);
 
-            if(lConditionInDB == null)
+            if(lConditionInDB == null || lConditionInDB.pubValue.equals(""))
             {
-                if(lValue.equals("null"))
+                if(lValue.equals("null") || lValue.equals(""))
                 {
                     if(iConditionString.contains("=="))
                         return true;
@@ -83,7 +83,7 @@ public class Question {
             }
             else
             {
-                if(lValue.equals("null"))
+                if(lValue.equals("null") || lValue.equals(""))
                 {
                     if(iConditionString.contains("=="))
                         return false;
@@ -163,6 +163,62 @@ public class Question {
             lResult.add("cable");
             lResult.add("electric");
             lResult.add("water");
+        } //------------------------------------------
+        else if(pubOptionsType.equals("VehicleTypes"))
+        {
+            lResult.add("car");
+            lResult.add("motor");
+            lResult.add("bike");
+            lResult.add("walk");
+        }
+        else if(pubOptionsType.equals("HomeAppliances"))
+        {
+            lResult.add("fridge");
+            lResult.add("conditioner");
+            lResult.add("washing_machine");
+        }
+        else if(pubOptionsType.equals("Vaccinations"))
+        {
+            lResult.add("measles");
+            lResult.add("mumps");
+            lResult.add("hepatitis");
+            lResult.add("varicella");
+            lResult.add("rubella");
+        }
+        else if(pubOptionsType.equals("TravelTypes"))
+        {
+            lResult.add("relax");
+            lResult.add("explore");
+            lResult.add("venture");
+        }
+        else if(pubOptionsType.equals("FoodStyles"))
+        {
+            lResult.add("europe");
+            lResult.add("asian");
+        }
+        else if(pubOptionsType.equals("BookTypes"))
+        {
+            lResult.add("romance");
+            lResult.add("adventure");
+            lResult.add("science");
+            lResult.add("horror");
+            lResult.add("fiction");
+            lResult.add("journals");
+        }
+        else if(pubOptionsType.equals("MusicTypes"))
+        {
+            lResult.add("pop");
+            lResult.add("rock");
+            lResult.add("rap");
+            lResult.add("jazz");
+            lResult.add("country");
+            lResult.add("electronic");
+        }
+        else if(pubOptionsType.equals("PetTypes"))
+        {
+            lResult.add("dog");
+            lResult.add("cat");
+            lResult.add("other");
         }
         return lResult;
     }
