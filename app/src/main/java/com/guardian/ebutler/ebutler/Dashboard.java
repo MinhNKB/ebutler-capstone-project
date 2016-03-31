@@ -236,6 +236,8 @@ public class Dashboard extends Activity {
     public void createNewTask(TaskType iTaskType){
         Global.getInstance().pubNewTask = new Task();
         Global.getInstance().pubTaskType = iTaskType;
+        Intent intent = new Intent(this, TaskDetail.class);
+        startActivity(intent);
     }
 
     public void buttonAlarm_onClick(View view) {
