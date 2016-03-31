@@ -154,5 +154,18 @@ public class ScriptManager {
         lHelper.UpdateAQuestion(priCurrentQuestion);
     }
 
+    public double GetProgress(){
+        int lCountAnwseredQuestions = 0;
+        for(int i=0;i<priQuestionGroups.size();i++) {
+            if(!priQuestionGroups.get(i).CheckValid())
+                lCountAnwseredQuestions++;
+        }
+        return (double)lCountAnwseredQuestions/(double)priQuestionGroups.size();
+    }
+
+    public void Refresh()
+    {
+        priCurrentQuestionGroup = GetASuitableQuestionGroup();
+    }
 
 }
