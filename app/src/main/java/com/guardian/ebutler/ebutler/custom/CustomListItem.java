@@ -1,5 +1,7 @@
 package com.guardian.ebutler.ebutler.custom;
 
+import com.guardian.ebutler.ebutler.dataclasses.TaskType;
+
 import java.util.jar.Attributes;
 
 /**
@@ -7,19 +9,18 @@ import java.util.jar.Attributes;
  */
 public class CustomListItem
 {
+    public TaskType pubTaskType;
     public String pubFirstLine;
     public String pubSecondLine;
     public String pubThirdLine;
-    public int pubFlag;
+    public int pubImageButton;
 
-    public CustomListItem(String iFirstLine, String iSecondLine, String iThirdLine, int iFlag)
+    public CustomListItem(TaskType iTaskType, String iFirstLine, String iSecondLine, String iThirdLine, int iImageButton)
     {
+        this.pubTaskType = iTaskType;
         this.pubFirstLine = iFirstLine;
         this.pubSecondLine = iSecondLine;
         this.pubThirdLine = iThirdLine;
-        this.pubFlag = iFlag;
+        this.pubImageButton = iImageButton;
     }
-
-
-
 }

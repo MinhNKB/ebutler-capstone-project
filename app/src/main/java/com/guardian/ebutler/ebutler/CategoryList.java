@@ -125,7 +125,7 @@ public class CategoryList extends Activity {
             }
             if (lTasks.equals(""))
                 lTasks = null;
-            lCustomListItem = new CustomListItem(
+            lCustomListItem = new CustomListItem(null,
                     lCategory, lTasks, null, Global.getInstance().getCategoryColor(this, lCategory));
             result.add(lCustomListItem);
         }
