@@ -101,6 +101,46 @@
     <string name="enum_value_electric">Điện</string>
     <string name="enum_value_water">Nước</string>
 
+    <string name="enum_value_car">Xe hơi</string>
+    <string name="enum_value_motor">Xe máy</string>
+    <string name="enum_value_bike">Xe đạp</string>
+    <string name="enum_value_walk">Đi bộ</string>
+
+    <string name="enum_value_fridge">Tủ lạnh</string>
+    <string name="enum_value_conditioner">Máy lạnh</string>
+    <string name="enum_value_washing_machine">Máy giặt</string>
+
+    <string name="enum_value_measles">Sởi</string>
+    <string name="enum_value_mumps">Quai bị</string>
+    <string name="enum_value_hepatitis">Viêm gan</string>
+    <string name="enum_value_varicella">Thủy đậu</string>
+    <string name="enum_value_rubella">Rubella</string>
+
+    <string name="enum_value_relax">Nghỉ dưỡng</string>
+    <string name="enum_value_explore">Khám phá</string>
+    <string name="enum_value_venture">Phiêu lưu, mạo hiểm</string>
+
+    <string name="enum_value_europe">Âu</string>
+    <string name="enum_value_asian">Á</string>
+
+    <string name="enum_value_romance">Tình cảm</string>
+    <string name="enum_value_adventure">Phiêu lưu</string>
+    <string name="enum_value_science">Khoa học</string>
+    <string name="enum_value_horror">Kinh dị</string>
+    <string name="enum_value_fiction">Viễn tưởng</string>
+    <string name="enum_value_journals">Báo, tạp chí</string>
+
+    <string name="enum_value_pop">Pop</string>
+    <string name="enum_value_rock">Rock</string>
+    <string name="enum_value_rap">Rap</string>
+    <string name="enum_value_jazz">Jazz</string>
+    <string name="enum_value_country">Đồng quê</string>
+    <string name="enum_value_electronic">Điện tử</string>
+
+    <string name="enum_value_dog">Chó</string>
+    <string name="enum_value_cat">Mèo</string>
+    <string name="enum_value_other">Khác</string>
+
     <string name="task_type_name_note">Ghi chú</string>
     <string name="task_type_name_checkList">Danh sách</string>
     <string name="task_type_name_oneTimeReminder">Nhắc nhớ</string>
