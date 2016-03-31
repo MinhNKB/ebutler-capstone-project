@@ -133,27 +133,26 @@ public class UserInfoInput extends Activity {
 
     private void showQuestion()
     {
-        this.priQuestion = this.priScriptManager.GetAQuestion();
-        if (this.priQuestion == null) {
+        try
+        {
+            this.priQuestion = this.priScriptManager.GetAQuestion();
+//            if (this.priQuestion == null) {}
+            this.priAnwserFragmentInterface = this.getQuestionFragment(this.priQuestion);
+//            if (this.priAnwserFragmentInterface == null) {}
+            if (this.priQuestion.pubUIType == UIType.Textbox || this.priQuestion.pubUIType == UIType.YesNo) {
+                getFragmentManager().beginTransaction().add(this.priRelativeLayoutForSimpleAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
+            }
+            else
+                getFragmentManager().beginTransaction().add(this.priLinearLayoutAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
+
+            this.createConversationStatement(this.priQuestion.pubQuestionString, true);
+            this.switchTaskbarToLightTheme(true);
+        }
+        catch (Exception ex){
             this.showFinishMessage();
             this.switchTaskbarToLightTheme(false);
             return;
         }
-
-        this.priAnwserFragmentInterface = this.getQuestionFragment(this.priQuestion);
-        if (this.priAnwserFragmentInterface == null) {
-            this.showFinishMessage();
-            this.switchTaskbarToLightTheme(false);
-            return;
-        }
-        if (this.priQuestion.pubUIType == UIType.Textbox || this.priQuestion.pubUIType == UIType.YesNo) {
-            getFragmentManager().beginTransaction().add(this.priRelativeLayoutForSimpleAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
-        }
-        else
-            getFragmentManager().beginTransaction().add(this.priLinearLayoutAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
-
-        this.createConversationStatement(this.priQuestion.pubQuestionString, true);
-        this.switchTaskbarToLightTheme(true);
     }
 
     private void showFinishMessage(){
