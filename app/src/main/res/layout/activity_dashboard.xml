@@ -42,15 +42,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <!--<ImageButton-->
-            <!--android:layout_margin="@dimen/layout_padding"-->
-            <!--android:layout_width="@dimen/taskbar_iconSize"-->
-            <!--android:layout_height="@dimen/taskbar_iconSize"-->
-            <!--android:background="@drawable/blue_round_button_active"-->
-            <!--android:src="@mipmap/ic_arrow_back"-->
-            <!--android:scaleType="fitCenter"-->
-            <!--android:adjustViewBounds="true"-->
-            <!--android:onClick="buttonBackSearch_onClick"/>-->
+        <ImageButton
+            android:layout_margin="@dimen/layout_padding"
+            android:layout_width="@dimen/taskbar_iconSize"
+            android:layout_height="@dimen/taskbar_iconSize"
+            android:background="@drawable/blue_round_button_active"
+            android:src="@mipmap/ic_arrow_back"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:onClick="buttonBackSearch_onClick"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -183,48 +183,58 @@
         android:id="@+id/dashboard_linearLayout_addTaskBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/taskbar_height"
+        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:background="@color/colorPrimary">
-        <ImageButton
-            android:layout_width="@dimen/taskbar_iconSize"
-            android:layout_height="match_parent"
-            android:background="@drawable/blue_button"
-            android:src="@mipmap/ic_arrow_back"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
-            android:layout_marginLeft="@dimen/layout_padding_double"
-            android:onClick="buttonBack_onClick"/>
-        <ImageButton
-            android:layout_width="@dimen/taskbar_iconSize"
-            android:layout_height="match_parent"
-            android:background="@drawable/blue_button"
-            android:src="@mipmap/ic_alarm_add"
-            android:layout_centerVertical="true"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
-            android:layout_marginLeft="@dimen/layout_padding_double"
-            android:onClick="buttonAlarmAdd_onClick"/>
-        <ImageButton
-            android:layout_width="@dimen/taskbar_iconSize"
-            android:layout_height="match_parent"
-            android:background="@drawable/blue_button"
-            android:src="@mipmap/ic_playlist_add_check"
-            android:layout_centerVertical="true"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
-            android:layout_marginLeft="@dimen/layout_padding_double"
-            android:onClick="buttonCheckListAdd_onClick"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:hint="@string/dashboard_addNoteHint"
-            android:textAlignment="center"
-            android:textColorHint="@color/tintWhite"
-            android:layout_marginLeft="@dimen/layout_padding_double"
-            android:onClick="editTextNoteAdd_onClick"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/taskbar_height">
+            <ImageButton
+                android:layout_width="@dimen/taskbar_iconSize"
+                android:layout_height="match_parent"
+                android:background="@drawable/blue_button"
+                android:src="@mipmap/ic_arrow_back"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:layout_marginLeft="@dimen/layout_padding_double"
+                android:onClick="buttonBack_onClick"/>
+            <ImageButton
+                android:layout_width="@dimen/taskbar_iconSize"
+                android:layout_height="match_parent"
+                android:background="@drawable/blue_button"
+                android:src="@mipmap/ic_alarm_add"
+                android:layout_centerVertical="true"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:layout_marginLeft="@dimen/layout_padding_double"
+                android:onClick="buttonAlarmAdd_onClick"/>
+            <ImageButton
+                android:layout_width="@dimen/taskbar_iconSize"
+                android:layout_height="match_parent"
+                android:background="@drawable/blue_button"
+                android:src="@mipmap/ic_playlist_add_check"
+                android:layout_centerVertical="true"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:layout_marginLeft="@dimen/layout_padding_double"
+                android:onClick="buttonCheckListAdd_onClick"/>
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:clickable="true"
+                android:text="Ghi chú nhanh..."
+                android:textColor="@color/background"
+                android:textSize="@dimen/font_size"
+                android:onClick="textViewAddNote_onClick"/>
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

@@ -117,7 +117,7 @@ public class TaskList extends Activity {
 
         for (String lTask: iTaskList
              ) {
-            lCustomItem = new CustomListItem(lTask, null, null, R.color.transparent);
+            lCustomItem = new CustomListItem(null, lTask, null, null, R.color.transparent);
             result.add(lCustomItem);
         }
 

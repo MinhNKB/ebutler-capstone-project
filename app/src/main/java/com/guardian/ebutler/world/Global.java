@@ -1,10 +1,15 @@
 package com.guardian.ebutler.world;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 
 import com.guardian.ebutler.ebutler.R;
+import com.guardian.ebutler.ebutler.TaskList;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
+import com.guardian.ebutler.ebutler.dataclasses.TaskChecklist;
+import com.guardian.ebutler.ebutler.dataclasses.TaskNote;
+import com.guardian.ebutler.ebutler.dataclasses.TaskOneTimeReminder;
 import com.guardian.ebutler.ebutler.dataclasses.TaskType;
 
 /**
@@ -35,23 +40,23 @@ public class Global {
 
     public int getCategoryColor(Context iContext, String iCategory){
         switch (iCategory){
-//            case "Hóa đơn":
-//                return iContext.getResources().getColor(R.color.red_900);
-//            case "Thiết bị":
-//                return iContext.getResources().getColor(R.color.purple_900);
-//            case "Sức khỏe":
-//                return iContext.getResources().getColor(R.color.lightBlue_900);
-//            case "Việc cần làm":
-//                return iContext.getResources().getColor(R.color.green_900);
-//            case "Khác":
-//                return iContext.getResources().getColor(R.color.yellow_900);
+            case "Hóa đơn":
+                return iContext.getResources().getColor(R.color.red_900);
+            case "Thiết bị":
+                return iContext.getResources().getColor(R.color.purple_900);
+            case "Sức khỏe":
+                return iContext.getResources().getColor(R.color.lightBlue_900);
+            case "Việc cần làm":
+                return iContext.getResources().getColor(R.color.green_900);
+            case "Khác":
+                return iContext.getResources().getColor(R.color.yellow_900);
             default:
                 return iContext.getResources().getColor(R.color.transparent);
         }
     }
 
-    public int getTaskTypeColor(Context iContext, TaskType iCategory){
-        switch (iCategory){
+    public int getTaskTypeDrawable(Context iContext, TaskType iTaskType){
+        switch (iTaskType){
             case Note:
                 return iContext.getResources().getColor(R.color.red_900);
             case OneTimeReminder:
@@ -60,12 +65,29 @@ public class Global {
                 return iContext.getResources().getColor(R.color.lightBlue_900);
             case CheckList:
                 return iContext.getResources().getColor(R.color.green_900);
-//            case "Khác":
-//                return iContext.getResources().getColor(R.color.yellow_900);
             default:
                 return iContext.getResources().getColor(R.color.transparent);
         }
     }
 
+    public int getTaskTypeDrawable(Context iContext, Task iTask) {
+        if (iTask instanceof TaskNote)
+            return R.mipmap.ic_note;
+        if (iTask instanceof TaskOneTimeReminder)
+            return R.mipmap.ic_alarm;
+        if (iTask instanceof TaskChecklist)
+            return R.mipmap.ic_playlist_add_check;
+        return -1;
+    }
+
+    public TaskType getTaskTypeEnum(Task iTask){
+        if (iTask instanceof TaskNote)
+            return TaskType.Note;
+        if (iTask instanceof TaskOneTimeReminder)
+            return TaskType.OneTimeReminder;
+        if (iTask instanceof TaskChecklist)
+            return TaskType.CheckList;
+        return null;
+    }
 }
 
