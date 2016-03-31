@@ -36,6 +36,7 @@ public class CheckListFragment extends AbstractTaskFragment {
     }
 
     public void getValues(Task rNewTask) {
+        rNewTask.pubDescription = "";
         for (CheckListItemFragment fragment : proFragmentList) {
             rNewTask.pubDescription += fragment.pubText;
             rNewTask.pubDescription += ":";
@@ -58,11 +59,12 @@ public class CheckListFragment extends AbstractTaskFragment {
     }
 
     public void addValue() {
-        EditText lEditBox = ((EditText) proView.findViewById(R.id.fragment_checklist_TemplateEditText));
+        EditText lEditBox = (EditText) proView.findViewById(R.id.fragment_checklist_TemplateEditText);
         String lTemplateString = lEditBox.getText().toString();
         lEditBox.setText("");
         CheckBox lCheckBox = ((CheckBox) proView.findViewById(R.id.fragment_checklist_TemplateCheckbox));
         Boolean lIsChecked = lCheckBox.isChecked();
+        lCheckBox.setChecked(false);
 
         CheckListItemFragment lChecklistItemFragment = CheckListItemFragment.newInstance(lTemplateString, lIsChecked);
         proFragmentList.add(lChecklistItemFragment);

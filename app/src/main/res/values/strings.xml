@@ -39,7 +39,7 @@
     <string name="task_detail_hintTime">giờ</string>
     <string name="task_detail_hintDate">ngày</string>
     <string name="task_detail_labelLocation">Địa điểm:</string>
-    <string name="task_detail_hintLocation">chọn địa điểm</string>
+    <string name="task_detail_hintLocation">địa điểm</string>
     <string name="task_detail_labelRepeat">Lặp lại</string>
     <string name="task_detail_labelCalling">Tôi sẽ nhắc bạn gọi</string>
     <string name="task_detail_hintCalling">Mở danh bạ</string>
@@ -159,4 +159,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fragment_checklist_HintCheckList">Thêm vào danh sách</string>
+    <string name="title_activity_map">Map</string>
+    <string name="map_ButlerStatement">Hãy chọn địa điểm nhắc nhở</string>
 </resources>

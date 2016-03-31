@@ -11,8 +11,6 @@
         <item name="android:windowBackground">@color/background</item>
         <item name="android:colorBackground">@color/background</item>
         <item name="actionBarStyle">@style/Widget.AppCompat.ActionBar</item>
-        <!-- TODO: SEARCH BUTTON COLOR IS ...-->
-        <!--<item name="android:actionBarStyle" tools:ignore="NewApi">@style/Widget.AppCompat.ActionBar</item>-->
 
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
