@@ -63,6 +63,8 @@ public class TaskDetail extends Activity {
             case CheckList:
                 priTaskFragment = CheckListFragment.newInstance();
                 break;
+            case OneTimeReminder:
+//                priTaskFragment =
             default:
                 break;
         }
@@ -71,9 +73,9 @@ public class TaskDetail extends Activity {
 
     private void findViewsByIds() {
         priEditTextTaskName = (EditText) findViewById(R.id.task_detail_editTextTaskName);
-        priEditTextLocation = (EditText) findViewById(R.id.task_detail_editTextLocation);
-        priEditTextTime = (EditText) findViewById(R.id.task_detail_editTextTime);
-        priEditTextDate = (EditText) findViewById(R.id.task_detail_editTextDate);
+//        priEditTextLocation = (EditText) findViewById(R.id.task_detail_editTextLocation);
+//        priEditTextTime = (EditText) findViewById(R.id.task_detail_editTextTime);
+//        priEditTextDate = (EditText) findViewById(R.id.task_detail_editTextDate);
         priButtonDone = (ImageButton) findViewById(R.id.task_detail_buttonDone);
         priButtonCancel = (ImageButton) findViewById(R.id.task_detail_buttonCancel);
         priTaskFragmentContainer = findViewById(R.id.task_detail_TaskFragmentContainer);
@@ -131,11 +133,12 @@ public class TaskDetail extends Activity {
                     lNewTask = new Task();
                     Global.getInstance().pubNewTask = lNewTask;
                 }
-                lNewTask.pubTime = priThis.getTimeFromDateTextbox();
+//                lNewTask.pubTime = priThis.getTimeFromDateTextbox();
                 lNewTask.pubStatus = Status.Pending;
                 if (lNewTask.pubCategory == null || lNewTask.pubCategory.equals(""))
                     lNewTask.pubCategory = "Khác";
                 lNewTask.pubPriority = Priority.Important;
+                priTaskFragment.getValues(lNewTask);
                 iHelper.InsertATask(Global.getInstance().pubNewTask);
                 Global.getInstance().pubNewTask = null;
 
@@ -154,20 +157,20 @@ public class TaskDetail extends Activity {
         });
     }
 
-    private Date getTimeFromDateTextbox() {
-        SimpleDateFormat lDateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
-        Date lDate = null;
-        try {
-            lDate = lDateFormat.parse(priEditTextDate.getText() + " " + priEditTextTime.getText());
-        } catch (ParseException e) {
-            lDate = null;
-        } finally {
-            if (lDate == null) {
-                lDate = new Date();
-            }
-        }
-        return lDate;
-    }
+//    private Date getTimeFromDateTextbox() {
+//        SimpleDateFormat lDateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+//        Date lDate = null;
+//        try {
+//            lDate = lDateFormat.parse(priEditTextDate.getText() + " " + priEditTextTime.getText());
+//        } catch (ParseException e) {
+//            lDate = null;
+//        } finally {
+//            if (lDate == null) {
+//                lDate = new Date();
+//            }
+//        }
+//        return lDate;
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

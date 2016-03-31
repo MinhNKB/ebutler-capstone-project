@@ -24,7 +24,6 @@ import java.util.ArrayList;
  */
 public class CheckListFragment extends AbstractTaskFragment {
     protected ArrayList<CheckListItemFragment> proFragmentList = new ArrayList<CheckListItemFragment>();
-    protected int proChecklistCurrentId = 0;
     public CheckListFragment() {
         proFragmentId = R.layout.fragment_checklist;
     }
@@ -37,12 +36,12 @@ public class CheckListFragment extends AbstractTaskFragment {
     }
 
     public void getValues(Task rNewTask) {
-
-//      getFragmentManager().beginTransaction().remove(rFragment);
         for (CheckListItemFragment fragment : proFragmentList) {
             rNewTask.pubDescription += fragment.pubText;
+            rNewTask.pubDescription += ":";
+            rNewTask.pubDescription += fragment.pubIsChecked ? "1":"0";
             if (proFragmentList.indexOf(fragment) != proFragmentList.size() - 1) {
-                rNewTask.pubDescription += ", ";
+                rNewTask.pubDescription += ",";
             }
         }
     }

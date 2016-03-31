@@ -61,6 +61,7 @@
                     android:layout_marginBottom="@dimen/paragraph_padding"
                     android:id="@+id/task_detail_TaskFragmentContainer"
                     android:orientation="vertical"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -102,69 +103,9 @@
                         android:layout_weight="1"
                         android:id="@+id/task_detail_editTextLocation"/>
                 </LinearLayout>
-                <!--<LinearLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:orientation="horizontal"-->
-                    <!--android:layout_marginBottom="@dimen/layout_padding_double">-->
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="@string/task_detail_labelRepeat"-->
-                        <!--android:paddingRight="10dp"-->
-                        <!--android:paddingEnd="10dp"/>-->
-                    <!--<Spinner-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:entries="@array/task_detail_taskRepeatOptions"-->
-                        <!--android:layout_weight="1"/>-->
-                <!--</LinearLayout>-->
+
+
             </LinearLayout>
-            <!--<RelativeLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="@dimen/layout_padding_double"-->
-                <!--android:layout_marginBottom="@dimen/layout_padding_double"-->
-                <!-->-->
-                <!--<ImageButton-->
-                    <!--android:layout_width="12dp"-->
-                    <!--android:layout_height="12dp"-->
-                    <!--android:layout_alignParentEnd="true"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_alignParentTop="true"-->
-                    <!--android:src="@mipmap/ic_clear_blue"-->
-                    <!--android:background="@color/background"-->
-                    <!--/>-->
-                <!--<LinearLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:orientation="vertical">-->
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="@string/task_detail_labelCalling"/>-->
-                    <!--<EditText-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:hint="@string/task_detail_hintCalling"/>-->
-                <!--</LinearLayout>-->
-            <!--</RelativeLayout>-->
-            <!--<View style="@style/Divider"/>-->
-            <!--<RelativeLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="@dimen/layout_padding_double"-->
-                <!--android:layout_marginTop="@dimen/layout_padding_double">-->
-                <!--<Button-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="@string/task_detail_textButtonAddPlugin"-->
-                    <!--android:background="@drawable/border_button"-->
-                    <!--android:textColor="@color/colorPrimary"-->
-                    <!--android:paddingLeft="@dimen/layout_padding"-->
-                    <!--android:paddingRight="@dimen/layout_padding"-->
-                    <!--android:layout_centerHorizontal="true"/>-->
-            <!--</RelativeLayout>-->
         </LinearLayout>
     </ScrollView>
     <RelativeLayout
