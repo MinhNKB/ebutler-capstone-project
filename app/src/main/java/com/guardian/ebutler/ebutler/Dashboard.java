@@ -34,9 +34,11 @@ public class Dashboard extends Activity {
     private CustomListAdapter priCustomListAdapter;
 
     private boolean priIsCalendarView = false;
+
     private boolean priIsAlarmFiltered = false;
     private boolean priIsChecklistFiltered = false;
     private boolean priIsNoteFiltered = false;
+
     private boolean priIsSorted = false;
 
     private List<Task> priTaskList;
@@ -96,16 +98,15 @@ public class Dashboard extends Activity {
         this.priSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
+                priSearchView.setQuery("", true);
                 switchToSearchView(false);
                 return false;
             }
         });
     }
 
-    public boolean searchView_onTextChange(String newText)
-    {
-        this.switchView(false);
-        this.priCustomListAdapter.getFilter().filter(newText);
+    public boolean searchView_onTextChange(String newText) {
+        this.performFilter(newText);
         return true;
     }
 
@@ -148,8 +149,8 @@ public class Dashboard extends Activity {
                 }
             }
 
-            lCustomListItem = new CustomListItem(
-                    lTask.pubName, lSecondLine, lTask.pubPriority.toString(), Global.getInstance().getCategoryColor(this, lTask.pubCategory));
+            lCustomListItem = new CustomListItem(Global.getInstance().getTaskTypeEnum(lTask),
+                    lTask.pubName, lSecondLine, lTask.pubPriority.toString(), Global.getInstance().getTaskTypeDrawable(this, lTask));
             lResult.add(lCustomListItem);
         }
         return lResult;
@@ -169,13 +170,19 @@ public class Dashboard extends Activity {
     }
 
     public void switchToSearchView(boolean iIsSearchView){
+
         this.priLinearLayoutTopBar.setVisibility(iIsSearchView == true ? View.GONE : View.VISIBLE);
         this.priLinearLayoutSearch.setVisibility(iIsSearchView == false ? View.GONE : View.VISIBLE);
+
         if (iIsSearchView == true){
             this.priSearchView.setIconified(false);
             this.priSearchView.requestFocusFromTouch();
         }
-
+        else {
+            this.setButtonAlarmBackground(false);
+            this.setButtonCheckListBackground(false);
+            this.setButtonNoteBackground(false);
+        }
         //showSoftKeyboard(this, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
@@ -229,34 +236,53 @@ public class Dashboard extends Activity {
         this.createNewTask(TaskType.OneTimeReminder);
     }
 
-    public void editTextNoteAdd_onClick(View view) {
+    public void textViewAddNote_onClick(View view) {
         this.createNewTask(TaskType.Note);
     }
 
     public void createNewTask(TaskType iTaskType){
         Global.getInstance().pubNewTask = new Task();
         Global.getInstance().pubTaskType = iTaskType;
+        Intent setIntent = new Intent(this, TaskDetail.class);
+        startActivity(setIntent);
     }
 
     public void buttonAlarm_onClick(View view) {
-        this.priIsAlarmFiltered = !this.priIsAlarmFiltered;
-        this.priImageButtonAlarm.setBackground(this.priIsAlarmFiltered == true ?
-                getResources().getDrawable(R.drawable.blue_round_button_active) : getResources().getDrawable(R.drawable.blue_round_button_inactive));
-        filter();
+        this.setButtonAlarmBackground(!this.priIsAlarmFiltered);
+        this.performFilter();
     }
 
-    public void buttonCheckList_onClick(View view) {
-        this.priIsChecklistFiltered = !this.priIsChecklistFiltered;
-        this.priImageButtonCheckList.setBackground(this.priIsChecklistFiltered == true ?
+    public void setButtonAlarmBackground(boolean iIsActive){
+        this.priIsAlarmFiltered = iIsActive;
+        this.priImageButtonAlarm.setBackground(iIsActive == true ?
                 getResources().getDrawable(R.drawable.blue_round_button_active) : getResources().getDrawable(R.drawable.blue_round_button_inactive));
-        filter();
+    }
+
+
+    public void buttonCheckList_onClick(View view) {
+        this.setButtonCheckListBackground(!this.priIsChecklistFiltered);
+        this.performFilter();
+    }
+
+    public void setButtonCheckListBackground(boolean iIsActive){
+        this.priIsChecklistFiltered = iIsActive;
+        this.priImageButtonCheckList.setBackground(iIsActive == true ?
+                getResources().getDrawable(R.drawable.blue_round_button_active) : getResources().getDrawable(R.drawable.blue_round_button_inactive));
     }
 
     public void buttonNote_onClick(View view) {
-        this.priIsNoteFiltered = !this.priIsNoteFiltered;
-        this.priImageButtonNote.setBackground(this.priIsNoteFiltered == true ?
+        this.setButtonNoteBackground(!priIsNoteFiltered);
+        this.performFilter();
+    }
+
+    private void performFilter() {
+        this.performFilter(this.priSearchView.getQuery().toString());
+    }
+
+    public void setButtonNoteBackground(boolean iIsActive){
+        this.priIsNoteFiltered = iIsActive;
+        this.priImageButtonNote.setBackground(iIsActive == true ?
                 getResources().getDrawable(R.drawable.blue_round_button_active) : getResources().getDrawable(R.drawable.blue_round_button_inactive));
-        filter();
     }
 
     public void buttonSort_onClick(View view) {
@@ -265,8 +291,9 @@ public class Dashboard extends Activity {
                 getResources().getDrawable(R.drawable.blue_round_button_active) : getResources().getDrawable(R.drawable.blue_round_button_inactive));
     }
 
-    public void filter(){
-
+    public void performFilter(String newText){
+        this.switchView(false);
+        this.priCustomListAdapter.getFilter(this.getFilters()).filter(newText);
     }
 
     public void buttonViewType_onClick(View view) {
@@ -279,5 +306,13 @@ public class Dashboard extends Activity {
 
     public void buttonBackSearch_onClick(View view) {
         this.switchToSearchView(false);
+    }
+
+    public boolean[] getFilters() {
+        boolean[] lResult = new boolean[3];
+        lResult[0] = this.priIsAlarmFiltered;
+        lResult[1] = this.priIsChecklistFiltered;
+        lResult[2] = this.priIsNoteFiltered;
+        return lResult;
     }
 }

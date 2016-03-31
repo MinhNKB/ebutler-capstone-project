@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.guardian.ebutler.ebutler.custom.CustomListAdapter;
 import com.guardian.ebutler.ebutler.custom.CustomListItem;
-import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
 import com.guardian.ebutler.ebutler.dataclasses.TaskType;
 import com.guardian.ebutler.world.Global;
@@ -125,8 +124,8 @@ public class TaskTypeList extends Activity {
         for (TaskType lTaskType: lTaskTypeList
                 ) {
             Pair<String, String> lTaskTypeInfo = this.getTaskTypeString(lTaskType);
-            lCustomListItem = new CustomListItem(
-                    lTaskTypeInfo.first, null, null, Global.getInstance().getTaskTypeColor(this, lTaskType));
+            lCustomListItem = new CustomListItem(null,
+                    lTaskTypeInfo.first, null, null, Global.getInstance().getTaskTypeDrawable(this, lTaskType));
             result.add(lCustomListItem);
         }
         return result;

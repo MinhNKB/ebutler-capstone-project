@@ -124,7 +124,6 @@ public class TaskDetail extends Activity {
                     toast.show();
                     return;
                 }
-
                 DatabaseHelper iHelper = new DatabaseHelper(priThis);
                 Task lNewTask = Global.getInstance().pubNewTask;
                 if (lNewTask == null) {
