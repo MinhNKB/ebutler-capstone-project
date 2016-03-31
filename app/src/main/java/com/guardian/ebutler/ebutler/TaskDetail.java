@@ -59,7 +59,7 @@ public class TaskDetail extends Activity {
                 priTaskFragment = NoteFragment.newInstance();
                 break;
             case CheckList:
-                priTaskFragment = CheckListFragment.newInstance();
+                priTaskFragment = CheckListFragment.newInstance(this);
                 break;
             case OneTimeReminder:
                 priTaskFragment = AlarmFragment.newInstance();

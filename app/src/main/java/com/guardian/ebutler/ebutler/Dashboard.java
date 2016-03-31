@@ -35,11 +35,11 @@ public class Dashboard extends Activity {
 
     private boolean priIsCalendarView = false;
 
-    private boolean priIsAlarmFiltered = false;
-    private boolean priIsChecklistFiltered = false;
-    private boolean priIsNoteFiltered = false;
+    private boolean priIsAlarmFiltered = true;
+    private boolean priIsChecklistFiltered = true;
+    private boolean priIsNoteFiltered = true;
 
-    private boolean priIsSorted = false;
+    private boolean priIsSorted = true;
 
     private List<Task> priTaskList;
 
@@ -59,11 +59,12 @@ public class Dashboard extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-
         this.findViewsByIds();
         this.initializeCustomListView();
         this.initSearchView();
         this.setupUI(findViewById(R.id.dashboard_parent));
+
+        Global.getInstance().pubNewTask = null;
     }
 
 
@@ -150,7 +151,7 @@ public class Dashboard extends Activity {
             }
 
             lCustomListItem = new CustomListItem(Global.getInstance().getTaskTypeEnum(lTask),
-                    lTask.pubName, lSecondLine, lTask.pubPriority.toString(), Global.getInstance().getTaskTypeDrawable(this, lTask));
+                    lTask.pubName, lSecondLine, null, Global.getInstance().getTaskTypeDrawable(this, lTask));
             lResult.add(lCustomListItem);
         }
         return lResult;
@@ -179,10 +180,11 @@ public class Dashboard extends Activity {
             this.priSearchView.requestFocusFromTouch();
         }
         else {
-            this.setButtonAlarmBackground(false);
-            this.setButtonCheckListBackground(false);
-            this.setButtonNoteBackground(false);
+            this.setButtonAlarmBackground(true);
+            this.setButtonCheckListBackground(true);
+            this.setButtonNoteBackground(true);
         }
+        performFilter();
         //showSoftKeyboard(this, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
@@ -237,11 +239,14 @@ public class Dashboard extends Activity {
     }
 
     public void textViewAddNote_onClick(View view) {
+        Global.getInstance().pubNewTask = new Task();
+        Global.getInstance().pubNewTask.pubName = "Ghi chú";
         this.createNewTask(TaskType.Note);
     }
 
     public void createNewTask(TaskType iTaskType){
-        Global.getInstance().pubNewTask = new Task();
+        if (Global.getInstance().pubNewTask == null)
+            Global.getInstance().pubNewTask = new Task();
         Global.getInstance().pubTaskType = iTaskType;
         Intent intent = new Intent(this, TaskDetail.class);
         startActivity(intent);
@@ -305,6 +310,7 @@ public class Dashboard extends Activity {
     }
 
     public void buttonBackSearch_onClick(View view) {
+        priSearchView.setQuery("", true);
         this.switchToSearchView(false);
     }
 
