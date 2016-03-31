@@ -19,7 +19,7 @@ public class QuestionGroup {
             if(pubQuestions.get(i).pubStage==1 && pubQuestions.get(i).CheckValid()==false)
                 return false;
         for(int i=0;i<pubQuestions.size();i++)
-            if(pubQuestions.get(i).pubIsAsked==false)
+            if(pubQuestions.get(i).pubIsAsked==false && pubQuestions.get(i).CheckValid())
                 return true;
         return false;
     }
