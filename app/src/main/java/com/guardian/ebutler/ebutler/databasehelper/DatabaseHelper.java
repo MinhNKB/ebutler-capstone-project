@@ -9,6 +9,8 @@ import android.util.Log;
 
 import com.guardian.ebutler.ebutler.dataclasses.*;
 
+import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.util.Date;
 import java.text.ParseException;
@@ -60,7 +62,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         iDB.execSQL("CREATE TABLE Task (\n" +
                 "    Id integer  NOT NULL   PRIMARY KEY  AUTOINCREMENT,\n" +
                 "    Name varchar(255)  NOT NULL,\n" +
-                "    Category varchar(255)  NOT NULL,\n" +
+                "    Category varchar(255) ,\n" +
                 "    TaskType varchar(255)  NOT NULL,\n" +
                 "    Description text,\n" +
                 "    Time varchar(255),\n" +
@@ -159,13 +161,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase lDB = this.getWritableDatabase();
         ContentValues lValues = new ContentValues();
         lValues.put("Name",iTask.pubName);
-        lValues.put("Category",iTask.pubCategory);
+        if (iTask.pubCategory != null) {
+            lValues.put("Category",iTask.pubCategory);
+        }
         lValues.put("TaskType",iTask.pubTaskType.toString());
-        lValues.put("Description", iTask.pubDescription);
-        lValues.put("Time", iTask.pubTime.toString());
+        if (iTask.pubDescription != null) {
+            lValues.put("Description", iTask.pubDescription);
+        }
+        if (iTask.pubTime != null) {
+            lValues.put("Time", iTask.pubTime.toString());
+        }
         lValues.put("Status", iTask.pubStatus.toString());
         lValues.put("Priority", iTask.pubPriority.toString());
-        lDB.insert("Task", null, lValues);
+//        try {
+//            Log.w("asd", new JSONObject().put("asd", lDB.insert("Task", null, lValues)).toString());
+//        } catch (Exception e) {
+//            Log.w("asd", e.toString());
+//        }
         lDB.close();
         return 0;
     }

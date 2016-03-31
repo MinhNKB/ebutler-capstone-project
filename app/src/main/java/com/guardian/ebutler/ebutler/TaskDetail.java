@@ -17,6 +17,7 @@ import com.guardian.ebutler.ebutler.dataclasses.Priority;
 import com.guardian.ebutler.ebutler.dataclasses.Status;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
 import com.guardian.ebutler.fragments.tasks.AbstractTaskFragment;
+import com.guardian.ebutler.fragments.tasks.AlarmFragment;
 import com.guardian.ebutler.fragments.tasks.CheckListFragment;
 import com.guardian.ebutler.fragments.tasks.NoteFragment;
 import com.guardian.ebutler.screenhelper.FullscreenHelper;
@@ -31,9 +32,6 @@ public class TaskDetail extends Activity {
     TaskDetail priThis;
 
     private EditText priEditTextTaskName;
-    private EditText priEditTextLocation;
-    private EditText priEditTextTime;
-    private EditText priEditTextDate;
     private ImageButton priButtonDone;
     private ImageButton priButtonCancel;
     private View priTaskFragmentContainer;
@@ -64,7 +62,7 @@ public class TaskDetail extends Activity {
                 priTaskFragment = CheckListFragment.newInstance();
                 break;
             case OneTimeReminder:
-//                priTaskFragment =
+                priTaskFragment = AlarmFragment.newInstance();
             default:
                 break;
         }
@@ -73,9 +71,6 @@ public class TaskDetail extends Activity {
 
     private void findViewsByIds() {
         priEditTextTaskName = (EditText) findViewById(R.id.task_detail_editTextTaskName);
-//        priEditTextLocation = (EditText) findViewById(R.id.task_detail_editTextLocation);
-//        priEditTextTime = (EditText) findViewById(R.id.task_detail_editTextTime);
-//        priEditTextDate = (EditText) findViewById(R.id.task_detail_editTextDate);
         priButtonDone = (ImageButton) findViewById(R.id.task_detail_buttonDone);
         priButtonCancel = (ImageButton) findViewById(R.id.task_detail_buttonCancel);
         priTaskFragmentContainer = findViewById(R.id.task_detail_TaskFragmentContainer);
@@ -85,38 +80,16 @@ public class TaskDetail extends Activity {
     static final int GET_TIME = 2;
     private void bindNavigationLocation() {
         final Context context = this;
-        priEditTextLocation.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                                          @Override
-                                          public void onFocusChange(View v, boolean hasFocus) {
-                                              if (hasFocus) {
-                                                  Intent intent = new Intent(context, ChooseLocation.class);
-                                                  startActivityForResult(intent, GET_LOCATION);
-                                              }
-                                          }
-                                      }
-        );
-
-        priEditTextTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                                          @Override
-                                          public void onFocusChange(View v, boolean hasFocus) {
-                                              if (hasFocus) {
-                                                  Intent intent = new Intent(context, ChooseTime.class);
-                                                  startActivityForResult(intent, GET_TIME);
-                                              }
-                                          }
-                                      }
-        );
-
-        priEditTextDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                                                     @Override
-                                                     public void onFocusChange(View v, boolean hasFocus) {
-                                                         if (hasFocus) {
-                                                             Intent intent = new Intent(context, ChooseTime.class);
-                                                             startActivityForResult(intent, GET_TIME);
-                                                         }
-                                                     }
-                                                 }
-        );
+//        priEditTextLocation.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//                                          @Override
+//                                          public void onFocusChange(View v, boolean hasFocus) {
+//                                              if (hasFocus) {
+//                                                  Intent intent = new Intent(context, ChooseLocation.class);
+//                                                  startActivityForResult(intent, GET_LOCATION);
+//                                              }
+//                                          }
+//                                      }
+//        );
 
         priButtonDone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,11 +106,12 @@ public class TaskDetail extends Activity {
                     lNewTask = new Task();
                     Global.getInstance().pubNewTask = lNewTask;
                 }
-//                lNewTask.pubTime = priThis.getTimeFromDateTextbox();
+                lNewTask.pubName = priEditTextTaskName.getText().toString();
                 lNewTask.pubStatus = Status.Pending;
                 if (lNewTask.pubCategory == null || lNewTask.pubCategory.equals(""))
                     lNewTask.pubCategory = "Khác";
                 lNewTask.pubPriority = Priority.Important;
+                lNewTask.pubTaskType = Global.getInstance().pubTaskType;
                 priTaskFragment.getValues(lNewTask);
                 iHelper.InsertATask(Global.getInstance().pubNewTask);
                 Global.getInstance().pubNewTask = null;
@@ -157,37 +131,28 @@ public class TaskDetail extends Activity {
         });
     }
 
-//    private Date getTimeFromDateTextbox() {
-//        SimpleDateFormat lDateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
-//        Date lDate = null;
-//        try {
-//            lDate = lDateFormat.parse(priEditTextDate.getText() + " " + priEditTextTime.getText());
-//        } catch (ParseException e) {
-//            lDate = null;
-//        } finally {
-//            if (lDate == null) {
-//                lDate = new Date();
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == GET_LOCATION) {
+//            if (resultCode == RESULT_OK) {
+//                String lLocation = data.getStringExtra("location");
+//                if (priTaskFragment instanceof AlarmFragment) {
+//                    ((AlarmFragment)priTaskFragment).setLocation(lLocation);
+//                }
+//            }
+//        } else if (requestCode == GET_TIME) {
+//            if (resultCode == RESULT_OK) {
+//                String lTime = data.getStringExtra("time");
+//                if (priTaskFragment instanceof AlarmFragment) {
+//                    ((AlarmFragment)priTaskFragment).setTime(lTime);
+//                }
+//                String lDate = data.getStringExtra("date");
+//                if (priTaskFragment instanceof AlarmFragment) {
+//                    ((AlarmFragment)priTaskFragment).setDate(lDate);
+//                }
 //            }
 //        }
-//        return lDate;
 //    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == GET_LOCATION) {
-            if (resultCode == RESULT_OK) {
-                String location = data.getStringExtra("location");
-                priEditTextLocation.setText(location);
-            }
-        } else if (requestCode == GET_TIME) {
-            if (resultCode == RESULT_OK) {
-                String time = data.getStringExtra("time");
-                priEditTextTime.setText(time);
-                String date = data.getStringExtra("date");
-                priEditTextDate.setText(date);
-            }
-        }
-    }
 
     public static void showSoftKeyboard(Activity iActivity, int iType) {
         InputMethodManager lInputMethodManager = (InputMethodManager)  iActivity.getSystemService(Activity.INPUT_METHOD_SERVICE);

@@ -61,50 +61,6 @@
                     android:layout_marginBottom="@dimen/paragraph_padding"
                     android:id="@+id/task_detail_TaskFragmentContainer"
                     android:orientation="vertical"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="@dimen/layout_padding_double">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/task_detail_labelTime"
-                        android:paddingRight="10dp"
-                        android:paddingEnd="10dp"/>
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/task_detail_hintTime"
-                        android:layout_weight="1"
-                        android:id="@+id/task_detail_editTextTime"/>
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/task_detail_hintDate"
-                        android:layout_weight="1"
-                        android:id="@+id/task_detail_editTextDate"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/layout_padding_double">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/task_detail_labelLocation"
-                        android:paddingRight="10dp"
-                        android:paddingEnd="10dp"/>
-                    <EditText
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/task_detail_hintLocation"
-                        android:layout_weight="1"
-                        android:id="@+id/task_detail_editTextLocation"/>
-                </LinearLayout>
-
-
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

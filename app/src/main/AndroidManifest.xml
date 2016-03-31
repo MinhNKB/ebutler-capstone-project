@@ -12,11 +12,11 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
         <activity android:name=".Dashboard" />
-        <activity android:name=".CategoryList"></activity>
+        <activity android:name=".CategoryList" />
         <activity android:name=".TaskList" />
         <activity android:name=".ChooseTime" />
         <activity android:name=".wizard.UserWizard" />
-        <activity android:name=".InfoRequest"></activity>
+        <activity android:name=".InfoRequest" />
         <activity android:name=".InfoDeclined" />
         <activity android:name=".InfoFinish" />
         <activity android:name=".TaskDetail" />
@@ -31,7 +31,7 @@
         </activity>
         <activity
             android:name=".TaskTypeList"
-            android:label="@string/title_activity_task_type_list"></activity>
+            android:label="@string/title_activity_task_type_list" />
     </application>
 
 </manifest>

@@ -22,4 +22,7 @@
     <dimen name="choose_location_LabelSize">18sp</dimen>
     <dimen name="task_detail_TextTitleHeight">48dp</dimen>
     <dimen name="inline_icon_size">12dp</dimen>
+
+    <dimen name="fragment_alarm_edittext_minwidth">80dp</dimen>
+    <dimen name="fragment_alarm_edittext_minwidth_double">160dp</dimen>
 </resources>

@@ -4,10 +4,41 @@
     android:layout_height="match_parent"
     tools:context="com.guardian.ebutler.fragments.tasks.AlarmFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/layout_padding_double">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="@dimen/fragment_alarm_edittext_minwidth"
+                android:hint="@string/task_detail_hintTime"
+                android:id="@+id/fragment_alarm_editTextTime"/>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="@dimen/fragment_alarm_edittext_minwidth"
+                android:hint="@string/task_detail_hintDate"
+                android:id="@+id/fragment_alarm_editTextDate"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/layout_padding_double">
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="@dimen/fragment_alarm_edittext_minwidth_double"
+                android:hint="@string/task_detail_hintLocation"
+                android:id="@+id/fragment_alarm_editTextLocation"/>
+        </LinearLayout>
+
+    </LinearLayout>
 
 </FrameLayout>

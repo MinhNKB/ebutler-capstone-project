@@ -7,6 +7,8 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -62,6 +64,14 @@ public class CheckListItemFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getActivity().getFragmentManager().beginTransaction().remove(lThis).commit();
+            }
+        });
+        CheckBox lCheckBox = (CheckBox) proView.findViewById(R.id.fragment_checklist_item_Checkbox);
+        lCheckBox.setChecked(pubIsChecked);
+        lCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                pubIsChecked = isChecked;
             }
         });
     }
