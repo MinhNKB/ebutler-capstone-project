@@ -1,7 +1,6 @@
 package com.guardian.ebutler.ebutler;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -9,12 +8,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -23,38 +20,38 @@ import com.guardian.ebutler.ebutler.custom.CustomListItem;
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 import com.guardian.ebutler.ebutler.dataclasses.Location;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
+import com.guardian.ebutler.ebutler.dataclasses.TaskType;
 import com.guardian.ebutler.world.Global;
-import com.tyczj.extendedcalendarview.Day;
-import com.tyczj.extendedcalendarview.ExtendedCalendarView;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-enum ViewState
-{
-    ListView,
-    CalendarView
-}
-
-
 public class Dashboard extends Activity {
-
-    private ImageView priButtonRoundAdd;
     private TextView priTextViewButlerSpeech;
     private SearchView priSearchView;
 
     private ListView priCustomListView;
     private CustomListAdapter priCustomListAdapter;
 
+    private boolean priIsCalendarView = false;
+    private boolean priIsAlarmFiltered = false;
+    private boolean priIsChecklistFiltered = false;
+    private boolean priIsNoteFiltered = false;
+    private boolean priIsSorted = false;
+
     private List<Task> priTaskList;
 
-    private ExtendedCalendarView priExtendedCalendarView;
-    private ImageButton priButtonArrow;
-    private LinearLayout priMiniTaskView;
+    private LinearLayout priLinearLayoutAddTaskbar;
+    private RelativeLayout priRelativeLayoutTaskbar;
+    private LinearLayout priLinearLayoutSearch;
+    private LinearLayout priLinearLayoutTopBar;
 
-    private ViewState priViewState;
+    private ImageButton priImageButtonAlarm;
+    private ImageButton priImageButtonCheckList;
+    private ImageButton priImageButtonNote;
+    private ImageButton priImageButtonSort;
 
+    private ImageButton priImageButtonViewType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,18 +59,13 @@ public class Dashboard extends Activity {
         setContentView(R.layout.activity_dashboard);
 
         this.findViewsByIds();
-
-        this.priViewState = ViewState.ListView;
-
         this.initializeCustomListView();
-        this.initializeExtendedCalendarView();
         this.initSearchView();
-
-        setupUI(findViewById(R.id.dashboard_parent));
+        this.setupUI(findViewById(R.id.dashboard_parent));
     }
 
 
-    private void initializeCustomListView()
+    public void initializeCustomListView()
     {
         try
         {
@@ -88,7 +80,7 @@ public class Dashboard extends Activity {
         }
     }
 
-    private void initSearchView() {
+    public void initSearchView() {
         this.priSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -104,50 +96,41 @@ public class Dashboard extends Activity {
         this.priSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                priSearchView.setVisibility(View.GONE);
-                priTextViewButlerSpeech.setVisibility(View.VISIBLE);
-                priButtonRoundAdd.setVisibility(View.GONE);
-                return true;
+                switchToSearchView(false);
+                return false;
             }
         });
     }
 
-    private boolean searchView_onTextChange(String newText)
+    public boolean searchView_onTextChange(String newText)
     {
-        if (newText != null && !newText.equals(""))
-            this.priButtonRoundAdd.setImageResource(R.mipmap.ic_add_round);
-        else
-            this.priButtonRoundAdd.setImageResource(R.mipmap.ic_add_round_disabled);
-        switchToListView();
+        this.switchView(false);
         this.priCustomListAdapter.getFilter().filter(newText);
         return true;
     }
 
-    private void initializeExtendedCalendarView() {
-        this.priExtendedCalendarView.setGesture(ExtendedCalendarView.LEFT_RIGHT_GESTURE);
-        this.priExtendedCalendarView.setOnDayClickListener(new ExtendedCalendarView.OnDayClickListener() {
-            @Override
-            public void onDayClicked(AdapterView<?> adapter, View view, int position, long id, Day day) {
-                if (day.getMonth() == 1 && (day.getDay() == 27 || day.getDay() == 28))
-                    priMiniTaskView.setVisibility(View.VISIBLE);
-                else
-                    priMiniTaskView.setVisibility(View.GONE);
-            }
-        });
-
+    private void switchView(boolean iIsCalendarView) {
+        this.priIsCalendarView = iIsCalendarView;
+        this.priImageButtonViewType.setImageResource(this.priIsCalendarView == true ? R.mipmap.ic_list : R.mipmap.ic_date_range);
     }
-    private void findViewsByIds() {
-        this.priButtonRoundAdd = (ImageView) findViewById(R.id.dashboard_buttonRoundAdd);
+
+    public void findViewsByIds() {
         this.priTextViewButlerSpeech = (TextView) findViewById(R.id.dashboard_textViewButlerSpeech);
         this.priSearchView = (SearchView) findViewById(R.id.dashboard_searchView);
         this.priCustomListView = (ListView) findViewById(R.id.dashboard_listViewTasks);
-        this.priExtendedCalendarView = (ExtendedCalendarView) findViewById(R.id.dashboard_extendedCalendar);
-        this.priButtonArrow = (ImageButton) findViewById(R.id.dashboard_buttonArrow);
-        this.priMiniTaskView = (LinearLayout) findViewById(R.id.dashboard_miniTaskView);
+        this.priLinearLayoutAddTaskbar = (LinearLayout) findViewById(R.id.dashboard_linearLayout_addTaskBar);
+        this.priRelativeLayoutTaskbar = (RelativeLayout) findViewById(R.id.dashboard_taskBar);
+        this.priLinearLayoutSearch = (LinearLayout) findViewById(R.id.dashboard_linearLayoutSearch);
+        this.priLinearLayoutTopBar = (LinearLayout) findViewById(R.id.dashboard_topBar);
+        this.priImageButtonAlarm = (ImageButton) findViewById(R.id.dashboard_buttonAlarm);
+        this.priImageButtonCheckList = (ImageButton) findViewById(R.id.dashboard_buttonCheckList);
+        this.priImageButtonNote = (ImageButton) findViewById(R.id.dashboard_buttonNote);
+        this.priImageButtonSort = (ImageButton) findViewById(R.id.dashboard_buttonSort);
+        this.priImageButtonViewType = (ImageButton) findViewById(R.id.dashboard_buttonViewType);
     }
 
 
-    private List<CustomListItem> getCustomItems(List<Task> iTaskList) {
+    public List<CustomListItem> getCustomItems(List<Task> iTaskList) {
         List<CustomListItem> lResult = new ArrayList<CustomListItem>();
         CustomListItem lCustomListItem;
 
@@ -172,61 +155,29 @@ public class Dashboard extends Activity {
         return lResult;
     }
 
-    public void buttonArrow_onclick(View view) {
-        switch (this.priViewState) {
-            case ListView:
-                this.switchToCalendarView();
-                break;
-            case CalendarView:
-                this.switchToListView();
-                break;
-        }
+    public void switchToAddTaskbar(boolean iIsAddTaskbar) {
+        this.priRelativeLayoutTaskbar.setVisibility(iIsAddTaskbar == true ? View.GONE : View.VISIBLE);
+        this.priLinearLayoutAddTaskbar.setVisibility(iIsAddTaskbar == false ? View.GONE : View.VISIBLE);
     }
 
-    private void switchToCalendarView() {
-        this.priExtendedCalendarView.setVisibility(View.VISIBLE);
-        this.priCustomListView.setVisibility(View.GONE);
-        this.priButtonArrow.setImageResource(R.mipmap.ic_arrow_up_black);
-        this.priViewState = ViewState.CalendarView;
-    }
-
-    private void switchToListView() {
-        this.priExtendedCalendarView.setVisibility(View.GONE);
-        this.priCustomListView.setVisibility(View.VISIBLE);
-        this.priButtonArrow.setImageResource(R.mipmap.ic_arrow_down_black);
-        this.priMiniTaskView.setVisibility(View.GONE);
-        this.priViewState = ViewState.ListView;
-    }
-
-    public void miniTaskView_onClick(View view) {
-        //To-do: add filter
-        this.switchToListView();
-    }
-
-    public void buttonAdd_onClick(View view) {
-        Intent intent = new Intent(this, TaskTypeList.class);
-        startActivity(intent);
+    public void buttonBack_onClick(View view) {
+        this.switchToAddTaskbar(false);
     }
 
     public void buttonSearch_onClick(View view) {
-        this.priButtonRoundAdd.setVisibility(View.VISIBLE);
-        this.priTextViewButlerSpeech.setVisibility(View.GONE);
-        this.priSearchView.setVisibility(View.VISIBLE);
-        this.priSearchView.requestFocusFromTouch();
-        this.priSearchView.setIconified(false);
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(this.priSearchView, InputMethodManager.SHOW_IMPLICIT);
+        this.switchToSearchView(true);
     }
 
-    public void buttonRoundAdd_onClick(View view) {
-        if (this.priSearchView.getQuery().toString() != null && !this.priSearchView.getQuery().toString().equals("")) {
-            Global.getInstance().pubNewTask = new Task();
-            Global.getInstance().pubNewTask.pubName = this.priSearchView.getQuery().toString();
-            Intent intent = new Intent(this, TaskDetail.class);
-            startActivity(intent);
+    public void switchToSearchView(boolean iIsSearchView){
+        this.priLinearLayoutTopBar.setVisibility(iIsSearchView == true ? View.GONE : View.VISIBLE);
+        this.priLinearLayoutSearch.setVisibility(iIsSearchView == false ? View.GONE : View.VISIBLE);
+        if (iIsSearchView == true){
+            this.priSearchView.setIconified(false);
+            this.priSearchView.requestFocusFromTouch();
         }
-    }
 
+        //showSoftKeyboard(this, InputMethodManager.HIDE_NOT_ALWAYS);
+    }
 
     public static void showSoftKeyboard(Activity iActivity, int iType) {
         InputMethodManager lInputMethodManager = (InputMethodManager)  iActivity.getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -235,12 +186,14 @@ public class Dashboard extends Activity {
     }
 
     public void setupUI(View view) {
-        view.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                showSoftKeyboard(Dashboard.this, InputMethodManager.HIDE_NOT_ALWAYS);
-                return false;
-            }
-        });
+        if (!(view instanceof SearchView)){
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    showSoftKeyboard(Dashboard.this, InputMethodManager.HIDE_NOT_ALWAYS);
+                    return false;
+                }
+            });
+        }
         if (view instanceof ViewGroup) {
             for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
                 View innerView = ((ViewGroup) view).getChildAt(i);
@@ -266,5 +219,64 @@ public class Dashboard extends Activity {
         Intent setIntent = new Intent(this, UserInfoInput.class);
         setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(setIntent);
+    }
+
+    public void buttonCheckListAdd_onClick(View view) {
+        this.createNewTask(TaskType.CheckList);
+    }
+
+    public void buttonAlarmAdd_onClick(View view) {
+        this.createNewTask(TaskType.OneTimeReminder);
+    }
+
+    public void editTextNoteAdd_onClick(View view) {
+        this.createNewTask(TaskType.Note);
+    }
+
+    public void createNewTask(TaskType iTaskType){
+
+    }
+
+    public void buttonAlarm_onClick(View view) {
+        this.priIsAlarmFiltered = !this.priIsAlarmFiltered;
+        this.priImageButtonAlarm.setBackground(this.priIsAlarmFiltered == true ?
+                getResources().getDrawable(R.drawable.blue_round_button_active) : getResources().getDrawable(R.drawable.blue_round_button_inactive));
+        filter();
+    }
+
+    public void buttonCheckList_onClick(View view) {
+        this.priIsChecklistFiltered = !this.priIsChecklistFiltered;
+        this.priImageButtonCheckList.setBackground(this.priIsChecklistFiltered == true ?
+                getResources().getDrawable(R.drawable.blue_round_button_active) : getResources().getDrawable(R.drawable.blue_round_button_inactive));
+        filter();
+    }
+
+    public void buttonNote_onClick(View view) {
+        this.priIsNoteFiltered = !this.priIsNoteFiltered;
+        this.priImageButtonNote.setBackground(this.priIsNoteFiltered == true ?
+                getResources().getDrawable(R.drawable.blue_round_button_active) : getResources().getDrawable(R.drawable.blue_round_button_inactive));
+        filter();
+    }
+
+    public void buttonSort_onClick(View view) {
+        this.priIsSorted = !this.priIsSorted;
+        this.priImageButtonSort.setBackground(this.priIsSorted == true ?
+                getResources().getDrawable(R.drawable.blue_round_button_active) : getResources().getDrawable(R.drawable.blue_round_button_inactive));
+    }
+
+    public void filter(){
+
+    }
+
+    public void buttonViewType_onClick(View view) {
+        this.switchView(!this.priIsCalendarView);
+    }
+
+    public void buttonAdd_onClick(View view) {
+        this.switchToAddTaskbar(true);
+    }
+
+    public void buttonBackSearch_onClick(View view) {
+        this.switchToSearchView(false);
     }
 }

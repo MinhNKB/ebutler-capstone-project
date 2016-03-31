@@ -29,7 +29,6 @@ public class TaskList extends Activity {
 
     private TextView priTextViewButlerSpeech;
     private SearchView priSearchView;
-    private ImageView priButtonRoundAdd;
 
     private ListView priListViewTask;
     private List<CustomListItem> priTaskCustomList;
@@ -93,7 +92,6 @@ public class TaskList extends Activity {
             public boolean onClose() {
                 priSearchView.setVisibility(View.GONE);
                 priTextViewButlerSpeech.setVisibility(View.VISIBLE);
-                priButtonRoundAdd.setVisibility(View.GONE);
                 return true;
             }
         });
@@ -101,16 +99,11 @@ public class TaskList extends Activity {
 
     private boolean searchView_onTextChange(String newText)
     {
-        if (newText != null && !newText.equals(""))
-            this.priButtonRoundAdd.setImageResource(R.mipmap.ic_add_round);
-        else
-            this.priButtonRoundAdd.setImageResource(R.mipmap.ic_add_round_disabled);
         this.priCustomListAdapter.getFilter().filter(newText);
         return true;
     }
 
     private void findViewsByIds() {
-        this.priButtonRoundAdd = (ImageView) findViewById(R.id.task_list_buttonRoundAdd);
         this.priTextViewButlerSpeech = (TextView) findViewById(R.id.task_list_textViewButlerSpeech);
         this.priSearchView = (SearchView) findViewById(R.id.task_list_searchView);
         this.priListViewTask = (ListView) findViewById(R.id.task_list_listViewTask);
@@ -133,7 +126,6 @@ public class TaskList extends Activity {
 
 
     public void buttonSearch_onClick(View view) {
-        this.priButtonRoundAdd.setVisibility(View.VISIBLE);
         this.priTextViewButlerSpeech.setVisibility(View.GONE);
         this.priSearchView.setVisibility(View.VISIBLE);
         this.priSearchView.requestFocusFromTouch();
@@ -142,16 +134,7 @@ public class TaskList extends Activity {
         imm.showSoftInput(this.priSearchView, InputMethodManager.SHOW_IMPLICIT);
     }
 
-    public void buttonRoundAdd_onClick(View view) {
-        if (this.priSearchView.getQuery().toString() != null && !this.priSearchView.getQuery().toString().equals("")) {
-            Intent intent = new Intent(this, TaskDetail.class);
-            Global.getInstance().pubNewTask.pubName = this.priSearchView.getQuery().toString();
-            startActivity(intent);
-        }
-    }
-
     public void buttonAdd_onClick(View view) {
-        this.priButtonRoundAdd.setVisibility(View.VISIBLE);
         this.priTextViewButlerSpeech.setVisibility(View.GONE);
         this.priSearchView.setVisibility(View.VISIBLE);
         this.priSearchView.requestFocusFromTouch();
