@@ -27,6 +27,7 @@
             android:maxWidth="50dp"
             android:scaleType="fitCenter"
             android:src="@drawable/butler_gif"/>
+
         <TextView
             android:id="@+id/dashboard_textViewButlerSpeech"
             android:visibility="visible"

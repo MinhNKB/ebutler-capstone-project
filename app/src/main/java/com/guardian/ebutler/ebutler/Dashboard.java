@@ -1,6 +1,7 @@
 package com.guardian.ebutler.ebutler;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
