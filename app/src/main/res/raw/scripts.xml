@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scripts>
+	<Script>
+		<Type>Morning</Type>
+		<String>Chúc bạn một buổi sáng tốt lành</String>
+	</Script>
+	<Script>
+		<Type>Morning</Type>
+		<String>Buổi sáng vui vẻ</String>
+	</Script>
+	<Script>
+		<Type>Morning</Type>
+		<String>Chúc bạn có một ngày tràn đầy sức sống</String>
+	</Script>
+	<Script>
+		<Type>Afternoon</Type>
+		<String>Xin chào buổi trưa</String>
+	</Script>
+	<Script>
+		<Type>Evening</Type>
+		<String>Xin chảo buổi tối</String>
+	</Script>
+	<Script>
+		<Type>Evening</Type>
+		<String>Xin chào, chúc bạn có một buổi tối yên bình</String>
+	</Script>
+	<Script>
+		<Type>Repeat</Type>
+		<String>Xin chào, rất vui được gặp lại bạn</String>
+	</Script>
+	<Script>
+		<Type>Repeat</Type>
+		<String>Xin chào bạn, tôi có thể giúp gì cho bạn</String>
+	</Script>
+	<Script>
+		<Type>Thanks</Type>
+		<String>Cảm ơn bạn cung cấp thêm thông tin</String>
+	</Script>
+	<Script>
+		<Type>Thanks</Type>
+		<String>Thông tin mới của bạn đã được cập nhật. Xin cảm ơn</String>
+	</Script>
+</Scripts>

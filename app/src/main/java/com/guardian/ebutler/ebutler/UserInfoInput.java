@@ -63,6 +63,7 @@ public class UserInfoInput extends Activity {
         this.findViewsByIds();
         this.setupUI(findViewById(R.id.user_info_input_parent));
         this.priScriptManager = new ScriptManager(this);
+        this.createConversationStatement(priScriptManager.GetAGreeting(), true);
         this.showQuestion();
         this.initializeDatabase();
         this.preprocessProgressBar();
@@ -75,7 +76,7 @@ public class UserInfoInput extends Activity {
             public void onClick(View v) {
                 if (priIsFinishedAsking) {
                     int changedProgress = (int) (priScriptManager.GetProgress() * 100);
-                    createConversationStatement("Bạn đã hoàn thành " + changedProgress + "% câu hỏi, bạn có muốn trả lời tiếp không?", true);
+                    createConversationStatement("B?n d� ho�n th�nh " + changedProgress + "% c�u h?i, b?n c� mu?n tr? l?i ti?p kh�ng?", true);
                     priAnwserFragmentInterface = new YesNoFragment();
                     switchTaskbarToLightTheme(true);
                     getFragmentManager().beginTransaction().add(priRelativeLayoutForSimpleAnswer.getId(), (Fragment) priAnwserFragmentInterface).commit();
@@ -223,7 +224,7 @@ public class UserInfoInput extends Activity {
     }
 
     private void showFinishMessage(){
-        this.createConversationStatement(getResources().getString(R.string.user_info_input_greetings), true);
+        this.createConversationStatement(priScriptManager.GetAFinishString(), true);
 
     }
 

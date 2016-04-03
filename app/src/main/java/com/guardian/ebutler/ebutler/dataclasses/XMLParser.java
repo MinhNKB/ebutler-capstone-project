@@ -2,6 +2,7 @@ package com.guardian.ebutler.ebutler.dataclasses;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.Pair;
 import android.util.Xml;
 
 import com.guardian.ebutler.ebutler.R;
@@ -13,7 +14,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by nkbmi on 3/23/2016.
@@ -26,7 +29,7 @@ public class XMLParser {
     {
         priContext = iContext;
     }
-
+    //region Questions
     public List ParseQuestionGroups() throws XmlPullParserException, IOException
     {
         InputStream lInput = priContext.getResources().openRawResource(R.raw.questions);
@@ -184,4 +187,79 @@ public class XMLParser {
             }
         }
     }
+    //endregion
+
+    //region Scripts
+    public Map<String,List<String>> ParseScripts() throws XmlPullParserException, IOException
+    {
+        InputStream lInput = priContext.getResources().openRawResource(R.raw.scripts);
+        Map<String,List<String>> lResult = null;
+        try{
+            XmlPullParser lParser = Xml.newPullParser();
+            lParser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+            lParser.setInput(lInput, null);
+            lParser.nextTag();
+            lResult = ReadScripts(lParser);
+        }
+        catch (Exception ex)
+        {
+            Log.w("XML",ex.getMessage());
+        }
+        finally {
+            lInput.close();
+            return lResult;
+        }
+    }
+
+    private Map<String,List<String>> ReadScripts(XmlPullParser iParser) throws IOException, XmlPullParserException {
+        Map<String,List<String>> lGroups = new HashMap<String,List<String>>();
+
+        iParser.require(XmlPullParser.START_TAG, ns, "Scripts");
+        while (iParser.next() != XmlPullParser.END_TAG) {
+            if (iParser.getEventType() != XmlPullParser.START_TAG) {
+                continue;
+            }
+            String name = iParser.getName();
+            // Starts by looking for the entry tag
+            if (name.equals("Script")) {
+                Pair<String,String> lTempScript = ReadScript(iParser);
+                if(lGroups.containsKey(lTempScript.first))
+                {
+                    lGroups.get(lTempScript.first).add(lTempScript.second);
+                }
+                else
+                {
+                    List<String> lTempList = new ArrayList<>();
+                    lTempList.add(lTempScript.second);
+                    lGroups.put(lTempScript.first,lTempList);
+                }
+            } else {
+                Skip(iParser);
+            }
+        }
+        return lGroups;
+    }
+
+    private Pair<String,String> ReadScript(XmlPullParser iParser) throws IOException, XmlPullParserException {
+        iParser.require(XmlPullParser.START_TAG,ns,"Script");
+        String first = "",second = "";
+
+        while (iParser.next() != XmlPullParser.END_TAG) {
+            if (iParser.getEventType() != XmlPullParser.START_TAG) {
+                continue;
+            }
+            String name = iParser.getName();
+            if (name.equals("Type")) {
+                first = ReadLeafTag(iParser, name);
+            } else if (name.equals("String")) {
+                second = ReadLeafTag(iParser, name);
+            }
+            else {
+                Skip(iParser);
+            }
+        }
+
+        return new Pair<String,String>(first,second);
+    }
+    //endregion
 }

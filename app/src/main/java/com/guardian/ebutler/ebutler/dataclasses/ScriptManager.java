@@ -14,6 +14,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * Created by nkbmi on 3/16/2016.
@@ -24,6 +26,7 @@ public class ScriptManager {
     private List<QuestionGroup> priQuestionGroups;
     private QuestionGroup priCurrentQuestionGroup;
     private Question priCurrentQuestion;
+    private Map<String,List<String>> priScripts;
 
     public ScriptManager(Context iContext)
     {
@@ -36,8 +39,12 @@ public class ScriptManager {
 
         //Set the current group
         priCurrentQuestionGroup = GetASuitableQuestionGroup();
+
+        priScripts = GetScripts();
+
     }
 
+    //region Question
     public void PushQuestionData()
     {
         try {
@@ -153,7 +160,9 @@ public class ScriptManager {
         priCurrentQuestion.pubIsAsked = true;
         lHelper.UpdateAQuestion(priCurrentQuestion);
     }
+    //endregion
 
+    //region Refresh
     public double GetProgress(){
         int lCountAnwseredQuestions = 0;
         for(int i=0;i<priQuestionGroups.size();i++) {
@@ -167,5 +176,43 @@ public class ScriptManager {
     {
         priCurrentQuestionGroup = GetASuitableQuestionGroup();
     }
+    //endregion
+
+    //region Scripts
+    private Map<String, List<String>> GetScripts() {
+        try {
+            XMLParser lParser = new XMLParser(priContext);
+            return lParser.ParseScripts();
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
+
+    public String GetAGreeting()
+    {
+        Date lCurrentDate = new Date();
+        int lCurrentHour = lCurrentDate.getHours();
+        if(lCurrentHour<=11)
+            return GetAScript("Morning");
+        else if(lCurrentHour<=15)
+            return GetAScript("Afternoon");
+        return GetAScript("Evening");
+    }
+
+    public String GetAFinishString()
+    {
+        return GetAScript("Thanks");
+    }
+
+    private String GetAScript(String lType) {
+        List<String> lScripts = priScripts.get(lType);
+        int lMax = lScripts.size();
+        Random lRandom = new Random();
+        int  lIndex = lRandom.nextInt(lMax);
+        return lScripts.get(lIndex);
+    }
+    //endregion
 
 }
