@@ -42,7 +42,10 @@
         <item>22:00</item>
         <item>23:00</item>
     </string-array>
-
+    <string-array name="sort_modes">
+        <item>Ngày tháng</item>
+        <item>Tiêu đề</item>
+    </string-array>
 
 
 </resources>
