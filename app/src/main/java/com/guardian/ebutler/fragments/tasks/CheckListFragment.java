@@ -1,18 +1,17 @@
 package com.guardian.ebutler.fragments.tasks;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import com.guardian.ebutler.ebutler.R;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,8 +27,11 @@ public class CheckListFragment extends AbstractTaskFragment {
         proFragmentId = R.layout.fragment_checklist;
     }
 
-    public static CheckListFragment newInstance() {
+    public Activity pubActivity;
+
+    public static CheckListFragment newInstance(Activity iActivity) {
         CheckListFragment fragment = new CheckListFragment();
+        fragment.pubActivity = iActivity;
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -45,30 +47,73 @@ public class CheckListFragment extends AbstractTaskFragment {
                 rNewTask.pubDescription += ",";
             }
         }
+        rNewTask.pubTime = new Date();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        addNewItem();
     }
 
     public void setValuesToView(View view) {
-        final EditText lEditText = (EditText) view.findViewById(R.id.fragment_checklist_TemplateEditText);
-        lEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        final ImageButton lAddItem = (ImageButton) view.findViewById(R.id.fragmen_checklist_addItem);
+        lAddItem.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                addValue();
-                return false;
+            public void onClick(View v) {
+                addNewItem();
             }
         });
     }
 
-    public void addValue() {
-        EditText lEditBox = (EditText) proView.findViewById(R.id.fragment_checklist_TemplateEditText);
-        String lTemplateString = lEditBox.getText().toString();
-        lEditBox.setText("");
-        CheckBox lCheckBox = ((CheckBox) proView.findViewById(R.id.fragment_checklist_TemplateCheckbox));
-        Boolean lIsChecked = lCheckBox.isChecked();
-        lCheckBox.setChecked(false);
+//    public void initCheckList(){
+//        LinearLayout lDoneCheckListContainerGeneral = (LinearLayout) proView.findViewById(R.id.fragment_checklist_doneChecklistContainerGeneralLayout);
+//        lDoneCheckListContainerGeneral.setVisibility(View.GONE);
+//
+//        ArrayList<CheckListItemFragment> oldFragmentList = proFragmentList;
+//        proFragmentList = new ArrayList<CheckListItemFragment>();
+//
+//        for (int i = 0; i < oldFragmentList.size(); ++i){
+//            if (oldFragmentList.get(i).pubIsChecked == false)
+//                addItemToView(R.id.fragment_checklist_ChecklistContainer, createNewCheckListItemFragment(
+//                        oldFragmentList.get(i).pubText, oldFragmentList.get(i).pubIsChecked));
+//            else
+//            {
+//                lDoneCheckListContainerGeneral.setVisibility(View.VISIBLE);
+//                addItemToView(R.id.fragment_checklist_donechecklistContainer, createNewCheckListItemFragment(
+//                        oldFragmentList.get(i).pubText, oldFragmentList.get(i).pubIsChecked));
+//            }
+//        }
+//    }
 
-        CheckListItemFragment lChecklistItemFragment = CheckListItemFragment.newInstance(lTemplateString, lIsChecked);
+    public void addNewItem(){
+        addItemToView(R.id.fragment_checklist_ChecklistContainer, createNewCheckListItemFragment("", false));
+    }
+
+    public void addItemToView(int containerViewId, Fragment fragment) {
+        getFragmentManager().beginTransaction().add(containerViewId, fragment).commit();
+    }
+
+    public CheckListItemFragment createNewCheckListItemFragment(String iText, boolean iIsChecked){
+        CheckListItemFragment lChecklistItemFragment = CheckListItemFragment.newInstance(iText, iIsChecked);
+        lChecklistItemFragment.pubCheckListFragment = this;
         proFragmentList.add(lChecklistItemFragment);
+        return lChecklistItemFragment;
+    }
 
-        getFragmentManager().beginTransaction().add(R.id.fragment_checklist_ChecklistContainer, lChecklistItemFragment).commit();
+    public void reallocateFragment(CheckListItemFragment iCheckListItemFragment) {
+        getFragmentManager().beginTransaction().remove(iCheckListItemFragment).commit();
+        proFragmentList.remove(iCheckListItemFragment);
+
+        CheckListItemFragment lNewItem = createNewCheckListItemFragment(iCheckListItemFragment.pubText, iCheckListItemFragment.pubIsChecked);
+        getFragmentManager().beginTransaction().add(iCheckListItemFragment.pubIsChecked == true ?
+                        R.id.fragment_checklist_donechecklistContainer : R.id.fragment_checklist_ChecklistContainer ,
+                lNewItem).commit();
+
+        LinearLayout lDoneCheckListContainerGeneral = (LinearLayout) proView.findViewById(R.id.fragment_checklist_doneChecklistContainerGeneralLayout);
+        LinearLayout lDoneCheckListContainer = (LinearLayout) proView.findViewById(R.id.fragment_checklist_donechecklistContainer);
+
+        int lMin = iCheckListItemFragment.pubIsChecked == true ? -1 : 1;
+        lDoneCheckListContainerGeneral.setVisibility(lDoneCheckListContainer.getChildCount() > lMin ? View.VISIBLE : View.GONE);
     }
 }

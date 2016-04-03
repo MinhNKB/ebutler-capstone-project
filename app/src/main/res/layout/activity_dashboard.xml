@@ -42,84 +42,92 @@
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <ImageButton
-            android:layout_margin="@dimen/layout_padding"
-            android:layout_width="@dimen/taskbar_iconSize"
-            android:layout_height="@dimen/taskbar_iconSize"
-            android:background="@drawable/blue_round_button_active"
-            android:src="@mipmap/ic_arrow_back"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
-            android:onClick="buttonBackSearch_onClick"/>
+        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/layout_padding"
-            android:orientation="vertical">
-            <SearchView
-                android:id="@+id/dashboard_searchView"
-                android:focusable="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:queryHint="@string/search_bar_queryHint"/>
+            android:orientation="horizontal">
+            <ImageButton
+            android:layout_margin="@dimen/layout_padding"
+            android:layout_width="@dimen/taskbar_iconSize"
+            android:layout_height="@dimen/taskbar_iconSize"
+            android:background="@drawable/white_button"
+            android:src="@mipmap/ic_arrow_back_grey"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:onClick="buttonBackSearch_onClick"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/layout_padding"
+                android:orientation="vertical">
+                <SearchView
+                    android:id="@+id/dashboard_searchView"
+                    android:focusable="true"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:queryHint="@string/search_bar_queryHint"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+                        <ImageButton
+                            android:id="@+id/dashboard_buttonAlarm"
+                            android:layout_margin="@dimen/layout_padding"
+                            android:layout_width="@dimen/taskbar_iconSize"
+                            android:layout_height="@dimen/taskbar_iconSize"
+                            android:background="@drawable/blue_round_button_active"
+                            android:src="@mipmap/ic_alarm"
+                            android:scaleType="fitCenter"
+                            android:adjustViewBounds="true"
+                            android:onClick="buttonAlarm_onClick"/>
+                        <ImageButton
+                            android:id="@+id/dashboard_buttonCheckList"
+                            android:layout_margin="@dimen/layout_padding"
+                            android:layout_width="@dimen/taskbar_iconSize"
+                            android:layout_height="@dimen/taskbar_iconSize"
+                            android:background="@drawable/blue_round_button_active"
+                            android:src="@mipmap/ic_playlist_add_check"
+                            android:scaleType="fitCenter"
+                            android:adjustViewBounds="true"
+                            android:onClick="buttonCheckList_onClick"/>
+                        <ImageButton
+                            android:id="@+id/dashboard_buttonNote"
+                            android:layout_margin="@dimen/layout_padding"
+                            android:layout_width="@dimen/taskbar_iconSize"
+                            android:layout_height="@dimen/taskbar_iconSize"
+                            android:background="@drawable/blue_round_button_active"
+                            android:src="@mipmap/ic_note"
+                            android:scaleType="fitCenter"
+                            android:adjustViewBounds="true"
+                            android:onClick="buttonNote_onClick"/>
+                    </LinearLayout>
                     <ImageButton
-                        android:id="@+id/dashboard_buttonAlarm"
+                        android:id="@+id/dashboard_buttonSort"
                         android:layout_margin="@dimen/layout_padding"
                         android:layout_width="@dimen/taskbar_iconSize"
                         android:layout_height="@dimen/taskbar_iconSize"
-                        android:background="@drawable/blue_round_button_inactive"
-                        android:src="@mipmap/ic_alarm"
+                        android:background="@drawable/blue_round_button_active"
+                        android:src="@mipmap/ic_sort"
                         android:scaleType="fitCenter"
                         android:adjustViewBounds="true"
-                        android:onClick="buttonAlarm_onClick"/>
-                    <ImageButton
-                        android:id="@+id/dashboard_buttonCheckList"
-                        android:layout_margin="@dimen/layout_padding"
-                        android:layout_width="@dimen/taskbar_iconSize"
-                        android:layout_height="@dimen/taskbar_iconSize"
-                        android:background="@drawable/blue_round_button_inactive"
-                        android:src="@mipmap/ic_playlist_add_check"
-                        android:scaleType="fitCenter"
-                        android:adjustViewBounds="true"
-                        android:onClick="buttonCheckList_onClick"/>
-                    <ImageButton
-                        android:id="@+id/dashboard_buttonNote"
-                        android:layout_margin="@dimen/layout_padding"
-                        android:layout_width="@dimen/taskbar_iconSize"
-                        android:layout_height="@dimen/taskbar_iconSize"
-                        android:background="@drawable/blue_round_button_inactive"
-                        android:src="@mipmap/ic_note"
-                        android:scaleType="fitCenter"
-                        android:adjustViewBounds="true"
-                        android:onClick="buttonNote_onClick"/>
+                        android:onClick="buttonSort_onClick"/>
                 </LinearLayout>
-                <ImageButton
-                    android:id="@+id/dashboard_buttonSort"
-                    android:layout_margin="@dimen/layout_padding"
-                    android:layout_width="@dimen/taskbar_iconSize"
-                    android:layout_height="@dimen/taskbar_iconSize"
-                    android:background="@drawable/blue_round_button_inactive"
-                    android:src="@mipmap/ic_sort"
-                    android:scaleType="fitCenter"
-                    android:adjustViewBounds="true"
-                    android:onClick="buttonSort_onClick"/>
             </LinearLayout>
         </LinearLayout>
+        <!--<View style="@style/Divider"/>-->
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layout_padding_double"
         android:layout_marginLeft="@dimen/layout_padding"
         android:layout_marginRight="@dimen/layout_padding"
         android:layout_weight="1"
@@ -234,7 +242,7 @@
                 android:clickable="true"
                 android:text="Ghi chú nhanh..."
                 android:textColor="@color/background"
-                android:textSize="@dimen/font_size"
+                android:textSize="@dimen/font_size_large"
                 android:onClick="textViewAddNote_onClick"/>
         </RelativeLayout>
     </LinearLayout>

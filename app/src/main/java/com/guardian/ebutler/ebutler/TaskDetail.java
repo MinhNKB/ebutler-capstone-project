@@ -59,7 +59,7 @@ public class TaskDetail extends Activity {
                 priTaskFragment = NoteFragment.newInstance();
                 break;
             case CheckList:
-                priTaskFragment = CheckListFragment.newInstance();
+                priTaskFragment = CheckListFragment.newInstance(this);
                 break;
             case OneTimeReminder:
                 priTaskFragment = AlarmFragment.newInstance();
@@ -94,11 +94,6 @@ public class TaskDetail extends Activity {
         priButtonDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (priEditTextTaskName.getText().toString().equals("")) {
-                    Toast toast = Toast.makeText(TaskDetail.this, "Bạn phải nhập tên công việc", Toast.LENGTH_LONG);
-                    toast.show();
-                    return;
-                }
                 DatabaseHelper iHelper = new DatabaseHelper(priThis);
                 Task lNewTask = Global.getInstance().pubNewTask;
                 if (lNewTask == null) {

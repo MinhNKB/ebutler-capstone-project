@@ -21,6 +21,9 @@ import com.guardian.ebutler.ebutler.custom.CustomListItem;
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 import com.guardian.ebutler.ebutler.dataclasses.Location;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
+import com.guardian.ebutler.ebutler.dataclasses.TaskChecklist;
+import com.guardian.ebutler.ebutler.dataclasses.TaskNote;
+import com.guardian.ebutler.ebutler.dataclasses.TaskOneTimeReminder;
 import com.guardian.ebutler.ebutler.dataclasses.TaskType;
 import com.guardian.ebutler.world.Global;
 
@@ -36,11 +39,11 @@ public class Dashboard extends Activity {
 
     private boolean priIsCalendarView = false;
 
-    private boolean priIsAlarmFiltered = false;
-    private boolean priIsChecklistFiltered = false;
-    private boolean priIsNoteFiltered = false;
+    private boolean priIsAlarmFiltered = true;
+    private boolean priIsChecklistFiltered = true;
+    private boolean priIsNoteFiltered = true;
 
-    private boolean priIsSorted = false;
+    private boolean priIsSorted = true;
 
     private List<Task> priTaskList;
 
@@ -60,11 +63,12 @@ public class Dashboard extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-
         this.findViewsByIds();
         this.initializeCustomListView();
         this.initSearchView();
         this.setupUI(findViewById(R.id.dashboard_parent));
+
+        Global.getInstance().pubNewTask = null;
     }
 
 
@@ -134,27 +138,69 @@ public class Dashboard extends Activity {
 
     public List<CustomListItem> getCustomItems(List<Task> iTaskList) {
         List<CustomListItem> lResult = new ArrayList<CustomListItem>();
-        CustomListItem lCustomListItem;
 
         for (Task lTask: iTaskList
-             ) {
-            String lSecondLine = "";
-            if (lTask.pubDescription != null && !lTask.pubDescription.equals(""))
-                lSecondLine = lTask.pubDescription;
-            else if (lTask.pubTime != null)
-                lSecondLine = lTask.pubTime.toString();
-            else if (lTask.pubLocation != null){
-                for (Location lLocation:lTask.pubLocation
-                     ) {
-                    lSecondLine += lLocation.pubName;
-                }
-            }
-
-            lCustomListItem = new CustomListItem(Global.getInstance().getTaskTypeEnum(lTask),
-                    lTask.pubName, lSecondLine, lTask.pubPriority.toString(), Global.getInstance().getTaskTypeDrawable(this, lTask));
-            lResult.add(lCustomListItem);
-        }
+             )
+            lResult.add(this.createCustomListItem(lTask));
         return lResult;
+    }
+
+    private CustomListItem createCustomListItem(Task lTask) {
+        CustomListItem lCustomListItem;
+
+        String lFirstLine = getFirstLine(lTask);
+        String lSecondLine = getSecondLine(lTask);
+        String lThirdLine = getThirdLine(lTask);
+
+        lCustomListItem = new CustomListItem(Global.getInstance().getTaskTypeEnum(lTask),
+                lFirstLine, lSecondLine, lThirdLine, Global.getInstance().getTaskTypeDrawable(this, lTask));
+
+        return  lCustomListItem;
+    }
+
+    private String getThirdLine(Task lTask) {
+        String lSecondLine = null;
+        if (lTask.pubLocation != null){
+            lSecondLine = "";
+            for (Location lLocation:lTask.pubLocation
+                    )
+                lSecondLine += lLocation.pubName;
+        }
+        return lSecondLine;
+    }
+
+    private String getSecondLine(Task lTask) {
+        String lSecondLine = null;
+        switch (lTask.pubTaskType) {
+            case OneTimeReminder:
+                if (lTask.pubTime == null)
+                    lSecondLine = "Không có thời gian";
+                else
+                    lSecondLine = "Nhắc vào lúc " + lTask.pubTime.getHours() + ":" + lTask.pubTime.getMinutes() +","
+                            + " ngày " + lTask.pubTime.getDate() + " tháng " + lTask.pubTime.getMonth();
+                break;
+            case CheckList:
+                if (lTask.pubDescription == null || lTask.pubDescription.equals(""))
+                    lSecondLine = "Không có danh sách";
+                else {
+                    lSecondLine = lTask.pubDescription.replace(":0", "");
+                    lSecondLine = lSecondLine.replace(":1", "");
+                }
+                break;
+            default:
+                if (lTask.pubDescription == null || lTask.pubDescription.equals(""))
+                    lSecondLine = "Không có nội dung";
+                else
+                    lSecondLine = lTask.pubDescription;
+                break;
+        }
+        return lSecondLine;
+    }
+
+    private String getFirstLine(Task lTask) {
+        if (lTask.pubName != null && !lTask.pubName.equals(""))
+            return  lTask.pubName;
+        return "Không có tiêu đề";
     }
 
     public void switchToAddTaskbar(boolean iIsAddTaskbar) {
@@ -180,10 +226,11 @@ public class Dashboard extends Activity {
             this.priSearchView.requestFocusFromTouch();
         }
         else {
-            this.setButtonAlarmBackground(false);
-            this.setButtonCheckListBackground(false);
-            this.setButtonNoteBackground(false);
+            this.setButtonAlarmBackground(true);
+            this.setButtonCheckListBackground(true);
+            this.setButtonNoteBackground(true);
         }
+        performFilter();
         //showSoftKeyboard(this, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
@@ -230,19 +277,26 @@ public class Dashboard extends Activity {
     }
 
     public void buttonCheckListAdd_onClick(View view) {
+        Global.getInstance().pubNewTask = new TaskChecklist();
+//        Global.getInstance().pubNewTask.pubName = "Danh sách ";
         this.createNewTask(TaskType.CheckList);
     }
 
     public void buttonAlarmAdd_onClick(View view) {
+        Global.getInstance().pubNewTask = new TaskOneTimeReminder();
+//        Global.getInstance().pubNewTask.pubName = "Nhắc nhở ";
         this.createNewTask(TaskType.OneTimeReminder);
     }
 
     public void textViewAddNote_onClick(View view) {
+        Global.getInstance().pubNewTask = new TaskNote();
+//        Global.getInstance().pubNewTask.pubName = "Ghi chú";
         this.createNewTask(TaskType.Note);
     }
 
     public void createNewTask(TaskType iTaskType){
-        Global.getInstance().pubNewTask = new Task();
+        if (Global.getInstance().pubNewTask == null)
+            Global.getInstance().pubNewTask = new Task();
         Global.getInstance().pubTaskType = iTaskType;
         Intent intent = new Intent(this, TaskDetail.class);
         startActivity(intent);
@@ -306,6 +360,7 @@ public class Dashboard extends Activity {
     }
 
     public void buttonBackSearch_onClick(View view) {
+        priSearchView.setQuery("", true);
         this.switchToSearchView(false);
     }
 

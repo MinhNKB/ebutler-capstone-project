@@ -178,6 +178,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        } catch (Exception e) {
 //            Log.w("asd", e.toString());
 //        }
+        lDB.insert("Task", null, lValues);
         lDB.close();
         return 0;
     }
@@ -203,9 +204,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Task lTempTask = new Task();
             lTempTask.pubName = lCursor.getString(lNameIndex);
             lTempTask.pubCategory = lCursor.getString(lCategoryIndex);
+            lTempTask.pubTime = getTimeFromString(lCursor.getString(lTimeIndex));
             lTempTask.pubTaskType = TaskType.valueOf(lCursor.getString(lTaskTypeIndex));
             lTempTask.pubDescription = lCursor.getString(lDescriptionIndex);
-            lTempTask.pubTime = getTimeFromString(lCursor.getString(lTimeIndex));
+
             lTempTask.pubPriority = Priority.valueOf(lCursor.getString(lPriorityIndex));
             lTempTask.pubStatus = Status.valueOf(lCursor.getString(lStatusIndex));
             lResult.add(lTempTask);
@@ -217,6 +219,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private Date getTimeFromString(String iDateString) {
         Date lReturnDate = null;
+        if (iDateString == null)
+            return lReturnDate;
         try {
             DateFormat lDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", new Locale("us"));
             lReturnDate = lDateFormat.parse(iDateString);

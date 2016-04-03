@@ -71,23 +71,20 @@ public class Global {
     }
 
     public int getTaskTypeDrawable(Context iContext, Task iTask) {
-        if (iTask instanceof TaskNote)
-            return R.mipmap.ic_note;
-        if (iTask instanceof TaskOneTimeReminder)
-            return R.mipmap.ic_alarm;
-        if (iTask instanceof TaskChecklist)
-            return R.mipmap.ic_playlist_add_check;
-        return -1;
+        switch (iTask.pubTaskType){
+            case OneTimeReminder:
+                return R.mipmap.ic_alarm;
+            case CheckList:
+                return R.mipmap.ic_playlist_add_check;
+            case Note:
+                return R.mipmap.ic_note;
+            default:
+                return -1;
+        }
     }
 
     public TaskType getTaskTypeEnum(Task iTask){
-        if (iTask instanceof TaskNote)
-            return TaskType.Note;
-        if (iTask instanceof TaskOneTimeReminder)
-            return TaskType.OneTimeReminder;
-        if (iTask instanceof TaskChecklist)
-            return TaskType.CheckList;
-        return null;
+        return iTask.pubTaskType;
     }
 }
 
