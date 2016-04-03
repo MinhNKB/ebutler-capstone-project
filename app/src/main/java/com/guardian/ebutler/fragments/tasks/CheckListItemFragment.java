@@ -4,14 +4,16 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.guardian.ebutler.ebutler.Dashboard;
 import com.guardian.ebutler.ebutler.R;
 
 public class CheckListItemFragment extends Fragment {
@@ -20,6 +22,7 @@ public class CheckListItemFragment extends Fragment {
 
     public String pubText;
     public Boolean pubIsChecked;
+    public CheckListFragment pubCheckListFragment;
 
     protected View proView;
 
@@ -43,6 +46,7 @@ public class CheckListItemFragment extends Fragment {
         args.putString(ARG_PARAM1, iText);
         args.putBoolean(ARG_PARAM2, iIsChecked);
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -56,22 +60,52 @@ public class CheckListItemFragment extends Fragment {
     }
 
     protected void setValuesToView() {
-        TextView iTextView = (TextView)proView.findViewById(R.id.fragment_checklist_item_TextView);
-        iTextView.setText(pubText);
-        ImageButton lImageButton = (ImageButton) proView.findViewById(R.id.fragment_checklist_item_Delete);
+        final ImageButton lDeleteButton = (ImageButton) proView.findViewById(R.id.fragment_checklist_item_Delete);
         final Fragment lThis = this;
-        lImageButton.setOnClickListener(new View.OnClickListener() {
+        lDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().getFragmentManager().beginTransaction().remove(lThis).commit();
             }
         });
-        CheckBox lCheckBox = (CheckBox) proView.findViewById(R.id.fragment_checklist_item_Checkbox);
-        lCheckBox.setChecked(pubIsChecked);
-        lCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        final EditText iTextView = (EditText)proView.findViewById(R.id.fragment_checklist_item_EditText);
+        iTextView.setText(pubText);
+        iTextView.requestFocusFromTouch();
+        Dashboard.showSoftKeyboard(getActivity(), InputMethodManager.SHOW_IMPLICIT);
+
+        iTextView.setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                pubIsChecked = isChecked;
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                pubText = iTextView.getText().toString();
+                return false;
+            }
+        });
+        iTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                pubText = iTextView.getText().toString();
+                pubCheckListFragment.addNewItem();
+                return false;
+            }
+        });
+        iTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                lDeleteButton.setVisibility(hasFocus == true ? View.VISIBLE : View.GONE);
+            }
+        });
+
+
+        final ImageButton lCheckBox = (ImageButton) proView.findViewById(R.id.fragment_chekclist_item_CheckBox);
+        lCheckBox.setImageResource(pubIsChecked == true ? R.mipmap.ic_check_box_grey : R.mipmap.ic_check_box_outline_blank_grey);
+
+        lCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pubIsChecked = !pubIsChecked;
+                lCheckBox.setImageResource(pubIsChecked == true ? R.mipmap.ic_check_box_grey : R.mipmap.ic_check_box_outline_blank_grey);
+                pubCheckListFragment.reallocateFragment(CheckListItemFragment.this);
             }
         });
     }
@@ -81,6 +115,7 @@ public class CheckListItemFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         proView = inflater.inflate(R.layout.fragment_checklist_item, container, false);
+
         setValuesToView();
         return proView;
     }

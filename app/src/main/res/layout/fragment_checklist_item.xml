@@ -9,24 +9,41 @@
         android:layout_height="wrap_content"
         android:weightSum="1"
         android:orientation="horizontal">
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/fragment_checklist_item_Checkbox"
-            />
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/fragment_checklist_item_TextView"/>
         <ImageButton
+            android:id="@+id/fragment_chekclist_item_CheckBox"
             android:layout_width="@dimen/inline_icon_size"
             android:layout_height="@dimen/inline_icon_size"
             android:layout_gravity="center_vertical"
-            android:src="@mipmap/ic_clear_black"
-            android:background="@color/background"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:background="@color/transparent"
+            android:src="@mipmap/ic_check_box_outline_blank_grey"
+            />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/layout_padding"
+            android:id="@+id/fragment_checklist_item_EditText"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:lines="1"
+            android:inputType="text"
+            android:hint="@string/fragment_checklist_HintCheckList"
+            android:background="@color/transparent"
+            android:textSize="@dimen/font_size_medium"
+            />
+        <ImageButton
             android:id="@+id/fragment_checklist_item_Delete"
-            android:adjustViewBounds="true"/>
+            android:layout_width="@dimen/icon_size_small"
+            android:layout_height="@dimen/icon_size_small"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:background="@drawable/white_button"
+            android:src="@mipmap/ic_clear_grey"
+            />
     </LinearLayout>
 
 </FrameLayout>

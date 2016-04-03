@@ -20,6 +20,9 @@ import com.guardian.ebutler.ebutler.custom.CustomListItem;
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 import com.guardian.ebutler.ebutler.dataclasses.Location;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
+import com.guardian.ebutler.ebutler.dataclasses.TaskChecklist;
+import com.guardian.ebutler.ebutler.dataclasses.TaskNote;
+import com.guardian.ebutler.ebutler.dataclasses.TaskOneTimeReminder;
 import com.guardian.ebutler.ebutler.dataclasses.TaskType;
 import com.guardian.ebutler.world.Global;
 
@@ -134,27 +137,69 @@ public class Dashboard extends Activity {
 
     public List<CustomListItem> getCustomItems(List<Task> iTaskList) {
         List<CustomListItem> lResult = new ArrayList<CustomListItem>();
-        CustomListItem lCustomListItem;
 
         for (Task lTask: iTaskList
-             ) {
-            String lSecondLine = "";
-            if (lTask.pubDescription != null && !lTask.pubDescription.equals(""))
-                lSecondLine = lTask.pubDescription;
-            else if (lTask.pubTime != null)
-                lSecondLine = lTask.pubTime.toString();
-            else if (lTask.pubLocation != null){
-                for (Location lLocation:lTask.pubLocation
-                     ) {
-                    lSecondLine += lLocation.pubName;
-                }
-            }
-
-            lCustomListItem = new CustomListItem(Global.getInstance().getTaskTypeEnum(lTask),
-                    lTask.pubName, lSecondLine, null, Global.getInstance().getTaskTypeDrawable(this, lTask));
-            lResult.add(lCustomListItem);
-        }
+             )
+            lResult.add(this.createCustomListItem(lTask));
         return lResult;
+    }
+
+    private CustomListItem createCustomListItem(Task lTask) {
+        CustomListItem lCustomListItem;
+
+        String lFirstLine = getFirstLine(lTask);
+        String lSecondLine = getSecondLine(lTask);
+        String lThirdLine = getThirdLine(lTask);
+
+        lCustomListItem = new CustomListItem(Global.getInstance().getTaskTypeEnum(lTask),
+                lFirstLine, lSecondLine, lThirdLine, Global.getInstance().getTaskTypeDrawable(this, lTask));
+
+        return  lCustomListItem;
+    }
+
+    private String getThirdLine(Task lTask) {
+        String lSecondLine = null;
+        if (lTask.pubLocation != null){
+            lSecondLine = "";
+            for (Location lLocation:lTask.pubLocation
+                    )
+                lSecondLine += lLocation.pubName;
+        }
+        return lSecondLine;
+    }
+
+    private String getSecondLine(Task lTask) {
+        String lSecondLine = null;
+        switch (lTask.pubTaskType) {
+            case OneTimeReminder:
+                if (lTask.pubTime == null)
+                    lSecondLine = "Không có thời gian";
+                else
+                    lSecondLine = "Nhắc vào lúc " + lTask.pubTime.getHours() + ":" + lTask.pubTime.getMinutes() +","
+                            + " ngày " + lTask.pubTime.getDate() + " tháng " + lTask.pubTime.getMonth();
+                break;
+            case CheckList:
+                if (lTask.pubDescription == null || lTask.pubDescription.equals(""))
+                    lSecondLine = "Không có danh sách";
+                else {
+                    lSecondLine = lTask.pubDescription.replace(":0", "");
+                    lSecondLine = lSecondLine.replace(":1", "");
+                }
+                break;
+            default:
+                if (lTask.pubDescription == null || lTask.pubDescription.equals(""))
+                    lSecondLine = "Không có nội dung";
+                else
+                    lSecondLine = lTask.pubDescription;
+                break;
+        }
+        return lSecondLine;
+    }
+
+    private String getFirstLine(Task lTask) {
+        if (lTask.pubName != null && !lTask.pubName.equals(""))
+            return  lTask.pubName;
+        return "Không có tiêu đề";
     }
 
     public void switchToAddTaskbar(boolean iIsAddTaskbar) {
@@ -231,16 +276,20 @@ public class Dashboard extends Activity {
     }
 
     public void buttonCheckListAdd_onClick(View view) {
+        Global.getInstance().pubNewTask = new TaskChecklist();
+//        Global.getInstance().pubNewTask.pubName = "Danh sách ";
         this.createNewTask(TaskType.CheckList);
     }
 
     public void buttonAlarmAdd_onClick(View view) {
+        Global.getInstance().pubNewTask = new TaskOneTimeReminder();
+//        Global.getInstance().pubNewTask.pubName = "Nhắc nhở ";
         this.createNewTask(TaskType.OneTimeReminder);
     }
 
     public void textViewAddNote_onClick(View view) {
-        Global.getInstance().pubNewTask = new Task();
-        Global.getInstance().pubNewTask.pubName = "Ghi chú";
+        Global.getInstance().pubNewTask = new TaskNote();
+//        Global.getInstance().pubNewTask.pubName = "Ghi chú";
         this.createNewTask(TaskType.Note);
     }
 

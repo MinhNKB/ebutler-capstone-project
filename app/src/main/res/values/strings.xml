@@ -34,7 +34,7 @@
     <string name="wizard_field_labelAddress">Địa chỉ</string>
     <string name="wizard_form_labelMaritalStatus">Tình trạng Gia Định</string>
 
-    <string name="task_detail_hintTaskName">Tên công việc</string>
+    <string name="task_detail_hintTaskName">Tiêu đề</string>
     <string name="task_detail_labelTime">Lúc:</string>
     <string name="task_detail_hintTime">giờ</string>
     <string name="task_detail_hintDate">ngày</string>
