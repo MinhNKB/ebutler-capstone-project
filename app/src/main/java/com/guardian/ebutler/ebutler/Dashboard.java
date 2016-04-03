@@ -8,28 +8,28 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.guardian.ebutler.ebutler.custom.CustomListAdapter;
-import com.guardian.ebutler.ebutler.custom.CustomListItem;
+import com.guardian.ebutler.ebutler.custom.*;
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
-import com.guardian.ebutler.ebutler.dataclasses.Location;
-import com.guardian.ebutler.ebutler.dataclasses.Task;
-import com.guardian.ebutler.ebutler.dataclasses.TaskChecklist;
-import com.guardian.ebutler.ebutler.dataclasses.TaskNote;
-import com.guardian.ebutler.ebutler.dataclasses.TaskOneTimeReminder;
-import com.guardian.ebutler.ebutler.dataclasses.TaskType;
+import com.guardian.ebutler.ebutler.dataclasses.*;
 import com.guardian.ebutler.world.Global;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Dashboard extends Activity {
+
     private TextView priTextViewButlerSpeech;
     private SearchView priSearchView;
 
@@ -42,7 +42,9 @@ public class Dashboard extends Activity {
     private boolean priIsChecklistFiltered = true;
     private boolean priIsNoteFiltered = true;
 
-    private boolean priIsSorted = true;
+    private TaskComparator priSortType = TaskComparator.DATE_SORT;
+    private boolean priIsAscending = true;
+    private Spinner priSpinnerSort;
 
     private List<Task> priTaskList;
 
@@ -58,16 +60,46 @@ public class Dashboard extends Activity {
 
     private ImageButton priImageButtonViewType;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         this.findViewsByIds();
+        this.initSort();
         this.initializeCustomListView();
         this.initSearchView();
         this.setupUI(findViewById(R.id.dashboard_parent));
 
         Global.getInstance().pubNewTask = null;
+    }
+
+    private void initSort() {
+        this.initSpinnerSortListener();
+    }
+
+    private void initSpinnerSortListener() {
+        this.priSpinnerSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position){
+                    case 0:
+                        priSortType = TaskComparator.DATE_SORT;
+                        break;
+                    case 1:
+                        priSortType = TaskComparator.NAME_SORT;
+                        break;
+
+                }
+                performSort();
+                performFilter();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
 
@@ -77,14 +109,27 @@ public class Dashboard extends Activity {
         {
             DatabaseHelper iHelper = new DatabaseHelper(this);
             this.priTaskList = iHelper.GetAllTasks();
-            List<CustomListItem> lTasksList = this.getCustomItems(this.priTaskList);
-            this.priCustomListAdapter = new CustomListAdapter(this, lTasksList);
-            this.priCustomListView.setAdapter(this.priCustomListAdapter);
+            this.performSort();
+            this.performFilter();
         }
         catch (Exception ex){
             String cause = ex.toString();
         }
     }
+
+    public void performSort(){
+        if (this.priIsAscending) {
+            Collections.sort(this.priTaskList, TaskComparator.acending(TaskComparator.getComparator(this.priSortType)));
+        }
+        else {
+            Collections.sort(this.priTaskList, TaskComparator.decending(TaskComparator.getComparator(this.priSortType)));
+        }
+
+        List<CustomListItem> lTasksList = this.getCustomItems(this.priTaskList);
+        this.priCustomListAdapter = new CustomListAdapter(this, lTasksList);
+        this.priCustomListView.setAdapter(this.priCustomListAdapter);
+    }
+
 
     public void initSearchView() {
         this.priSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -132,6 +177,7 @@ public class Dashboard extends Activity {
         this.priImageButtonNote = (ImageButton) findViewById(R.id.dashboard_buttonNote);
         this.priImageButtonSort = (ImageButton) findViewById(R.id.dashboard_buttonSort);
         this.priImageButtonViewType = (ImageButton) findViewById(R.id.dashboard_buttonViewType);
+        this.priSpinnerSort = (Spinner) findViewById(R.id.dashboard_spinnerSort);
     }
 
 
@@ -158,14 +204,46 @@ public class Dashboard extends Activity {
     }
 
     private String getThirdLine(Task lTask) {
-        String lSecondLine = null;
-        if (lTask.pubLocation != null){
-            lSecondLine = "";
-            for (Location lLocation:lTask.pubLocation
-                    )
-                lSecondLine += lLocation.pubName;
+        String lThirdLine = null;
+        switch (lTask.pubTaskType) {
+            case OneTimeReminder:
+                if (lTask.pubLocation != null){
+                    lThirdLine = "";
+                    for (Location lLocation:lTask.pubLocation
+                            )
+                        lThirdLine += lLocation.pubName;
+                }
+                if (lThirdLine == null || lThirdLine.equals("")){
+                    lThirdLine = "";
+                    long lRemainingTime = lTask.pubTime.getTime() - (new Date()).getTime();
+                    if (lRemainingTime < 0){
+                        lThirdLine += "Bạn đã trễ ";
+                        lRemainingTime *= -1;
+                    }
+                    else
+                        lThirdLine += "Còn khoảng ";
+                    long hours = TimeUnit.MILLISECONDS.toHours(lRemainingTime);
+                    long days = hours/24;
+                    long months = days/30;
+                    if (hours < 24)
+                        lThirdLine += hours + " giờ ";
+                    else if (days < 30)
+                        lThirdLine += days + " ngày ";
+                    else if (months < 12)
+                        lThirdLine += months + " tháng";
+                    else
+                        lThirdLine += months/12 + " năm";
+                }
+                break;
+            default:
+                if (lTask.pubTime == null)
+                    lThirdLine = "Không có thời gian";
+                else
+                    lThirdLine = "Tạo vào lúc " + lTask.pubTime.getHours() + ":" + lTask.pubTime.getMinutes() +","
+                            + " ngày " + lTask.pubTime.getDate() + "/" + (lTask.pubTime.getMonth() + 1) + "/" + (lTask.pubTime.getYear() + 1900);
+                break;
         }
-        return lSecondLine;
+        return lThirdLine;
     }
 
     private String getSecondLine(Task lTask) {
@@ -176,7 +254,7 @@ public class Dashboard extends Activity {
                     lSecondLine = "Không có thời gian";
                 else
                     lSecondLine = "Nhắc vào lúc " + lTask.pubTime.getHours() + ":" + lTask.pubTime.getMinutes() +","
-                            + " ngày " + lTask.pubTime.getDate() + " tháng " + lTask.pubTime.getMonth();
+                            + " ngày " + lTask.pubTime.getDate() + "/" + (lTask.pubTime.getMonth() + 1) + "/" + (lTask.pubTime.getYear() + 1900);
                 break;
             case CheckList:
                 if (lTask.pubDescription == null || lTask.pubDescription.equals(""))
@@ -184,6 +262,8 @@ public class Dashboard extends Activity {
                 else {
                     lSecondLine = lTask.pubDescription.replace(":0", "");
                     lSecondLine = lSecondLine.replace(":1", "");
+                    if (lSecondLine.replace(",", "").equals(""))
+                        lSecondLine = "Không có danh sách";
                 }
                 break;
             default:
@@ -340,9 +420,11 @@ public class Dashboard extends Activity {
     }
 
     public void buttonSort_onClick(View view) {
-        this.priIsSorted = !this.priIsSorted;
-        this.priImageButtonSort.setBackground(this.priIsSorted == true ?
-                getResources().getDrawable(R.drawable.blue_round_button_active) : getResources().getDrawable(R.drawable.blue_round_button_inactive));
+        this.priIsAscending = !this.priIsAscending;
+        this.performSort();
+        this.performFilter();
+        this.priImageButtonSort.setImageResource(this.priIsAscending == true ?
+                R.mipmap.ic_arrow_downward : R.mipmap.ic_arrow_upward);
     }
 
     public void performFilter(String newText){

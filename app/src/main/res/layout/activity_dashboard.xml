@@ -106,13 +106,22 @@
                             android:adjustViewBounds="true"
                             android:onClick="buttonNote_onClick"/>
                     </LinearLayout>
+                    <Spinner
+                        android:id="@+id/dashboard_spinnerSort"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:spinnerMode="dropdown"
+                        android:entries="@array/sort_modes"
+                        >
+                    </Spinner>
                     <ImageButton
                         android:id="@+id/dashboard_buttonSort"
                         android:layout_margin="@dimen/layout_padding"
                         android:layout_width="@dimen/taskbar_iconSize"
                         android:layout_height="@dimen/taskbar_iconSize"
                         android:background="@drawable/blue_round_button_active"
-                        android:src="@mipmap/ic_sort"
+                        android:src="@mipmap/ic_arrow_downward"
                         android:scaleType="fitCenter"
                         android:adjustViewBounds="true"
                         android:onClick="buttonSort_onClick"/>
