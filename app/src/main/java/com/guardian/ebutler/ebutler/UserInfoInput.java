@@ -53,6 +53,7 @@ public class UserInfoInput extends Activity {
         this.findViewsByIds();
         this.setupUI(findViewById(R.id.user_info_input_parent));
         this.priScriptManager = new ScriptManager(this);
+        this.createConversationStatement(priScriptManager.GetAGreeting(), true);
         this.showQuestion();
         DatabaseHelper.getInstance(this);
     }
@@ -156,7 +157,7 @@ public class UserInfoInput extends Activity {
     }
 
     private void showFinishMessage(){
-        this.createConversationStatement(getResources().getString(R.string.user_info_input_greetings), true);
+        this.createConversationStatement(priScriptManager.GetAFinishString(), true);
     }
 
     private AnswerFragmentInterface getQuestionFragment(Question iQuestion) {
