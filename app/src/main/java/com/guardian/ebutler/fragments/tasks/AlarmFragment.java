@@ -2,6 +2,7 @@ package com.guardian.ebutler.fragments.tasks;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,7 +10,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import com.guardian.ebutler.ebutler.MapLocation;
 import com.guardian.ebutler.ebutler.R;
+import com.guardian.ebutler.ebutler.TaskDetail;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
 
 import java.text.ParseException;
@@ -20,6 +23,7 @@ import java.util.Date;
 public class AlarmFragment extends AbstractTaskFragment {
     private EditText priEditTextDate;
     private EditText priEditTextTime;
+    private EditText priEditTextLocation;
 
     public AlarmFragment() {
         proFragmentId = R.layout.fragment_alarm;
@@ -43,6 +47,7 @@ public class AlarmFragment extends AbstractTaskFragment {
     private void findViewsById() {
         priEditTextDate = (EditText)proView.findViewById(R.id.fragment_alarm_editTextDate);
         priEditTextTime = (EditText)proView.findViewById(R.id.fragment_alarm_editTextTime);
+        priEditTextLocation = (EditText)proView.findViewById(R.id.fragment_alarm_editTextLocation);
     }
 
     private void bindEvents() {
@@ -85,7 +90,15 @@ public class AlarmFragment extends AbstractTaskFragment {
             }
         });
 
-
+        priEditTextLocation.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    Intent intent = new Intent(proView.getContext(), MapLocation.class);
+                    startActivityForResult(intent, TaskDetail.GET_LOCATION);
+                }
+            }
+        });
     }
 
     private Date getTimeFromDateTextbox() {

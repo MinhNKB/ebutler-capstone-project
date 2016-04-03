@@ -76,7 +76,7 @@ public class TaskDetail extends Activity {
         priTaskFragmentContainer = findViewById(R.id.task_detail_TaskFragmentContainer);
     }
 
-    static final int GET_LOCATION = 1;  // The request code
+    static final public int GET_LOCATION = 1;  // The request code
     static final int GET_TIME = 2;
     private void bindNavigationLocation() {
         final Context context = this;
