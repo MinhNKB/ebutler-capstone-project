@@ -10,15 +10,17 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".UserInfoInput">
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleHorizontal"
+    <com.daimajia.numberprogressbar.NumberProgressBar
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:paddingLeft="@dimen/layout_padding_triple"
         android:paddingRight="@dimen/layout_padding_triple"
-        android:paddingTop="@dimen/layout_padding_triple"
-        android:layout_height="26dp"
+        android:paddingTop="@dimen/paragraph_padding"
         android:id="@+id/user_info_input_ProgressBar"
-        android:progressDrawable="@drawable/horizontal_progress_bar"
+        components:max="10000"
+        components:progress_unreached_bar_height="2.4dp"
+        components:progress_reached_bar_height="3dp"
+        components:progress_text_size="@dimen/font_size_small"
         />
 
     <pl.droidsonroids.gif.GifImageView

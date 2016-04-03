@@ -31,4 +31,7 @@
     <dimen name="font_size_large">18sp</dimen>
     <dimen name="font_size_medium">14sp</dimen>
     <dimen name="font_size_small">12sp</dimen>
+
+    <dimen name="progress_bar_reached">2.4dp</dimen>
+    <dimen name="progress_bar_unreached">3dp</dimen>
 </resources>
