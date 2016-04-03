@@ -1,5 +1,6 @@
 package com.guardian.ebutler.ebutler;
 
+import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,15 +9,20 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
+import com.guardian.ebutler.ebutler.dataclasses.Condition;
 import com.guardian.ebutler.ebutler.dataclasses.Question;
 import com.guardian.ebutler.ebutler.dataclasses.ScriptManager;
 import com.guardian.ebutler.ebutler.dataclasses.UIType;
@@ -28,6 +34,8 @@ import com.guardian.ebutler.fragments.answers.TextboxFragment;
 import com.guardian.ebutler.fragments.answers.TimeFragment;
 import com.guardian.ebutler.fragments.answers.TimeSpanFragment;
 import com.guardian.ebutler.fragments.answers.YesNoFragment;
+
+import java.util.ArrayList;
 
 
 public class UserInfoInput extends Activity {
@@ -45,6 +53,8 @@ public class UserInfoInput extends Activity {
     private RelativeLayout priRelativeLayoutForSimpleAnswer;
     private ScriptManager priScriptManager;
     private Question priQuestion;
+    private Boolean priIsFinishedAsking = false;
+    private NumberProgressBar priProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +64,42 @@ public class UserInfoInput extends Activity {
         this.setupUI(findViewById(R.id.user_info_input_parent));
         this.priScriptManager = new ScriptManager(this);
         this.showQuestion();
-        DatabaseHelper.getInstance(this);
+        this.initializeDatabase();
+        this.preprocessProgressBar();
+    }
+
+    private void preprocessProgressBar() {
+        updateProgressBar();
+        priProgressBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (priIsFinishedAsking) {
+                    int changedProgress = (int) (priScriptManager.GetProgress() * 100);
+                    createConversationStatement("Bạn đã hoàn thành " + changedProgress + "% câu hỏi, bạn có muốn trả lời tiếp không?", true);
+                    priAnwserFragmentInterface = new YesNoFragment();
+                    switchTaskbarToLightTheme(true);
+                    getFragmentManager().beginTransaction().add(priRelativeLayoutForSimpleAnswer.getId(), (Fragment) priAnwserFragmentInterface).commit();
+                }
+            }
+        });
+    }
+
+    private void updateProgressBar() {
+        final int lProgress = (int)(priScriptManager.GetProgress() * 100);
+        if (lProgress >= 100) {
+            priProgressBar.setVisibility(View.GONE);
+        } else {
+            int lCurrentProgress = priProgressBar.getProgress();
+            int lDisplayProgress = lProgress * 100;
+            ObjectAnimator progressAnimator = ObjectAnimator.ofInt(priProgressBar, "progress", lCurrentProgress, lDisplayProgress);
+            progressAnimator.setDuration(700);
+            progressAnimator.setInterpolator(new DecelerateInterpolator());
+            progressAnimator.start();
+        }
+    }
+
+    private void initializeDatabase() {
+        DatabaseHelper lHelper = DatabaseHelper.getInstance(this);
     }
 
     private void findViewsByIds() {
@@ -68,18 +113,38 @@ public class UserInfoInput extends Activity {
         this.priScrollViewAnswer = (ScrollView) findViewById(R.id.user_info_input_customScrollViewAnswer);
         this.priLinearLayoutAnswer = (LinearLayout) findViewById(R.id.user_info_input_linearLayoutAnswer);
         this.priRelativeLayoutForSimpleAnswer = (RelativeLayout) findViewById(R.id.user_info_input_relativeLayoutForSimpleAnswer);
+        this.priProgressBar = (NumberProgressBar) findViewById(R.id.user_info_input_ProgressBar);
+
     }
 
     public void buttonOk_onClick(View view) {
-        try{
-            this.createConversationStatement(this.priAnwserFragmentInterface.getChatStatement(), false);
-            this.clearQuestion();
-            this.priScriptManager.AnwserQuestion(this.priAnwserFragmentInterface.getValues());
-            this.showQuestion();
-        }
-        catch (Exception ex){
-            showToast(ex.getMessage());
-            return;
+        if (!priIsFinishedAsking) {
+            try{
+                this.createConversationStatement(this.priAnwserFragmentInterface.getChatStatement(), false);
+                this.clearAnswer();
+                this.priScriptManager.AnwserQuestion(this.priAnwserFragmentInterface.getValues());
+                this.showQuestion();
+            }
+            catch (Exception ex){
+                showToast(ex.getMessage());
+                return;
+            }
+        } else {
+            try {
+                this.createConversationStatement(this.priAnwserFragmentInterface.getChatStatement(), false);
+                this.clearAnswer();
+                if (this.priAnwserFragmentInterface instanceof YesNoFragment) {
+                    ArrayList<Condition> lYesNoConditions =  this.priAnwserFragmentInterface.getValues();
+                    if (lYesNoConditions.get(0).pubValue.equals("true")) {
+                        priScriptManager.Refresh();
+                        priIsFinishedAsking = false;
+                        this.showQuestion();
+                    }
+                }
+            } catch (Exception ex) {
+                showToast(ex.getMessage());
+                return;
+            }
         }
     }
 
@@ -149,6 +214,8 @@ public class UserInfoInput extends Activity {
             this.switchTaskbarToLightTheme(true);
         }
         catch (Exception ex){
+            priIsFinishedAsking = true;
+            updateProgressBar();
             this.showFinishMessage();
             this.switchTaskbarToLightTheme(false);
             return;
@@ -157,6 +224,7 @@ public class UserInfoInput extends Activity {
 
     private void showFinishMessage(){
         this.createConversationStatement(getResources().getString(R.string.user_info_input_greetings), true);
+
     }
 
     private AnswerFragmentInterface getQuestionFragment(Question iQuestion) {
@@ -212,12 +280,12 @@ public class UserInfoInput extends Activity {
     public void buttonClear_onClick(View view){
         this.priScriptManager.AnwserQuestion(this.priAnwserFragmentInterface == null ?
                 null : this.priAnwserFragmentInterface.getValues());
-        this.clearQuestion();
+        this.clearAnswer();
         this.showFinishMessage();
         this.switchTaskbarToLightTheme(false);
     }
 
-    private void clearQuestion() {
+    private void clearAnswer() {
         this.priRelativeLayoutForSimpleAnswer.removeAllViews();
         this.priLinearLayoutAnswer.removeAllViews();
     }
