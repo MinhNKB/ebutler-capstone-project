@@ -8,6 +8,8 @@ import android.widget.EditText;
 import com.guardian.ebutler.ebutler.R;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
 
+import java.util.Date;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -34,5 +36,6 @@ public class NoteFragment extends AbstractTaskFragment {
 
     public void getValues(Task rNewTask) {
         rNewTask.pubDescription = ((EditText) proView.findViewById(R.id.fragment_note_description)).getText().toString();
+        rNewTask.pubTime = new Date();
     }
 }
