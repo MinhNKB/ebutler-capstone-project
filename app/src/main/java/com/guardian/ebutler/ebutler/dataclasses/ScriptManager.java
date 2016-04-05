@@ -57,21 +57,6 @@ public class ScriptManager {
                 lDBHelper.InsertAQuestionGroup(lGroups.get(i));
             }
 
-//            Question lQuestionTemp = new Question();
-//            lQuestionTemp.pubQuestionString = "Họ tên của bạn là";
-//            lQuestionTemp.pubStage = 1;
-//            lQuestionTemp.pubIsAsked = false;
-//            lQuestionTemp.pubUIType = UIType.Textbox;
-//            lQuestionTemp.pubConditions = null;
-//            lQuestionTemp.pubInformationPropertiesNames = new ArrayList<String>();
-//            lQuestionTemp.pubOptionsType = null;
-//
-//            QuestionGroup lQuestionGroupTemp = new QuestionGroup();
-//            lQuestionGroupTemp.pubQuestions.add(lQuestionTemp);
-//            priQuestionGroups.add(lQuestionGroupTemp);
-//
-//
-
         } catch (XmlPullParserException e) {
             e.printStackTrace();
         } catch (IOException e) {
