@@ -83,7 +83,7 @@ public class Dashboard extends Activity {
         this.priSpinnerSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position){
+                switch (position) {
                     case 0:
                         priSortType = TaskComparator.DATE_SORT;
                         break;
@@ -125,7 +125,10 @@ public class Dashboard extends Activity {
         else {
             Collections.sort(this.priTaskList, TaskComparator.decending(TaskComparator.getComparator(this.priSortType)));
         }
+        this.addTasksListView();
+    }
 
+    public void addTasksListView(){
         List<CustomListItem> lTasksList = this.getCustomItems(this.priTaskList);
         this.priCustomListAdapter = new CustomListAdapter(this, lTasksList);
         this.priCustomListView.setAdapter(this.priCustomListAdapter);

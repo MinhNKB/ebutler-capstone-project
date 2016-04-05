@@ -251,7 +251,7 @@
                 android:clickable="true"
                 android:text="Ghi chú nhanh..."
                 android:textColor="@color/background"
-                android:textSize="@dimen/font_size_large"
+                android:textSize="@dimen/font_size_extra_large"
                 android:onClick="textViewAddNote_onClick"/>
         </RelativeLayout>
     </LinearLayout>

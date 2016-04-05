@@ -70,6 +70,8 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
 
         if (this.priFilteredItems.get(iPosition).pubFirstLine != null)
             lHolder.pubFirstLine.setText(this.priFilteredItems.get(iPosition).pubFirstLine);
+        else
+            lHolder.pubFirstLine.setVisibility(View.GONE);
         if (this.priFilteredItems.get(iPosition).pubSecondLine != null)
             lHolder.pubSecondLine.setText(this.priFilteredItems.get(iPosition).pubSecondLine);
         else
