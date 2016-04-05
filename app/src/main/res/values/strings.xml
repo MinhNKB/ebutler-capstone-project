@@ -161,4 +161,5 @@
     <string name="fragment_checklist_HintCheckList">Thêm vào danh sách</string>
     <string name="title_activity_map">Map</string>
     <string name="map_ButlerStatement">Hãy chọn địa điểm nhắc nhở</string>
+    <string name="title_activity_map_location">Map</string>
 </resources>

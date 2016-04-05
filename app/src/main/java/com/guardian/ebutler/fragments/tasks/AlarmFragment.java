@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,9 +14,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.guardian.ebutler.ebutler.MapLocation;
 import com.guardian.ebutler.ebutler.R;
 import com.guardian.ebutler.ebutler.custom.CustomListAdapter;
 import com.guardian.ebutler.ebutler.custom.CustomListItem;
+import com.guardian.ebutler.ebutler.TaskDetail;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
 
 import java.text.ParseException;
@@ -74,6 +77,7 @@ public class AlarmFragment extends AbstractTaskFragment {
                         createRepeatDialog();
                         break;
                     case "Địa điểm":
+                        navigateToLocationPage();
                         break;
                 }
             }
@@ -114,10 +118,9 @@ public class AlarmFragment extends AbstractTaskFragment {
     }
 
     private void findViewsByIds() {
-//        priEditTextDate = (TextView)proView.findViewById(R.id.fragment_alarm_editTextDate);
-//        priEditTextTime = (TextView)proView.findViewById(R.id.fragment_alarm_editTextTime);
         this.priCustomListView = (ListView)  proView.findViewById(R.id.fragment_alarm_listView);
     }
+
 
     private void bindEvents() {
         priCalendar = Calendar.getInstance();
@@ -155,6 +158,11 @@ public class AlarmFragment extends AbstractTaskFragment {
             }
         }
         return lDate;
+    }
+
+    private void navigateToLocationPage() {
+        Intent intent = new Intent(proView.getContext(), MapLocation.class);
+        startActivityForResult(intent, TaskDetail.GET_LOCATION);
     }
 
     public void setLocation(String iLocation) {
