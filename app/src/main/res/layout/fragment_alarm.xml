@@ -1,50 +1,16 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context="com.guardian.ebutler.fragments.tasks.AlarmFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/layout_padding"
-        android:orientation="vertical">
-        <LinearLayout
+        android:layout_height="wrap_content">
+        <ListView
+            android:id="@+id/fragment_alarm_listView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="@dimen/layout_padding_double">
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="@dimen/fragment_alarm_edittext_minwidth"
-                android:hint="@string/task_detail_hintTime"
-                android:id="@+id/fragment_alarm_editTextTime"
-                android:background="@color/transparent"
-                android:textSize="@dimen/font_size_medium"/>
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="@dimen/fragment_alarm_edittext_minwidth"
-                android:hint="@string/task_detail_hintDate"
-                android:id="@+id/fragment_alarm_editTextDate"
-                android:background="@color/transparent"
-                android:textSize="@dimen/font_size_medium"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/layout_padding_double">
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="@dimen/fragment_alarm_edittext_minwidth_double"
-                android:hint="@string/task_detail_hintLocation"
-                android:id="@+id/fragment_alarm_editTextLocation"
-                android:background="@color/transparent"
-                android:textSize="@dimen/font_size_medium"/>
-        </LinearLayout>
-
+            android:layout_height="400dp">
+        </ListView>
     </LinearLayout>
-
 </FrameLayout>

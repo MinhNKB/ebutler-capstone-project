@@ -9,17 +9,17 @@
         android:id="@+id/list_item_multiline_imageButton"
         android:layout_width="@dimen/taskbar_iconSize"
         android:layout_height="@dimen/taskbar_iconSize"
+        android:layout_marginTop="8dp"
         android:background="@drawable/blue_round_button_active"
         android:src="@mipmap/ic_alarm"
         android:scaleType="fitCenter"
-        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/layout_padding"
         android:adjustViewBounds="true"
         />
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/layout_padding"
         android:layout_weight="1">
         <TextView
             android:id="@+id/list_item_multiline_firstLine"
@@ -28,13 +28,14 @@
             android:layout_alignParentTop="true"
             android:gravity="center_vertical"
             android:text="Tập thể dục buổi sáng"
-            android:textSize="@dimen/font_size_large"
+            android:textSize="@dimen/font_size_extra_large"
             android:singleLine="true"/>
         <TextView
             android:id="@+id/list_item_multiline_secondLine"
             android:layout_width="fill_parent"
             android:layout_height="20dp"
             android:layout_below="@id/list_item_multiline_firstLine"
+            android:layout_marginBottom="2dp"
             android:gravity="center_vertical"
             android:singleLine="true"
             android:text="Sáng nay 7 giờ 30 phút"
@@ -48,6 +49,7 @@
             android:gravity="center_vertical"
             android:singleLine="true"
             android:text="Đã trễ 20ph"
+            android:textColor="@color/textDisabledBlack"
             android:textSize="@dimen/font_size_small" />
     </RelativeLayout>
 </LinearLayout>
