@@ -35,4 +35,5 @@
 
     <dimen name="progress_bar_reached">2.4dp</dimen>
     <dimen name="progress_bar_unreached">3dp</dimen>
+    <dimen name="map_marker_size">24dp</dimen>
 </resources>

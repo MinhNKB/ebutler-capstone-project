@@ -76,7 +76,7 @@ public class UserInfoInput extends Activity {
             public void onClick(View v) {
                 if (priIsFinishedAsking) {
                     int changedProgress = (int) (priScriptManager.GetProgress() * 100);
-                    createConversationStatement("B?n d� ho�n th�nh " + changedProgress + "% c�u h?i, b?n c� mu?n tr? l?i ti?p kh�ng?", true);
+                    createConversationStatement("Bạn đã hoàn thành " + changedProgress + "% câu hỏi, bạn có muốn trả lời tiếp không?", true);
                     priAnwserFragmentInterface = new YesNoFragment();
                     switchTaskbarToLightTheme(true);
                     getFragmentManager().beginTransaction().add(priRelativeLayoutForSimpleAnswer.getId(), (Fragment) priAnwserFragmentInterface).commit();
@@ -281,6 +281,8 @@ public class UserInfoInput extends Activity {
     public void buttonClear_onClick(View view){
         this.priScriptManager.AnwserQuestion(this.priAnwserFragmentInterface == null ?
                 null : this.priAnwserFragmentInterface.getValues());
+        this.priIsFinishedAsking = true;
+        updateProgressBar();
         this.clearAnswer();
         this.showFinishMessage();
         this.switchTaskbarToLightTheme(false);
