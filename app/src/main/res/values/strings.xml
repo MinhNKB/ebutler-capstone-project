@@ -28,6 +28,7 @@
         Chọn hoàn thành để cập nhật thông tin cá nhân của bạn
     </string>
 
+    <string name="user_info_denyAQuestion">Tôi không muốn trả lời câu hỏi này</string>
     <string name="user_info_labelName">Họ Tên</string>
     <string name="user_info_labelGender">Giới Tính</string>
     <string name="user_info_labelDOB">Ngày Sinh</string>

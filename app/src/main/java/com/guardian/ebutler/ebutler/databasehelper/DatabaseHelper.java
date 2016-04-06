@@ -156,6 +156,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //region Task table
     public long InsertATask(Task iTask)
     {
+        if(iTask==null)
+            return 0;
         SQLiteDatabase lDB = this.getWritableDatabase();
         ContentValues lValues = new ContentValues();
         lValues.put("Name",iTask.pubName);

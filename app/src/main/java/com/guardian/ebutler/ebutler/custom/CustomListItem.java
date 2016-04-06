@@ -14,6 +14,7 @@ public class CustomListItem
     public String pubSecondLine;
     public String pubThirdLine;
     public int pubImageButton;
+    public int pubImageButtonSize = 0;
 
     public CustomListItem(TaskType iTaskType, String iFirstLine, String iSecondLine, String iThirdLine, int iImageButton)
     {
@@ -22,5 +23,15 @@ public class CustomListItem
         this.pubSecondLine = iSecondLine;
         this.pubThirdLine = iThirdLine;
         this.pubImageButton = iImageButton;
+    }
+
+    public CustomListItem(TaskType iTaskType, String iFirstLine, String iSecondLine, String iThirdLine, int iImageButton, int iImageButtonSize)
+    {
+        this.pubTaskType = iTaskType;
+        this.pubFirstLine = iFirstLine;
+        this.pubSecondLine = iSecondLine;
+        this.pubThirdLine = iThirdLine;
+        this.pubImageButton = iImageButton;
+        this.pubImageButtonSize = iImageButtonSize;
     }
 }
