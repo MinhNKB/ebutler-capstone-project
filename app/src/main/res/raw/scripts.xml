@@ -2,42 +2,37 @@
 <Scripts>
 	<Script>
 		<Type>Morning</Type>
-		<String>Chúc bạn một buổi sáng tốt lành</String>
-	</Script>
-	<Script>
-		<Type>Morning</Type>
-		<String>Buổi sáng vui vẻ</String>
-	</Script>
-	<Script>
-		<Type>Morning</Type>
-		<String>Chúc bạn có một ngày tràn đầy sức sống</String>
+		<Strings>
+			<String>Chúc bạn một buổi sáng tốt lành</String>
+			<String>Buổi sáng vui vẻ</String>
+			<String>Chúc bạn có một ngày tràn đầy sức sống</String>
+		</Strings>
 	</Script>
 	<Script>
 		<Type>Afternoon</Type>
-		<String>Xin chào buổi trưa</String>
+		<Strings>
+			<String>Xin chào buổi trưa</String>
+		</Strings>
 	</Script>
 	<Script>
 		<Type>Evening</Type>
-		<String>Xin chảo buổi tối</String>
-	</Script>
-	<Script>
-		<Type>Evening</Type>
-		<String>Xin chào, chúc bạn có một buổi tối yên bình</String>
-	</Script>
-	<Script>
-		<Type>Repeat</Type>
-		<String>Xin chào, rất vui được gặp lại bạn</String>
+		<Strings>
+			<String>Xin chảo buổi tối</String>
+			<String>Xin chào, chúc bạn có một buổi tối yên bình</String>
+		</Strings>
 	</Script>
 	<Script>
 		<Type>Repeat</Type>
-		<String>Xin chào bạn, tôi có thể giúp gì cho bạn</String>
+		<Strings>
+			<String>Xin chào, rất vui được gặp lại bạn</String>
+			<String>Xin chào bạn, tôi có thể giúp gì cho bạn</String>
+		</Strings>
 	</Script>
 	<Script>
 		<Type>Thanks</Type>
-		<String>Cảm ơn bạn cung cấp thêm thông tin</String>
-	</Script>
-	<Script>
-		<Type>Thanks</Type>
-		<String>Thông tin mới của bạn đã được cập nhật. Xin cảm ơn</String>
+		<Strings>
+			<String>Cảm ơn bạn cung cấp thêm thông tin</String>
+			<String>Thông tin mới của bạn đã được cập nhật. Xin cảm ơn</String>
+		</Strings>
 	</Script>
 </Scripts>

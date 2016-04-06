@@ -25,6 +25,7 @@ import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 import com.guardian.ebutler.ebutler.dataclasses.Condition;
 import com.guardian.ebutler.ebutler.dataclasses.Question;
 import com.guardian.ebutler.ebutler.dataclasses.ScriptManager;
+import com.guardian.ebutler.ebutler.dataclasses.Task;
 import com.guardian.ebutler.ebutler.dataclasses.UIType;
 import com.guardian.ebutler.fragments.answers.AnswerFragmentInterface;
 import com.guardian.ebutler.fragments.answers.CheckboxFragment;
@@ -76,7 +77,7 @@ public class UserInfoInput extends Activity {
             public void onClick(View v) {
                 if (priIsFinishedAsking) {
                     int changedProgress = (int) (priScriptManager.GetProgress() * 100);
-                    createConversationStatement("B?n d� ho�n th�nh " + changedProgress + "% c�u h?i, b?n c� mu?n tr? l?i ti?p kh�ng?", true);
+                    createConversationStatement("Bạn đã hoàn thành " + changedProgress + "% câu hỏi, bạn có muốn trả lời tiếp không?", true);
                     priAnwserFragmentInterface = new YesNoFragment();
                     switchTaskbarToLightTheme(true);
                     getFragmentManager().beginTransaction().add(priRelativeLayoutForSimpleAnswer.getId(), (Fragment) priAnwserFragmentInterface).commit();
@@ -123,7 +124,11 @@ public class UserInfoInput extends Activity {
             try{
                 this.createConversationStatement(this.priAnwserFragmentInterface.getChatStatement(), false);
                 this.clearAnswer();
-                this.priScriptManager.AnwserQuestion(this.priAnwserFragmentInterface.getValues());
+                Task lNewTask = this.priScriptManager.AnwserQuestion(this.priAnwserFragmentInterface.getValues());
+                if(lNewTask!=null) {
+                    DatabaseHelper lHelper = DatabaseHelper.getInstance(null);
+                    lHelper.InsertATask(lNewTask);
+                }
                 this.showQuestion();
             }
             catch (Exception ex){
