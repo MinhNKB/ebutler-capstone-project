@@ -1,5 +1,6 @@
 package com.guardian.ebutler.fragments.tasks;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -19,7 +20,9 @@ import com.guardian.ebutler.ebutler.R;
 import com.guardian.ebutler.ebutler.custom.CustomListAdapter;
 import com.guardian.ebutler.ebutler.custom.CustomListItem;
 import com.guardian.ebutler.ebutler.TaskDetail;
+import com.guardian.ebutler.ebutler.dataclasses.Location;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
+import com.guardian.ebutler.world.Global;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,6 +38,7 @@ public class AlarmFragment extends AbstractTaskFragment {
     private Calendar priCalendar;
     private TimePickerDialog.OnTimeSetListener priTimePickerListener;
     private DatePickerDialog.OnDateSetListener priDatePickerListener;
+    private List<Location> priTaskLocations = null;
 
     public AlarmFragment() {
         proFragmentId = R.layout.fragment_alarm;
@@ -48,6 +52,7 @@ public class AlarmFragment extends AbstractTaskFragment {
     }
     public void getValues(Task rNewTask) {
         rNewTask.pubTime = getTimeFromDateTextbox();
+        rNewTask.pubLocation = priTaskLocations;
     }
 
     public void setValuesToView(View view) {
@@ -162,9 +167,35 @@ public class AlarmFragment extends AbstractTaskFragment {
 
     private void navigateToLocationPage() {
         Intent intent = new Intent(proView.getContext(), MapLocation.class);
-        startActivityForResult(intent, TaskDetail.GET_LOCATION);
+        startActivityForResult(intent, GET_LOCATION);
     }
 
     public void setLocation(String iLocation) {
+        priCustomListItems.get(3).pubThirdLine = iLocation;
+        addTasksListView();
+    }
+
+
+    static final public int GET_LOCATION = 1;  // The request cod
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == GET_LOCATION) {
+            if (resultCode == Activity.RESULT_OK) {
+                Location lLocation = Global.getInstance().pubTaskLocation;
+                priTaskLocations = new ArrayList<Location>();
+                priTaskLocations.add(lLocation);
+                String lStringAddress = "";
+                if (lLocation.pubAndress.length() > 0) {
+                    lStringAddress = " (" + lLocation.pubAndress + ")";
+                }
+                Log.w("tab", lLocation.pubName + " " + Integer.toString(lLocation.pubName.length()));
+                if (lLocation.pubName.length() > 0) {
+                    setLocation(lLocation.pubName + lStringAddress);
+                } else {
+                    setLocation("Địa điểm không tên" + lStringAddress);
+                }
+            }
+        }
     }
 }

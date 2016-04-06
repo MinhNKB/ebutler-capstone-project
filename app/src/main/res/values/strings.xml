@@ -163,4 +163,7 @@
     <string name="map_ButlerStatement">Hãy chọn địa điểm nhắc nhở</string>
     <string name="title_activity_map_location">Map</string>
     <string name="map_location_hintLocationName">Tên địa điểm</string>
+    <string name="map_location_textButtonDone">Xác nhận</string>
+    <string name="map_location_textButtonCancel">Quay lại</string>
+    <string name="map_location_textButtonDelete">Xóa địa điểm</string>
 </resources>
