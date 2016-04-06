@@ -1,7 +1,6 @@
 package com.guardian.ebutler.ebutler;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -100,32 +99,45 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
         FragmentTransaction t = getSupportFragmentManager().beginTransaction();
         t.replace(R.id.dashboard_linearLayoutCalendarViewCalendar, priCaldroidFragment);
         t.commit();
-        
+
+        this.setCaldroidFragmentSelectedDate(this.priCalendar.getTime());
         this.initCalendarViewListeners();
         this.initeCalendarViewEvents();
     }
 
     private void initeCalendarViewEvents() {
-//        Calendar lCalendar = Calendar.getInstance();
-//        lCalendar.add(Calendar.DATE, 2);
-//        this.priCaldroidFragment.setBackgroundDrawableForDate(getResources().getDrawable(R.drawable.red_button), lCalendar.getTime());
-//        priCaldroidFragment.refreshView();
+        for (Task lTask: this.priTaskList
+             ) {
+            if (Global.getInstance().getZeroTimeDate(new Date()).equals(Global.getInstance().getZeroTimeDate(lTask.pubTime)))
+                continue;
+            Calendar lCalendar = Calendar.getInstance();
+            lCalendar.setTime(lTask.pubTime);
+            this.priCaldroidFragment.setBackgroundDrawableForDate(getResources().getDrawable(R.drawable.caldroid_custom_event), lCalendar.getTime());
+            this.priCaldroidFragment.setTextColorForDate(R.color.background, lCalendar.getTime());
+        }
+        priCaldroidFragment.refreshView();
     }
 
     private void initCalendarViewListeners() {
         CaldroidListener lListener = new CaldroidListener() {
             @Override
             public void onSelectDate(Date date, View view) {
-                if (priSelectedDate != null && priSelectedDate.equals(date))
-                    return;
-                priCaldroidFragment.clearSelectedDates();
-                priCaldroidFragment.setSelectedDate(date);
-                priSelectedDate = date;
-                showTasksListPeek();
-                priCaldroidFragment.refreshView();
+                setCaldroidFragmentSelectedDate(date);
             }
         };
         this.priCaldroidFragment.setCaldroidListener(lListener);
+    }
+
+    private void setCaldroidFragmentSelectedDate(Date iDate){
+        if (priSelectedDate != null && priSelectedDate.equals(iDate)){
+            priCaldroidFragment.refreshView();
+            return;
+        }
+        priCaldroidFragment.clearSelectedDates();
+        priCaldroidFragment.setSelectedDate(iDate);
+        priSelectedDate = iDate;
+        showTasksListPeek();
+        priCaldroidFragment.refreshView();
     }
 
     private void showTasksListPeek() {
