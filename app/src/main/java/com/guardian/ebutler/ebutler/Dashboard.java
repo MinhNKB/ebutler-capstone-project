@@ -181,7 +181,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
             this.performFilter();
         }
         catch (Exception ex){
-            String cause = ex.toString();
+            ex.printStackTrace();
         }
     }
 

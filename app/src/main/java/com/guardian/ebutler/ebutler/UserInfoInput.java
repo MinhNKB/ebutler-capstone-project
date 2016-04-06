@@ -309,11 +309,15 @@ public class UserInfoInput extends Activity {
     public void buttonClear_onClick(View view){
 //        this.priScriptManager.AnwserQuestion(this.priAnwserFragmentInterface == null ?
 //                null : this.priAnwserFragmentInterface.getValues());
+//        this.priIsFinishedAsking = true;
+//        updateProgressBar();
 //        this.clearAnswer();
 //        this.showFinishMessage();
 //        this.switchTaskbarToLightTheme(false);
         if(!priIsFinishedAsking) {
             this.priScriptManager.AnwserQuestion(null);
+            this.priIsFinishedAsking = true;
+            updateProgressBar();
             this.createConversationStatement(getResources().getString(R.string.user_info_denyAQuestion), false);
             this.clearAnswer();
             this.showQuestion();

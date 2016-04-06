@@ -6,6 +6,7 @@ import android.util.DisplayMetrics;
 
 import com.guardian.ebutler.ebutler.R;
 import com.guardian.ebutler.ebutler.TaskList;
+import com.guardian.ebutler.ebutler.dataclasses.Location;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
 import com.guardian.ebutler.ebutler.dataclasses.TaskChecklist;
 import com.guardian.ebutler.ebutler.dataclasses.TaskNote;
@@ -40,6 +41,7 @@ public class Global {
     }
 
     public TaskType pubTaskType;
+    public Location pubTaskLocation;
 
     public int getCategoryColor(Context iContext, String iCategory){
         switch (iCategory){
