@@ -259,5 +259,11 @@ public class ScriptManager {
             return null;
         }
     }
+
+    public String GatAQuestionGroupString() {
+        if(priCurrentQuestionGroup==null)
+            return "";
+        return priCurrentQuestionGroup.pubQuestionString;
+    }
     //endregion
 }
