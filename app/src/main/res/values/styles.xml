@@ -105,6 +105,7 @@
         <item name="android:layout_weight">1</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">3dp</item>
+        <item name="android:layout_marginBottom">6dp</item>
         <item name="android:gravity">center_horizontal</item>
         <item name="android:textSize">21sp</item>
     </style>

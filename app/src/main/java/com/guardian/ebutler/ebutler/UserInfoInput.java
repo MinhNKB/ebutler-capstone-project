@@ -353,8 +353,8 @@ public class UserInfoInput extends Activity {
     }
 
     public void buttonAdd_onClick(View view) {
-        Intent intent = new Intent(this, CategoryList.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, CategoryList.class);
+//        startActivity(intent);
     }
 
     public void buttonMenu_onClick(View view) {
