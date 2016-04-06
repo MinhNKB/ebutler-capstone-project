@@ -58,7 +58,7 @@ public class Global {
         }
     }
 
-    public int getTaskTypeDrawable(Context iContext, TaskType iTaskType){
+    public int getTaskTypeColor(Context iContext, TaskType iTaskType){
         switch (iTaskType){
             case Note:
                 return iContext.getResources().getColor(R.color.red_900);
@@ -73,7 +73,7 @@ public class Global {
         }
     }
 
-    public int getTaskTypeDrawable(Context iContext, Task iTask) {
+    public int getTaskTypeDrawable(Task iTask) {
         switch (iTask.pubTaskType){
             case OneTimeReminder:
                 return R.mipmap.ic_alarm;

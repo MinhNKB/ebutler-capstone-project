@@ -1,6 +1,7 @@
 package com.guardian.ebutler.ebutler;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import com.guardian.ebutler.ebutler.custom.*;
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 import com.guardian.ebutler.ebutler.dataclasses.*;
+import com.guardian.ebutler.fragments.MiniTaskFragment;
 import com.guardian.ebutler.world.Global;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
@@ -58,6 +60,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
     private LinearLayout priLinearLayoutTopBar;
 
     private LinearLayout priLinearLayoutCalendarView;
+    private LinearLayout getPriLinearLayoutCalendarViewPeek;
     private LinearLayout priLinearLayoutCalendarViewMiniTasks;
     private List<Task> priMiniTaskList;
 
@@ -113,14 +116,12 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
         CaldroidListener lListener = new CaldroidListener() {
             @Override
             public void onSelectDate(Date date, View view) {
+                if (priSelectedDate != null && priSelectedDate.equals(date))
+                    return;
                 priCaldroidFragment.clearSelectedDates();
-                if ((priSelectedDate != null && !priSelectedDate.equals(date)) || priSelectedDate == null) {
-                    priCaldroidFragment.setSelectedDate(date);
-                    priSelectedDate = date;
-                    showTasksListPeek();
-                }
-                else
-                    priSelectedDate = null;
+                priCaldroidFragment.setSelectedDate(date);
+                priSelectedDate = date;
+                showTasksListPeek();
                 priCaldroidFragment.refreshView();
             }
         };
@@ -130,10 +131,14 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
     private void showTasksListPeek() {
         if (priSelectedDate != null){
             this.priMiniTaskList = new ArrayList<Task>();
+            this.priLinearLayoutCalendarViewMiniTasks.removeAllViews();
             for(int i = 0; i < this.priTaskList.size(); ++i)
                 if (Global.getInstance().getZeroTimeDate(this.priTaskList.get(i).pubTime).equals(
-                        Global.getInstance().getZeroTimeDate(priSelectedDate)))
+                        Global.getInstance().getZeroTimeDate(priSelectedDate))){
                     this.priMiniTaskList.add(this.priTaskList.get(i));
+                    getFragmentManager().beginTransaction().add(this.priLinearLayoutCalendarViewMiniTasks.getId(), MiniTaskFragment.newInstance(this.priTaskList.get(i))).commit();
+                }
+            this.getPriLinearLayoutCalendarViewPeek.setVisibility(this.priMiniTaskList.size() > 0 ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -247,7 +252,8 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
         this.priImageButtonViewType = (ImageButton) findViewById(R.id.dashboard_buttonViewType);
         this.priSpinnerSort = (Spinner) findViewById(R.id.dashboard_spinnerSort);
         this.priLinearLayoutCalendarView = (LinearLayout) findViewById(R.id.dashboard_linearLayoutCalendarView);
-        this.priLinearLayoutCalendarViewMiniTasks = (LinearLayout) findViewById(R.id.dashboard_scrollViewCalendarViewMiniTasks);
+        this.priLinearLayoutCalendarViewMiniTasks = (LinearLayout) findViewById(R.id.dashboard_linearLayoutCalendarViewMiniTasks);
+        this.getPriLinearLayoutCalendarViewPeek = (LinearLayout) findViewById(R.id.dashboard_linearLayoutCalendarViewPeek);
     }
 
 
@@ -268,12 +274,12 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
         String lThirdLine = getThirdLine(lTask);
 
         lCustomListItem = new CustomListItem(Global.getInstance().getTaskTypeEnum(lTask),
-                lFirstLine, lSecondLine, lThirdLine, Global.getInstance().getTaskTypeDrawable(this, lTask));
+                lFirstLine, lSecondLine, lThirdLine, Global.getInstance().getTaskTypeDrawable(lTask));
 
         return  lCustomListItem;
     }
 
-    private String getThirdLine(Task lTask) {
+    public static String getThirdLine(Task lTask) {
         String lThirdLine = null;
         switch (lTask.pubTaskType) {
             case OneTimeReminder:
@@ -316,7 +322,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
         return lThirdLine;
     }
 
-    private String getSecondLine(Task lTask) {
+    public static String getSecondLine(Task lTask) {
         String lSecondLine = null;
         switch (lTask.pubTaskType) {
             case OneTimeReminder:
@@ -346,7 +352,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
         return lSecondLine;
     }
 
-    private String getFirstLine(Task lTask) {
+    public static String getFirstLine(Task lTask) {
         if (lTask.pubName != null && !lTask.pubName.equals(""))
             return  lTask.pubName;
         return "Không có tiêu đề";
