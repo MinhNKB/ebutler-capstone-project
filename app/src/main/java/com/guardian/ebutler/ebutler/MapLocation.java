@@ -96,7 +96,6 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback,
         priButtonDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.w("cool", priCurrentLocation.toString());
                 if (priCurrentLocation != null) {
                     returnResult(RESULT_OK, priCurrentLocation);
                 } else {
@@ -196,7 +195,7 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback,
 
                 @Override
                 public void onProviderDisabled(String provider) {
-                    Toast.makeText(priThis, "GPS đã bị vô hiệu hóa",Toast.LENGTH_LONG);
+                    Toast.makeText(priThis, "GPS đã bị vô hiệu hóa",Toast.LENGTH_LONG).show();
                 }
             }, null);
         }
