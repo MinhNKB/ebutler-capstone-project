@@ -12,6 +12,9 @@ import com.guardian.ebutler.ebutler.dataclasses.TaskNote;
 import com.guardian.ebutler.ebutler.dataclasses.TaskOneTimeReminder;
 import com.guardian.ebutler.ebutler.dataclasses.TaskType;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by Tabuzaki IA on 12/24/2015.
  */
@@ -85,6 +88,18 @@ public class Global {
 
     public TaskType getTaskTypeEnum(Task iTask){
         return iTask.pubTaskType;
+    }
+
+    public Date getZeroTimeDate(Date iDate){
+        Date lResult = iDate;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(iDate);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        lResult = calendar.getTime();
+        return lResult;
     }
 }
 

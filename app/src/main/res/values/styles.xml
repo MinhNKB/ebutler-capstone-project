@@ -59,4 +59,68 @@
         <item name="android:layout_height">1dp</item>
         <item name="android:background">@color/textDisabledBlack</item>
     </style>
+
+
+    <style name="CaldroidCustom">
+        <item name="styleCaldroidViewLayout">@style/CaldroidCustomCalendarViewLayout</item>
+        <item name="styleCaldroidLeftArrow">@style/CaldroidCustomLeftButton</item>
+        <item name="styleCaldroidRightArrow">@style/CaldroidCustomRightButton</item>
+        <item name="styleCaldroidMonthName">@style/CaldroidCustomMonthName</item>
+        <item name="styleCaldroidGridView">@style/CaldroidCustomGridView</item>
+        <item name="styleCaldroidNormalCell">@style/CaldroidCustomNormalCell</item>
+        <item name="styleCaldroidSquareCell">@style/CaldroidCustomSquareCell</item>
+        <item name="styleCaldroidWeekdayView">@style/CaldroidCustomWeekday</item>
+    </style>
+    <style name="CaldroidCustomArrowButton">
+        <item name="android:layout_width">@dimen/taskbar_iconSize</item>
+        <item name="android:layout_height">@dimen/taskbar_iconSize</item>
+    </style>
+    <style name="CaldroidCustomCalendarViewLayout">
+        <item name="android:background">@color/background</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="CaldroidCustomCell">
+        <item name="android:textColor">@drawable/caldroid_custom_text_color</item>
+        <item name="android:background">@drawable/caldroid_custom_cell</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="CaldroidCustomGridView">
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:listSelector">@null</item>
+        <item name="android:background">@color/background</item>
+        <item name="android:horizontalSpacing">1dp</item>
+        <item name="android:padding">1dp</item>
+        <item name="android:verticalSpacing">1dp</item>
+    </style>
+    <style name="CaldroidCustomLeftButton" parent="CaldroidCustomArrowButton">
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:background">@mipmap/ic_keyboard_arrow_left_grey</item>
+    </style>
+    <style name="CaldroidCustomMonthName">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">21sp</item>
+    </style>
+    <style name="CaldroidCustomNormalCell" parent="CaldroidCustomCell">
+        <item name="android:padding">5dp</item>
+    </style>
+    <style name="CaldroidCustomRightButton" parent="CaldroidCustomArrowButton">
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:background">@mipmap/ic_keyboard_arrow_right_grey</item>
+    </style>
+    <style name="CaldroidCustomSquareCell" parent="CaldroidCustomCell"/>
+    <style name="CaldroidCustomWeekday">
+        <item name="android:textColor">@color/textDisabledBlackMiddle</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
 </resources>
