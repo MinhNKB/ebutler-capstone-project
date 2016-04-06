@@ -1,9 +1,10 @@
 package com.guardian.ebutler.ebutler;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,15 +22,19 @@ import android.widget.TextView;
 import com.guardian.ebutler.ebutler.custom.*;
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 import com.guardian.ebutler.ebutler.dataclasses.*;
+import com.guardian.ebutler.fragments.MiniTaskFragment;
 import com.guardian.ebutler.world.Global;
+import com.roomorama.caldroid.CaldroidFragment;
+import com.roomorama.caldroid.CaldroidListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class Dashboard extends Activity {
+public class Dashboard extends android.support.v4.app.FragmentActivity {
 
     private TextView priTextViewButlerSpeech;
     private SearchView priSearchView;
@@ -54,12 +59,20 @@ public class Dashboard extends Activity {
     private LinearLayout priLinearLayoutSearch;
     private LinearLayout priLinearLayoutTopBar;
 
+    private LinearLayout priLinearLayoutCalendarView;
+    private LinearLayout getPriLinearLayoutCalendarViewPeek;
+    private LinearLayout priLinearLayoutCalendarViewMiniTasks;
+    private List<Task> priMiniTaskList;
+
     private ImageButton priImageButtonAlarm;
     private ImageButton priImageButtonCheckList;
     private ImageButton priImageButtonNote;
     private ImageButton priImageButtonSort;
-
     private ImageButton priImageButtonViewType;
+
+    private CaldroidFragment priCaldroidFragment;
+    private Calendar priCalendar;
+    private Date priSelectedDate;
 
 
     @Override
@@ -69,10 +82,64 @@ public class Dashboard extends Activity {
         this.findViewsByIds();
         this.initSort();
         this.initializeCustomListView();
+        this.initCalendarView();
         this.initSearchView();
         this.setupUI(findViewById(R.id.dashboard_parent));
 
         Global.getInstance().pubNewTask = null;
+    }
+
+    private void initCalendarView() {
+        this.priCaldroidFragment = new CaldroidFragment();
+        Bundle args = new Bundle();
+        priCalendar = Calendar.getInstance();
+        args.putInt(CaldroidFragment.MONTH, priCalendar.get(Calendar.MONTH) + 1);
+        args.putInt(CaldroidFragment.YEAR, priCalendar.get(Calendar.YEAR));
+        args.putInt(CaldroidFragment.THEME_RESOURCE, R.style.CaldroidCustom);
+        priCaldroidFragment.setArguments(args);
+        FragmentTransaction t = getSupportFragmentManager().beginTransaction();
+        t.replace(R.id.dashboard_linearLayoutCalendarViewCalendar, priCaldroidFragment);
+        t.commit();
+        
+        this.initCalendarViewListeners();
+        this.initeCalendarViewEvents();
+    }
+
+    private void initeCalendarViewEvents() {
+//        Calendar lCalendar = Calendar.getInstance();
+//        lCalendar.add(Calendar.DATE, 2);
+//        this.priCaldroidFragment.setBackgroundDrawableForDate(getResources().getDrawable(R.drawable.red_button), lCalendar.getTime());
+//        priCaldroidFragment.refreshView();
+    }
+
+    private void initCalendarViewListeners() {
+        CaldroidListener lListener = new CaldroidListener() {
+            @Override
+            public void onSelectDate(Date date, View view) {
+                if (priSelectedDate != null && priSelectedDate.equals(date))
+                    return;
+                priCaldroidFragment.clearSelectedDates();
+                priCaldroidFragment.setSelectedDate(date);
+                priSelectedDate = date;
+                showTasksListPeek();
+                priCaldroidFragment.refreshView();
+            }
+        };
+        this.priCaldroidFragment.setCaldroidListener(lListener);
+    }
+
+    private void showTasksListPeek() {
+        if (priSelectedDate != null){
+            this.priMiniTaskList = new ArrayList<Task>();
+            this.priLinearLayoutCalendarViewMiniTasks.removeAllViews();
+            for(int i = 0; i < this.priTaskList.size(); ++i)
+                if (Global.getInstance().getZeroTimeDate(this.priTaskList.get(i).pubTime).equals(
+                        Global.getInstance().getZeroTimeDate(priSelectedDate))){
+                    this.priMiniTaskList.add(this.priTaskList.get(i));
+                    getFragmentManager().beginTransaction().add(this.priLinearLayoutCalendarViewMiniTasks.getId(), MiniTaskFragment.newInstance(this.priTaskList.get(i))).commit();
+                }
+            this.getPriLinearLayoutCalendarViewPeek.setVisibility(this.priMiniTaskList.size() > 0 ? View.VISIBLE : View.GONE);
+        }
     }
 
     private void initSort() {
@@ -166,6 +233,8 @@ public class Dashboard extends Activity {
     private void switchView(boolean iIsCalendarView) {
         this.priIsCalendarView = iIsCalendarView;
         this.priImageButtonViewType.setImageResource(this.priIsCalendarView == true ? R.mipmap.ic_list : R.mipmap.ic_date_range);
+        this.priCustomListView.setVisibility(this.priIsCalendarView == true ? View.GONE : View.VISIBLE);
+        this.priLinearLayoutCalendarView.setVisibility(this.priIsCalendarView == true ? View.VISIBLE : View.GONE);
     }
 
     public void findViewsByIds() {
@@ -182,6 +251,9 @@ public class Dashboard extends Activity {
         this.priImageButtonSort = (ImageButton) findViewById(R.id.dashboard_buttonSort);
         this.priImageButtonViewType = (ImageButton) findViewById(R.id.dashboard_buttonViewType);
         this.priSpinnerSort = (Spinner) findViewById(R.id.dashboard_spinnerSort);
+        this.priLinearLayoutCalendarView = (LinearLayout) findViewById(R.id.dashboard_linearLayoutCalendarView);
+        this.priLinearLayoutCalendarViewMiniTasks = (LinearLayout) findViewById(R.id.dashboard_linearLayoutCalendarViewMiniTasks);
+        this.getPriLinearLayoutCalendarViewPeek = (LinearLayout) findViewById(R.id.dashboard_linearLayoutCalendarViewPeek);
     }
 
 
@@ -202,12 +274,12 @@ public class Dashboard extends Activity {
         String lThirdLine = getThirdLine(lTask);
 
         lCustomListItem = new CustomListItem(Global.getInstance().getTaskTypeEnum(lTask),
-                lFirstLine, lSecondLine, lThirdLine, Global.getInstance().getTaskTypeDrawable(this, lTask));
+                lFirstLine, lSecondLine, lThirdLine, Global.getInstance().getTaskTypeDrawable(lTask));
 
         return  lCustomListItem;
     }
 
-    private String getThirdLine(Task lTask) {
+    public static String getThirdLine(Task lTask) {
         String lThirdLine = null;
         switch (lTask.pubTaskType) {
             case OneTimeReminder:
@@ -250,7 +322,7 @@ public class Dashboard extends Activity {
         return lThirdLine;
     }
 
-    private String getSecondLine(Task lTask) {
+    public static String getSecondLine(Task lTask) {
         String lSecondLine = null;
         switch (lTask.pubTaskType) {
             case OneTimeReminder:
@@ -280,7 +352,7 @@ public class Dashboard extends Activity {
         return lSecondLine;
     }
 
-    private String getFirstLine(Task lTask) {
+    public static String getFirstLine(Task lTask) {
         if (lTask.pubName != null && !lTask.pubName.equals(""))
             return  lTask.pubName;
         return "Không có tiêu đề";

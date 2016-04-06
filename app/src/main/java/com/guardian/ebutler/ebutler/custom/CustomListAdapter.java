@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.guardian.ebutler.ebutler.R;
@@ -85,7 +86,12 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
         else
             lHolder.pubImageButton.setVisibility(View.GONE);
 
-
+        if (this.priFilteredItems.get(iPosition).pubImageButtonSize != 0){
+            ViewGroup.LayoutParams lParams = lHolder.pubImageButton.getLayoutParams();
+            lParams.height = this.priFilteredItems.get(iPosition).pubImageButtonSize;
+            lParams.width = this.priFilteredItems.get(iPosition).pubImageButtonSize;
+            lHolder.pubImageButton.setLayoutParams(lParams);
+        }
 
 //        lRowView.setOnClickListener(new View.OnClickListener() {
 //            @Override

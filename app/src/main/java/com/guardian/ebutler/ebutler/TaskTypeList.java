@@ -125,7 +125,7 @@ public class TaskTypeList extends Activity {
                 ) {
             Pair<String, String> lTaskTypeInfo = this.getTaskTypeString(lTaskType);
             lCustomListItem = new CustomListItem(null,
-                    lTaskTypeInfo.first, null, null, Global.getInstance().getTaskTypeDrawable(this, lTaskType));
+                    lTaskTypeInfo.first, null, null, Global.getInstance().getTaskTypeColor(this, lTaskType));
             result.add(lCustomListItem);
         }
         return result;
