@@ -64,10 +64,17 @@ public class UserInfoInput extends Activity {
         this.findViewsByIds();
         this.setupUI(findViewById(R.id.user_info_input_parent));
         this.priScriptManager = new ScriptManager(this);
-        this.createConversationStatement(priScriptManager.GetAGreeting(), true);
-        this.showQuestion();
         this.initializeDatabase();
+        this.createConversationStatement(priScriptManager.GetAGreeting(), true);
+        this.showQuestionGroup();
+        this.showQuestion();
         this.preprocessProgressBar();
+    }
+
+    private void showQuestionGroup() {
+        String lQuestionString = this.priScriptManager.GatAQuestionGroupString();
+        if(lQuestionString!=null && lQuestionString!="")
+            this.createConversationStatement(lQuestionString, true);
     }
 
     private void preprocessProgressBar() {
@@ -144,7 +151,13 @@ public class UserInfoInput extends Activity {
                     if (lYesNoConditions.get(0).pubValue.equals("true")) {
                         priScriptManager.Refresh();
                         priIsFinishedAsking = false;
+                        this.showQuestionGroup();
                         this.showQuestion();
+                    }
+                    else
+                    {
+                        this.clearAnswer();
+                        this.switchTaskbarToLightTheme(false);
                     }
                 }
             } catch (Exception ex) {
@@ -207,22 +220,32 @@ public class UserInfoInput extends Activity {
         try
         {
             this.priQuestion = this.priScriptManager.GetAQuestion();
+            if(priQuestion!=null) {
 //            if (this.priQuestion == null) {}
-            this.priAnwserFragmentInterface = this.getQuestionFragment(this.priQuestion);
+                this.priAnwserFragmentInterface = this.getQuestionFragment(this.priQuestion);
 //            if (this.priAnwserFragmentInterface == null) {}
-            if (this.priQuestion.pubUIType == UIType.Textbox || this.priQuestion.pubUIType == UIType.YesNo) {
-                getFragmentManager().beginTransaction().add(this.priRelativeLayoutForSimpleAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
+                if (this.priQuestion.pubUIType == UIType.Textbox || this.priQuestion.pubUIType == UIType.YesNo) {
+                    getFragmentManager().beginTransaction().add(this.priRelativeLayoutForSimpleAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
+                } else
+                    getFragmentManager().beginTransaction().add(this.priLinearLayoutAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
+
+                this.createConversationStatement(this.priQuestion.pubQuestionString, true);
+                this.switchTaskbarToLightTheme(true);
             }
             else
-                getFragmentManager().beginTransaction().add(this.priLinearLayoutAnswer.getId(), (Fragment) this.priAnwserFragmentInterface).commit();
-
-            this.createConversationStatement(this.priQuestion.pubQuestionString, true);
-            this.switchTaskbarToLightTheme(true);
+            {
+                priIsFinishedAsking = true;
+                updateProgressBar();
+                this.showFinishMessage();
+                this.clearAnswer();
+                this.switchTaskbarToLightTheme(false);
+            }
         }
         catch (Exception ex){
             priIsFinishedAsking = true;
             updateProgressBar();
             this.showFinishMessage();
+            this.clearAnswer();
             this.switchTaskbarToLightTheme(false);
             return;
         }
@@ -284,11 +307,23 @@ public class UserInfoInput extends Activity {
     }
 
     public void buttonClear_onClick(View view){
-        this.priScriptManager.AnwserQuestion(this.priAnwserFragmentInterface == null ?
-                null : this.priAnwserFragmentInterface.getValues());
-        this.clearAnswer();
-        this.showFinishMessage();
-        this.switchTaskbarToLightTheme(false);
+//        this.priScriptManager.AnwserQuestion(this.priAnwserFragmentInterface == null ?
+//                null : this.priAnwserFragmentInterface.getValues());
+//        this.clearAnswer();
+//        this.showFinishMessage();
+//        this.switchTaskbarToLightTheme(false);
+        if(!priIsFinishedAsking) {
+            this.priScriptManager.AnwserQuestion(null);
+            this.createConversationStatement(getResources().getString(R.string.user_info_denyAQuestion), false);
+            this.clearAnswer();
+            this.showQuestion();
+        }
+        else
+        {
+            this.createConversationStatement("Không", false);
+            this.clearAnswer();
+            this.switchTaskbarToLightTheme(false);
+        }
     }
 
     private void clearAnswer() {
