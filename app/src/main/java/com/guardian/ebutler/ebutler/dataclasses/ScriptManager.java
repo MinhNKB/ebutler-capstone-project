@@ -174,10 +174,20 @@ public class ScriptManager {
             Date lCurrentDate = new Date();
             if(lInputDate.before(lCurrentDate))
             {
-                String[] lRepeat = iTaskSuggestionInformation.pubRepeat.replace(" ","").split(";");
-                lInputDate.setYear(lInputDate.getYear() + Integer.parseInt(lRepeat[0]));
-                lInputDate.setMonth(lInputDate.getMonth() + Integer.parseInt(lRepeat[1]));
-                lInputDate.setDate(lInputDate.getDate() + Integer.parseInt(lRepeat[2]));
+                int lDiffDays = (int) ((lCurrentDate.getTime() - lInputDate.getTime())/ (1000 * 60 * 60 * 24));
+                if(lDiffDays>=Math.abs(Integer.parseInt(lTimes[1])))
+                {
+                    String[] lRepeat = iTaskSuggestionInformation.pubRepeat.replace(" ", "").split(";");
+                    lInputDate.setYear(lInputDate.getYear() + Integer.parseInt(lRepeat[0]));
+                    lInputDate.setMonth(lInputDate.getMonth() + Integer.parseInt(lRepeat[1]));
+                    lInputDate.setDate(lInputDate.getDate() + Integer.parseInt(lRepeat[2]));
+                }
+                else
+                {
+                    lInputDate = lCurrentDate;
+                    lInputDate.setDate(lInputDate.getDate() + 1);
+                    lInputDate.setHours(7);
+                }
             }
             Task lNewTask = new Task();
 
@@ -185,7 +195,7 @@ public class ScriptManager {
             lNewTask.pubTime = lInputDate;
             lNewTask.pubStatus = Status.Pending;
             lNewTask.pubPriority = Priority.Normal;
-            lNewTask.pubTaskType = TaskType.Note;
+            lNewTask.pubTaskType = TaskType.OneTimeReminder;
             return lNewTask;
         } catch (ParseException e) {
             Log.w("ScriptManager",e.getMessage());
@@ -226,9 +236,9 @@ public class ScriptManager {
     {
         Date lCurrentDate = new Date();
         int lCurrentHour = lCurrentDate.getHours();
-        if(lCurrentHour<=11)
+        if(lCurrentHour<=10)
             return GetAScript("Morning");
-        else if(lCurrentHour<=15)
+        else if(lCurrentHour<=17)
             return GetAScript("Afternoon");
         return GetAScript("Evening");
     }

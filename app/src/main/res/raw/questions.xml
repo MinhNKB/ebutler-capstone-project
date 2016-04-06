@@ -33,7 +33,7 @@
 		<QuestionString>Bạn có thể vui lòng cung cấp thêm cho tôi một vài thông tin cơ bản không</QuestionString>
 		<Questions>
 			<Question>
-				<QuestionString>Nghề nghiệp của bạn là</QuestionString>
+				<QuestionString>Bạn làm nghề</QuestionString>
 				<Conditions></Conditions>
 				<OptionsType></OptionsType>
 				<PropertiesNames>Job</PropertiesNames>
@@ -70,7 +70,7 @@
 		<QuestionString>Bạn vui lòng cung cấp thêm thông tin về thu nhập và chi tiêu hàng tháng</QuestionString>
 		<Questions>
 			<Question>
-				<QuestionString>Thu nhập hàng tháng của gia đình bạn vào khoảng</QuestionString>
+				<QuestionString>Thu nhập hàng tháng của gia đình bạn vào khoảng (VND)</QuestionString>
 				<Conditions></Conditions>
 				<OptionsType></OptionsType>
 				<PropertiesNames>Income</PropertiesNames>
@@ -120,7 +120,7 @@
 		</Questions>
 	</QuestionGroup>
 	<QuestionGroup>
-		<QuestionString>Bạn vui lòng cung cấp thêm thông tin về phương tiện cá nhân</QuestionString>
+		<QuestionString>Bạn vui lòng cung cấp thêm thông tin về phương tiện di chuyển cá nhân</QuestionString>
 		<Questions>
 			<Question>
 				<QuestionString>Phương tiện bạn thường dùng để di chuyển là</QuestionString>
@@ -247,7 +247,7 @@
 				<Stage>1</Stage>
 			</Question>
 			<Question>
-				<QuestionString>Thể loại sách yêu thích của bạn là gì</QuestionString>
+				<QuestionString>Thể loại sách yêu thích của bạn là</QuestionString>
 				<Conditions>LikeBooks==true</Conditions>
 				<OptionsType>BookTypes</OptionsType>
 				<PropertiesNames>RomanceBook;AdventureBook;ScienceBook;HorrorBook;FictionBook;JournalsBook</PropertiesNames>
@@ -337,10 +337,18 @@
 				<Stage>2</Stage>
 			</Question>
 			<Question>
-				<QuestionString>Ngày sinh của vợ/chồng bạn là</QuestionString>
-				<Conditions>MaritalStatus!=single</Conditions>
+				<QuestionString>Ngày sinh của vợ bạn là</QuestionString>
+				<Conditions>MaritalStatus!=single;Gender==male</Conditions>
 				<OptionsType></OptionsType>
-				<PropertiesNames>PartnerDoB</PropertiesNames>
+				<PropertiesNames>FemalePartnerDoB</PropertiesNames>
+				<UIType>Date</UIType>
+				<Stage>2</Stage>
+			</Question>
+			<Question>
+				<QuestionString>Ngày sinh của chồng bạn là</QuestionString>
+				<Conditions>MaritalStatus!=single;Gender==female</Conditions>
+				<OptionsType></OptionsType>
+				<PropertiesNames>MalePartnerDoB</PropertiesNames>
 				<UIType>Date</UIType>
 				<Stage>2</Stage>
 			</Question>
@@ -361,7 +369,15 @@
 				<Stage>3</Stage>
 			</Question>
 			<Question>
-				<QuestionString>Ngày kỉ niệm quen nhau là ngày</QuestionString>
+				<QuestionString>Ngày sinh người yêu bạn là</QuestionString>
+				<Conditions>HaveLover==true</Conditions>
+				<OptionsType></OptionsType>
+				<PropertiesNames>LoverDOB</PropertiesNames>
+				<UIType>Date</UIType>
+				<Stage>3</Stage>
+			</Question>
+			<Question>
+				<QuestionString>Ngày hai người quen nhau là ngày</QuestionString>
 				<Conditions>HaveLover==true</Conditions>
 				<OptionsType></OptionsType>
 				<PropertiesNames>MeetLoverDay</PropertiesNames>
