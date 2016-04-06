@@ -9,8 +9,6 @@ import android.util.Log;
 
 import com.guardian.ebutler.ebutler.dataclasses.*;
 
-import org.json.JSONObject;
-
 import java.text.DateFormat;
 import java.util.Date;
 import java.text.ParseException;
@@ -161,25 +159,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase lDB = this.getWritableDatabase();
         ContentValues lValues = new ContentValues();
         lValues.put("Name",iTask.pubName);
+        lValues.put("TaskType",iTask.pubTaskType.toString());
+        lValues.put("Status", iTask.pubStatus.toString());
+        lValues.put("Priority", iTask.pubPriority.toString());
+
         if (iTask.pubCategory != null) {
             lValues.put("Category",iTask.pubCategory);
         }
-        lValues.put("TaskType",iTask.pubTaskType.toString());
         if (iTask.pubDescription != null) {
             lValues.put("Description", iTask.pubDescription);
         }
         if (iTask.pubTime != null) {
             lValues.put("Time", iTask.pubTime.toString());
         }
-        lValues.put("Status", iTask.pubStatus.toString());
-        lValues.put("Priority", iTask.pubPriority.toString());
-//        try {
-//            Log.w("asd", new JSONObject().put("asd", lDB.insert("Task", null, lValues)).toString());
-//        } catch (Exception e) {
-//            Log.w("asd", e.toString());
-//        }
-        lDB.insert("Task", null, lValues);
+
+        long lInsertedTaskId = lDB.insert("Task", null, lValues);
         lDB.close();
+        if (iTask.pubLocation != null) {
+            for (Location lLocation : iTask.pubLocation) {
+                long lInsertedLocationId = FindOrInsertALocation(lLocation);
+                if (lInsertedTaskId != -1 && lInsertedLocationId != -1) {
+                    InsertATaskLocation(lInsertedTaskId, lInsertedLocationId);
+                }
+            }
+        }
         return 0;
     }
 
@@ -343,8 +346,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         lValues.put("OptionTypes",iQuestion.pubOptionsType);
         lValues.put("PropertiesNames",MergePropertiesNames(iQuestion.pubInformationPropertiesNames));
         lValues.put("UIType",iQuestion.pubUIType.toString());
-        lValues.put("IsAsked",iQuestion.pubIsAsked);
-        lValues.put("Stage",iQuestion.pubStage);
+        lValues.put("IsAsked", iQuestion.pubIsAsked);
+        lValues.put("Stage", iQuestion.pubStage);
         SQLiteDatabase lDB = this.getWritableDatabase();
         lDB.update("Question",lValues,"Id=?",new String[]{String.valueOf(iQuestion.pubId)});
         lDB.close();
@@ -409,8 +412,68 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         lValues.put("Value", iInformation.pubValue);
         lValues.put("Type", iInformation.pubType);
         SQLiteDatabase lDB = this.getWritableDatabase();
-        lDB.update("UserInformation",lValues,"PropertyName=?",new String[]{iInformation.pubConditionName});
+        lDB.update("UserInformation", lValues, "PropertyName=?", new String[]{iInformation.pubConditionName});
         lDB.close();
+    }
+    //endregion
+
+    //region Question
+    public long FindOrInsertALocation(Location iLocation)
+    {
+        long returnId = -1;
+        SQLiteDatabase lDB = this.getWritableDatabase();
+        String[] columns = new String[] {"Id"};
+        String[] parameters = new String[]{iLocation.pubName, Float.toString(iLocation.pubCoorX), Float.toString(iLocation.pubCoorY)};
+        Cursor lCursor = lDB.query("Location", columns, "Name=? AND abs(CoorX-?)<0.001 AND abs(CoorY-?)<0.001", parameters, null, null, null);
+        if (lCursor == null || lCursor.getCount() == 0) {
+            ContentValues lValues = new ContentValues();
+            lValues.put("Name", iLocation.pubName);
+            lValues.put("Address", iLocation.pubAndress);
+            lValues.put("CoorX", iLocation.pubCoorX);
+            lValues.put("CoorY", iLocation.pubCoorY);
+            returnId = lDB.insert("Location", null, lValues);
+        } else {
+            int lIdIndex = lCursor.getColumnIndex("Id");
+            lCursor.moveToFirst();
+            returnId = lCursor.getInt(lIdIndex);
+            lCursor.close();
+        }
+        lDB.close();
+        return returnId;
+    }
+
+    public List<Location> GetAllLocations()
+    {
+        String[] columns = new String[] {"Name", "Address", "CoorX", "CoorY"};
+        Cursor lCursor = this.getWritableDatabase().query("Location", columns, null, null, null, null, null);
+        List<Location> lResult = new ArrayList<>();
+        int lNameIndex = lCursor.getColumnIndex("Name");
+        int lAddressIndex = lCursor.getColumnIndex("Address");
+        int lCoorXIndex = lCursor.getColumnIndex("CoorX");
+        int lCoorYIndex = lCursor.getColumnIndex("CoorY");
+
+        for(lCursor.moveToFirst(); !lCursor.isAfterLast(); lCursor.moveToNext()){
+            Location lLocation = new Location();
+            lLocation.pubName = lCursor.getString(lNameIndex);
+            lLocation.pubAndress = lCursor.getString(lAddressIndex);
+            lLocation.pubCoorX = lCursor.getFloat(lCoorXIndex);
+            lLocation.pubCoorY = lCursor.getFloat(lCoorYIndex);
+            lResult.add(lLocation);
+        }
+        lCursor.close();
+        return lResult;
+    }
+    //endregion
+
+    //region Task_Location
+    public long InsertATaskLocation(long iTaskId, long iLocationId) {
+        SQLiteDatabase lDB = this.getWritableDatabase();
+        ContentValues lValues = new ContentValues();
+        lValues.put("TaskId", iTaskId);
+        lValues.put("LocationId", iLocationId);
+        long insertedId = lDB.insert("Task_Location", null, lValues);
+        lDB.close();
+        return insertedId;
     }
     //endregion
 

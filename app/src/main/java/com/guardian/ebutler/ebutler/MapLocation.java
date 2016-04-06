@@ -1,20 +1,17 @@
 package com.guardian.ebutler.ebutler;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.media.Image;
 import android.os.Build;
-import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -23,10 +20,10 @@ import android.text.InputType;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -37,9 +34,12 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 import com.guardian.ebutler.world.Global;
 
-import javax.xml.datatype.Duration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 
 public class MapLocation extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -49,7 +49,10 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback,
     private ImageButton priButtonCancel;
     private ImageButton priButtonDelete;
     private ImageButton priButtonDone;
+    private TextView priLocationAddressTextView;
+    private HashMap<Marker, com.guardian.ebutler.ebutler.dataclasses.Location> priMarkerLocationMap;
     private com.guardian.ebutler.ebutler.dataclasses.Location priCurrentLocation = null;
+    private boolean priIsMarkerClicked = false;
     final private float MIN_ZOOM = 12;
     final public int PERMISSION_REQUEST_CODE = 1;
 
@@ -93,14 +96,15 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback,
         priButtonDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.w("cool", priCurrentLocation.toString());
                 if (priCurrentLocation != null) {
                     returnResult(RESULT_OK, priCurrentLocation);
                 } else {
                     final com.guardian.ebutler.ebutler.dataclasses.Location lNewLocation = new com.guardian.ebutler.ebutler.dataclasses.Location();
                     LatLng lCenterOfMap = priMap.getCameraPosition().target;
-                    lNewLocation.pubCoorX = (float)lCenterOfMap.latitude;
-                    lNewLocation.pubCoorY = (float)lCenterOfMap.longitude;
-                    //TODO: get address here
+                    lNewLocation.pubCoorX = (float) lCenterOfMap.latitude;
+                    lNewLocation.pubCoorY = (float) lCenterOfMap.longitude;
+                    lNewLocation.pubAndress = priLocationAddressTextView.getText().toString();
                     AlertDialog.Builder lBuilder = new AlertDialog.Builder(priThis);
                     lBuilder.setTitle("Ghi nhớ địa điểm");
 
@@ -124,7 +128,10 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback,
                     lBuilder.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            lNewLocation.pubName = lInput.getText().toString();
+                            lNewLocation.pubName = lInput.getText().toString().trim();
+                            if (lNewLocation.pubName.length() < 1) {
+                                lNewLocation.pubName = "Chưa đặt tên";
+                            }
                             returnResult(RESULT_OK, lNewLocation);
                         }
                     });
@@ -151,6 +158,7 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback,
         priButtonCancel = (ImageButton)findViewById(R.id.map_location_buttonCancel);
         priButtonDelete = (ImageButton)findViewById(R.id.map_location_buttonDelete);
         priButtonDone = (ImageButton)findViewById(R.id.map_location_buttonDone);
+        priLocationAddressTextView = (TextView) findViewById(R.id.map_location_locationAddress);
     }
 
     @Override
@@ -159,9 +167,6 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback,
         setupMapParameters();
         setupViewLocation();
         setupMarkers();
-//        LatLng sydney = new LatLng(-34, 151);
-//        priMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        priMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
     private void setupViewLocation() {
@@ -198,26 +203,75 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback,
     }
 
     private void setupMapParameters() {
-        priMap.animateCamera(CameraUpdateFactory.zoomTo(MIN_ZOOM + 3));
+        priMap.animateCamera(CameraUpdateFactory.zoomTo(MIN_ZOOM + 2));
         priMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
-                priCurrentLocation = null;
+
+                //Because onCameraChange is called latter than onMarkerClicked;
+                if (priIsMarkerClicked) {
+                    priIsMarkerClicked = false;
+                } else {
+                    priCurrentLocation = null;
+                }
+                String lNearbyAddress = getAddress(cameraPosition.target.latitude, cameraPosition.target.longitude);
+                if (lNearbyAddress.length() > 0) {
+                    priLocationAddressTextView.setText(lNearbyAddress);
+                    priLocationAddressTextView.setVisibility(View.VISIBLE);
+                } else {
+                    priLocationAddressTextView.setVisibility(View.GONE);
+                }
                 if (cameraPosition.zoom < MIN_ZOOM)
                     priMap.animateCamera(CameraUpdateFactory.zoomTo(MIN_ZOOM));
             }
         });
+        priMap.setOnMarkerClickListener(this);
+    }
+
+    private String getAddress(Double iLatitude, Double iLongitude) {
+        Geocoder lGeocoder = new Geocoder(this, Locale.ENGLISH);
+        String lReturnValue = "";
+        List<Address> lAddresses = null;
+        try {
+            lAddresses = lGeocoder.getFromLocation(iLatitude, iLongitude, 1);
+            if (lAddresses.size() > 0) {
+                Address lReturnedAddress = lAddresses.get(0);
+                for (int i = 0; i < lReturnedAddress.getMaxAddressLineIndex(); i++) {
+                    lReturnValue += lReturnedAddress.getAddressLine(i);
+                    if (i + 1 < lReturnedAddress.getMaxAddressLineIndex()) {
+                        lReturnValue += ", ";
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.e("tab", "Error getting address");
+            e.printStackTrace();
+        }
+        return lReturnValue;
     }
 
     private void setupMarkers() {
-        //TODO: get markers of locations from db and load to map;
+        List<com.guardian.ebutler.ebutler.dataclasses.Location> lLocations = null;
+        try
+        {
+            DatabaseHelper iHelper = new DatabaseHelper(this);
+            lLocations = iHelper.GetAllLocations();
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+        priMarkerLocationMap = new HashMap<>();
+        for (com.guardian.ebutler.ebutler.dataclasses.Location lLocation : lLocations) {
+            LatLng lLatLng = new LatLng(lLocation.pubCoorX, lLocation.pubCoorY);
+            priMarkerLocationMap.put(priMap.addMarker(new MarkerOptions().position(lLatLng).title(lLocation.pubName)), lLocation);
+        }
+
     }
 
     @Override
     public boolean onMarkerClick(final Marker marker) {
-        LatLng lCoordinates = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
-        priMap.moveCamera(CameraUpdateFactory.newLatLng(lCoordinates));
-        //TODO: add current selection to this new location;
-        return true;
+        priCurrentLocation = priMarkerLocationMap.get(marker);
+        priIsMarkerClicked = true;
+        return false;
     }
 }

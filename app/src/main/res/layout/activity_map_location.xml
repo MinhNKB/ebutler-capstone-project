@@ -29,6 +29,21 @@
             android:layout_height="@dimen/map_marker_size"
             android:layout_centerInParent="true"
             android:src="@drawable/map_marker"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            android:paddingTop="@dimen/map_location_labelPadding"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/location_marker"
+                android:padding="@dimen/layout_padding"
+                android:visibility="gone"
+                android:id="@+id/map_location_locationAddress"/>
+        </LinearLayout>
     </RelativeLayout>
 
 

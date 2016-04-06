@@ -26,11 +26,6 @@ import com.guardian.ebutler.fragments.tasks.NoteFragment;
 import com.guardian.ebutler.screenhelper.FullscreenHelper;
 import com.guardian.ebutler.world.Global;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
 public class TaskDetail extends Activity {
 
     TaskDetail priThis;

@@ -114,7 +114,7 @@ public class Dashboard extends Activity {
             this.performFilter();
         }
         catch (Exception ex){
-            String cause = ex.toString();
+            ex.printStackTrace();
         }
     }
 
