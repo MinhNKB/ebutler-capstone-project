@@ -3,6 +3,7 @@ package com.guardian.ebutler.ebutler.dataclasses;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.util.Log;
 
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 
@@ -10,6 +11,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,6 +29,7 @@ public class ScriptManager {
     private QuestionGroup priCurrentQuestionGroup;
     private Question priCurrentQuestion;
     private Map<String,List<String>> priScripts;
+    private Map<String,TaskSuggestionInformation> priTaskSuggestions;
 
     public ScriptManager(Context iContext)
     {
@@ -41,8 +44,11 @@ public class ScriptManager {
         priCurrentQuestionGroup = GetASuitableQuestionGroup();
 
         priScripts = GetScripts();
+        priTaskSuggestions = GetSuggestion();
 
     }
+
+
 
     //region Question
     public void PushQuestionData()
@@ -136,14 +142,55 @@ public class ScriptManager {
         return null;
     }
 
-    public void AnwserQuestion(List<Condition> iNewInformation)
+    public Task AnwserQuestion(List<Condition> iNewInformation)
     {
         DatabaseHelper lHelper = DatabaseHelper.getInstance(null);
-        if(iNewInformation!=null) {
-            lHelper.InsertUserInformations(iNewInformation);
-        }
         priCurrentQuestion.pubIsAsked = true;
         lHelper.UpdateAQuestion(priCurrentQuestion);
+        if(iNewInformation!=null) {
+            lHelper.InsertUserInformations(iNewInformation);
+            if(iNewInformation.size()==1 && iNewInformation.get(0).pubType=="Date")
+            {
+                if(priTaskSuggestions.containsKey(iNewInformation.get(0).pubConditionName))
+                {
+                    return GetSuggestedTask(iNewInformation.get(0),priTaskSuggestions.get(iNewInformation.get(0).pubConditionName));
+                }
+            }
+        }
+        return null;
+    }
+
+    private Task GetSuggestedTask(Condition iCondition, TaskSuggestionInformation iTaskSuggestionInformation) {
+        try {
+            SimpleDateFormat lDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            Date lInputDate = lDateFormat.parse(iCondition.pubValue);
+
+            String[] lTimes = iTaskSuggestionInformation.pubTime.replace(" ","").split(";");
+
+            lInputDate.setMonth(lInputDate.getMonth()+Integer.parseInt(lTimes[0]));
+            lInputDate.setDate(lInputDate.getDate() + Integer.parseInt(lTimes[1]));
+            lInputDate.setHours(7);
+
+            Date lCurrentDate = new Date();
+            if(lInputDate.before(lCurrentDate))
+            {
+                String[] lRepeat = iTaskSuggestionInformation.pubRepeat.replace(" ","").split(";");
+                lInputDate.setYear(lInputDate.getYear() + Integer.parseInt(lRepeat[0]));
+                lInputDate.setMonth(lInputDate.getMonth() + Integer.parseInt(lRepeat[1]));
+                lInputDate.setDate(lInputDate.getDate() + Integer.parseInt(lRepeat[2]));
+            }
+            Task lNewTask = new Task();
+
+            lNewTask.pubName = iTaskSuggestionInformation.pubTaskName;
+            lNewTask.pubTime = lInputDate;
+            lNewTask.pubStatus = Status.Pending;
+            lNewTask.pubPriority = Priority.Normal;
+            lNewTask.pubTaskType = TaskType.Note;
+            return lNewTask;
+        } catch (ParseException e) {
+            Log.w("ScriptManager",e.getMessage());
+            return null;
+        }
     }
     //endregion
 
@@ -200,4 +247,17 @@ public class ScriptManager {
     }
     //endregion
 
+
+    //region TaskSuggestions
+    private Map<String, TaskSuggestionInformation> GetSuggestion() {
+        try {
+            XMLParser lParser = new XMLParser(priContext);
+            return lParser.ParseTaskSuggestions();
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
+    //endregion
 }

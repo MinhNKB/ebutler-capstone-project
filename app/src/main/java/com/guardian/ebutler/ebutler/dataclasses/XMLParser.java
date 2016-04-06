@@ -222,17 +222,8 @@ public class XMLParser {
             String name = iParser.getName();
             // Starts by looking for the entry tag
             if (name.equals("Script")) {
-                Pair<String,String> lTempScript = ReadScript(iParser);
-                if(lGroups.containsKey(lTempScript.first))
-                {
-                    lGroups.get(lTempScript.first).add(lTempScript.second);
-                }
-                else
-                {
-                    List<String> lTempList = new ArrayList<>();
-                    lTempList.add(lTempScript.second);
-                    lGroups.put(lTempScript.first,lTempList);
-                }
+                Pair<String,List<String>> lTempScript = ReadScript(iParser);
+                lGroups.put(lTempScript.first, lTempScript.second);
             } else {
                 Skip(iParser);
             }
@@ -240,9 +231,10 @@ public class XMLParser {
         return lGroups;
     }
 
-    private Pair<String,String> ReadScript(XmlPullParser iParser) throws IOException, XmlPullParserException {
+    private Pair<String,List<String>> ReadScript(XmlPullParser iParser) throws IOException, XmlPullParserException {
         iParser.require(XmlPullParser.START_TAG,ns,"Script");
-        String first = "",second = "";
+        String first = "";
+        List<String> second = new ArrayList<String>();
 
         while (iParser.next() != XmlPullParser.END_TAG) {
             if (iParser.getEventType() != XmlPullParser.START_TAG) {
@@ -251,15 +243,105 @@ public class XMLParser {
             String name = iParser.getName();
             if (name.equals("Type")) {
                 first = ReadLeafTag(iParser, name);
-            } else if (name.equals("String")) {
-                second = ReadLeafTag(iParser, name);
+            } else if (name.equals("Strings")) {
+                second = ReadStrings(iParser);
             }
             else {
                 Skip(iParser);
             }
         }
 
-        return new Pair<String,String>(first,second);
+        return new Pair<String,List<String>>(first,second);
+    }
+
+    private List<String> ReadStrings(XmlPullParser iParser) throws IOException, XmlPullParserException {
+        List<String> lStrings = new ArrayList<String>();
+
+        iParser.require(XmlPullParser.START_TAG, ns, "Strings");
+        while (iParser.next() != XmlPullParser.END_TAG) {
+            if (iParser.getEventType() != XmlPullParser.START_TAG) {
+                continue;
+            }
+            String name = iParser.getName();
+            // Starts by looking for the entry tag
+            if (name.equals("String")) {
+                lStrings.add(ReadLeafTag(iParser,name));
+            } else {
+                Skip(iParser);
+            }
+        }
+        return lStrings;
+    }
+    //endregion
+
+    //region TaskSuggestion
+    public Map<String,TaskSuggestionInformation> ParseTaskSuggestions() throws XmlPullParserException, IOException
+    {
+        InputStream lInput = priContext.getResources().openRawResource(R.raw.tasksuggestion);
+        Map<String,TaskSuggestionInformation> lResult = null;
+        try{
+            XmlPullParser lParser = Xml.newPullParser();
+            lParser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+            lParser.setInput(lInput, null);
+            lParser.nextTag();
+            lResult = ReadTaskSuggestions(lParser);
+        }
+        catch (Exception ex)
+        {
+            Log.w("XML",ex.getMessage());
+        }
+        finally {
+            lInput.close();
+            return lResult;
+        }
+    }
+
+    private Map<String, TaskSuggestionInformation> ReadTaskSuggestions(XmlPullParser iParser) throws IOException, XmlPullParserException {
+        Map<String,TaskSuggestionInformation> lGroups = new HashMap<String,TaskSuggestionInformation>();
+
+        iParser.require(XmlPullParser.START_TAG, ns, "Tasks");
+        while (iParser.next() != XmlPullParser.END_TAG) {
+            if (iParser.getEventType() != XmlPullParser.START_TAG) {
+                continue;
+            }
+            String name = iParser.getName();
+            // Starts by looking for the entry tag
+            if (name.equals("Task")) {
+                Pair<String,TaskSuggestionInformation> lTempSuggestion = ReadTaskSuggestion(iParser);
+                lGroups.put(lTempSuggestion.first,lTempSuggestion.second);
+            } else {
+                Skip(iParser);
+            }
+        }
+        return lGroups;
+    }
+
+    private Pair<String, TaskSuggestionInformation> ReadTaskSuggestion(XmlPullParser iParser) throws IOException, XmlPullParserException {
+        iParser.require(XmlPullParser.START_TAG,ns,"Task");
+        String first = "";
+        TaskSuggestionInformation second = new TaskSuggestionInformation();
+
+        while (iParser.next() != XmlPullParser.END_TAG) {
+            if (iParser.getEventType() != XmlPullParser.START_TAG) {
+                continue;
+            }
+            String name = iParser.getName();
+            if (name.equals("PropertyName")) {
+                first = ReadLeafTag(iParser, name);
+            } else if (name.equals("Time")) {
+                second.pubTime = ReadLeafTag(iParser, name);
+            }
+            else if (name.equals("Repeat")) {
+                second.pubRepeat = ReadLeafTag(iParser, name);
+            }
+            else if (name.equals("TaskName")) {
+                second.pubTaskName = ReadLeafTag(iParser, name);
+            }
+            else {
+                Skip(iParser);
+            }
+        }
+        return new Pair<String,TaskSuggestionInformation>(first,second);
     }
     //endregion
 }
