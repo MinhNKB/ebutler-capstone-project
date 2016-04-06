@@ -35,6 +35,7 @@ import com.guardian.ebutler.fragments.answers.TextboxFragment;
 import com.guardian.ebutler.fragments.answers.TimeFragment;
 import com.guardian.ebutler.fragments.answers.TimeSpanFragment;
 import com.guardian.ebutler.fragments.answers.YesNoFragment;
+import com.guardian.ebutler.maphelper.MapHelper;
 
 import java.util.ArrayList;
 
@@ -69,6 +70,7 @@ public class UserInfoInput extends Activity {
         this.showQuestionGroup();
         this.showQuestion();
         this.preprocessProgressBar();
+//        new MapHelper.RequestTask().execute("https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyBQ00RE-Ujwm0Rw8F3bKuJ33yUF9IHT1LI&location=10.8248,106.689&radius=500&keyword=atm");
     }
 
     private void showQuestionGroup() {
