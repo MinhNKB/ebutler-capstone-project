@@ -316,7 +316,7 @@ public class UserInfoInput extends Activity {
 //        this.switchTaskbarToLightTheme(false);
         if(!priIsFinishedAsking) {
             this.priScriptManager.AnwserQuestion(null);
-            this.priIsFinishedAsking = true;
+//            this.priIsFinishedAsking = true;
             updateProgressBar();
             this.createConversationStatement(getResources().getString(R.string.user_info_denyAQuestion), false);
             this.clearAnswer();
