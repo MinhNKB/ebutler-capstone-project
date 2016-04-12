@@ -1,10 +1,13 @@
 package com.guardian.ebutler.fragments;
 
 import android.content.Context;
+import android.media.Image;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.NonNull;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.guardian.ebutler.ebutler.R;
+import com.guardian.ebutler.screenhelper.DimensionHelper;
 
 public class ProgressBarFragment extends Fragment {
     private View priView;
@@ -53,21 +57,39 @@ public class ProgressBarFragment extends Fragment {
                         float lWidth = priView.getWidth();
                         float lBubbleSize = getResources().getDimension(R.dimen.progress_bar_bubbleSize);
                         float lInBetween = (lWidth - (lBubbleSize * 5)) / 4;
-                        float lFirstLocation = 0;
-                        float lSecondLocation = lBubbleSize + lInBetween;
-                        float lThirdLocation = lSecondLocation + lSecondLocation;
-                        float lForthLocation = lThirdLocation + lSecondLocation;
-                        float lFifthLocation = lForthLocation + lSecondLocation;
+                        float lFirstBubbleLocation = 0;
+                        float lSecondBubbleLocation = lBubbleSize + lInBetween;
+                        float lThirdBubbleLocation = lSecondBubbleLocation + lSecondBubbleLocation;
+                        float lForthBubbleLocation = lThirdBubbleLocation + lSecondBubbleLocation;
+                        float lFifthBubbleLocation = lForthBubbleLocation + lSecondBubbleLocation;
+                        float lFirstDashLocation = lFirstBubbleLocation + lBubbleSize;
+                        float lSecondDashLocation = lSecondBubbleLocation + lBubbleSize;
+                        float lThirdDashLocation = lThirdBubbleLocation + lBubbleSize;
+                        float lForthDashLocation = lForthBubbleLocation + lBubbleSize;
 
-                        setLeftMargin(priView.findViewById(R.id.progress_bar_firstBubble), (int) lFirstLocation);
-                        setLeftMargin(priView.findViewById(R.id.progress_bar_secondBubble), (int) lSecondLocation);
-                        setLeftMargin(priView.findViewById(R.id.progress_bar_thirdBubble), (int) lThirdLocation);
-                        setLeftMargin(priView.findViewById(R.id.progress_bar_forthBubble), (int) lForthLocation);
-                        setLeftMargin(priView.findViewById(R.id.progress_bar_fifthBubble), (int) lFifthLocation);
+                        setLeftMargin(priView.findViewById(R.id.progress_bar_firstBubble), (int) lFirstBubbleLocation);
+                        setLeftMargin(priView.findViewById(R.id.progress_bar_secondBubble), (int) lSecondBubbleLocation);
+                        setLeftMargin(priView.findViewById(R.id.progress_bar_thirdBubble), (int) lThirdBubbleLocation);
+                        setLeftMargin(priView.findViewById(R.id.progress_bar_forthBubble), (int) lForthBubbleLocation);
+                        setLeftMargin(priView.findViewById(R.id.progress_bar_fifthBubble), (int) lFifthBubbleLocation);
+                        setLeftMargin(priView.findViewById(R.id.progress_bar_firstDash), (int) (lFirstDashLocation - DimensionHelper.convertDpToPixel(2)));
+                        setLeftMargin(priView.findViewById(R.id.progress_bar_secondDash), (int) (lSecondDashLocation - DimensionHelper.convertDpToPixel(2)));
+                        setLeftMargin(priView.findViewById(R.id.progress_bar_thirdDash), (int) (lThirdDashLocation - DimensionHelper.convertDpToPixel(2)));
+                        setLeftMargin(priView.findViewById(R.id.progress_bar_forthDash), (int) (lForthDashLocation - DimensionHelper.convertDpToPixel(2)));
+                        setWidth(priView.findViewById(R.id.progress_bar_firstDash), (int) (lInBetween + DimensionHelper.convertDpToPixel(4)));
+                        setWidth(priView.findViewById(R.id.progress_bar_secondDash), (int) (lInBetween + DimensionHelper.convertDpToPixel(4)));
+                        setWidth(priView.findViewById(R.id.progress_bar_thirdDash), (int) (lInBetween + DimensionHelper.convertDpToPixel(4)));
+                        setWidth(priView.findViewById(R.id.progress_bar_forthDash), (int) (lInBetween + DimensionHelper.convertDpToPixel(4)));
                     }
                 });
             }
         });
+    }
+
+    protected void setWidth(View rView, int iWidth) {
+        rView.getLayoutParams().width = iWidth;
+        ((RelativeLayout.LayoutParams)rView.getLayoutParams()).addRule(RelativeLayout.CENTER_VERTICAL);
+        rView.requestLayout();
     }
 
     protected void setLeftMargin(View rView, int iLeftMargin) {
