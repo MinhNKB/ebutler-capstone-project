@@ -35,4 +35,6 @@
     <color name="green_900">#2E7D32</color>
     <color name="yellow_900">#F9A825</color>
 
+    <color name="progress_bar_border">#cccccc</color>
+
 </resources>

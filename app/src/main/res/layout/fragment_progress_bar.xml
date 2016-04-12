@@ -8,60 +8,55 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/green_bubble"
+        <fragment android:name="com.guardian.ebutler.fragments.ProgressBubbleFragment"
+            android:layout_width="@dimen/progress_bar_bubbleSize"
+            android:layout_height="@dimen/progress_bar_bubbleSize"
             android:id="@+id/progress_bar_firstBubble"
             />
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/green_bubble"
+        <fragment android:name="com.guardian.ebutler.fragments.ProgressBubbleFragment"
+            android:layout_width="@dimen/progress_bar_bubbleSize"
+            android:layout_height="@dimen/progress_bar_bubbleSize"
             android:id="@+id/progress_bar_secondBubble"
             />
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/green_bubble"
+        <fragment android:name="com.guardian.ebutler.fragments.ProgressBubbleFragment"
+            android:layout_width="@dimen/progress_bar_bubbleSize"
+            android:layout_height="@dimen/progress_bar_bubbleSize"
             android:id="@+id/progress_bar_thirdBubble"
             />
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/green_bubble"
+        <fragment android:name="com.guardian.ebutler.fragments.ProgressBubbleFragment"
+            android:layout_width="@dimen/progress_bar_bubbleSize"
+            android:layout_height="@dimen/progress_bar_bubbleSize"
             android:id="@+id/progress_bar_forthBubble"
             />
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/green_bubble"
+        <fragment android:name="com.guardian.ebutler.fragments.ProgressBubbleFragment"
+            android:layout_width="@dimen/progress_bar_bubbleSize"
+            android:layout_height="@dimen/progress_bar_bubbleSize"
             android:id="@+id/progress_bar_fifthBubble"
             />
-        <ImageView
+        <View
             android:layout_width="wrap_content"
-            android:layout_height="6dp"
+            android:layout_height="3dp"
             android:background="@drawable/green_dash"
             android:id="@+id/progress_bar_firstDash"
             android:layout_centerVertical="true"
             />
-        <ImageView
+        <View
             android:layout_width="wrap_content"
-            android:layout_height="6dp"
+            android:layout_height="3dp"
             android:background="@drawable/green_dash"
             android:id="@+id/progress_bar_secondDash"
             android:layout_centerVertical="true"
             />
-        <ImageView
+        <View
             android:layout_width="wrap_content"
-            android:layout_height="6dp"
+            android:layout_height="3dp"
             android:background="@drawable/green_dash"
             android:id="@+id/progress_bar_thirdDash"
             android:layout_centerVertical="true"
             />
-        <ImageView
+        <View
             android:layout_width="wrap_content"
-            android:layout_height="6dp"
+            android:layout_height="3dp"
             android:background="@drawable/green_dash"
             android:id="@+id/progress_bar_forthDash"
             android:layout_centerVertical="true"

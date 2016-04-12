@@ -4,7 +4,8 @@
     <item>
         <shape android:shape="oval">
             <solid
-                android:color="@color/colorAccent"/>
+                android:color="@color/background"/>
+
             <size
                 android:width="@dimen/progress_bar_bubbleSize"
                 android:height="@dimen/progress_bar_bubbleSize"/>

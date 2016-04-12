@@ -1,18 +1,14 @@
 package com.guardian.ebutler.fragments;
 
+import android.app.FragmentManager;
 import android.content.Context;
-import android.media.Image;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.annotation.NonNull;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.guardian.ebutler.ebutler.R;
@@ -49,6 +45,9 @@ public class ProgressBarFragment extends Fragment {
     }
 
     protected void setupView() {
+        ProgressBubbleFragment lBubble1 = ((ProgressBubbleFragment) getFragmentManager().findFragmentById(R.id.progress_bar_firstBubble));
+        lBubble1.pubIsChecked = true;
+        lBubble1.setupView();
         priView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -72,34 +71,33 @@ public class ProgressBarFragment extends Fragment {
                         setLeftMargin(priView.findViewById(R.id.progress_bar_thirdBubble), (int) lThirdBubbleLocation);
                         setLeftMargin(priView.findViewById(R.id.progress_bar_forthBubble), (int) lForthBubbleLocation);
                         setLeftMargin(priView.findViewById(R.id.progress_bar_fifthBubble), (int) lFifthBubbleLocation);
-                        setLeftMargin(priView.findViewById(R.id.progress_bar_firstDash), (int) (lFirstDashLocation - DimensionHelper.convertDpToPixel(2)));
-                        setLeftMargin(priView.findViewById(R.id.progress_bar_secondDash), (int) (lSecondDashLocation - DimensionHelper.convertDpToPixel(2)));
-                        setLeftMargin(priView.findViewById(R.id.progress_bar_thirdDash), (int) (lThirdDashLocation - DimensionHelper.convertDpToPixel(2)));
-                        setLeftMargin(priView.findViewById(R.id.progress_bar_forthDash), (int) (lForthDashLocation - DimensionHelper.convertDpToPixel(2)));
-                        setWidth(priView.findViewById(R.id.progress_bar_firstDash), (int) (lInBetween + DimensionHelper.convertDpToPixel(4)));
-                        setWidth(priView.findViewById(R.id.progress_bar_secondDash), (int) (lInBetween + DimensionHelper.convertDpToPixel(4)));
-                        setWidth(priView.findViewById(R.id.progress_bar_thirdDash), (int) (lInBetween + DimensionHelper.convertDpToPixel(4)));
-                        setWidth(priView.findViewById(R.id.progress_bar_forthDash), (int) (lInBetween + DimensionHelper.convertDpToPixel(4)));
+                        setLeftMargin(priView.findViewById(R.id.progress_bar_firstDash), (int) (lFirstDashLocation - DimensionHelper.convertDpToPixel(1)));
+                        setLeftMargin(priView.findViewById(R.id.progress_bar_secondDash), (int) (lSecondDashLocation - DimensionHelper.convertDpToPixel(1)));
+                        setLeftMargin(priView.findViewById(R.id.progress_bar_thirdDash), (int) (lThirdDashLocation - DimensionHelper.convertDpToPixel(1)));
+                        setLeftMargin(priView.findViewById(R.id.progress_bar_forthDash), (int) (lForthDashLocation - DimensionHelper.convertDpToPixel(1)));
+                        setDashSize(priView.findViewById(R.id.progress_bar_firstDash), (int) (lInBetween + DimensionHelper.convertDpToPixel(2)), (int) (DimensionHelper.convertDpToPixel(3)));
+                        setDashSize(priView.findViewById(R.id.progress_bar_secondDash), (int) (lInBetween + DimensionHelper.convertDpToPixel(2)), (int) (DimensionHelper.convertDpToPixel(3)));
+                        setDashSize(priView.findViewById(R.id.progress_bar_thirdDash), (int) (lInBetween + DimensionHelper.convertDpToPixel(2)), (int) (DimensionHelper.convertDpToPixel(3)));
+                        setDashSize(priView.findViewById(R.id.progress_bar_forthDash), (int) (lInBetween + DimensionHelper.convertDpToPixel(2)), (int) (DimensionHelper.convertDpToPixel(3)));
                     }
                 });
             }
         });
     }
 
-    protected void setWidth(View rView, int iWidth) {
+    protected void setDashSize(View rView, int iWidth, int iHeight) {
         rView.getLayoutParams().width = iWidth;
+        rView.getLayoutParams().height = iHeight;
         ((RelativeLayout.LayoutParams)rView.getLayoutParams()).addRule(RelativeLayout.CENTER_VERTICAL);
         rView.requestLayout();
     }
 
     protected void setLeftMargin(View rView, int iLeftMargin) {
-        ViewGroup.MarginLayoutParams lMarginParams = new ViewGroup.MarginLayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-        );
-        lMarginParams.setMargins(iLeftMargin, 0, 0, 0);
-        RelativeLayout.LayoutParams lLayoutParams = new RelativeLayout.LayoutParams(lMarginParams);
-        rView.setLayoutParams(lLayoutParams);
+        if (rView.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) rView.getLayoutParams();
+            p.setMargins(iLeftMargin, 0, 0, 0);
+            rView.requestLayout();
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
