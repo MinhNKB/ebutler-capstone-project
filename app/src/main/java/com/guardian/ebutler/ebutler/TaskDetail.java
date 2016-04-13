@@ -42,11 +42,12 @@ public class TaskDetail extends Activity {
         setContentView(R.layout.activity_task_detail);
 
         findViewsByIds();
+        setTaskDetails();
         createTaskFragment();
         priThis = this;
         bindNavigationLocation();
         setupUI(findViewById(R.id.task_detail_parent));
-        setTaskDetails();
+
     }
 
     private void setTaskDetails() {
@@ -57,8 +58,6 @@ public class TaskDetail extends Activity {
         if(Global.getInstance().pubSelectedTask!=null)
         {
             priEditTextTaskName.setText(Global.getInstance().pubSelectedTask.pubName);
-            priTaskFragment.setValues(Global.getInstance().pubSelectedTask);
-            Global.getInstance().pubSelectedTask = null;
         }
     }
 

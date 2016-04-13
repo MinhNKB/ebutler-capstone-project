@@ -198,4 +198,15 @@ public class AlarmFragment extends AbstractTaskFragment {
             }
         }
     }
+
+    public void setValues(Task iTask)
+    {
+        SimpleDateFormat lDateFormat = new SimpleDateFormat("hh:mm");
+        priCustomListItems.get(0).pubThirdLine = lDateFormat.format(iTask.pubTime);
+
+        lDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        priCustomListItems.get(1).pubThirdLine = lDateFormat.format(iTask.pubTime);
+
+        priTaskLocations = iTask.pubLocation;
+    }
 }

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.guardian.ebutler.ebutler.dataclasses.Condition;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
 import com.guardian.ebutler.fragments.tasks.TaskFragmentInterface;
+import com.guardian.ebutler.world.Global;
 
 import java.util.ArrayList;
 
@@ -46,6 +47,11 @@ public class AbstractTaskFragment extends Fragment implements TaskFragmentInterf
         // Inflate the layout for this fragment
         this.proView = inflater.inflate(proFragmentId, container, false);
         setValuesToView(this.proView);
+        if(Global.getInstance().pubSelectedTask!=null)
+        {
+            setValues(Global.getInstance().pubSelectedTask);
+            Global.getInstance().pubSelectedTask = null;
+        }
         return this.proView;
     }
 
