@@ -66,6 +66,24 @@ public class CheckListFragment extends AbstractTaskFragment {
         });
     }
 
+    public void setValues(Task iTask)
+    {
+        String[] lStrings = iTask.pubDescription.split(",");
+        for(int i=0;i<lStrings.length;i++)
+        {
+            String lItem = lStrings[i];
+            CheckListItemFragment lFragment = new CheckListItemFragment();
+            String lItemName = lItem.substring(0,lItem.lastIndexOf(":"));
+            Character lIsChecked = lItem.charAt(lItem.length()-1);
+            lFragment.pubText = lItemName;
+            if(lIsChecked=='1')
+                lFragment.pubIsChecked=true;
+            else
+                lFragment.pubIsChecked=false;
+            proFragmentList.add(lFragment);
+        }
+    }
+
 //    public void initCheckList(){
 //        LinearLayout lDoneCheckListContainerGeneral = (LinearLayout) proView.findViewById(R.id.fragment_checklist_doneChecklistContainerGeneralLayout);
 //        lDoneCheckListContainerGeneral.setVisibility(View.GONE);
