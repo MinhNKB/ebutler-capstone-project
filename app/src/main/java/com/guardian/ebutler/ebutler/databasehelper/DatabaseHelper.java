@@ -78,7 +78,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         iDB.execSQL("CREATE TABLE QuestionGroup (\n" +
                 "    Id integer  NOT NULL   PRIMARY KEY  AUTOINCREMENT,\n" +
-                "    QuestionString text  NOT NULL\n" +
+                "    QuestionString text  NOT NULL, \n" +
+                "    Day integer  NOT NULL, \n" +
+                "    Category integer  NOT NULL \n" +
                 ");");
 
         iDB.execSQL("CREATE TABLE Question (\n" +

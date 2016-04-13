@@ -2,6 +2,8 @@
 <Groups>
 	<QuestionGroup>
 		<QuestionString>Bạn có thể vui lòng cung cấp cho tôi một vài thông tin cơ bản không</QuestionString>
+		<Day>1</Day>
+		<Category>1</Category>
 		<Questions>
 			<Question>
 				<QuestionString>Họ tên của bạn là</QuestionString>
@@ -31,6 +33,8 @@
 	</QuestionGroup>
 	<QuestionGroup>
 		<QuestionString>Bạn có thể vui lòng cung cấp thêm cho tôi một vài thông tin cơ bản không</QuestionString>
+		<Day>2</Day>
+		<Category>1</Category>
 		<Questions>
 			<Question>
 				<QuestionString>Bạn làm nghề</QuestionString>
@@ -68,6 +72,8 @@
 	</QuestionGroup>
 	<QuestionGroup>
 		<QuestionString>Bạn vui lòng cung cấp thêm thông tin về thu nhập và chi tiêu hàng tháng</QuestionString>
+		<Day>3</Day>
+		<Category>2</Category>
 		<Questions>
 			<Question>
 				<QuestionString>Thu nhập hàng tháng của gia đình bạn vào khoảng (VND)</QuestionString>
@@ -121,6 +127,8 @@
 	</QuestionGroup>
 	<QuestionGroup>
 		<QuestionString>Bạn vui lòng cung cấp thêm thông tin về phương tiện di chuyển cá nhân</QuestionString>
+		<Day>4</Day>
+		<Category>2</Category>
 		<Questions>
 			<Question>
 				<QuestionString>Phương tiện bạn thường dùng để di chuyển là</QuestionString>
@@ -150,6 +158,8 @@
 	</QuestionGroup>
 	<QuestionGroup>
 		<QuestionString>Bạn vui lòng cung cấp thêm thông tin về các thiết bị gia dụng</QuestionString>
+		<Day>5</Day>
+		<Category>3</Category>
 		<Questions>
 			<Question>
 				<QuestionString>Bạn có sử dụng những thiết bị nào sau đây</QuestionString>
@@ -187,6 +197,8 @@
 	</QuestionGroup>
 	<QuestionGroup>
 		<QuestionString>Bạn vui lòng cung cấp thêm thông tin về tình trạng sức khỏe của bạn</QuestionString>
+		<Day>6</Day>
+		<Category>3</Category>
 		<Questions>
 			<Question>
 				<QuestionString>Lần khám sức khỏe tổng quát gần đây nhất của bạn là khi nào</QuestionString>
@@ -208,6 +220,8 @@
 	</QuestionGroup>
 	<QuestionGroup>
 		<QuestionString>Bạn vui lòng cung cấp một vài thông tin về sở thích của bạn</QuestionString>
+		<Day>7</Day>
+		<Category>4</Category>
 		<Questions>
 			<Question>
 				<QuestionString>Bạn có thích đi du lịch hay không</QuestionString>
@@ -237,6 +251,8 @@
 	</QuestionGroup>
 	<QuestionGroup>
 		<QuestionString>Bạn vui lòng cung cấp thêm thông tin về sở thích của bạn</QuestionString>
+		<Day>8</Day>
+		<Category>4</Category>
 		<Questions>
 			<Question>
 				<QuestionString>Bạn có thích đi đọc sách không</QuestionString>
@@ -274,6 +290,8 @@
 	</QuestionGroup>
 	<QuestionGroup>
 		<QuestionString>Bạn vui lòng cung cấp thêm thông tin về sở thích của bạn</QuestionString>
+		<Day>9</Day>
+		<Category>5</Category>
 		<Questions>
 			<Question>
 				<QuestionString>Bạn có thích động vật không</QuestionString>
@@ -311,6 +329,8 @@
 	</QuestionGroup>
 	<QuestionGroup>
 		<QuestionString>Bạn vui lòng cung cấp một số thông tin về gia đình bạn</QuestionString>
+		<Day>10</Day>
+		<Category>5</Category>
 		<Questions>
 			<Question>
 				<QuestionString>Tình trạng hôn nhân hiện tại của bạn là</QuestionString>
