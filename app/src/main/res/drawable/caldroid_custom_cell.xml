@@ -2,11 +2,6 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:caldroid="http://schemas.android.com/apk/res-auto">
 
-    <item android:drawable="@mipmap/ic_event_blue_light" android:state_pressed="false" caldroid:state_date_disabled="true" caldroid:state_date_today="true"/>
-
-    <item android:drawable="@mipmap/ic_event_blue_dark" android:state_pressed="false" caldroid:state_date_today="true" caldroid:state_date_selected="true" caldroid:state_date_prev_next_month="true"/>
-    <item android:drawable="@mipmap/ic_event_blue_light" android:state_pressed="false" caldroid:state_date_today="true" caldroid:state_date_prev_next_month="true"/>
-
     <item android:drawable="@mipmap/ic_event_blue_dark" android:state_pressed="false" caldroid:state_date_today="true" caldroid:state_date_selected="true"/>
     <item android:drawable="@mipmap/ic_event_blue_middle" android:state_pressed="false" caldroid:state_date_today="true"/>
 
