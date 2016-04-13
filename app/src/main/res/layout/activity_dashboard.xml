@@ -140,11 +140,18 @@
         android:layout_weight="1"
         android:orientation="vertical">
         <ListView
-            android:visibility="visible"
+            android:visibility="gone"
             android:id="@+id/dashboard_listViewTasks"
             android:layout_width="match_parent"
             android:layout_height="fill_parent">
         </ListView>
+        <ExpandableListView
+            android:visibility="visible"
+            android:id="@+id/dashboard_expandableListViewTasks"
+            android:layout_height="match_parent"
+            android:layout_width="fill_parent"
+            android:childDivider="@color/background"
+            android:divider="@color/background" />
         <LinearLayout
             android:visibility="gone"
             android:id="@+id/dashboard_linearLayoutCalendarView"
