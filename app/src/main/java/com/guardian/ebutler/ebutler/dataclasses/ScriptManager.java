@@ -119,15 +119,49 @@ public class ScriptManager {
         return null;
     }
 
+    private QuestionGroup GetAQuestionCategory(int iCategoryId) {
+        if(priQuestionGroups == null) {
+            return null;
+        }
+
+        List<QuestionGroup> lAvailableQuestionGroups = new ArrayList<QuestionGroup>();
+        for(int i = 0; i < priQuestionGroups.size(); i++) {
+            if(priQuestionGroups.get(i).pubCategory == iCategoryId)
+                lAvailableQuestionGroups.add(priQuestionGroups.get(i));
+        }
+
+        if (lAvailableQuestionGroups.size() < 1) {
+            return null;
+        }
+
+        QuestionGroup lMergedQuestionGroup = new QuestionGroup();
+        lMergedQuestionGroup.pubCategory = lAvailableQuestionGroups.get(0).pubCategory;
+        lMergedQuestionGroup.pubQuestionString = lAvailableQuestionGroups.get(0).pubQuestionString;
+        lMergedQuestionGroup.pubQuestions = new ArrayList<>();
+        for(QuestionGroup lQuestionGroup: lAvailableQuestionGroups) {
+            for(Question lQuestion: lQuestionGroup.pubQuestions) {
+                lMergedQuestionGroup.pubQuestions.add(lQuestion);
+                lQuestion.pubIsAsked = false;
+            }
+        }
+
+        if (lMergedQuestionGroup.CheckValidEvenIfAsked()) {
+            return lMergedQuestionGroup;
+        }
+
+        return null;
+    }
+
     public Question GetAQuestion()
     {
-        if(priCurrentQuestionGroup==null)
+        if(priCurrentQuestionGroup == null) {
             return null;
+        }
         for(int i=0;i<priCurrentQuestionGroup.pubQuestions.size();i++)
         {
             if(priCurrentQuestionGroup.pubQuestions.get(i).CheckValid())
             {
-                if(priCurrentQuestionGroup.pubQuestions.get(i).pubIsAsked==false) {
+                if(!priCurrentQuestionGroup.pubQuestions.get(i).pubIsAsked) {
                     priCurrentQuestion = priCurrentQuestionGroup.pubQuestions.get(i);
                     return priCurrentQuestion;
                 }
@@ -205,18 +239,33 @@ public class ScriptManager {
     //endregion
 
     //region Refresh
-    public double GetProgress(){
-        int lCountAnwseredQuestions = 0;
-        for(int i=0;i<priQuestionGroups.size();i++) {
-            if(!priQuestionGroups.get(i).CheckValid())
-                lCountAnwseredQuestions++;
+    public List<Boolean> GetProgress(){
+//        int lCountAnwseredQuestions = 0;
+//        for(int i=0;i<priQuestionGroups.size();i++) {
+//            if(!priQuestionGroups.get(i).CheckValid())
+//                lCountAnwseredQuestions++;
+//        }
+//        return (double)lCountAnwseredQuestions/(double)priQuestionGroups.size();
+        //TODO: Hardcoding 5 groups
+        ArrayList lReturnProgress = new ArrayList<Boolean>(){{
+            add(true);
+            add(true);
+            add(true);
+            add(true);
+            add(true);
+        }};
+        for (QuestionGroup lQuestionGroup: priQuestionGroups) {
+            if (lQuestionGroup.CheckValid()) {
+                Log.w("cool", Integer.toString(lQuestionGroup.pubCategory));
+                lReturnProgress.set(lQuestionGroup.pubCategory - 1, false);
+            }
         }
-        return (double)lCountAnwseredQuestions/(double)priQuestionGroups.size();
+        return lReturnProgress;
     }
 
-    public void Refresh()
+    public void Refresh(int iCategoryId)
     {
-        priCurrentQuestionGroup = GetASuitableQuestionGroup();
+        priCurrentQuestionGroup = GetAQuestionCategory(iCategoryId);
     }
     //endregion
 

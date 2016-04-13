@@ -5,11 +5,15 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.guardian.ebutler.ebutler.R;
+import com.guardian.ebutler.ebutler.UserInfoInput;
+
+import org.json.JSONObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,20 +25,24 @@ import com.guardian.ebutler.ebutler.R;
  */
 public class ProgressBubbleFragment extends Fragment {
     private View priView = null;
+    private Context priContext = null;
     private OnFragmentInteractionListener mListener;
 
     private static final String ARG_PARAM1 = "IsChecked";
+    private static final String ARG_PARAM2 = "CategoryId";
 
     private Boolean priIsChecked = false;
+    private int priCategoryId = -1;
 
     public ProgressBubbleFragment() {
         // Required empty public constructor
     }
 
-    public static ProgressBubbleFragment newInstance(Boolean iIsChecked) {
+    public static ProgressBubbleFragment newInstance(Boolean iIsChecked, Integer iCategoryId) {
         ProgressBubbleFragment fragment = new ProgressBubbleFragment();
         Bundle args = new Bundle();
         args.putBoolean(ARG_PARAM1, iIsChecked);
+        args.putInt(ARG_PARAM2, iCategoryId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -44,6 +52,7 @@ public class ProgressBubbleFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             priIsChecked = getArguments().getBoolean(ARG_PARAM1);
+            priCategoryId = getArguments().getInt(ARG_PARAM2);
         }
     }
 
@@ -52,16 +61,35 @@ public class ProgressBubbleFragment extends Fragment {
                              Bundle savedInstanceState) {
         priView = inflater.inflate(R.layout.fragment_progress_bubble, container, false);
         setupView();
+        setupEvent();
         return priView;
+    }
+
+    public void setCategory(int iCategoryId) {
+        priCategoryId = iCategoryId;
+    }
+
+    public void setupEvent() {
+        if (getActivity() instanceof UserInfoInput) {
+
+            priView.findViewById(R.id.progress_bubble_bubble).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((UserInfoInput) getActivity()).progressBubbleClicked(priCategoryId);
+                }
+            });
+
+        } else {
+        }
     }
 
     public void setupView() {
         View progressBubble = priView.findViewById(R.id.progress_bubble_bubble);
         if (priIsChecked) {
             if (Build.VERSION.SDK_INT >= 22) {
-                progressBubble.setBackground(priView.getResources().getDrawable(R.drawable.green_bubble, null));
+                progressBubble.setBackground(priView.getResources().getDrawable(R.drawable.blue_bubble, null));
             } else {
-                progressBubble.setBackground(priView.getResources().getDrawable(R.drawable.green_bubble));
+                progressBubble.setBackground(priView.getResources().getDrawable(R.drawable.blue_bubble));
             }
             priView.findViewById(R.id.progress_bubble_checkmate).setVisibility(View.VISIBLE);
         }
@@ -93,6 +121,7 @@ public class ProgressBubbleFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+        priContext = context;
     }
 
     @Override

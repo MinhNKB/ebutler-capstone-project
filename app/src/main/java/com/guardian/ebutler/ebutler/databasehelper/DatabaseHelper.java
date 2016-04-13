@@ -252,7 +252,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int lIdIndex = lCursor.getColumnIndex("Id");
         int lQuestionStringIndex = lCursor.getColumnIndex("QuestionString");
         int lDayIndex = lCursor.getColumnIndex("Day");
-        int lCategoryIndex = lCursor.getColumnIndex("Cetegory");
+        int lCategoryIndex = lCursor.getColumnIndex("Category");
 
 
         //Vòng lặp lấy dữ liệu của con trỏ
@@ -261,7 +261,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             lQuestionGroupTemp.pubId = lCursor.getInt(lIdIndex);
             lQuestionGroupTemp.pubQuestionString = lCursor.getString(lQuestionStringIndex);
             lQuestionGroupTemp.pubDay = lCursor.getInt(lDayIndex);
-            lQuestionGroupTemp.pubCategory = lCursor.getInt(lDayIndex);
+            lQuestionGroupTemp.pubCategory = lCursor.getInt(lCategoryIndex);
             lQuestionGroupTemp.pubQuestions = GetAllQuestionsOfAQuestionGroup(lQuestionGroupTemp.pubId);
             lResult.add(lQuestionGroupTemp);
         }

@@ -36,5 +36,5 @@
     <color name="yellow_900">#F9A825</color>
 
     <color name="progress_bar_border">#cccccc</color>
-
+    <color name="progress_bar_reached">#3498db</color>
 </resources>

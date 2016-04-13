@@ -68,6 +68,8 @@ public class ProgressBarFragment extends Fragment {
         priDash3 = priView.findViewById(R.id.progress_bar_thirdDash);
         priDash4 = priView.findViewById(R.id.progress_bar_forthDash);
 
+        setCategories();
+
         priView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -135,6 +137,19 @@ public class ProgressBarFragment extends Fragment {
         } else {
             lBubble.turnOff();
         }
+    }
+
+    private void setCategories() {
+        setCategory(1, R.id.progress_bar_firstBubble);
+        setCategory(2, R.id.progress_bar_secondBubble);
+        setCategory(3, R.id.progress_bar_thirdBubble);
+        setCategory(4, R.id.progress_bar_forthBubble);
+        setCategory(5, R.id.progress_bar_fifthBubble);
+    }
+
+    private void setCategory(int iCategory, int iFragmentId) {
+        ProgressBubbleFragment lBubble = ((ProgressBubbleFragment) getFragmentManager().findFragmentById(iFragmentId));
+        lBubble.setCategory(iCategory);
     }
 
     public void onButtonPressed(Uri uri) {

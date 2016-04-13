@@ -408,6 +408,8 @@
 	</QuestionGroup>
 	<QuestionGroup>
 		<QuestionString>Bạn vui lòng cung cấp thêm thông tin về ba mẹ bạn</QuestionString>
+		<Day>11</Day>
+		<Category>5</Category>
 		<Questions>
 			<Question>
 				<QuestionString>Tên của ba bạn là</QuestionString>
