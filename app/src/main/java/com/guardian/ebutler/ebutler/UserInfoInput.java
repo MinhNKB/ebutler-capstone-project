@@ -1,6 +1,5 @@
 package com.guardian.ebutler.ebutler;
 
-import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -55,7 +53,6 @@ public class UserInfoInput extends Activity {
     private ScriptManager priScriptManager;
     private Question priQuestion;
     private Boolean priIsFinishedAsking = false;
-    private Boolean priIsFinishedQuestionOfTheDay = false;
     private View priProgressBar;
     private int priToBeAskedQuestionCategory = -1;
 
@@ -73,8 +70,12 @@ public class UserInfoInput extends Activity {
         this.preprocessProgressBar();
     }
 
+    private Boolean beginNewQuestionGroup() {
+        return true;
+    }
+
     private void showQuestionGroup() {
-        String lQuestionString = this.priScriptManager.GatAQuestionGroupString();
+        String lQuestionString = this.priScriptManager.GetAQuestionGroupString();
         if(lQuestionString!=null && lQuestionString!="")
             this.createConversationStatement(lQuestionString, true);
     }
@@ -129,6 +130,9 @@ public class UserInfoInput extends Activity {
                 if(lNewTask!=null) {
                     DatabaseHelper lHelper = DatabaseHelper.getInstance(null);
                     lHelper.InsertATask(lNewTask);
+                }
+                if (beginNewQuestionGroup()) {
+                    this.showQuestionGroup();
                 }
                 this.showQuestion();
             }
@@ -229,7 +233,6 @@ public class UserInfoInput extends Activity {
             else
             {
                 priIsFinishedAsking = true;
-                priIsFinishedQuestionOfTheDay = true;
                 updateProgressBar();
                 this.showFinishMessage();
                 this.clearAnswer();
@@ -238,7 +241,6 @@ public class UserInfoInput extends Activity {
         }
         catch (Exception ex){
             priIsFinishedAsking = true;
-            priIsFinishedQuestionOfTheDay = true;
             updateProgressBar();
             this.showFinishMessage();
             this.clearAnswer();
@@ -279,7 +281,7 @@ public class UserInfoInput extends Activity {
                 getResources().getColor(R.color.background) : getResources().getColor(R.color.colorPrimary));
     }
 
-    private void changeButtonSet(boolean iIsLightTheme){
+    private void changeButtonSet(boolean iIsLightTheme) {
         this.changeButtonSetVisibility(iIsLightTheme);
         this.changeButtonSetGraphics(iIsLightTheme);
     }
@@ -316,10 +318,12 @@ public class UserInfoInput extends Activity {
             updateProgressBar();
             this.createConversationStatement(getResources().getString(R.string.user_info_denyAQuestion), false);
             this.clearAnswer();
+            if (beginNewQuestionGroup()) {
+                this.showQuestionGroup();
+            }
             this.showQuestion();
         }
-        else
-        {
+        else {
             this.createConversationStatement("Không", false);
             this.clearAnswer();
             this.switchTaskbarToLightTheme(false);

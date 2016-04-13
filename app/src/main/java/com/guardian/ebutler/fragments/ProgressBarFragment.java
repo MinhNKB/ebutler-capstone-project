@@ -76,7 +76,12 @@ public class ProgressBarFragment extends Fragment {
                 priView.post(new Runnable() {
                     public void run() {
                         float lWidth = priView.getWidth();
-                        float lBubbleSize = getResources().getDimension(R.dimen.progress_bar_bubbleSize);
+                        float lBubbleSize = DimensionHelper.convertDpToPixel(24);
+                        try {
+                            lBubbleSize = getResources().getDimension(R.dimen.progress_bar_bubbleSize);
+                        } catch (IllegalStateException e) {
+                           e.printStackTrace();
+                        }
                         float lInBetween = (lWidth - (lBubbleSize * 5)) / 4;
                         float lFirstBubbleLocation = 0;
                         float lSecondBubbleLocation = lBubbleSize + lInBetween;
