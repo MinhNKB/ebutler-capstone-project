@@ -57,7 +57,7 @@
     <string name="category_list_addHint">Nhập để thêm loại công việc mới</string>
     <string name="category_list_butlerSpeechGreetings">Bạn muốn tôi ghi lại loại công việc gì?</string>
 
-    <string name="dashboard_butlerSpeechGreetings">Dưới đây là những việc bạn cần làm sắp tới.</string>
+    <string name="dashboard_butlerSpeechGreetings">Đây là những việc bạn cần làm sắp tới.</string>
     <string name="dashboard_addNoteHint">Ghi chú nhanh...</string>
 
     <string name="choose_time_textButtonConfirm">Xác nhận</string>

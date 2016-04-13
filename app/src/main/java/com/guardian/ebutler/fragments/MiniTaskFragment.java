@@ -8,7 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.guardian.ebutler.ebutler.Dashboard;
 import com.guardian.ebutler.ebutler.R;
@@ -59,11 +62,19 @@ public class MiniTaskFragment extends Fragment {
         return this.priView;
     }
 
-    private void setValuesToView(View priView) {
-        ImageButton lImageButton = (ImageButton) priView.findViewById(R.id.fragment_mini_task_imageButton);
+    private void setValuesToView(final View priView) {
+        ImageView lImageButton = (ImageView) priView.findViewById(R.id.fragment_mini_task_imageButton);
         lImageButton.setImageResource(Global.getInstance().getTaskTypeDrawable(priTask));
         TextView lTextView = (TextView) priView.findViewById(R.id.fragment_mini_task_textView);
         lTextView.setText(Dashboard.getFirstLine(priTask));
+        LinearLayout lLinearLayout = (LinearLayout) priView.findViewById(R.id.fragment_mini_task_linearLayout);
+        lLinearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(priView.getContext(), priTask.pubName, Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

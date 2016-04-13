@@ -103,5 +103,7 @@ public class Global {
         lResult = calendar.getTime();
         return lResult;
     }
+
+    public Task pubSelectedTask = null;
 }
 

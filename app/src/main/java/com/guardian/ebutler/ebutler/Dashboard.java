@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -17,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.guardian.ebutler.ebutler.custom.*;
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
@@ -30,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -41,6 +44,10 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
     private ListView priCustomListView;
     private CustomListAdapter priCustomListAdapter;
 
+    private ExpandableListView priCustomExpandableListView;
+    private CustomExpandableListAdapter priCustomExpandableListAdapter;
+
+    private boolean priIsSearchView = false;
     private boolean priIsCalendarView = false;
 
     private boolean priIsAlarmFiltered = true;
@@ -52,6 +59,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
     private Spinner priSpinnerSort;
 
     private List<Task> priTaskList;
+    private List<List<Task>> priExpandableTaskList;
 
     private LinearLayout priLinearLayoutAddTaskbar;
     private RelativeLayout priRelativeLayoutTaskbar;
@@ -80,12 +88,100 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
         setContentView(R.layout.activity_dashboard);
         this.findViewsByIds();
         this.initSort();
-        this.initializeCustomListView();
+        this.initCustomListView();
+        this.initCustomExpandableListView();
         this.initCalendarView();
         this.initSearchView();
-        this.setupUI(findViewById(R.id.dashboard_parent));
 
+        this.setupUI(findViewById(R.id.dashboard_parent));
         Global.getInstance().pubNewTask = null;
+    }
+
+    private void initCustomExpandableListView() {
+        try
+        {
+            DatabaseHelper iHelper = new DatabaseHelper(this);
+            this.priTaskList = iHelper.GetAllTasks();
+            this.addTasksToCustomExpandableListView();
+            this.setCustomExpandableListViewListeners();
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    private void setCustomListViewListeners(){
+        this.priCustomListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                showTaskDetail((Task) priCustomListAdapter.getObject(position));
+            }
+        });
+
+    }
+
+    //To-do: navigate to taskdetail.java
+    private void showTaskDetail(Task iTask) {
+        //Toast.makeText(Dashboard.this, iTask.pubName, Toast.LENGTH_SHORT).show();
+        Global.getInstance().pubSelectedTask = iTask;
+        Intent lTaskDetailIntent = new Intent(this, TaskDetail.class);
+        lTaskDetailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(lTaskDetailIntent);
+    }
+
+    private void setCustomExpandableListViewListeners() {
+        this.priCustomExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                showTaskDetail(priExpandableTaskList.get(groupPosition).get(childPosition));
+                return false;
+            }
+        });
+    }
+
+
+    public void addTasksToCustomExpandableListView(){
+        this.priCustomExpandableListAdapter = new CustomExpandableListAdapter(this, getHeaders(), getGroupItems(this.priTaskList));
+        this.priCustomExpandableListView.setAdapter(this.priCustomExpandableListAdapter);
+        for (int i = 0; i < this.priCustomExpandableListAdapter.getGroupCount(); ++i)
+            this.priCustomExpandableListView.expandGroup(i);
+    }
+
+    private List<String> getHeaders() {
+        List<String> lResult = new ArrayList<String>();
+        lResult.add("Hôm nay");
+        lResult.add("Tuần này");
+        lResult.add("Còn lại");
+        return lResult;
+    }
+
+    private HashMap<String, List<CustomListItem>> getGroupItems(List<Task> iTaskList){
+        HashMap<String, List<CustomListItem>> lResult = new HashMap<String, List<CustomListItem>>();
+        this.priExpandableTaskList = new ArrayList<List<Task>>();
+        List<Task> lToday = new ArrayList<Task>();
+        List<Task> lThisWeek = new ArrayList<Task>();
+        List<Task> lRemain = new ArrayList<Task>();
+        for (Task lTask : iTaskList) {
+            Date lCurrentDate = new Date();
+            if (Global.getInstance().getZeroTimeDate(lTask.pubTime).equals(Global.getInstance().getZeroTimeDate(lCurrentDate)))
+                lToday.add(lTask);
+            else {
+                long lRemainingTime = lTask.pubTime.getTime() - lCurrentDate.getTime();
+                long hours = TimeUnit.MILLISECONDS.toHours(lRemainingTime);
+                long days = hours/24;
+                if (days <= 7 && days > 0)
+                    lThisWeek.add(lTask);
+                else
+                    lRemain.add(lTask);
+            }
+        }
+        priExpandableTaskList.add(lToday);
+        priExpandableTaskList.add(lThisWeek);
+        priExpandableTaskList.add(lRemain);
+        lResult.put("Hôm nay", getCustomItems(lToday));
+        lResult.put("Tuần này", getCustomItems(lThisWeek));
+        lResult.put("Còn lại", getCustomItems(lRemain));
+        return lResult;
     }
 
     private void initCalendarView() {
@@ -183,7 +279,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
     }
 
 
-    public void initializeCustomListView()
+    public void initCustomListView()
     {
         try
         {
@@ -191,6 +287,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
             this.priTaskList = iHelper.GetAllTasks();
             this.performSort();
             this.performFilter();
+            this.setCustomListViewListeners();
         }
         catch (Exception ex){
             ex.printStackTrace();
@@ -245,7 +342,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
     private void switchView(boolean iIsCalendarView) {
         this.priIsCalendarView = iIsCalendarView;
         this.priImageButtonViewType.setImageResource(this.priIsCalendarView == true ? R.mipmap.ic_list : R.mipmap.ic_date_range);
-        this.priCustomListView.setVisibility(this.priIsCalendarView == true ? View.GONE : View.VISIBLE);
+        this.priCustomExpandableListView.setVisibility(this.priIsCalendarView == true ? View.GONE : View.VISIBLE);
         this.priLinearLayoutCalendarView.setVisibility(this.priIsCalendarView == true ? View.VISIBLE : View.GONE);
     }
 
@@ -253,10 +350,9 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
         this.priTextViewButlerSpeech = (TextView) findViewById(R.id.dashboard_textViewButlerSpeech);
         this.priSearchView = (SearchView) findViewById(R.id.dashboard_searchView);
         this.priCustomListView = (ListView) findViewById(R.id.dashboard_listViewTasks);
-        this.priLinearLayoutAddTaskbar = (LinearLayout) findViewById(R.id.dashboard_linearLayout_addTaskBar);
-        this.priRelativeLayoutTaskbar = (RelativeLayout) findViewById(R.id.dashboard_taskBar);
+        this.priCustomExpandableListView = (ExpandableListView) findViewById(R.id.dashboard_expandableListViewTasks);
         this.priLinearLayoutSearch = (LinearLayout) findViewById(R.id.dashboard_linearLayoutSearch);
-        this.priLinearLayoutTopBar = (LinearLayout) findViewById(R.id.dashboard_topBar);
+        this.priLinearLayoutTopBar = (LinearLayout) findViewById(R.id.dashboard_linearLayoutButlerBar);
         this.priImageButtonAlarm = (ImageButton) findViewById(R.id.dashboard_buttonAlarm);
         this.priImageButtonCheckList = (ImageButton) findViewById(R.id.dashboard_buttonCheckList);
         this.priImageButtonNote = (ImageButton) findViewById(R.id.dashboard_buttonNote);
@@ -285,8 +381,11 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
         String lSecondLine = getSecondLine(lTask);
         String lThirdLine = getThirdLine(lTask);
 
-        lCustomListItem = new CustomListItem(Global.getInstance().getTaskTypeEnum(lTask),
+        lCustomListItem = new CustomListItem(lTask, Global.getInstance().getTaskTypeEnum(lTask),
                 lFirstLine, lSecondLine, lThirdLine, Global.getInstance().getTaskTypeDrawable(lTask));
+
+//        lCustomListItem = new CustomListItem(Global.getInstance().getTaskTypeEnum(lTask),
+//                lFirstLine, lSecondLine, lThirdLine, -1);
 
         return  lCustomListItem;
     }
@@ -370,23 +469,17 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
         return "Không có tiêu đề";
     }
 
-    public void switchToAddTaskbar(boolean iIsAddTaskbar) {
-        this.priRelativeLayoutTaskbar.setVisibility(iIsAddTaskbar == true ? View.GONE : View.VISIBLE);
-        this.priLinearLayoutAddTaskbar.setVisibility(iIsAddTaskbar == false ? View.GONE : View.VISIBLE);
-    }
-
-    public void buttonBack_onClick(View view) {
-        this.switchToAddTaskbar(false);
-    }
 
     public void buttonSearch_onClick(View view) {
         this.switchToSearchView(true);
     }
 
     public void switchToSearchView(boolean iIsSearchView){
-
+        this.priIsSearchView = iIsSearchView;
         this.priLinearLayoutTopBar.setVisibility(iIsSearchView == true ? View.GONE : View.VISIBLE);
         this.priLinearLayoutSearch.setVisibility(iIsSearchView == false ? View.GONE : View.VISIBLE);
+        this.priCustomExpandableListView.setVisibility(iIsSearchView == true ? View.GONE : View.VISIBLE);
+        this.priCustomListView.setVisibility(iIsSearchView == false ? View.GONE : View.VISIBLE);
 
         if (iIsSearchView == true){
             this.priSearchView.setIconified(false);
@@ -438,6 +531,10 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
 
     @Override
     public void onBackPressed() {
+        if (priIsSearchView == true){
+            switchToSearchView(false);
+            return;
+        }
         Intent setIntent = new Intent(this, UserInfoInput.class);
         setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(setIntent);
@@ -524,9 +621,6 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
         this.switchView(!this.priIsCalendarView);
     }
 
-    public void buttonAdd_onClick(View view) {
-        this.switchToAddTaskbar(true);
-    }
 
     public void buttonBackSearch_onClick(View view) {
         priSearchView.setQuery("", true);
@@ -539,5 +633,11 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
         lResult[1] = this.priIsChecklistFiltered;
         lResult[2] = this.priIsNoteFiltered;
         return lResult;
+    }
+
+    public void imageViewEbutler_onClick(View view) {
+        Intent setIntent = new Intent(this, UserInfoInput.class);
+        setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(setIntent);
     }
 }

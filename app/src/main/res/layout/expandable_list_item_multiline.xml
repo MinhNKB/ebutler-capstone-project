@@ -4,7 +4,10 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="6dp">
-
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="?android:expandableListPreferredChildPaddingLeft"/>
     <ImageView
         android:id="@+id/list_item_multiline_imageButton"
         android:layout_width="@dimen/taskbar_iconSize"

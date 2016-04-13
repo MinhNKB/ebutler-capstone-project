@@ -4,7 +4,7 @@
     <!--<item android:drawable="@color/background" android:state_pressed="false" caldroid:state_date_prev_next_month="true"/>-->
 
     <item android:drawable="@mipmap/ic_event_grey_dark" android:state_pressed="false" caldroid:state_date_selected="true"/>
-    <item android:drawable="@mipmap/ic_event_grey_light" android:state_pressed="false" caldroid:state_date_prev_next_month="true"/>
     <item android:drawable="@mipmap/ic_event_grey_middle" android:state_pressed="false" caldroid:state_date_prev_next_month="false"/>
+    <!--<item android:drawable="@mipmap/ic_event_grey_light" android:state_pressed="false" caldroid:state_date_prev_next_month="true"/>-->
     <item android:drawable="@color/background" android:state_pressed="true"/>
 </selector>
