@@ -15,7 +15,7 @@ public enum TaskComparator implements Comparator<Task> {
         }},
     NAME_SORT {
         public int compare(Task o1, Task o2) {
-            return o1.pubName.compareTo(o2.pubName);
+            return o2.pubName.compareTo(o1.pubName);
         }};
 
     public static Comparator<Task> acending(final Comparator<Task> other) {

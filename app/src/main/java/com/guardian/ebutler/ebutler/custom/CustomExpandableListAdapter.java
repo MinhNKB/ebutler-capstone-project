@@ -39,6 +39,10 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 //                priOriginalHeaders.remove(i);
     }
 
+    public Object getObject(int groupPosition, int childPosition){
+        return ((CustomListItem)getChild(groupPosition, childPosition)).pubObject;
+    }
+
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
         return this.priFilteredItems.get(this.priOriginalHeaders.get(groupPosition))

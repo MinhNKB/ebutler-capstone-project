@@ -35,4 +35,7 @@
     <color name="green_900">#2E7D32</color>
     <color name="yellow_900">#F9A825</color>
 
+    <color name="red_A100">#FF8A80</color>
+    <color name="red_A400">#FF1744</color>
+
 </resources>
