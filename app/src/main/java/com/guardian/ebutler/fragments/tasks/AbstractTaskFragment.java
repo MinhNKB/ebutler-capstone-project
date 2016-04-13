@@ -29,6 +29,10 @@ public class AbstractTaskFragment extends Fragment implements TaskFragmentInterf
 
     }
 
+    public void setValues(Task iTask) {
+
+    }
+
     protected View proView;
 
     @Override

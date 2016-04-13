@@ -42,14 +42,24 @@ public class TaskDetail extends Activity {
         setContentView(R.layout.activity_task_detail);
 
         findViewsByIds();
-        if (Global.getInstance().pubNewTask != null) {
-            priEditTextTaskName.setText(Global.getInstance().pubNewTask.pubName);
-        }
         createTaskFragment();
         priThis = this;
         bindNavigationLocation();
         setupUI(findViewById(R.id.task_detail_parent));
+        setTaskDetails();
+    }
 
+    private void setTaskDetails() {
+        if (Global.getInstance().pubNewTask != null) {
+            priEditTextTaskName.setText(Global.getInstance().pubNewTask.pubName);
+        }
+
+        if(Global.getInstance().pubSelectedTask!=null)
+        {
+            priEditTextTaskName.setText(Global.getInstance().pubSelectedTask.pubName);
+            priTaskFragment.setValues(Global.getInstance().pubSelectedTask);
+            Global.getInstance().pubSelectedTask = null;
+        }
     }
 
     private void createTaskFragment() {

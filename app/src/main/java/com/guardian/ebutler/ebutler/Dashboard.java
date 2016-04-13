@@ -122,7 +122,11 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
 
     //To-do: navigate to taskdetail.java
     private void showTaskDetail(Task iTask) {
-        Toast.makeText(Dashboard.this, iTask.pubName, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(Dashboard.this, iTask.pubName, Toast.LENGTH_SHORT).show();
+        Global.getInstance().pubSelectedTask = iTask;
+        Intent lTaskDetailIntent = new Intent(this, TaskDetail.class);
+        lTaskDetailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(lTaskDetailIntent);
     }
 
     private void setCustomExpandableListViewListeners() {

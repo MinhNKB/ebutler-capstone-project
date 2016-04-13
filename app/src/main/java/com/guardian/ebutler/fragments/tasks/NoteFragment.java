@@ -38,4 +38,10 @@ public class NoteFragment extends AbstractTaskFragment {
         rNewTask.pubDescription = ((EditText) proView.findViewById(R.id.fragment_note_description)).getText().toString();
         rNewTask.pubTime = new Date();
     }
+
+    public void setValues(Task iTask)
+    {
+        ((EditText) proView.findViewById(R.id.fragment_note_description)).setText(iTask.pubDescription);
+    }
 }
+
