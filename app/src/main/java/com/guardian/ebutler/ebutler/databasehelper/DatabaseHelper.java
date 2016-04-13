@@ -243,7 +243,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //region Question
     public List<QuestionGroup> GetAllQuestionGroup()
     {
-        String[] columns = new String[] {"Id","QuestionString"};
+        String[] columns = new String[] {"Id","QuestionString", "Day", "Category"};
         Cursor lCursor = this.getWritableDatabase().query("QuestionGroup", columns, null, null, null, null, null);
         /*if(c==null)
             Log.v("Cursor", "C is NULL");*/
@@ -251,6 +251,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //getColumnIndex(COLUMN_ID); là lấy chỉ số, vị trí của cột COLUMN_ID ...
         int lIdIndex = lCursor.getColumnIndex("Id");
         int lQuestionStringIndex = lCursor.getColumnIndex("QuestionString");
+        int lDayIndex = lCursor.getColumnIndex("Day");
+        int lCategoryIndex = lCursor.getColumnIndex("Cetegory");
 
 
         //Vòng lặp lấy dữ liệu của con trỏ
@@ -258,6 +260,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             QuestionGroup lQuestionGroupTemp = new QuestionGroup();
             lQuestionGroupTemp.pubId = lCursor.getInt(lIdIndex);
             lQuestionGroupTemp.pubQuestionString = lCursor.getString(lQuestionStringIndex);
+            lQuestionGroupTemp.pubDay = lCursor.getInt(lDayIndex);
+            lQuestionGroupTemp.pubCategory = lCursor.getInt(lDayIndex);
             lQuestionGroupTemp.pubQuestions = GetAllQuestionsOfAQuestionGroup(lQuestionGroupTemp.pubId);
             lResult.add(lQuestionGroupTemp);
         }
@@ -314,6 +318,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase lDB = this.getWritableDatabase();
         ContentValues lValues = new ContentValues();
         lValues.put("QuestionString",iQuestionGroup.pubQuestionString);
+        lValues.put("Day",iQuestionGroup.pubDay);
+        lValues.put("Category",iQuestionGroup.pubCategory);
         lDB.insert("QuestionGroup", null, lValues);
         Cursor lCursor = lDB.query("QuestionGroup", new String[]{"Id"}, null, null, null, null, "Id DESC");
         lCursor.moveToFirst();

@@ -10,6 +10,8 @@ public class QuestionGroup {
     public int pubId;
     public String pubQuestionString;
     public List<Question> pubQuestions = new ArrayList<Question>();
+    public int pubDay;
+    public int pubCategory;
 
     public boolean CheckValid()
     {
