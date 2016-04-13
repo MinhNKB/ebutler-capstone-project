@@ -9,10 +9,10 @@
 
     <color name="review_green">#ff669900</color>
     <!-- End other resources-->
-
+    <color name="colorAccent">#64dd17</color>
     <color name="colorPrimary">#2979ff</color>
     <color name="colorPrimaryDark">#2962ff</color>
-    <color name="colorAccent">#82b1ff</color>
+    <color name="colorPrimaryLight">#82b1ff</color>
     <color name="tintWhite">#dddddd</color>
 
     <color name="background">#ffffff</color>
@@ -34,6 +34,9 @@
     <color name="lightBlue_900">#0277BD</color>
     <color name="green_900">#2E7D32</color>
     <color name="yellow_900">#F9A825</color>
+
+    <color name="progress_bar_border">#9e9e9e</color>
+    <color name="progress_bar_reached">#009e1d</color>
 
     <color name="red_A100">#FF8A80</color>
     <color name="red_A400">#FF1744</color>

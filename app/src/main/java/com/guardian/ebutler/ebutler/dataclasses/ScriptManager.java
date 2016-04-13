@@ -1,8 +1,6 @@
 package com.guardian.ebutler.ebutler.dataclasses;
 
-import android.app.Application;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.util.Log;
 
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
@@ -10,7 +8,6 @@ import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,7 +23,7 @@ public class ScriptManager {
 
     private Context priContext;
     private List<QuestionGroup> priQuestionGroups;
-    private QuestionGroup priCurrentQuestionGroup;
+    private List<QuestionGroup> priCurrentQuestionGroups;
     private Question priCurrentQuestion;
     private Map<String,List<String>> priScripts;
     private Map<String,TaskSuggestionInformation> priTaskSuggestions;
@@ -41,7 +38,7 @@ public class ScriptManager {
         }
 
         //Set the current group
-        priCurrentQuestionGroup = GetASuitableQuestionGroup();
+        priCurrentQuestionGroups = GetSuitableQuestionGroups();
 
         priScripts = GetScripts();
         priTaskSuggestions = GetSuggestion();
@@ -77,7 +74,7 @@ public class ScriptManager {
         priQuestionGroups = lDBHelper.GetAllQuestionGroup();
     }
 
-    private QuestionGroup GetASuitableQuestionGroup() {
+    private List<QuestionGroup> GetSuitableQuestionGroups() {
         if(priQuestionGroups==null)
             return null;
 
@@ -113,30 +110,63 @@ public class ScriptManager {
 
         for(int i=0;i<priQuestionGroups.size();i++)
         {
-            if(priQuestionGroups.get(i).CheckValid())
-                return priQuestionGroups.get(i);
+            if(priQuestionGroups.get(i).CheckValid()) {
+                List<QuestionGroup> lQuestionGroup = new ArrayList<QuestionGroup>();
+                lQuestionGroup.add(priQuestionGroups.get(i));
+                return lQuestionGroup;
+            }
         }
         return null;
     }
 
+    private List<QuestionGroup> GetQuestionsInCategory(int iCategoryId) {
+        if(priQuestionGroups == null) {
+            return null;
+        }
+
+        List<QuestionGroup> lAvailableQuestionGroups = new ArrayList<>();
+        for(int i = 0; i < priQuestionGroups.size(); i++) {
+            if(priQuestionGroups.get(i).pubCategory == iCategoryId)
+                lAvailableQuestionGroups.add(priQuestionGroups.get(i));
+        }
+
+        if (lAvailableQuestionGroups.size() < 1) {
+            return null;
+        }
+
+        for(QuestionGroup lQuestionGroup: lAvailableQuestionGroups) {
+            for(Question lQuestion: lQuestionGroup.pubQuestions) {
+                lQuestion.pubIsAsked = false;
+            }
+            if (!lQuestionGroup.CheckValidEvenIfAsked()) {
+                return null;
+            }
+        }
+        return lAvailableQuestionGroups;
+    }
+
     public Question GetAQuestion()
     {
-        if(priCurrentQuestionGroup==null)
+        if(priCurrentQuestionGroups == null) {
             return null;
-        for(int i=0;i<priCurrentQuestionGroup.pubQuestions.size();i++)
-        {
-            if(priCurrentQuestionGroup.pubQuestions.get(i).CheckValid())
+        }
+        for(QuestionGroup lQuestionGroup :  priCurrentQuestionGroups) {
+            for(int i=0;i< lQuestionGroup.pubQuestions.size();i++)
             {
-                if(priCurrentQuestionGroup.pubQuestions.get(i).pubIsAsked==false) {
-                    priCurrentQuestion = priCurrentQuestionGroup.pubQuestions.get(i);
-                    return priCurrentQuestion;
+                if(lQuestionGroup.pubQuestions.get(i).CheckValid())
+                {
+                    if(!lQuestionGroup.pubQuestions.get(i).pubIsAsked) {
+                        priCurrentQuestion = lQuestionGroup.pubQuestions.get(i);
+
+                        return priCurrentQuestion;
+                    }
                 }
-            }
-            else
-            {
-                DatabaseHelper lHelper = DatabaseHelper.getInstance(null);
-                priCurrentQuestionGroup.pubQuestions.get(i).pubIsAsked = true;
-                lHelper.UpdateAQuestion(priCurrentQuestionGroup.pubQuestions.get(i));
+                else
+                {
+                    DatabaseHelper lHelper = DatabaseHelper.getInstance(null);
+                    lQuestionGroup.pubQuestions.get(i).pubIsAsked = true;
+                    lHelper.UpdateAQuestion(lQuestionGroup.pubQuestions.get(i));
+                }
             }
         }
         return null;
@@ -205,18 +235,33 @@ public class ScriptManager {
     //endregion
 
     //region Refresh
-    public double GetProgress(){
-        int lCountAnwseredQuestions = 0;
-        for(int i=0;i<priQuestionGroups.size();i++) {
-            if(!priQuestionGroups.get(i).CheckValid())
-                lCountAnwseredQuestions++;
+    public List<Boolean> GetProgress(){
+//        int lCountAnwseredQuestions = 0;
+//        for(int i=0;i<priQuestionGroups.size();i++) {
+//            if(!priQuestionGroups.get(i).CheckValid())
+//                lCountAnwseredQuestions++;
+//        }
+//        return (double)lCountAnwseredQuestions/(double)priQuestionGroups.size();
+        //TODO: Hardcoding 5 groups
+        ArrayList lReturnProgress = new ArrayList<Boolean>(){{
+            add(true);
+            add(true);
+            add(true);
+            add(true);
+            add(true);
+        }};
+        for (QuestionGroup lQuestionGroup: priQuestionGroups) {
+            if (lQuestionGroup.CheckValid()) {
+                Log.w("cool", Integer.toString(lQuestionGroup.pubCategory));
+                lReturnProgress.set(lQuestionGroup.pubCategory - 1, false);
+            }
         }
-        return (double)lCountAnwseredQuestions/(double)priQuestionGroups.size();
+        return lReturnProgress;
     }
 
-    public void Refresh()
+    public void Refresh(int iCategoryId)
     {
-        priCurrentQuestionGroup = GetASuitableQuestionGroup();
+        priCurrentQuestionGroups = GetQuestionsInCategory(iCategoryId);
     }
     //endregion
 
@@ -270,10 +315,14 @@ public class ScriptManager {
         }
     }
 
-    public String GatAQuestionGroupString() {
-        if(priCurrentQuestionGroup==null)
+    public String GetAQuestionGroupString() {
+        if (priCurrentQuestionGroups == null) {
             return "";
-        return priCurrentQuestionGroup.pubQuestionString;
+        }
+        if (priCurrentQuestionGroups.size() > 0) {
+            return priCurrentQuestionGroups.get(0).pubQuestionString;
+        }
+        return "";
     }
     //endregion
 }

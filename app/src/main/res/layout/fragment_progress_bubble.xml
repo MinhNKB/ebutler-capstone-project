@@ -1,0 +1,26 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.guardian.ebutler.fragments.ProgressBubbleFragment">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageButton
+            android:layout_width="@dimen/progress_bar_bubbleSize"
+            android:layout_height="@dimen/progress_bar_bubbleSize"
+            android:background="@drawable/grey_bubble"
+            android:id="@+id/progress_bubble_bubble"
+            />
+        <ImageView
+            android:layout_width="@dimen/progress_bar_bubbleSize"
+            android:layout_height="@dimen/progress_bar_bubbleSize"
+            android:src="@drawable/checkmate_icon"
+            android:id="@+id/progress_bubble_checkmate"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+
+</FrameLayout>

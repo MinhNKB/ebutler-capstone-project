@@ -83,6 +83,10 @@ public class XMLParser {
                 lQuesionGroupTemp.pubQuestionString = ReadLeafTag(iParser, name);;
             } else if (name.equals("Questions")) {
                 lQuesionGroupTemp.pubQuestions = ReadQuestions(iParser);
+            } else if (name.equals("Day")) {
+                lQuesionGroupTemp.pubDay = Integer.parseInt(ReadLeafTag(iParser, name));
+            } else if (name.equals("Category")) {
+                lQuesionGroupTemp.pubCategory = Integer.parseInt(ReadLeafTag(iParser, name));
             }
             else {
                 Skip(iParser);
