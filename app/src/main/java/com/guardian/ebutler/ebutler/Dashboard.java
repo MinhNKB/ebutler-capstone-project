@@ -47,6 +47,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
     private ExpandableListView priCustomExpandableListView;
     private CustomExpandableListAdapter priCustomExpandableListAdapter;
 
+    private boolean priIsSearchView = false;
     private boolean priIsCalendarView = false;
 
     private boolean priIsAlarmFiltered = true;
@@ -91,8 +92,8 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
         this.initCustomExpandableListView();
         this.initCalendarView();
         this.initSearchView();
-        this.setupUI(findViewById(R.id.dashboard_parent));
 
+        this.setupUI(findViewById(R.id.dashboard_parent));
         Global.getInstance().pubNewTask = null;
     }
 
@@ -116,6 +117,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
                 showTaskDetail((Task) priCustomListAdapter.getObject(position));
             }
         });
+
     }
 
     //To-do: navigate to taskdetail.java
@@ -345,10 +347,8 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
         this.priSearchView = (SearchView) findViewById(R.id.dashboard_searchView);
         this.priCustomListView = (ListView) findViewById(R.id.dashboard_listViewTasks);
         this.priCustomExpandableListView = (ExpandableListView) findViewById(R.id.dashboard_expandableListViewTasks);
-        this.priLinearLayoutAddTaskbar = (LinearLayout) findViewById(R.id.dashboard_linearLayout_addTaskBar);
-        this.priRelativeLayoutTaskbar = (RelativeLayout) findViewById(R.id.dashboard_taskBar);
         this.priLinearLayoutSearch = (LinearLayout) findViewById(R.id.dashboard_linearLayoutSearch);
-        this.priLinearLayoutTopBar = (LinearLayout) findViewById(R.id.dashboard_topBar);
+        this.priLinearLayoutTopBar = (LinearLayout) findViewById(R.id.dashboard_linearLayoutButlerBar);
         this.priImageButtonAlarm = (ImageButton) findViewById(R.id.dashboard_buttonAlarm);
         this.priImageButtonCheckList = (ImageButton) findViewById(R.id.dashboard_buttonCheckList);
         this.priImageButtonNote = (ImageButton) findViewById(R.id.dashboard_buttonNote);
@@ -465,21 +465,13 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
         return "Không có tiêu đề";
     }
 
-    public void switchToAddTaskbar(boolean iIsAddTaskbar) {
-        this.priRelativeLayoutTaskbar.setVisibility(iIsAddTaskbar == true ? View.GONE : View.VISIBLE);
-        this.priLinearLayoutAddTaskbar.setVisibility(iIsAddTaskbar == false ? View.GONE : View.VISIBLE);
-    }
-
-    public void buttonBack_onClick(View view) {
-        this.switchToAddTaskbar(false);
-    }
 
     public void buttonSearch_onClick(View view) {
         this.switchToSearchView(true);
     }
 
     public void switchToSearchView(boolean iIsSearchView){
-
+        this.priIsSearchView = iIsSearchView;
         this.priLinearLayoutTopBar.setVisibility(iIsSearchView == true ? View.GONE : View.VISIBLE);
         this.priLinearLayoutSearch.setVisibility(iIsSearchView == false ? View.GONE : View.VISIBLE);
         this.priCustomExpandableListView.setVisibility(iIsSearchView == true ? View.GONE : View.VISIBLE);
@@ -535,6 +527,10 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
 
     @Override
     public void onBackPressed() {
+        if (priIsSearchView == true){
+            switchToSearchView(false);
+            return;
+        }
         Intent setIntent = new Intent(this, UserInfoInput.class);
         setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(setIntent);
@@ -621,9 +617,6 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
         this.switchView(!this.priIsCalendarView);
     }
 
-    public void buttonAdd_onClick(View view) {
-        this.switchToAddTaskbar(true);
-    }
 
     public void buttonBackSearch_onClick(View view) {
         priSearchView.setQuery("", true);
@@ -636,5 +629,11 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
         lResult[1] = this.priIsChecklistFiltered;
         lResult[2] = this.priIsNoteFiltered;
         return lResult;
+    }
+
+    public void imageViewEbutler_onClick(View view) {
+        Intent setIntent = new Intent(this, UserInfoInput.class);
+        setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(setIntent);
     }
 }
