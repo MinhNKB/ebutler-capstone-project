@@ -25,21 +25,12 @@ public class ProgressBubbleFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "IsChecked";
 
-    public Boolean pubIsChecked = false;
+    private Boolean priIsChecked = false;
 
     public ProgressBubbleFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProgressBubbleFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ProgressBubbleFragment newInstance(Boolean iIsChecked) {
         ProgressBubbleFragment fragment = new ProgressBubbleFragment();
         Bundle args = new Bundle();
@@ -52,7 +43,7 @@ public class ProgressBubbleFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            pubIsChecked = getArguments().getBoolean(ARG_PARAM1);
+            priIsChecked = getArguments().getBoolean(ARG_PARAM1);
         }
     }
 
@@ -66,7 +57,7 @@ public class ProgressBubbleFragment extends Fragment {
 
     public void setupView() {
         View progressBubble = priView.findViewById(R.id.progress_bubble_bubble);
-        if (pubIsChecked) {
+        if (priIsChecked) {
             if (Build.VERSION.SDK_INT >= 22) {
                 progressBubble.setBackground(priView.getResources().getDrawable(R.drawable.green_bubble, null));
             } else {
@@ -81,6 +72,16 @@ public class ProgressBubbleFragment extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    public void turnOn() {
+        priIsChecked = true;
+        setupView();
+    }
+
+    public void turnOff() {
+        priIsChecked = false;
+        setupView();
     }
 
     @Override
