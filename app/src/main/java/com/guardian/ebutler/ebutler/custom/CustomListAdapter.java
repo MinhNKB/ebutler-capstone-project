@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,12 +27,17 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
     private List<CustomListItem> priOriginalItems = null;
     private Context priContext;
     private static LayoutInflater inflater = null;
-    public CustomListAdapter(Activity iContext, List<CustomListItem> iItem) {
-        this.priFilteredItems = new ArrayList<>(iItem);
-        this.priOriginalItems = new ArrayList<>(iItem);
+    public CustomListAdapter(Activity iContext, List<CustomListItem> iItems) {
+        this.priFilteredItems = new ArrayList<>(iItems);
+        this.priOriginalItems = new ArrayList<>(iItems);
         this.priContext = iContext;
         inflater = (LayoutInflater) this.priContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+
+    public Object getObject(int position){
+        return this.priFilteredItems.get(position).pubObject;
+    }
+
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
@@ -55,7 +61,7 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
         public TextView pubFirstLine;
         public TextView pubSecondLine;
         public TextView pubThirdLine;
-        public ImageButton pubImageButton;
+        public ImageView pubImageButton;
     }
     @Override
     public View getView(final int iPosition, View iConvertView, ViewGroup iParent) {
@@ -67,7 +73,7 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
         lHolder.pubFirstLine = (TextView) lRowView.findViewById(R.id.list_item_multiline_firstLine);
         lHolder.pubSecondLine = (TextView) lRowView.findViewById(R.id.list_item_multiline_secondLine);
         lHolder.pubThirdLine = (TextView) lRowView.findViewById(R.id.list_item_multiline_thirdLine);
-        lHolder.pubImageButton = (ImageButton) lRowView.findViewById(R.id.list_item_multiline_imageButton);
+        lHolder.pubImageButton = (ImageView) lRowView.findViewById(R.id.list_item_multiline_imageButton);
 
         if (this.priFilteredItems.get(iPosition).pubFirstLine != null)
             lHolder.pubFirstLine.setText(this.priFilteredItems.get(iPosition).pubFirstLine);
