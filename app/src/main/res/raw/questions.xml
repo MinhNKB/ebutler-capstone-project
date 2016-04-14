@@ -9,6 +9,7 @@
 				<QuestionString>Họ tên của bạn là</QuestionString>
 				<Conditions></Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>Username</PropertiesNames>
 				<UIType>Textbox</UIType>
 				<Stage>1</Stage>
@@ -17,6 +18,7 @@
 				<QuestionString>Bạn thuộc giới tính</QuestionString>
 				<Conditions></Conditions>
 				<OptionsType>Gender</OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>Gender</PropertiesNames>
 				<UIType>MultipleChoice</UIType>
 				<Stage>1</Stage>
@@ -25,6 +27,7 @@
 				<QuestionString>Địa chỉ của bạn là</QuestionString>
 				<Conditions></Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>Address</PropertiesNames>
 				<UIType>Textbox</UIType>
 				<Stage>1</Stage>
@@ -39,15 +42,17 @@
 			<Question>
 				<QuestionString>Bạn làm nghề</QuestionString>
 				<Conditions></Conditions>
-				<OptionsType></OptionsType>
+				<OptionsType>JobTypes</OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>Job</PropertiesNames>
-				<UIType>Textbox</UIType>
+				<UIType>MultipleChoice</UIType>
 				<Stage>1</Stage>
 			</Question>
 			<Question>
 				<QuestionString>Những ngày bạn làm việc trong tuần là</QuestionString>
 				<Conditions>Job!=null</Conditions>
 				<OptionsType>Weekdays</OptionsType>
+				<DefaultValue>1;2;3;4;5</DefaultValue>
 				<PropertiesNames>IsMondayWork;IsTuesdayWork;IsWednesdayWork;IsThursdayWork;IsFridayWork;IsSaturdayWork;IsSundayWork</PropertiesNames>
 				<UIType>Checkbox</UIType>
 				<Stage>2</Stage>
@@ -56,6 +61,7 @@
 				<QuestionString>Thường bạn bắt đầu làm việc vào lúc</QuestionString>
 				<Conditions>Job!=null</Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue>8:30</DefaultValue>
 				<PropertiesNames>StartWork</PropertiesNames>
 				<UIType>Time</UIType>
 				<Stage>2</Stage>
@@ -64,6 +70,7 @@
 				<QuestionString>Bạn kết thúc việc vào lúc</QuestionString>
 				<Conditions>Job!=null</Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue>5:30</DefaultValue>
 				<PropertiesNames>EndWork</PropertiesNames>
 				<UIType>Time</UIType>
 				<Stage>2</Stage>

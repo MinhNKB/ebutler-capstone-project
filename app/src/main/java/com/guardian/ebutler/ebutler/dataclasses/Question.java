@@ -220,6 +220,15 @@ public class Question {
             lResult.add("cat");
             lResult.add("other");
         }
+        else if(pubOptionsType.equals("JobTypes"))
+        {
+            lResult.add("student");
+            lResult.add("worker");
+            lResult.add("officestaff");
+            lResult.add("engineer");
+            lResult.add("farmer");
+            lResult.add("otherjob");
+        }
         return lResult;
     }
 }
