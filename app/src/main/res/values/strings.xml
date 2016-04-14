@@ -149,6 +149,10 @@
     <string name="enum_value_farmer">Nông nghiệp</string>
     <string name="enum_value_otherjob">Khác</string>
 
+    <string name="enum_value_below10mil">Dưới 10 triệu</string>
+    <string name="enum_value_below20mil">Dưới 20 triệu</string>
+    <string name="enum_value_below50mil">Dưới 50 triệu</string>
+    <string name="enum_value_above50mil">Trên 50 triệu</string>
 
     <string name="task_type_name_note">Ghi chú</string>
     <string name="task_type_name_checkList">Danh sách</string>

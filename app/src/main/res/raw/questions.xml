@@ -52,7 +52,7 @@
 				<QuestionString>Những ngày bạn làm việc trong tuần là</QuestionString>
 				<Conditions>Job!=null</Conditions>
 				<OptionsType>Weekdays</OptionsType>
-				<DefaultValue>1;2;3;4;5</DefaultValue>
+				<DefaultValue>0;1;2;3;4</DefaultValue>
 				<PropertiesNames>IsMondayWork;IsTuesdayWork;IsWednesdayWork;IsThursdayWork;IsFridayWork;IsSaturdayWork;IsSundayWork</PropertiesNames>
 				<UIType>Checkbox</UIType>
 				<Stage>2</Stage>
@@ -85,47 +85,53 @@
 			<Question>
 				<QuestionString>Thu nhập hàng tháng của gia đình bạn vào khoảng (VND)</QuestionString>
 				<Conditions></Conditions>
-				<OptionsType></OptionsType>
+				<OptionsType>IncomeRanges</OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>Income</PropertiesNames>
-				<UIType>Textbox</UIType>
+				<UIType>MultipleChoice</UIType>
 				<Stage>1</Stage>
 			</Question>
 			<Question>
 				<QuestionString>Những chi phí bạn phải chi trả hàng tháng là</QuestionString>
 				<Conditions></Conditions>
 				<OptionsType>BillTypes</OptionsType>
+				<DefaultValue>0;2;3</DefaultValue>
 				<PropertiesNames>PhoneBill;CableBill;ElectricityBill;WaterBill</PropertiesNames>
 				<UIType>Checkbox</UIType>
 				<Stage>1</Stage>
 			</Question>
 			<Question>
-				<QuestionString>Ngày bạn thường trả tiền điện thoại hằng tháng là</QuestionString>
+				<QuestionString>Ngày bạn trả tiền điện thoại gần nhất là</QuestionString>
 				<Conditions>PhoneBill==true</Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue>10</DefaultValue>
 				<PropertiesNames>PhoneDate</PropertiesNames>
 				<UIType>Date</UIType>
 				<Stage>2</Stage>
 			</Question>
 			<Question>
-				<QuestionString>Ngày bạn thường trả tiền cáp TV hằng tháng là</QuestionString>
+				<QuestionString>Ngày bạn trả tiền cáp TV gần nhất là</QuestionString>
 				<Conditions>CableBill==true</Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue>10</DefaultValue>
 				<PropertiesNames>CableDate</PropertiesNames>
 				<UIType>Date</UIType>
 				<Stage>2</Stage>
 			</Question>
 			<Question>
-				<QuestionString>Ngày bạn thường trả tiền điện hằng tháng là</QuestionString>
+				<QuestionString>Ngày bạn trả tiền điện gần nhất là</QuestionString>
 				<Conditions>ElectricityBill==true</Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue>10</DefaultValue>
 				<PropertiesNames>ElectricityDate</PropertiesNames>
 				<UIType>Date</UIType>
 				<Stage>2</Stage>
 			</Question>
 			<Question>
-				<QuestionString>Ngày bạn thường trả tiền nước hằng tháng là</QuestionString>
+				<QuestionString>Ngày bạn trả tiền nước gần nhất là</QuestionString>
 				<Conditions>WaterBill==true</Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue>10</DefaultValue>
 				<PropertiesNames>WaterDate</PropertiesNames>
 				<UIType>Date</UIType>
 				<Stage>2</Stage>
@@ -141,6 +147,7 @@
 				<QuestionString>Phương tiện bạn thường dùng để di chuyển là</QuestionString>
 				<Conditions></Conditions>
 				<OptionsType>VehicleTypes</OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>Vehicle</PropertiesNames>
 				<UIType>MultipleChoice</UIType>
 				<Stage>1</Stage>
@@ -149,6 +156,7 @@
 				<QuestionString>Lần bảo trì xe gần nhất của bạn là ngày</QuestionString>
 				<Conditions>Vehicle!=walk</Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>VehicleMaintenance</PropertiesNames>
 				<UIType>Date</UIType>
 				<Stage>2</Stage>
@@ -157,6 +165,7 @@
 				<QuestionString>Bảo hiểm xe của bạn sẽ hết hạn vào ngày</QuestionString>
 				<Conditions>Vehicle!=walk;Vehicle!=bike</Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>VehicleInsurance</PropertiesNames>
 				<UIType>Date</UIType>
 				<Stage>2</Stage>
@@ -172,6 +181,7 @@
 				<QuestionString>Bạn có sử dụng những thiết bị nào sau đây</QuestionString>
 				<Conditions></Conditions>
 				<OptionsType>HomeAppliances</OptionsType>
+				<DefaultValue>0;2</DefaultValue>
 				<PropertiesNames>Fridge;Conditioner;WashingMachine</PropertiesNames>
 				<UIType>Checkbox</UIType>
 				<Stage>1</Stage>
@@ -180,6 +190,7 @@
 				<QuestionString>Lần bảo trì tủ lạnh gần nhất của bạn là ngày</QuestionString>
 				<Conditions>Fridge==true</Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>FridgeMaintenance</PropertiesNames>
 				<UIType>Date</UIType>
 				<Stage>2</Stage>
@@ -188,6 +199,7 @@
 				<QuestionString>Lần bảo trì máy lạnh gần nhất của bạn là ngày</QuestionString>
 				<Conditions>Conditioner==true</Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>ConditionerMaintenance</PropertiesNames>
 				<UIType>Date</UIType>
 				<Stage>2</Stage>
@@ -196,6 +208,7 @@
 				<QuestionString>Lần bảo trì máy giặt gần nhất của bạn là ngày</QuestionString>
 				<Conditions>WashingMachine==true</Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>WashingMachineMaintenance</PropertiesNames>
 				<UIType>Date</UIType>
 				<Stage>2</Stage>
@@ -211,6 +224,7 @@
 				<QuestionString>Lần khám sức khỏe tổng quát gần đây nhất của bạn là khi nào</QuestionString>
 				<Conditions></Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>LastCheckup</PropertiesNames>
 				<UIType>Date</UIType>
 				<Stage>1</Stage>
@@ -219,6 +233,7 @@
 				<QuestionString>Bạn đã được tiêm ngừa những loại bệnh nào sau đây</QuestionString>
 				<Conditions></Conditions>
 				<OptionsType>Vaccinations</OptionsType>
+				<DefaultValue>0;1;2;3;4</DefaultValue>
 				<PropertiesNames>Measles;Mumps;Hepatitis;Varicella;Rubella</PropertiesNames>
 				<UIType>Checkbox</UIType>
 				<Stage>1</Stage>
@@ -234,6 +249,7 @@
 				<QuestionString>Bạn có thích đi du lịch hay không</QuestionString>
 				<Conditions></Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>LikeTravel</PropertiesNames>
 				<UIType>YesNo</UIType>
 				<Stage>1</Stage>
@@ -242,6 +258,7 @@
 				<QuestionString>Bạn thích những địa điểm du lịch như thế nào</QuestionString>
 				<Conditions>LikeTravel==true</Conditions>
 				<OptionsType>TravelTypes</OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>RelaxTravel;ExploreTravel;VentureTravel</PropertiesNames>
 				<UIType>Checkbox</UIType>
 				<Stage>2</Stage>
@@ -250,6 +267,7 @@
 				<QuestionString>Bạn thích ẩm thực phong cách ẩm thực nào hơn</QuestionString>
 				<Conditions></Conditions>
 				<OptionsType>FoodStyles</OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>FavoriteFoodStyle</PropertiesNames>
 				<UIType>MultipleChoice</UIType>
 				<Stage>2</Stage>
@@ -265,6 +283,7 @@
 				<QuestionString>Bạn có thích đi đọc sách không</QuestionString>
 				<Conditions></Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>LikeBooks</PropertiesNames>
 				<UIType>YesNo</UIType>
 				<Stage>1</Stage>
@@ -273,6 +292,7 @@
 				<QuestionString>Thể loại sách yêu thích của bạn là</QuestionString>
 				<Conditions>LikeBooks==true</Conditions>
 				<OptionsType>BookTypes</OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>RomanceBook;AdventureBook;ScienceBook;HorrorBook;FictionBook;JournalsBook</PropertiesNames>
 				<UIType>Checkbox</UIType>
 				<Stage>2</Stage>
@@ -281,6 +301,7 @@
 				<QuestionString>Bạn có thường nghe nhạc không</QuestionString>
 				<Conditions></Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>LikeMusic</PropertiesNames>
 				<UIType>YesNo</UIType>
 				<Stage>3</Stage>
@@ -289,6 +310,7 @@
 				<QuestionString>Thể loại nhạc mà bạn thích là</QuestionString>
 				<Conditions>LikeMusic==true</Conditions>
 				<OptionsType>MusicTypes</OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>PopMusic;RockMusic;RapMusic;JazzMusic;CountryMusic;ElectronicMusic</PropertiesNames>
 				<UIType>Checkbox</UIType>
 				<Stage>4</Stage>
@@ -304,6 +326,7 @@
 				<QuestionString>Bạn có thích động vật không</QuestionString>
 				<Conditions></Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>LikeAnimals</PropertiesNames>
 				<UIType>YesNo</UIType>
 				<Stage>1</Stage>
@@ -312,6 +335,7 @@
 				<QuestionString>Bạn có nuôi thú cưng không</QuestionString>
 				<Conditions>LikeAnimals==true</Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>HavePet</PropertiesNames>
 				<UIType>YesNo</UIType>
 				<Stage>2</Stage>
@@ -320,6 +344,7 @@
 				<QuestionString>Thú cưng bạn nuôi thuộc loài nào</QuestionString>
 				<Conditions>HavePet==true</Conditions>
 				<OptionsType>PetTypes</OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>PetType</PropertiesNames>
 				<UIType>MultipleChoice</UIType>
 				<Stage>3</Stage>
@@ -328,6 +353,7 @@
 				<QuestionString>Lần tiêm chủng gần nhất cho thú cưng của bạn là vào ngày</QuestionString>
 				<Conditions>PetType!=other</Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>PetVaccinationDate</PropertiesNames>
 				<UIType>Date</UIType>
 				<Stage>4</Stage>
@@ -343,6 +369,7 @@
 				<QuestionString>Tình trạng hôn nhân hiện tại của bạn là</QuestionString>
 				<Conditions></Conditions>
 				<OptionsType>MaritalStatus</OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>MaritalStatus</PropertiesNames>
 				<UIType>MultipleChoice</UIType>
 				<Stage>1</Stage>
@@ -351,6 +378,7 @@
 				<QuestionString>Tên của vợ/chồng bạn là</QuestionString>
 				<Conditions>MaritalStatus!=single</Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>PartnerName</PropertiesNames>
 				<UIType>Textbox</UIType>
 				<Stage>2</Stage>
@@ -359,6 +387,7 @@
 				<QuestionString>Ngày cưới của bạn là ngày</QuestionString>
 				<Conditions>MaritalStatus!=single</Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>MarriedDay</PropertiesNames>
 				<UIType>Date</UIType>
 				<Stage>2</Stage>
@@ -367,6 +396,7 @@
 				<QuestionString>Ngày sinh của vợ bạn là</QuestionString>
 				<Conditions>MaritalStatus!=single;Gender==male</Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>FemalePartnerDoB</PropertiesNames>
 				<UIType>Date</UIType>
 				<Stage>2</Stage>
@@ -375,6 +405,7 @@
 				<QuestionString>Ngày sinh của chồng bạn là</QuestionString>
 				<Conditions>MaritalStatus!=single;Gender==female</Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>MalePartnerDoB</PropertiesNames>
 				<UIType>Date</UIType>
 				<Stage>2</Stage>
@@ -383,6 +414,7 @@
 				<QuestionString>Bạn đã có người yêu chưa</QuestionString>
 				<Conditions>MaritalStatus!=married</Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>HaveLover</PropertiesNames>
 				<UIType>YesNo</UIType>
 				<Stage>2</Stage>
@@ -391,6 +423,7 @@
 				<QuestionString>Tên người yêu của bạn là</QuestionString>
 				<Conditions>HaveLover==true</Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>LoverName</PropertiesNames>
 				<UIType>Textbox</UIType>
 				<Stage>3</Stage>
@@ -399,6 +432,7 @@
 				<QuestionString>Ngày sinh người yêu bạn là</QuestionString>
 				<Conditions>HaveLover==true</Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>LoverDOB</PropertiesNames>
 				<UIType>Date</UIType>
 				<Stage>3</Stage>
@@ -407,6 +441,7 @@
 				<QuestionString>Ngày hai người quen nhau là ngày</QuestionString>
 				<Conditions>HaveLover==true</Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>MeetLoverDay</PropertiesNames>
 				<UIType>Date</UIType>
 				<Stage>3</Stage>
@@ -422,6 +457,7 @@
 				<QuestionString>Tên của ba bạn là</QuestionString>
 				<Conditions></Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>FatherName</PropertiesNames>
 				<UIType>Textbox</UIType>
 				<Stage>1</Stage>
@@ -430,6 +466,7 @@
 				<QuestionString>Ngày sinh của ba bạn là</QuestionString>
 				<Conditions></Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>FatherDoB</PropertiesNames>
 				<UIType>Date</UIType>
 				<Stage>1</Stage>
@@ -438,6 +475,7 @@
 				<QuestionString>Tên của mẹ bạn là</QuestionString>
 				<Conditions></Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>MotherName</PropertiesNames>
 				<UIType>Textbox</UIType>
 				<Stage>1</Stage>
@@ -446,6 +484,7 @@
 				<QuestionString>Ngày sinh của mẹ bạn là</QuestionString>
 				<Conditions></Conditions>
 				<OptionsType></OptionsType>
+				<DefaultValue></DefaultValue>
 				<PropertiesNames>MotherDoB</PropertiesNames>
 				<UIType>Date</UIType>
 				<Stage>1</Stage>

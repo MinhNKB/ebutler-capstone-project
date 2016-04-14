@@ -92,6 +92,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "    QuestionString text  NOT NULL,\n" +
                 "    Condition text,\n" +
                 "    OptionTypes varchar(255),\n" +
+                "    DefaultValue varchar(255),\n" +
                 "    PropertiesNames text,\n" +
                 "    UIType varchar(255)  NOT NULL,\n" +
                 "    IsAsked boolean  NOT NULL,\n" +
@@ -283,7 +284,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public List<Question> GetAllQuestionsOfAQuestionGroup(int iQuestionGroupId) {
-        String[] columns = new String[] {"Id","QuestionString","Condition","OptionTypes","PropertiesNames","UIType","IsAsked","Stage"};
+        String[] columns = new String[] {"Id","QuestionString","Condition","OptionTypes","DefaultValue","PropertiesNames","UIType","IsAsked","Stage"};
         Cursor lCursor = this.getWritableDatabase().query("Question", columns, "QuestionGroup_Id=?", new String[]{String.valueOf(iQuestionGroupId)}, null, null, null);
         /*if(c==null)
             Log.v("Cursor", "C is NULL");*/
@@ -293,6 +294,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int lQuestionStringIndex = lCursor.getColumnIndex("QuestionString");
         int lConditionIndex = lCursor.getColumnIndex("Condition");
         int lOptionTypesIndex = lCursor.getColumnIndex("OptionTypes");
+        int lDefaultValueIndex = lCursor.getColumnIndex("DefaultValue");
         int lPropertiesNamesIndex = lCursor.getColumnIndex("PropertiesNames");
         int lUITypeIndex = lCursor.getColumnIndex("UIType");
         int lIsAskedIndex = lCursor.getColumnIndex("IsAsked");
@@ -306,6 +308,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             lQuestionTemp.pubQuestionString = lCursor.getString(lQuestionStringIndex);
             lQuestionTemp.pubConditions = lCursor.getString(lConditionIndex);
             lQuestionTemp.pubOptionsType = lCursor.getString(lOptionTypesIndex);
+            lQuestionTemp.pubDefaultValue = lCursor.getString(lDefaultValueIndex);
             lQuestionTemp.pubInformationPropertiesNames = ParsePropertiesNames(lCursor.getString(lPropertiesNamesIndex));
             lQuestionTemp.pubUIType = UIType.valueOf(lCursor.getString(lUITypeIndex));
             lQuestionTemp.pubIsAsked = lCursor.getInt(lIsAskedIndex)==1;
@@ -351,6 +354,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         lValues.put("QuestionString",iQuestion.pubQuestionString);
         lValues.put("Condition", iQuestion.pubConditions);
         lValues.put("OptionTypes",iQuestion.pubOptionsType);
+        lValues.put("DefaultValue", iQuestion.pubDefaultValue);
         lValues.put("PropertiesNames",MergePropertiesNames(iQuestion.pubInformationPropertiesNames));
         lValues.put("UIType",iQuestion.pubUIType.toString());
         lValues.put("IsAsked",iQuestion.pubIsAsked);

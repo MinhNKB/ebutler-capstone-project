@@ -142,6 +142,9 @@ public class XMLParser {
             else if (name.equals("Stage")) {
                 lQuestion.pubStage = Integer.valueOf(ReadLeafTag(iParser, name));
             }
+            else if (name.equals("DefaultValue")) {
+                lQuestion.pubDefaultValue = ReadLeafTag(iParser, name);
+            }
             else {
                 Skip(iParser);
             }
