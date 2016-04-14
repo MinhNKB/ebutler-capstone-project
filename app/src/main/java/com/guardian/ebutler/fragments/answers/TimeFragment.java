@@ -3,12 +3,15 @@ package com.guardian.ebutler.fragments.answers;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.view.View;
+import android.widget.DatePicker;
 import android.widget.TimePicker;
 
 import com.guardian.ebutler.ebutler.R;
 import com.guardian.ebutler.ebutler.dataclasses.Condition;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,9 +25,11 @@ public class TimeFragment extends AbstractAnswerFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "ConditionName";
+    private static final String ARG_PARAM2 = "DefaultValue";
 
     // TODO: Rename and change types of parameters
     private String priConditionName = "condition name";
+    private ArrayList<String> priDefaultValue = new ArrayList<>();
 
     public TimeFragment() {
         proFragmentId = R.layout.fragment_time;
@@ -38,10 +43,11 @@ public class TimeFragment extends AbstractAnswerFragment {
      * @return A new instance of fragment TimeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TimeFragment newInstance(String lConditionName) {
+    public static TimeFragment newInstance(String lConditionName, ArrayList<String> rDefaultValue) {
         TimeFragment fragment = new TimeFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, lConditionName);
+        args.putSerializable(ARG_PARAM2, rDefaultValue);
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,7 +60,33 @@ public class TimeFragment extends AbstractAnswerFragment {
             if (lString.length() > 0) {
                 priConditionName = lString;
             }
+            priDefaultValue = (ArrayList<String>) getArguments().getSerializable(ARG_PARAM2);
         }
+    }
+
+    @Override
+    public void setValuesToView(View view) {
+        TimePicker lTimePicker = (TimePicker)(view.findViewById(R.id.fragment_time_TimePicker));
+        int lMinute, lHour;
+        Calendar lCalendar = Calendar.getInstance();
+        if (priDefaultValue == null || priDefaultValue.size() < 2) {
+            lHour = lCalendar.get(Calendar.HOUR_OF_DAY);
+        } else {
+            lHour = Integer.parseInt(priDefaultValue.get(1));
+        }
+        if (priDefaultValue == null || priDefaultValue.size() < 2) {
+            lMinute = lCalendar.get(Calendar.MINUTE);
+        } else {
+            lMinute = Integer.parseInt(priDefaultValue.get(0)) - 1;
+        }
+        if(Build.VERSION.SDK_INT >= 23) {
+            lTimePicker.setHour(lHour);
+            lTimePicker.setMinute(lMinute);
+        } else {
+            lTimePicker.setCurrentHour(lHour);
+            lTimePicker.setCurrentMinute(lMinute);
+        }
+
     }
 
     public String getChatStatement() {
