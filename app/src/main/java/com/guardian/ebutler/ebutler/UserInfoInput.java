@@ -70,10 +70,6 @@ public class UserInfoInput extends Activity {
         this.preprocessProgressBar();
     }
 
-    private Boolean beginNewQuestionGroup() {
-        return true;
-    }
-
     private void showQuestionGroup() {
         String lQuestionString = this.priScriptManager.GetAQuestionGroupString();
         if(lQuestionString!=null && lQuestionString!="")
@@ -130,9 +126,6 @@ public class UserInfoInput extends Activity {
                 if(lNewTask!=null) {
                     DatabaseHelper lHelper = DatabaseHelper.getInstance(null);
                     lHelper.InsertATask(lNewTask);
-                }
-                if (beginNewQuestionGroup()) {
-                    this.showQuestionGroup();
                 }
                 this.showQuestion();
             }
@@ -318,9 +311,6 @@ public class UserInfoInput extends Activity {
             updateProgressBar();
             this.createConversationStatement(getResources().getString(R.string.user_info_denyAQuestion), false);
             this.clearAnswer();
-            if (beginNewQuestionGroup()) {
-                this.showQuestionGroup();
-            }
             this.showQuestion();
         }
         else {
