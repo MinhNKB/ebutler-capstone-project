@@ -3,6 +3,7 @@ package com.guardian.ebutler.fragments;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -80,7 +81,7 @@ public class ProgressBarFragment extends Fragment {
                         try {
                             lBubbleSize = getResources().getDimension(R.dimen.progress_bar_bubbleSize);
                         } catch (IllegalStateException e) {
-                           e.printStackTrace();
+                            e.printStackTrace();
                         }
                         float lInBetween = (lWidth - (lBubbleSize * 5)) / 4;
                         float lFirstBubbleLocation = 0;
@@ -136,7 +137,7 @@ public class ProgressBarFragment extends Fragment {
     }
 
     private void toggleSwitch(Boolean iIsChecked, int iFragmentId) {
-        ProgressBubbleFragment lBubble = ((ProgressBubbleFragment) getFragmentManager().findFragmentById(iFragmentId));
+        ProgressBubbleFragment lBubble = getCompatibleFragment(iFragmentId);
         if (iIsChecked) {
             lBubble.turnOn();
         } else {
@@ -152,9 +153,21 @@ public class ProgressBarFragment extends Fragment {
         setCategory(5, R.id.progress_bar_fifthBubble);
     }
 
+    private ProgressBubbleFragment getCompatibleFragment(int iFragmentId) {
+        ProgressBubbleFragment returnFragment = null;
+        if(Build.VERSION.SDK_INT >= 21) {
+            returnFragment = (ProgressBubbleFragment)getChildFragmentManager().findFragmentById(iFragmentId);
+        } else {
+            returnFragment = (ProgressBubbleFragment)getFragmentManager().findFragmentById(iFragmentId);
+        }
+        return returnFragment;
+    }
+
     private void setCategory(int iCategory, int iFragmentId) {
-        ProgressBubbleFragment lBubble = ((ProgressBubbleFragment) getFragmentManager().findFragmentById(iFragmentId));
-        lBubble.setCategory(iCategory);
+        ProgressBubbleFragment lBubble = getCompatibleFragment(iFragmentId);
+        if (lBubble != null) {
+            lBubble.setCategory(iCategory);
+        }
     }
 
     public void onButtonPressed(Uri uri) {

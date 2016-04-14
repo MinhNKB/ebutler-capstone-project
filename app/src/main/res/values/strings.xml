@@ -142,6 +142,14 @@
     <string name="enum_value_cat">Mèo</string>
     <string name="enum_value_other">Khác</string>
 
+    <string name="enum_value_student">Học sinh, sinh viên</string>
+    <string name="enum_value_worker">Công nhân</string>
+    <string name="enum_value_officestaff">Nhân viên văn phòng</string>
+    <string name="enum_value_engineer">Kĩ sư</string>
+    <string name="enum_value_farmer">Nông nghiệp</string>
+    <string name="enum_value_otherjob">Khác</string>
+
+
     <string name="task_type_name_note">Ghi chú</string>
     <string name="task_type_name_checkList">Danh sách</string>
     <string name="task_type_name_oneTimeReminder">Nhắc nhớ</string>

@@ -86,7 +86,7 @@ public class ProgressBubbleFragment extends Fragment {
     public void setupView() {
         View progressBubble = priView.findViewById(R.id.progress_bubble_bubble);
         if (priIsChecked) {
-            if (Build.VERSION.SDK_INT >= 22) {
+            if (Build.VERSION.SDK_INT >= 21) {
                 progressBubble.setBackground(priView.getResources().getDrawable(R.drawable.blue_bubble, null));
             } else {
                 progressBubble.setBackground(priView.getResources().getDrawable(R.drawable.blue_bubble));
