@@ -2,11 +2,13 @@ package com.guardian.ebutler.ebutler.databasehelper;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.guardian.ebutler.alarm.AlarmService;
 import com.guardian.ebutler.ebutler.dataclasses.*;
 
 import java.text.DateFormat;
@@ -43,8 +45,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * Constructor should be private to prevent direct instantiation.
      * make call to static method "getInstance()" instead.
      */
+    private Context priContext;
     public DatabaseHelper(Context iContext) {
         super(iContext, DATABASE_NAME, null, DATABASE_VERSION);
+        this.priContext = iContext;
     }
 
     @Override
@@ -187,7 +191,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 }
             }
         }
+
+        setAlarms();
+
         return 0;
+    }
+
+    public void setAlarms(){
+        priContext.stopService(new Intent(priContext, AlarmService.class));
+        priContext.startService(new Intent(priContext, AlarmService.class));
     }
 
     public List<Task> GetAllTasks()

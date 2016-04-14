@@ -1,9 +1,15 @@
 package com.guardian.ebutler.ebutler;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +26,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.guardian.ebutler.alarm.AlarmService;
 import com.guardian.ebutler.ebutler.custom.*;
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 import com.guardian.ebutler.ebutler.dataclasses.*;
@@ -97,11 +104,13 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
         Global.getInstance().pubNewTask = null;
     }
 
+
     private void initCustomExpandableListView() {
-        try
-        {
-            DatabaseHelper iHelper = new DatabaseHelper(this);
-            this.priTaskList = iHelper.GetAllTasks();
+        try {
+            if (this.priTaskList == null){
+                DatabaseHelper iHelper = new DatabaseHelper(this);
+                this.priTaskList = iHelper.GetAllTasks();
+            }
             this.addTasksToCustomExpandableListView();
             this.setCustomExpandableListViewListeners();
         }
