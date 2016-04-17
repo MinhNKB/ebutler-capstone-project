@@ -1,7 +1,9 @@
 package com.guardian.ebutler.fragments;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -9,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.guardian.ebutler.ebutler.R;
 import com.guardian.ebutler.ebutler.UserInfoInput;
@@ -30,19 +33,22 @@ public class ProgressBubbleFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "IsChecked";
     private static final String ARG_PARAM2 = "CategoryId";
+    private static final String ARG_PARAM3 = "Percentage";
 
     private Boolean priIsChecked = false;
     private int priCategoryId = -1;
+    private int priPercentage = -1;
 
     public ProgressBubbleFragment() {
         // Required empty public constructor
     }
 
-    public static ProgressBubbleFragment newInstance(Boolean iIsChecked, Integer iCategoryId) {
+    public static ProgressBubbleFragment newInstance(Boolean iIsChecked, Integer iCategoryId, Integer iPercentage) {
         ProgressBubbleFragment fragment = new ProgressBubbleFragment();
         Bundle args = new Bundle();
         args.putBoolean(ARG_PARAM1, iIsChecked);
         args.putInt(ARG_PARAM2, iCategoryId);
+        args.putInt(ARG_PARAM3, iPercentage);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,6 +59,7 @@ public class ProgressBubbleFragment extends Fragment {
         if (getArguments() != null) {
             priIsChecked = getArguments().getBoolean(ARG_PARAM1);
             priCategoryId = getArguments().getInt(ARG_PARAM2);
+            priPercentage = getArguments().getInt(ARG_PARAM3);
         }
     }
 
@@ -67,6 +74,18 @@ public class ProgressBubbleFragment extends Fragment {
 
     public void setCategory(int iCategoryId) {
         priCategoryId = iCategoryId;
+    }
+
+    public void setPercentage(int iPercentage) {
+        priPercentage = iPercentage;
+        setupView();
+    }
+
+    public void setupPercentage(int iVisibility) {
+        TextView lTextView = ((TextView) priView.findViewById(R.id.progress_bubble_percentage));
+        lTextView.setText(Integer.toString(priPercentage));
+        lTextView.setVisibility(iVisibility);
+
     }
 
     public void setupEvent() {
@@ -86,13 +105,26 @@ public class ProgressBubbleFragment extends Fragment {
     public void setupView() {
         View progressBubble = priView.findViewById(R.id.progress_bubble_bubble);
         if (priIsChecked) {
-            if (Build.VERSION.SDK_INT >= 21) {
-                progressBubble.setBackground(priView.getResources().getDrawable(R.drawable.blue_bubble, null));
-            } else {
-                progressBubble.setBackground(priView.getResources().getDrawable(R.drawable.blue_bubble));
-            }
-            priView.findViewById(R.id.progress_bubble_checkmate).setVisibility(View.VISIBLE);
+            chooseBackgroundImage(progressBubble, R.drawable.blue_bubble);
+            toggleCheckmate(View.VISIBLE);
+            setupPercentage(View.GONE);
+        } else {
+            chooseBackgroundImage(progressBubble, R.drawable.grey_bubble);
+            toggleCheckmate(View.GONE);
+            setupPercentage(View.VISIBLE);
         }
+    }
+
+    private void chooseBackgroundImage(View progressBubble, int iResourceId) {
+        if (Build.VERSION.SDK_INT >= 21) {
+            progressBubble.setBackground(priView.getResources().getDrawable(iResourceId, null));
+        } else {
+            progressBubble.setBackground(priView.getResources().getDrawable(iResourceId));
+        }
+    }
+
+    private void toggleCheckmate(int iVisibility) {
+        priView.findViewById(R.id.progress_bubble_checkmate).setVisibility(iVisibility);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
