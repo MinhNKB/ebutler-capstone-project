@@ -14,6 +14,19 @@
             android:background="@drawable/grey_bubble"
             android:id="@+id/progress_bubble_bubble"
             />
+        <RelativeLayout
+            android:layout_width="20dp"
+            android:layout_height="20dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="11"
+                android:textSize="@dimen/font_size_small"
+                android:layout_centerInParent="true"
+                android:id="@+id/progress_bubble_percentage"
+                android:textColor="@color/textDisabledBlack"/>
+        </RelativeLayout>
+
         <ImageView
             android:layout_width="@dimen/progress_bar_bubbleSize"
             android:layout_height="@dimen/progress_bar_bubbleSize"

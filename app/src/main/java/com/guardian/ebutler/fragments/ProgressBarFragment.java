@@ -1,6 +1,5 @@
 package com.guardian.ebutler.fragments;
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
@@ -10,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.guardian.ebutler.ebutler.R;
@@ -70,6 +68,7 @@ public class ProgressBarFragment extends Fragment {
         priDash4 = priView.findViewById(R.id.progress_bar_forthDash);
 
         setCategories();
+        setPercentages();
 
         priView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -153,6 +152,16 @@ public class ProgressBarFragment extends Fragment {
         setCategory(5, R.id.progress_bar_fifthBubble);
     }
 
+    private void setPercentages() {
+        setPercentage(0, R.id.progress_bar_firstBubble);
+        setPercentage(25, R.id.progress_bar_secondBubble);
+        setPercentage(50, R.id.progress_bar_thirdBubble);
+        setPercentage(75, R.id.progress_bar_forthBubble);
+        setPercentage(100, R.id.progress_bar_fifthBubble);
+    }
+
+
+
     private ProgressBubbleFragment getCompatibleFragment(int iFragmentId) {
         ProgressBubbleFragment returnFragment = null;
         if(Build.VERSION.SDK_INT >= 21) {
@@ -167,6 +176,13 @@ public class ProgressBarFragment extends Fragment {
         ProgressBubbleFragment lBubble = getCompatibleFragment(iFragmentId);
         if (lBubble != null) {
             lBubble.setCategory(iCategory);
+        }
+    }
+
+    private void setPercentage(int iPercentage, int iFragmentId) {
+        ProgressBubbleFragment lBubble = getCompatibleFragment(iFragmentId);
+        if (lBubble != null) {
+            lBubble.setPercentage(iPercentage);
         }
     }
 
