@@ -55,6 +55,7 @@ public class UserInfoInput extends Activity {
     private Boolean priIsFinishedAsking = false;
     private View priProgressBar;
     private int priToBeAskedQuestionCategory = -1;
+    private RelativeLayout priPreviousButlerChatStatement = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,10 +182,26 @@ public class UserInfoInput extends Activity {
         });
     }
 
+    private void removeButlerChatHeadline() {
+        if (priPreviousButlerChatStatement != null) {
+            priPreviousButlerChatStatement.setBackgroundResource(R.drawable.out_message_bg);
+        }
+    }
+
+    private void setButlerChatHeadline(RelativeLayout rRelativeLayout) {
+        rRelativeLayout.setBackgroundResource(R.drawable.out_message_bg_headline);
+        priPreviousButlerChatStatement = rRelativeLayout;
+    }
+
     private void createConversationStatement(String iStatement, boolean iIsButler){
+        removeButlerChatHeadline();
         RelativeLayout lResult = new RelativeLayout(this);
         lResult.setLayoutParams(this.createStatementLayoutParam(iIsButler));
-        lResult.setBackgroundResource(iIsButler ? R.drawable.out_message_bg : R.drawable.out_message_bg_opposite);
+        if (iIsButler) {
+            setButlerChatHeadline(lResult);
+        } else {
+            lResult.setBackgroundResource(R.drawable.out_message_bg_opposite);
+        }
         lResult.addView(this.createStatementTextView(iStatement));
         this.priLinearLayoutConversation.addView(lResult);
         this.scrollScrollViewQuestion(View.FOCUS_DOWN);
