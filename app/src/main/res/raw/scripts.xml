@@ -13,17 +13,17 @@
 	<Script>
 		<Type>Afternoon</Type>
 		<Strings>
-			<String>Xin chào, tôi có thể giúp gì cho bạn</String>
+			<String>Xin chào, hãy dành vài phút kiểm tra những công việc cần làm sắp tới</String>
 			<String>Xin chào bạn</String>
-			<String>Chào bạn, bạn có việc gì cần giúp đỡ không</String>
-			<String>Xin chào, bạn cần giúp đỡ việc chi</String>
-			<String>Xin chào, bạn cần gì không</String>
+			<String>Chào bạn, quản gia tôi sẵn sàng phục vụ</String>
+			<String>Xin chào, hãy để tôi ghi nhớ các công việc cho bạn</String>
+			<String>Xin chào, tôi đang ghi chép những công việc sắp tới của bạn</String>
 		</Strings>
 	</Script>
 	<Script>
 		<Type>Evening</Type>
 		<Strings>
-			<String>Xin chảo buổi tối</String>
+			<String>Xin chào buổi tối</String>
 			<String>Xin chào, chúc bạn có một buổi tối vui vẻ</String>
 			<String>Chào bạn, chúc bạn có những giờ phút nghỉ ngơi thật thoải mái</String>
 			<String>Xin chào, buổi tối vui vẻ</String>
