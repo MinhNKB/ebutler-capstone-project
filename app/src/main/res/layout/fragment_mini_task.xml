@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="@dimen/layout_padding"
-    tools:context="com.guardian.ebutler.fragments.MiniTaskFragment">
+    tools:context="com.guardian.ebutler.fragments.MiniTaskFragment"
+    >
 
     <LinearLayout
         android:id="@+id/fragment_mini_task_linearLayout"

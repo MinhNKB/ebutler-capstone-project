@@ -26,11 +26,10 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/layout_padding"
             android:id="@+id/fragment_checklist_item_EditText"
-            android:imeOptions="actionDone"
+            android:imeOptions="actionNone"
             android:singleLine="true"
             android:lines="1"
             android:inputType="text"
-            android:hint="@string/fragment_checklist_HintCheckList"
             android:background="@color/transparent"
             android:textSize="@dimen/font_size_medium"
             />

@@ -2,6 +2,7 @@ package com.guardian.ebutler.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.guardian.ebutler.ebutler.Dashboard;
 import com.guardian.ebutler.ebutler.R;
+import com.guardian.ebutler.ebutler.TaskDetail;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
 import com.guardian.ebutler.world.Global;
 
@@ -71,7 +73,10 @@ public class MiniTaskFragment extends Fragment {
         lLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(priView.getContext(), priTask.pubName, Toast.LENGTH_SHORT).show();
+                Global.getInstance().pubSelectedTask = priTask;
+                Intent lTaskDetailIntent = new Intent(priView.getContext(), TaskDetail.class);
+                lTaskDetailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(lTaskDetailIntent);
             }
         });
 
