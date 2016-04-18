@@ -93,13 +93,13 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+//        Global.getInstance().pubSelectedTask = null;
         this.findViewsByIds();
         this.initSort();
         this.initCustomListView();
         this.initCustomExpandableListView();
         this.initCalendarView();
         this.initSearchView();
-
         this.setupUI(findViewById(R.id.dashboard_parent));
         Global.getInstance().pubNewTask = null;
     }
@@ -244,6 +244,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
         showTasksListPeek();
         priCaldroidFragment.refreshView();
     }
+
 
     private void showTasksListPeek() {
         if (priSelectedDate != null){
@@ -458,7 +459,9 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
                 else {
                     lSecondLine = lTask.pubDescription.replace(":0", "");
                     lSecondLine = lSecondLine.replace(":1", "");
-                    if (lSecondLine.replace(",", "").equals(""))
+                    lSecondLine = lSecondLine.replace(",,", "");
+                    lSecondLine = lSecondLine.replace(",", ", ");
+                    if (lSecondLine.replace(", ", "").equals(""))
                         lSecondLine = "Không có danh sách";
                 }
                 break;
@@ -570,7 +573,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
     public void createNewTask(TaskType iTaskType){
         if (Global.getInstance().pubNewTask == null)
             Global.getInstance().pubNewTask = new Task();
-        Global.getInstance().pubTaskType = iTaskType;
+        Global.getInstance().pubNewTask.pubTaskType = iTaskType;
         Intent intent = new Intent(this, TaskDetail.class);
         startActivity(intent);
     }

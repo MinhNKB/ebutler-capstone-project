@@ -47,10 +47,8 @@ public class AbstractTaskFragment extends Fragment implements TaskFragmentInterf
         // Inflate the layout for this fragment
         this.proView = inflater.inflate(proFragmentId, container, false);
         setValuesToView(this.proView);
-        if(Global.getInstance().pubSelectedTask!=null)
-        {
+        if(Global.getInstance().pubSelectedTask!=null) {
             setValues(Global.getInstance().pubSelectedTask);
-            Global.getInstance().pubSelectedTask = null;
         }
         return this.proView;
     }
