@@ -1,32 +1,29 @@
 package com.guardian.ebutler.ebutler;
 
-import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 import com.guardian.ebutler.ebutler.dataclasses.Condition;
 import com.guardian.ebutler.ebutler.dataclasses.Question;
 import com.guardian.ebutler.ebutler.dataclasses.ScriptManager;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
 import com.guardian.ebutler.ebutler.dataclasses.UIType;
+import com.guardian.ebutler.fragments.ProgressBarFragment;
 import com.guardian.ebutler.fragments.answers.AnswerFragmentInterface;
 import com.guardian.ebutler.fragments.answers.CheckboxFragment;
 import com.guardian.ebutler.fragments.answers.DateFragment;
@@ -38,6 +35,7 @@ import com.guardian.ebutler.fragments.answers.YesNoFragment;
 import com.guardian.ebutler.maphelper.MapHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class UserInfoInput extends Activity {
@@ -56,7 +54,9 @@ public class UserInfoInput extends Activity {
     private ScriptManager priScriptManager;
     private Question priQuestion;
     private Boolean priIsFinishedAsking = false;
-    private NumberProgressBar priProgressBar;
+    private View priProgressBar;
+    private int priToBeAskedQuestionCategory = -1;
+    private RelativeLayout priPreviousButlerChatStatement = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,39 +74,32 @@ public class UserInfoInput extends Activity {
     }
 
     private void showQuestionGroup() {
-        String lQuestionString = this.priScriptManager.GatAQuestionGroupString();
+        String lQuestionString = this.priScriptManager.GetAQuestionGroupString();
         if(lQuestionString!=null && lQuestionString!="")
             this.createConversationStatement(lQuestionString, true);
     }
 
     private void preprocessProgressBar() {
         updateProgressBar();
-        priProgressBar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (priIsFinishedAsking) {
-                    int changedProgress = (int) (priScriptManager.GetProgress() * 100);
-                    createConversationStatement("Bạn đã hoàn thành " + changedProgress + "% câu hỏi, bạn có muốn trả lời tiếp không?", true);
-                    priAnwserFragmentInterface = new YesNoFragment();
-                    switchTaskbarToLightTheme(true);
-                    getFragmentManager().beginTransaction().add(priRelativeLayoutForSimpleAnswer.getId(), (Fragment) priAnwserFragmentInterface).commit();
-                }
-            }
-        });
+    }
+
+    public void progressBubbleClicked(int iCategory) {
+        if (iCategory == -1) {
+            Log.w("cool", "I'm cool");
+            return;
+        }
+        if (priIsFinishedAsking) {
+            priToBeAskedQuestionCategory = iCategory;
+            createConversationStatement("Bạn có muốn trả lời bộ câu hỏi thứ " + Integer.toString(iCategory) + " không?", true);
+            priAnwserFragmentInterface = new YesNoFragment();
+            switchTaskbarToLightTheme(true);
+            getFragmentManager().beginTransaction().add(priRelativeLayoutForSimpleAnswer.getId(), (Fragment) priAnwserFragmentInterface).commit();
+        }
     }
 
     private void updateProgressBar() {
-        final int lProgress = (int)(priScriptManager.GetProgress() * 100);
-        if (lProgress >= 100) {
-            priProgressBar.setVisibility(View.GONE);
-        } else {
-            int lCurrentProgress = priProgressBar.getProgress();
-            int lDisplayProgress = lProgress * 100;
-            ObjectAnimator progressAnimator = ObjectAnimator.ofInt(priProgressBar, "progress", lCurrentProgress, lDisplayProgress);
-            progressAnimator.setDuration(700);
-            progressAnimator.setInterpolator(new DecelerateInterpolator());
-            progressAnimator.start();
-        }
+        List<Boolean> lProgress = priScriptManager.GetProgress();
+        ((ProgressBarFragment)getFragmentManager().findFragmentById(R.id.user_info_input_progressBar)).setProgress(lProgress);
     }
 
     private void initializeDatabase() {
@@ -124,8 +117,7 @@ public class UserInfoInput extends Activity {
         this.priScrollViewAnswer = (ScrollView) findViewById(R.id.user_info_input_customScrollViewAnswer);
         this.priLinearLayoutAnswer = (LinearLayout) findViewById(R.id.user_info_input_linearLayoutAnswer);
         this.priRelativeLayoutForSimpleAnswer = (RelativeLayout) findViewById(R.id.user_info_input_relativeLayoutForSimpleAnswer);
-        this.priProgressBar = (NumberProgressBar) findViewById(R.id.user_info_input_ProgressBar);
-
+        this.priProgressBar = findViewById(R.id.user_info_input_progressBar);
     }
 
     public void buttonOk_onClick(View view) {
@@ -151,7 +143,7 @@ public class UserInfoInput extends Activity {
                 if (this.priAnwserFragmentInterface instanceof YesNoFragment) {
                     ArrayList<Condition> lYesNoConditions =  this.priAnwserFragmentInterface.getValues();
                     if (lYesNoConditions.get(0).pubValue.equals("true")) {
-                        priScriptManager.Refresh();
+                        priScriptManager.Refresh(priToBeAskedQuestionCategory);
                         priIsFinishedAsking = false;
                         this.showQuestionGroup();
                         this.showQuestion();
@@ -192,10 +184,26 @@ public class UserInfoInput extends Activity {
         });
     }
 
+    private void removeButlerChatHeadline() {
+        if (priPreviousButlerChatStatement != null) {
+            priPreviousButlerChatStatement.setBackgroundResource(R.drawable.out_message_bg);
+        }
+    }
+
+    private void setButlerChatHeadline(RelativeLayout rRelativeLayout) {
+        rRelativeLayout.setBackgroundResource(R.drawable.out_message_bg_headline);
+        priPreviousButlerChatStatement = rRelativeLayout;
+    }
+
     private void createConversationStatement(String iStatement, boolean iIsButler){
+        removeButlerChatHeadline();
         RelativeLayout lResult = new RelativeLayout(this);
         lResult.setLayoutParams(this.createStatementLayoutParam(iIsButler));
-        lResult.setBackgroundResource(iIsButler ? R.drawable.out_message_bg : R.drawable.out_message_bg_opposite);
+        if (iIsButler) {
+            setButlerChatHeadline(lResult);
+        } else {
+            lResult.setBackgroundResource(R.drawable.out_message_bg_opposite);
+        }
         lResult.addView(this.createStatementTextView(iStatement));
         this.priLinearLayoutConversation.addView(lResult);
         this.scrollScrollViewQuestion(View.FOCUS_DOWN);
@@ -222,7 +230,7 @@ public class UserInfoInput extends Activity {
         try
         {
             this.priQuestion = this.priScriptManager.GetAQuestion();
-            if(priQuestion!=null) {
+            if (priQuestion != null) {
 //            if (this.priQuestion == null) {}
                 this.priAnwserFragmentInterface = this.getQuestionFragment(this.priQuestion);
 //            if (this.priAnwserFragmentInterface == null) {}
@@ -261,15 +269,15 @@ public class UserInfoInput extends Activity {
     private AnswerFragmentInterface getQuestionFragment(Question iQuestion) {
         switch (iQuestion.pubUIType) {
             case Checkbox:
-                return CheckboxFragment.newInstance(iQuestion.pubInformationPropertiesNames, iQuestion.getOptions());
+                return CheckboxFragment.newInstance(iQuestion.pubInformationPropertiesNames, iQuestion.getOptions(), iQuestion.getDefaultValue());
             case Date:
-                return DateFragment.newInstance(iQuestion.pubInformationPropertiesNames.get(0));
+                return DateFragment.newInstance(iQuestion.pubInformationPropertiesNames.get(0), iQuestion.getDefaultValue());
             case MultipleChoice:
                 return MultipleChoiceFragment.newInstance(iQuestion.pubInformationPropertiesNames.get(0), iQuestion.getOptions());
             case Textbox:
                 return TextboxFragment.newInstance(iQuestion.pubInformationPropertiesNames.get(0));
             case Time:
-                return TimeFragment.newInstance(iQuestion.pubInformationPropertiesNames.get(0));
+                return TimeFragment.newInstance(iQuestion.pubInformationPropertiesNames.get(0), iQuestion.getDefaultValue());
             case TimeSpan:
                 return TimeSpanFragment.newInstance(iQuestion.pubInformationPropertiesNames);
             case YesNo:
@@ -285,7 +293,7 @@ public class UserInfoInput extends Activity {
                 getResources().getColor(R.color.background) : getResources().getColor(R.color.colorPrimary));
     }
 
-    private void changeButtonSet(boolean iIsLightTheme){
+    private void changeButtonSet(boolean iIsLightTheme) {
         this.changeButtonSetVisibility(iIsLightTheme);
         this.changeButtonSetGraphics(iIsLightTheme);
     }
@@ -318,14 +326,13 @@ public class UserInfoInput extends Activity {
 //        this.switchTaskbarToLightTheme(false);
         if(!priIsFinishedAsking) {
             this.priScriptManager.AnwserQuestion(null);
-            this.priIsFinishedAsking = true;
+//            this.priIsFinishedAsking = true;
             updateProgressBar();
             this.createConversationStatement(getResources().getString(R.string.user_info_denyAQuestion), false);
             this.clearAnswer();
             this.showQuestion();
         }
-        else
-        {
+        else {
             this.createConversationStatement("Không", false);
             this.clearAnswer();
             this.switchTaskbarToLightTheme(false);
@@ -359,8 +366,8 @@ public class UserInfoInput extends Activity {
     }
 
     public void buttonAdd_onClick(View view) {
-        Intent intent = new Intent(this, CategoryList.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, CategoryList.class);
+//        startActivity(intent);
     }
 
     public void buttonMenu_onClick(View view) {

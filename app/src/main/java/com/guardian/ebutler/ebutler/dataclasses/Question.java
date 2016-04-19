@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +17,7 @@ public class Question {
     public String pubQuestionString;
     public String pubConditions;
     public String pubOptionsType;
+    public String pubDefaultValue;
     public ArrayList<String> pubInformationPropertiesNames;
     public UIType pubUIType;
     public boolean pubIsAsked;
@@ -135,6 +137,22 @@ public class Question {
         return lResult;
     }
 
+    public ArrayList<String> getDefaultValue() {
+        ArrayList<String> lDefaultValue = new ArrayList<>();
+        if (pubDefaultValue == null || pubDefaultValue.length() < 1) {
+            return lDefaultValue;
+        }
+
+        if (pubUIType == UIType.Time) {
+            lDefaultValue = new ArrayList<String>(Arrays.asList(pubDefaultValue.replace(" ", "").split(":")));
+        } else if (pubUIType == UIType.Date) {
+            lDefaultValue = new ArrayList<String>(Arrays.asList(pubDefaultValue.replace(" ", "").split("/")));
+        } else if (pubUIType == UIType.Checkbox) {
+            lDefaultValue = new ArrayList<String>(Arrays.asList(pubDefaultValue.replace(" ", "").split(";")));
+        }
+        return lDefaultValue;
+    }
+
     public ArrayList<String> getOptions() {
         ArrayList<String> lResult = new ArrayList<String>();
         if(pubOptionsType.equals("Gender"))
@@ -219,6 +237,22 @@ public class Question {
             lResult.add("dog");
             lResult.add("cat");
             lResult.add("other");
+        }
+        else if(pubOptionsType.equals("JobTypes"))
+        {
+            lResult.add("student");
+            lResult.add("worker");
+            lResult.add("officestaff");
+            lResult.add("engineer");
+            lResult.add("farmer");
+            lResult.add("otherjob");
+        }
+        else if(pubOptionsType.equals("IncomeRanges"))
+        {
+            lResult.add("below10mil");
+            lResult.add("below20mil");
+            lResult.add("below50mil");
+            lResult.add("above50mil");
         }
         return lResult;
     }

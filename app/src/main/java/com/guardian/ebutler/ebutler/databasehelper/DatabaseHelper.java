@@ -2,11 +2,13 @@ package com.guardian.ebutler.ebutler.databasehelper;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.guardian.ebutler.alarm.AlarmService;
 import com.guardian.ebutler.ebutler.dataclasses.*;
 
 import java.text.DateFormat;
@@ -43,8 +45,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * Constructor should be private to prevent direct instantiation.
      * make call to static method "getInstance()" instead.
      */
+    private Context priContext;
     public DatabaseHelper(Context iContext) {
         super(iContext, DATABASE_NAME, null, DATABASE_VERSION);
+        this.priContext = iContext;
     }
 
     @Override
@@ -78,7 +82,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         iDB.execSQL("CREATE TABLE QuestionGroup (\n" +
                 "    Id integer  NOT NULL   PRIMARY KEY  AUTOINCREMENT,\n" +
-                "    QuestionString text  NOT NULL\n" +
+                "    QuestionString text  NOT NULL, \n" +
+                "    Day integer  NOT NULL, \n" +
+                "    Category integer  NOT NULL \n" +
                 ");");
 
         iDB.execSQL("CREATE TABLE Question (\n" +
@@ -86,6 +92,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "    QuestionString text  NOT NULL,\n" +
                 "    Condition text,\n" +
                 "    OptionTypes varchar(255),\n" +
+                "    DefaultValue varchar(255),\n" +
                 "    PropertiesNames text,\n" +
                 "    UIType varchar(255)  NOT NULL,\n" +
                 "    IsAsked boolean  NOT NULL,\n" +
@@ -185,12 +192,46 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 }
             }
         }
+
+        setAlarms();
+
         return 0;
+    }
+
+    public void UpdateATask(Task iTask)
+    {
+        ContentValues lValues = new ContentValues();
+        lValues.put("Name",iTask.pubName);
+        lValues.put("TaskType", iTask.pubTaskType.toString());
+        lValues.put("Priority", iTask.pubPriority.toString());
+        lValues.put("Status", iTask.pubStatus.toString());
+
+        lValues.put("Category", iTask.pubCategory);
+
+        lValues.put("Description", iTask.pubDescription);
+        lValues.put("Time", iTask.pubTime.toString());
+
+        SQLiteDatabase lDB = this.getWritableDatabase();
+        lDB.update("Task", lValues, "Id=?", new String[]{String.valueOf(iTask.pubId)});
+        lDB.close();
+
+        setAlarms();
+    }
+
+    public void DeleteATask(Task iTask) {
+        SQLiteDatabase lDB = this.getWritableDatabase();
+        lDB.delete("Task", "Id=?", new String[]{String.valueOf(iTask.pubId)});
+        lDB.close();
+    }
+
+    public void setAlarms(){
+        priContext.stopService(new Intent(priContext, AlarmService.class));
+        priContext.startService(new Intent(priContext, AlarmService.class));
     }
 
     public List<Task> GetAllTasks()
     {
-        String[] columns = new String[] {"Name","Category", "TaskType","Description","Time","Priority","Status"};
+        String[] columns = new String[] {"Id", "Name","Category", "TaskType","Description","Time","Priority","Status"};
         Cursor lCursor = this.getWritableDatabase().query("Task", columns, null, null, null, null, null);
         /*if(c==null)
             Log.v("Cursor", "C is NULL");*/
@@ -203,16 +244,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int lTimeIndex = lCursor.getColumnIndex("Time");
         int lPriorityIndex = lCursor.getColumnIndex("Priority");
         int lStatusIndex = lCursor.getColumnIndex("Status");
+        int lIdIndex = lCursor.getColumnIndex("Id");
 
         //Vòng lặp lấy dữ liệu của con trỏ
         for(lCursor.moveToFirst(); !lCursor.isAfterLast(); lCursor.moveToNext()){
             Task lTempTask = new Task();
+            lTempTask.pubId = lCursor.getInt(lIdIndex);
             lTempTask.pubName = lCursor.getString(lNameIndex);
             lTempTask.pubCategory = lCursor.getString(lCategoryIndex);
             lTempTask.pubTime = getTimeFromString(lCursor.getString(lTimeIndex));
             lTempTask.pubTaskType = TaskType.valueOf(lCursor.getString(lTaskTypeIndex));
             lTempTask.pubDescription = lCursor.getString(lDescriptionIndex);
-
             lTempTask.pubPriority = Priority.valueOf(lCursor.getString(lPriorityIndex));
             lTempTask.pubStatus = Status.valueOf(lCursor.getString(lStatusIndex));
             lResult.add(lTempTask);
@@ -221,6 +263,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //Log.v("Result", result);
         return lResult;
     }
+
 
     private Date getTimeFromString(String iDateString) {
         Date lReturnDate = null;
@@ -241,7 +284,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //region Question
     public List<QuestionGroup> GetAllQuestionGroup()
     {
-        String[] columns = new String[] {"Id","QuestionString"};
+        String[] columns = new String[] {"Id","QuestionString", "Day", "Category"};
         Cursor lCursor = this.getWritableDatabase().query("QuestionGroup", columns, null, null, null, null, null);
         /*if(c==null)
             Log.v("Cursor", "C is NULL");*/
@@ -249,6 +292,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //getColumnIndex(COLUMN_ID); là lấy chỉ số, vị trí của cột COLUMN_ID ...
         int lIdIndex = lCursor.getColumnIndex("Id");
         int lQuestionStringIndex = lCursor.getColumnIndex("QuestionString");
+        int lDayIndex = lCursor.getColumnIndex("Day");
+        int lCategoryIndex = lCursor.getColumnIndex("Category");
 
 
         //Vòng lặp lấy dữ liệu của con trỏ
@@ -256,6 +301,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             QuestionGroup lQuestionGroupTemp = new QuestionGroup();
             lQuestionGroupTemp.pubId = lCursor.getInt(lIdIndex);
             lQuestionGroupTemp.pubQuestionString = lCursor.getString(lQuestionStringIndex);
+            lQuestionGroupTemp.pubDay = lCursor.getInt(lDayIndex);
+            lQuestionGroupTemp.pubCategory = lCursor.getInt(lCategoryIndex);
             lQuestionGroupTemp.pubQuestions = GetAllQuestionsOfAQuestionGroup(lQuestionGroupTemp.pubId);
             lResult.add(lQuestionGroupTemp);
         }
@@ -265,7 +312,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public List<Question> GetAllQuestionsOfAQuestionGroup(int iQuestionGroupId) {
-        String[] columns = new String[] {"Id","QuestionString","Condition","OptionTypes","PropertiesNames","UIType","IsAsked","Stage"};
+        String[] columns = new String[] {"Id","QuestionString","Condition","OptionTypes","DefaultValue","PropertiesNames","UIType","IsAsked","Stage"};
         Cursor lCursor = this.getWritableDatabase().query("Question", columns, "QuestionGroup_Id=?", new String[]{String.valueOf(iQuestionGroupId)}, null, null, null);
         /*if(c==null)
             Log.v("Cursor", "C is NULL");*/
@@ -275,6 +322,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int lQuestionStringIndex = lCursor.getColumnIndex("QuestionString");
         int lConditionIndex = lCursor.getColumnIndex("Condition");
         int lOptionTypesIndex = lCursor.getColumnIndex("OptionTypes");
+        int lDefaultValueIndex = lCursor.getColumnIndex("DefaultValue");
         int lPropertiesNamesIndex = lCursor.getColumnIndex("PropertiesNames");
         int lUITypeIndex = lCursor.getColumnIndex("UIType");
         int lIsAskedIndex = lCursor.getColumnIndex("IsAsked");
@@ -288,6 +336,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             lQuestionTemp.pubQuestionString = lCursor.getString(lQuestionStringIndex);
             lQuestionTemp.pubConditions = lCursor.getString(lConditionIndex);
             lQuestionTemp.pubOptionsType = lCursor.getString(lOptionTypesIndex);
+            lQuestionTemp.pubDefaultValue = lCursor.getString(lDefaultValueIndex);
             lQuestionTemp.pubInformationPropertiesNames = ParsePropertiesNames(lCursor.getString(lPropertiesNamesIndex));
             lQuestionTemp.pubUIType = UIType.valueOf(lCursor.getString(lUITypeIndex));
             lQuestionTemp.pubIsAsked = lCursor.getInt(lIsAskedIndex)==1;
@@ -312,6 +361,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase lDB = this.getWritableDatabase();
         ContentValues lValues = new ContentValues();
         lValues.put("QuestionString",iQuestionGroup.pubQuestionString);
+        lValues.put("Day",iQuestionGroup.pubDay);
+        lValues.put("Category",iQuestionGroup.pubCategory);
         lDB.insert("QuestionGroup", null, lValues);
         Cursor lCursor = lDB.query("QuestionGroup", new String[]{"Id"}, null, null, null, null, "Id DESC");
         lCursor.moveToFirst();
@@ -331,6 +382,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         lValues.put("QuestionString",iQuestion.pubQuestionString);
         lValues.put("Condition", iQuestion.pubConditions);
         lValues.put("OptionTypes",iQuestion.pubOptionsType);
+        lValues.put("DefaultValue", iQuestion.pubDefaultValue);
         lValues.put("PropertiesNames",MergePropertiesNames(iQuestion.pubInformationPropertiesNames));
         lValues.put("UIType",iQuestion.pubUIType.toString());
         lValues.put("IsAsked",iQuestion.pubIsAsked);
@@ -346,12 +398,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         lValues.put("QuestionString",iQuestion.pubQuestionString);
         lValues.put("Condition", iQuestion.pubConditions);
         lValues.put("OptionTypes",iQuestion.pubOptionsType);
-        lValues.put("PropertiesNames",MergePropertiesNames(iQuestion.pubInformationPropertiesNames));
+        lValues.put("PropertiesNames", MergePropertiesNames(iQuestion.pubInformationPropertiesNames));
         lValues.put("UIType",iQuestion.pubUIType.toString());
         lValues.put("IsAsked", iQuestion.pubIsAsked);
         lValues.put("Stage", iQuestion.pubStage);
         SQLiteDatabase lDB = this.getWritableDatabase();
-        lDB.update("Question",lValues,"Id=?",new String[]{String.valueOf(iQuestion.pubId)});
+        lDB.update("Question", lValues, "Id=?", new String[]{String.valueOf(iQuestion.pubId)});
         lDB.close();
     }
 
@@ -477,6 +529,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         lDB.close();
         return insertedId;
     }
+
     //endregion
 
 }

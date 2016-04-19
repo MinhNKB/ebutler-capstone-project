@@ -2,16 +2,21 @@ package com.guardian.ebutler.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.guardian.ebutler.ebutler.Dashboard;
 import com.guardian.ebutler.ebutler.R;
+import com.guardian.ebutler.ebutler.TaskDetail;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
 import com.guardian.ebutler.world.Global;
 
@@ -59,11 +64,22 @@ public class MiniTaskFragment extends Fragment {
         return this.priView;
     }
 
-    private void setValuesToView(View priView) {
-        ImageButton lImageButton = (ImageButton) priView.findViewById(R.id.fragment_mini_task_imageButton);
+    private void setValuesToView(final View priView) {
+        ImageView lImageButton = (ImageView) priView.findViewById(R.id.fragment_mini_task_imageButton);
         lImageButton.setImageResource(Global.getInstance().getTaskTypeDrawable(priTask));
         TextView lTextView = (TextView) priView.findViewById(R.id.fragment_mini_task_textView);
         lTextView.setText(Dashboard.getFirstLine(priTask));
+        LinearLayout lLinearLayout = (LinearLayout) priView.findViewById(R.id.fragment_mini_task_linearLayout);
+        lLinearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Global.getInstance().pubSelectedTask = priTask;
+                Intent lTaskDetailIntent = new Intent(priView.getContext(), TaskDetail.class);
+                lTaskDetailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(lTaskDetailIntent);
+            }
+        });
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

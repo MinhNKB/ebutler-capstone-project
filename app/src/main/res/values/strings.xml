@@ -57,7 +57,7 @@
     <string name="category_list_addHint">Nhập để thêm loại công việc mới</string>
     <string name="category_list_butlerSpeechGreetings">Bạn muốn tôi ghi lại loại công việc gì?</string>
 
-    <string name="dashboard_butlerSpeechGreetings">Dưới đây là những việc bạn cần làm sắp tới.</string>
+    <string name="dashboard_butlerSpeechGreetings">Đây là những việc bạn cần làm sắp tới.</string>
     <string name="dashboard_addNoteHint">Ghi chú nhanh...</string>
 
     <string name="choose_time_textButtonConfirm">Xác nhận</string>
@@ -141,6 +141,18 @@
     <string name="enum_value_dog">Chó</string>
     <string name="enum_value_cat">Mèo</string>
     <string name="enum_value_other">Khác</string>
+
+    <string name="enum_value_student">Học sinh, sinh viên</string>
+    <string name="enum_value_worker">Công nhân</string>
+    <string name="enum_value_officestaff">Nhân viên văn phòng</string>
+    <string name="enum_value_engineer">Kĩ sư</string>
+    <string name="enum_value_farmer">Nông nghiệp</string>
+    <string name="enum_value_otherjob">Khác</string>
+
+    <string name="enum_value_below10mil">Dưới 10 triệu</string>
+    <string name="enum_value_below20mil">Dưới 20 triệu</string>
+    <string name="enum_value_below50mil">Dưới 50 triệu</string>
+    <string name="enum_value_above50mil">Trên 50 triệu</string>
 
     <string name="task_type_name_note">Ghi chú</string>
     <string name="task_type_name_checkList">Danh sách</string>

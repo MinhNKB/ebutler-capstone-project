@@ -16,7 +16,7 @@ public class Task {
     public Priority pubPriority;
     public Status pubStatus;
     public List<Plugin> pubPlugins;
-
+    public int pubId;
 
     public Task() {
     }

@@ -8,12 +8,10 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.guardian.ebutler.ebutler.Dashboard;
 import com.guardian.ebutler.ebutler.R;
 
 public class CheckListItemFragment extends Fragment {
@@ -59,6 +57,7 @@ public class CheckListItemFragment extends Fragment {
         }
     }
 
+    public EditText pubTextView;
     protected void setValuesToView() {
         final ImageButton lDeleteButton = (ImageButton) proView.findViewById(R.id.fragment_checklist_item_Delete);
         final Fragment lThis = this;
@@ -66,33 +65,33 @@ public class CheckListItemFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getActivity().getFragmentManager().beginTransaction().remove(lThis).commit();
+                pubCheckListFragment.pubFragmentList.remove(CheckListItemFragment.this);
             }
         });
 
-        final EditText iTextView = (EditText)proView.findViewById(R.id.fragment_checklist_item_EditText);
-        iTextView.setText(pubText);
-        iTextView.requestFocusFromTouch();
-        Dashboard.showSoftKeyboard(getActivity(), InputMethodManager.SHOW_IMPLICIT);
-
-        iTextView.setOnKeyListener(new View.OnKeyListener() {
+        pubTextView = (EditText)proView.findViewById(R.id.fragment_checklist_item_EditText);
+        pubTextView.setText(pubText);
+        pubTextView.requestFocusFromTouch();
+        pubTextView.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                pubText = iTextView.getText().toString();
+                pubText = pubTextView.getText().toString();
                 return false;
             }
         });
-        iTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        pubTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                pubText = iTextView.getText().toString();
+                pubText = pubTextView.getText().toString();
                 pubCheckListFragment.addNewItem();
                 return false;
             }
         });
-        iTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        pubTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 lDeleteButton.setVisibility(hasFocus == true ? View.VISIBLE : View.GONE);
+                pubText = pubTextView.getText().toString();
             }
         });
 
@@ -104,6 +103,7 @@ public class CheckListItemFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 pubIsChecked = !pubIsChecked;
+                pubText = pubTextView.getText().toString();
                 lCheckBox.setImageResource(pubIsChecked == true ? R.mipmap.ic_check_box_grey : R.mipmap.ic_check_box_outline_blank_grey);
                 pubCheckListFragment.reallocateFragment(CheckListItemFragment.this);
             }
