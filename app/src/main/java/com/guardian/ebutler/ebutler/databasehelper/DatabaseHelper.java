@@ -264,7 +264,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return lResult;
     }
 
-<<<<<<< HEAD
     public List<Task> GetComingTasks() {
         String[] columns = new String[] {"Name", "Time", "Priority", "Status"};
         Cursor lCursor = this.getWritableDatabase().query("Task", columns, null, null, null, null, "Time DESC LIMIT 3");
@@ -287,8 +286,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         lCursor.close();
         return lResult;
     }
-=======
->>>>>>> develop
 
     private Date getTimeFromString(String iDateString) {
         Date lReturnDate = null;

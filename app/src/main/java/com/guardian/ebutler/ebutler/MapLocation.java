@@ -35,6 +35,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
+import com.guardian.ebutler.resourcehelper.ResourceGetter;
 import com.guardian.ebutler.world.Global;
 
 import java.util.HashMap;
@@ -109,12 +110,7 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback,
 
                     final EditText lInput = new EditText(priThis);
                     lInput.setInputType(InputType.TYPE_CLASS_TEXT);
-                    ColorDrawable lBackgroundColor = null;
-                    if (Build.VERSION.SDK_INT > 23) {
-                        lBackgroundColor = new ColorDrawable(getResources().getColor(R.color.transparent, getTheme()));
-                    } else {
-                        lBackgroundColor = new ColorDrawable(getResources().getColor(R.color.transparent));
-                    }
+                    ColorDrawable lBackgroundColor = ResourceGetter.getColorFromId(R.color.transparent, priThis);
                     lInput.setBackground(lBackgroundColor);
                     lInput.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
                     lInput.setHint("Tên địa điểm (ví dụ: nhà, công ti, v.v.)");
