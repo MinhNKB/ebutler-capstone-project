@@ -33,19 +33,22 @@ public class TaskDetail extends Activity {
     private EditText priEditTextTaskName;
     private ImageButton priButtonDone;
     private ImageButton priButtonCancel;
+    private ImageButton priButtonDelete;
     private View priTaskFragmentContainer;
     private AbstractTaskFragment priTaskFragment;
+    private Task priTask;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FullscreenHelper.setFullScreen(this);
         setContentView(R.layout.activity_task_detail);
-
         findViewsByIds();
+        priTask = getNewTask();
         setTaskDetails();
         createTaskFragment();
         priThis = this;
         bindNavigationLocation();
+        priButtonDelete.setVisibility(Global.getInstance().pubSelectedTask == null ? View.GONE : View.VISIBLE);
         setupUI(findViewById(R.id.task_detail_parent));
 
     }
@@ -62,7 +65,7 @@ public class TaskDetail extends Activity {
     }
 
     private void createTaskFragment() {
-        switch (Global.getInstance().pubTaskType) {
+        switch (priTask.pubTaskType) {
             case Note:
                 priTaskFragment = NoteFragment.newInstance();
                 break;
@@ -81,6 +84,7 @@ public class TaskDetail extends Activity {
         priEditTextTaskName = (EditText) findViewById(R.id.task_detail_editTextTaskName);
         priButtonDone = (ImageButton) findViewById(R.id.task_detail_buttonDone);
         priButtonCancel = (ImageButton) findViewById(R.id.task_detail_buttonCancel);
+        priButtonDelete = (ImageButton) findViewById(R.id.task_detail_buttonDelete);
         priTaskFragmentContainer = findViewById(R.id.task_detail_TaskFragmentContainer);
     }
 
@@ -90,16 +94,17 @@ public class TaskDetail extends Activity {
             @Override
             public void onClick(View v) {
                 DatabaseHelper iHelper = new DatabaseHelper(priThis);
-                Task lNewTask = getNewTask();
-                lNewTask.pubName = priEditTextTaskName.getText().toString();
-                lNewTask.pubStatus = Status.Pending;
-                if (lNewTask.pubCategory == null || lNewTask.pubCategory.equals(""))
-                    lNewTask.pubCategory = "Khác";
-                lNewTask.pubPriority = Priority.Important;
-                lNewTask.pubTaskType = Global.getInstance().pubTaskType;
-                priTaskFragment.getValues(lNewTask);
-                iHelper.InsertATask(Global.getInstance().pubNewTask);
-                Global.getInstance().pubNewTask = null;
+                priTask.pubName = priEditTextTaskName.getText().toString();
+                priTask.pubStatus = Status.Pending;
+                if (priTask.pubCategory == null || priTask.pubCategory.equals(""))
+                    priTask.pubCategory = "Khác";
+                priTask.pubPriority = Priority.Important;
+                priTaskFragment.getValues(priTask);
+                if (Global.getInstance().pubSelectedTask == null)
+                    iHelper.InsertATask(priTask);
+                else
+                    iHelper.UpdateATask(priTask);
+                clearGlobalTask();
 
                 Intent intent = new Intent(context, Dashboard.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -110,13 +115,23 @@ public class TaskDetail extends Activity {
         priButtonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, Dashboard.class);
-                startActivity(intent);
+                getBackToDashboard();
+            }
+        });
+
+        priButtonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseHelper lHelper = new DatabaseHelper(priThis);
+                lHelper.DeleteATask(priTask);
+                getBackToDashboard();
             }
         });
     }
 
     private Task getNewTask() {
+        if (Global.getInstance().pubSelectedTask != null)
+            return Global.getInstance().pubSelectedTask;
         Task lNewTask = Global.getInstance().pubNewTask;
         if (lNewTask == null) {
             lNewTask = new Task();
@@ -146,4 +161,18 @@ public class TaskDetail extends Activity {
         }
     }
 
+    public void getBackToDashboard(){
+        clearGlobalTask();
+        Intent intent = new Intent(this, Dashboard.class);
+        startActivity(intent);
+    }
+
+    public void onBackPressed() {
+        getBackToDashboard();
+    }
+
+    public void clearGlobalTask(){
+        Global.getInstance().pubNewTask = null;
+        Global.getInstance().pubSelectedTask = null;
+    }
 }
