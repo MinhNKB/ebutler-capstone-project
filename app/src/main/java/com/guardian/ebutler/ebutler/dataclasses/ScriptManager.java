@@ -288,6 +288,10 @@ public class ScriptManager {
         return GetAScript("Evening");
     }
 
+    public String CreateTaskNotification(Task rTask) {
+        return "Bạn có công việc " + rTask.pubName.toLowerCase() + " vào lúc " + rTask.pubTime;
+    }
+
     public String GetAFinishString()
     {
         return GetAScript("Thanks");

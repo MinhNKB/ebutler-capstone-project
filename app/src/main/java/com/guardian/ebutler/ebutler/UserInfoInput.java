@@ -1,6 +1,7 @@
 package com.guardian.ebutler.ebutler;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
@@ -65,10 +66,62 @@ public class UserInfoInput extends Activity {
         this.setupUI(findViewById(R.id.user_info_input_parent));
         this.priScriptManager = new ScriptManager(this);
         this.initializeDatabase();
-        this.createConversationStatement(priScriptManager.GetAGreeting(), true);
-        this.showQuestionGroup();
-        this.showQuestion();
         this.preprocessProgressBar();
+        this.setupConversation();
+
+    }
+
+    private void setupConversation() {
+        int lTiming = 1000;
+        final UserInfoInput lSelf = this;
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        lSelf.createConversationStatement(priScriptManager.GetAGreeting(), true);
+                    }
+                },
+                lTiming
+        );
+        Log.w("tab", Integer.toString(lTiming));
+
+        DatabaseHelper lHelper = DatabaseHelper.getInstance(null);
+        List<Task> lComingTask = lHelper.GetComingTasks();
+        for (Task lTask : lComingTask) {
+            final Task fTask = lTask;
+            lTiming += 2000;
+            new android.os.Handler().postDelayed(
+                    new Runnable() {
+                        public void run() {
+                            lSelf.createConversationStatementToDashboardEvent(priScriptManager.CreateTaskNotification(fTask), true);
+                        }
+                    },
+                    lTiming
+            );
+            Log.w("tab", Integer.toString(lTiming));
+        }
+
+        lTiming += 2000;
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        lSelf.showQuestionGroup();
+                    }
+                },
+                lTiming
+        );
+        Log.w("tab", Integer.toString(lTiming));
+
+        lTiming += 2000;
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        lSelf.showQuestion();
+                    }
+                },
+                lTiming
+        );
+        Log.w("tab", Integer.toString(lTiming));
+
     }
 
     private void showQuestionGroup() {
@@ -83,7 +136,6 @@ public class UserInfoInput extends Activity {
 
     public void progressBubbleClicked(int iCategory) {
         if (iCategory == -1) {
-            Log.w("cool", "I'm cool");
             return;
         }
         if (priIsFinishedAsking) {
@@ -193,7 +245,19 @@ public class UserInfoInput extends Activity {
         priPreviousButlerChatStatement = rRelativeLayout;
     }
 
-    private void createConversationStatement(String iStatement, boolean iIsButler){
+    public void createConversationStatementToDashboardEvent(String iStatement, boolean iIsButler) {
+        RelativeLayout lResult = createConversationStatement(iStatement, iIsButler);
+        final UserInfoInput lSelf = this;
+        lResult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lSelf.navigateToDashboard();
+            }
+        });
+
+    }
+
+    public RelativeLayout createConversationStatement(String iStatement, boolean iIsButler){
         removeButlerChatHeadline();
         RelativeLayout lResult = new RelativeLayout(this);
         lResult.setLayoutParams(this.createStatementLayoutParam(iIsButler));
@@ -205,6 +269,7 @@ public class UserInfoInput extends Activity {
         lResult.addView(this.createStatementTextView(iStatement));
         this.priLinearLayoutConversation.addView(lResult);
         this.scrollScrollViewQuestion(View.FOCUS_DOWN);
+        return lResult;
     }
 
     private LinearLayout.LayoutParams createStatementLayoutParam(boolean iIsButler) {
@@ -369,6 +434,10 @@ public class UserInfoInput extends Activity {
     }
 
     public void buttonMenu_onClick(View view) {
+        navigateToDashboard();
+    }
+
+    private void navigateToDashboard() {
         Intent intent = new Intent(this, Dashboard.class);
         startActivity(intent);
     }
