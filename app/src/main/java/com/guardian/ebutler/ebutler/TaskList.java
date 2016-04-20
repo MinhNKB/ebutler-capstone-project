@@ -9,9 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -47,7 +45,7 @@ public class TaskList extends Activity {
         this.findViewsByIds();
 
         DatabaseHelper iHelper = new DatabaseHelper(this);
-        this.priTaskList = iHelper.GetAllTasks(Global.getInstance().pubNewTask.pubCategory);
+        //this.priTaskList = iHelper.GetAllTasks(Global.getInstance().pubNewTask.pubRepeat);
         this.priTaskCustomList = this.getCategories(this.priTaskList);
         this.priCustomListAdapter = new CustomListAdapter(this, this.priTaskCustomList);
         this.priListViewTask.setAdapter(this.priCustomListAdapter);

@@ -403,6 +403,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
     public static String getThirdLine(Task lTask) {
         String lThirdLine = null;
         switch (lTask.pubTaskType) {
+            case PeriodicReminder:
             case OneTimeReminder:
                 if (lTask.pubLocation != null){
                     lThirdLine = "";
@@ -446,6 +447,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
     public static String getSecondLine(Task lTask) {
         String lSecondLine = null;
         switch (lTask.pubTaskType) {
+            case PeriodicReminder:
             case OneTimeReminder:
                 if (lTask.pubTime == null)
                     lSecondLine = "Không có thời gian";

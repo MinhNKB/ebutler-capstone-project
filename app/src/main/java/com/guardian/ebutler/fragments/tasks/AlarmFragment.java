@@ -22,6 +22,7 @@ import com.guardian.ebutler.ebutler.custom.CustomListItem;
 import com.guardian.ebutler.ebutler.TaskDetail;
 import com.guardian.ebutler.ebutler.dataclasses.Location;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
+import com.guardian.ebutler.ebutler.dataclasses.TaskType;
 import com.guardian.ebutler.world.Global;
 
 import java.text.ParseException;
@@ -53,6 +54,11 @@ public class AlarmFragment extends AbstractTaskFragment {
     public void getValues(Task rNewTask) {
         rNewTask.pubTime = getTimeFromDateTextbox();
         rNewTask.pubLocation = priTaskLocations;
+        rNewTask.pubRepeat = priCustomListItems.get(2).pubThirdLine;
+        if (rNewTask.pubRepeat != "Không lặp lại")
+            rNewTask.pubTaskType = TaskType.PeriodicReminder;
+        else
+            rNewTask.pubTaskType = TaskType.OneTimeReminder;
     }
 
     public void setValuesToView(View view) {
@@ -90,10 +96,10 @@ public class AlarmFragment extends AbstractTaskFragment {
     }
 
     private void createRepeatDialog() {
-        AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
-        b.setTitle("Lặp lại");
+        AlertDialog.Builder pubBuilder = new AlertDialog.Builder(getActivity());
+        pubBuilder.setTitle("Lặp lại");
         final String[] types = {"Mỗi ngày", "Mỗi tuần", "Mỗi tháng", "Mỗi năm", "Không lặp lại"};
-        b.setItems(types, new DialogInterface.OnClickListener() {
+        pubBuilder.setItems(types, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -104,7 +110,7 @@ public class AlarmFragment extends AbstractTaskFragment {
 
         });
 
-        b.show();
+        pubBuilder.show();
     }
 
     public void addTasksListView(){
@@ -206,6 +212,8 @@ public class AlarmFragment extends AbstractTaskFragment {
 
         lDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         priCustomListItems.get(1).pubThirdLine = lDateFormat.format(iTask.pubTime);
+
+        priCustomListItems.get(2).pubThirdLine = iTask.pubRepeat;
 
         priTaskLocations = iTask.pubLocation;
     }

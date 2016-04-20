@@ -64,7 +64,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         iDB.execSQL("CREATE TABLE Task (\n" +
                 "    Id integer  NOT NULL   PRIMARY KEY  AUTOINCREMENT,\n" +
                 "    Name varchar(255)  NOT NULL,\n" +
-                "    Category varchar(255) ,\n" +
+                "    Repeat varchar(255) ,\n" +
                 "    TaskType varchar(255)  NOT NULL,\n" +
                 "    Description text,\n" +
                 "    Time varchar(255),\n" +
@@ -126,38 +126,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return lResult;
     }
 
-    public List<String> GetAllTasks(String iCategoryName)
-    {
-        List<String> lResult = new ArrayList<String>();
-        if(iCategoryName.equals("Hóa đơn"))
-        {
-           lResult.add("Tiền điện");
-           lResult.add("Tiền nước");
-           lResult.add("Tiền điện thoại");
-           lResult.add("Phí quản lí");
-        }
-        else if(iCategoryName.equals("Thiết bị"))
-        {
-           lResult.add("Bảo trì tủ lạnh");
-           lResult.add("Rửa xe");
-           lResult.add("Vệ sinh máy giặt");
-        }
-        else if(iCategoryName.equals("Sức khỏe"))
-        {
-           lResult.add("Khám răng");
-           lResult.add("Đo mắt");
-           lResult.add("Sổ giun");
-        }
-        else if(iCategoryName.equals("Việc cần làm"))
-        {
-           lResult.add("Đi chợ");
-           lResult.add("Đón con");
-           lResult.add("Đổ rác");
-        }
-        else if (iCategoryName.equals("Khác")) {
-        }
-        return lResult;
-    }
+//    public List<String> GetAllTasks(String iCategoryName)
+//    {
+//        List<String> lResult = new ArrayList<String>();
+//        if(iCategoryName.equals("Hóa đơn"))
+//        {
+//           lResult.add("Tiền điện");
+//           lResult.add("Tiền nước");
+//           lResult.add("Tiền điện thoại");
+//           lResult.add("Phí quản lí");
+//        }
+//        else if(iCategoryName.equals("Thiết bị"))
+//        {
+//           lResult.add("Bảo trì tủ lạnh");
+//           lResult.add("Rửa xe");
+//           lResult.add("Vệ sinh máy giặt");
+//        }
+//        else if(iCategoryName.equals("Sức khỏe"))
+//        {
+//           lResult.add("Khám răng");
+//           lResult.add("Đo mắt");
+//           lResult.add("Sổ giun");
+//        }
+//        else if(iCategoryName.equals("Việc cần làm"))
+//        {
+//           lResult.add("Đi chợ");
+//           lResult.add("Đón con");
+//           lResult.add("Đổ rác");
+//        }
+//        else if (iCategoryName.equals("Khác")) {
+//        }
+//        return lResult;
+//    }
     //endregion
 
     //region Task table
@@ -172,8 +172,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         lValues.put("Status", iTask.pubStatus.toString());
         lValues.put("Priority", iTask.pubPriority.toString());
 
-        if (iTask.pubCategory != null) {
-            lValues.put("Category",iTask.pubCategory);
+        if (iTask.pubRepeat != null) {
+            lValues.put("Repeat",iTask.pubRepeat);
         }
         if (iTask.pubDescription != null) {
             lValues.put("Description", iTask.pubDescription);
@@ -206,7 +206,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         lValues.put("Priority", iTask.pubPriority.toString());
         lValues.put("Status", iTask.pubStatus.toString());
 
-        lValues.put("Category", iTask.pubCategory);
+        lValues.put("Repeat", iTask.pubRepeat);
 
         lValues.put("Description", iTask.pubDescription);
         lValues.put("Time", iTask.pubTime.toString());
@@ -231,14 +231,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public List<Task> GetAllTasks()
     {
-        String[] columns = new String[] {"Id", "Name","Category", "TaskType","Description","Time","Priority","Status"};
+        String[] columns = new String[] {"Id", "Name","Repeat", "TaskType","Description","Time","Priority","Status"};
         Cursor lCursor = this.getWritableDatabase().query("Task", columns, null, null, null, null, null);
         /*if(c==null)
             Log.v("Cursor", "C is NULL");*/
         List<Task> lResult = new ArrayList<Task>();
         //getColumnIndex(COLUMN_ID); là lấy chỉ số, vị trí của cột COLUMN_ID ...
         int lNameIndex = lCursor.getColumnIndex("Name");
-        int lCategoryIndex = lCursor.getColumnIndex("Category");
+        int lRepeatIndex = lCursor.getColumnIndex("Repeat");
         int lTaskTypeIndex = lCursor.getColumnIndex("TaskType");
         int lDescriptionIndex = lCursor.getColumnIndex("Description");
         int lTimeIndex = lCursor.getColumnIndex("Time");
@@ -251,7 +251,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Task lTempTask = new Task();
             lTempTask.pubId = lCursor.getInt(lIdIndex);
             lTempTask.pubName = lCursor.getString(lNameIndex);
-            lTempTask.pubCategory = lCursor.getString(lCategoryIndex);
+            lTempTask.pubRepeat = lCursor.getString(lRepeatIndex);
             lTempTask.pubTime = getTimeFromString(lCursor.getString(lTimeIndex));
             lTempTask.pubTaskType = TaskType.valueOf(lCursor.getString(lTaskTypeIndex));
             lTempTask.pubDescription = lCursor.getString(lDescriptionIndex);

@@ -68,6 +68,8 @@ public class UserInfoInput extends Activity {
         this.showQuestionGroup();
         this.showQuestion();
         this.preprocessProgressBar();
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        databaseHelper.setAlarms();
     }
 
     private void showQuestionGroup() {

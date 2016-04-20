@@ -9,9 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -19,7 +17,6 @@ import android.widget.TextView;
 import com.guardian.ebutler.ebutler.custom.CustomListAdapter;
 import com.guardian.ebutler.ebutler.custom.CustomListItem;
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
-import com.guardian.ebutler.ebutler.dataclasses.Task;
 import com.guardian.ebutler.world.Global;
 
 import java.util.ArrayList;
@@ -68,7 +65,7 @@ public class CategoryList extends Activity {
         this.priListViewCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Global.getInstance().pubNewTask.pubCategory = priCategoryList.get(position);
+                Global.getInstance().pubNewTask.pubRepeat = priCategoryList.get(position);
                 startActivity(lIntent);
             }
         });
@@ -117,12 +114,12 @@ public class CategoryList extends Activity {
         for (String lCategory: iCategoryList
              ) {
             DatabaseHelper iHelper = new DatabaseHelper(this);
-            List<String> lTaskList = iHelper.GetAllTasks(lCategory);
+            //List<String> lTaskList = iHelper.GetAllTasks(lCategory);
             String lTasks = "";
-            for (String lTask: lTaskList
-                 ) {
-                lTasks += (lTask + ", ");
-            }
+//            for (String lTask: lTaskList
+//                 ) {
+//                lTasks += (lTask + ", ");
+//            }
             if (lTasks.equals(""))
                 lTasks = null;
             lCustomListItem = new CustomListItem(null,
