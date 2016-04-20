@@ -8,7 +8,7 @@
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality. 
     -->
-    <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
@@ -20,11 +20,14 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
         <service
-            android:enabled="true"
             android:name="com.guardian.ebutler.alarm.AlarmService"
-            android:label="My Service" >
-        </service>
-        <receiver android:process=":remote" android:name="com.guardian.ebutler.alarm.Alarm"></receiver>
+            android:enabled="true"
+            android:label="My Service"></service>
+
+        <receiver
+            android:name="com.guardian.ebutler.alarm.Alarm"
+            android:process=":remote" />
+
         <activity android:name=".Dashboard" />
         <activity android:name=".CategoryList" />
         <activity android:name=".TaskList" />
@@ -60,7 +63,10 @@
 
         <activity
             android:name=".MapLocation"
-            android:label="@string/title_activity_map_location"></activity>
+            android:label="@string/title_activity_map_location" />
+        <activity
+            android:name=".MapAPI"
+            android:label="@string/title_activity_map_api"></activity>
     </application>
 
 </manifest>

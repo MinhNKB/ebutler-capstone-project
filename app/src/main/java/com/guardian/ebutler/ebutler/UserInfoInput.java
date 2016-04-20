@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -70,7 +69,6 @@ public class UserInfoInput extends Activity {
         this.showQuestionGroup();
         this.showQuestion();
         this.preprocessProgressBar();
-//        new MapHelper.RequestTask().execute("https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyBQ00RE-Ujwm0Rw8F3bKuJ33yUF9IHT1LI&location=10.8248,106.689&radius=500&keyword=atm");
     }
 
     private void showQuestionGroup() {
@@ -85,7 +83,6 @@ public class UserInfoInput extends Activity {
 
     public void progressBubbleClicked(int iCategory) {
         if (iCategory == -1) {
-            Log.w("cool", "I'm cool");
             return;
         }
         if (priIsFinishedAsking) {
