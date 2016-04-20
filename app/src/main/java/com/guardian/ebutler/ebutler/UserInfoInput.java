@@ -1,11 +1,10 @@
 package com.guardian.ebutler.ebutler;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
-import android.util.Log;
+import android.text.Spanned;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,7 +33,8 @@ import com.guardian.ebutler.fragments.answers.TextboxFragment;
 import com.guardian.ebutler.fragments.answers.TimeFragment;
 import com.guardian.ebutler.fragments.answers.TimeSpanFragment;
 import com.guardian.ebutler.fragments.answers.YesNoFragment;
-import com.guardian.ebutler.maphelper.MapHelper;
+import com.guardian.ebutler.timehelper.DateTimeHelper;
+import com.guardian.ebutler.world.Global;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +58,7 @@ public class UserInfoInput extends Activity {
     private View priProgressBar;
     private int priToBeAskedQuestionCategory = -1;
     private RelativeLayout priPreviousButlerChatStatement = null;
+    private Boolean priIsFirstTimeAsking = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +77,7 @@ public class UserInfoInput extends Activity {
     private void setupConversation() {
         switchTaskbarToLightTheme(false);
 
-        int lTiming = 1000;
+        int lTiming = 500;
         final UserInfoInput lSelf = this;
         new android.os.Handler().postDelayed(
                 new Runnable() {
@@ -86,37 +87,43 @@ public class UserInfoInput extends Activity {
                 },
                 lTiming
         );
+        if (Global.getInstance().pubFirstTimeInput) {
+            Boolean lHasPayTask = false;
+            DatabaseHelper lHelper = DatabaseHelper.getInstance(null);
+            List<Task> lComingTask = lHelper.GetComingTasks();
+            String lTasks = "";
+            for (Task lTask : lComingTask) {
+                lTasks += " - " + lTask.pubName + " lúc " + DateTimeHelper.getDateStringFromDate(lTask.pubTime) + "<br/>";
+                if (CustomListAdapter.normalizeVietnameseString(lTask.pubName).toLowerCase().contains("dong tien")) {
+                    lHasPayTask = true;
+                }
+            }
 
-        Boolean lHasPayTask = false;
-        DatabaseHelper lHelper = DatabaseHelper.getInstance(null);
-        List<Task> lComingTask = lHelper.GetComingTasks();
-        for (Task lTask : lComingTask) {
-            final Task fTask = lTask;
             lTiming += 2000;
+            final String fTasks = lTasks;
             new android.os.Handler().postDelayed(
                     new Runnable() {
                         public void run() {
-                            lSelf.createConversationStatementToDashboardEvent(priScriptManager.CreateTaskNotification(fTask), true);
+                            lSelf.createConversationStatementToDashboardEvent(priScriptManager.CreateTaskNotification(fTasks, true), true);
                         }
                     },
                     lTiming
             );
-            if (CustomListAdapter.normalizeVietnameseString(lTask.pubName).toLowerCase().contains("dong tien")) {
-                lHasPayTask = true;
+
+            if (lHasPayTask) {
+                lTiming += 2000;
+                new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                lSelf.createConversationStatementToMapAPIEvent(priScriptManager.ToMapAPIChatStatement(), true);
+                            }
+                        },
+                        lTiming
+                );
             }
         }
 
-        if (lHasPayTask) {
-            lTiming += 2000;
-            new android.os.Handler().postDelayed(
-                    new Runnable() {
-                        public void run() {
-                            lSelf.createConversationStatementToMapAPIEvent(priScriptManager.ToMapAPIChatStatement(), true);
-                        }
-                    },
-                    lTiming
-            );
-        }
+        Global.getInstance().pubFirstTimeInput = false;
 
         lTiming += 2000;
         new android.os.Handler().postDelayed(
@@ -165,7 +172,10 @@ public class UserInfoInput extends Activity {
 
     private void updateProgressBar() {
         List<Boolean> lProgress = priScriptManager.GetProgress();
-        ((ProgressBarFragment)getFragmentManager().findFragmentById(R.id.user_info_input_progressBar)).setProgress(lProgress);
+        ProgressBarFragment lProgressBarFragment = ((ProgressBarFragment)getFragmentManager().findFragmentById(R.id.user_info_input_progressBar));
+        if (lProgressBarFragment != null) {
+            lProgressBarFragment.setProgress(lProgress);
+        }
     }
 
     private void initializeDatabase() {
@@ -260,7 +270,7 @@ public class UserInfoInput extends Activity {
         priPreviousButlerChatStatement = rRelativeLayout;
     }
 
-    public void createConversationStatementToDashboardEvent(String iStatement, boolean iIsButler) {
+    public void createConversationStatementToDashboardEvent(Spanned iStatement, boolean iIsButler) {
         RelativeLayout lResult = createConversationStatement(iStatement, iIsButler);
         final UserInfoInput lSelf = this;
         lResult.setOnClickListener(new View.OnClickListener() {
@@ -297,6 +307,21 @@ public class UserInfoInput extends Activity {
         return lResult;
     }
 
+    public RelativeLayout createConversationStatement(Spanned iStatement, boolean iIsButler) {
+        removeButlerChatHeadline();
+        RelativeLayout lResult = new RelativeLayout(this);
+        lResult.setLayoutParams(this.createStatementLayoutParam(iIsButler));
+        if (iIsButler) {
+            setButlerChatHeadline(lResult);
+        } else {
+            lResult.setBackgroundResource(R.drawable.out_message_bg_opposite);
+        }
+        lResult.addView(this.createStatementTextView(iStatement));
+        this.priLinearLayoutConversation.addView(lResult);
+        this.scrollScrollViewQuestion(View.FOCUS_DOWN);
+        return lResult;
+    }
+
     private LinearLayout.LayoutParams createStatementLayoutParam(boolean iIsButler) {
         LinearLayout.LayoutParams lResult = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lResult.gravity = iIsButler ? Gravity.LEFT : Gravity.RIGHT;
@@ -313,12 +338,22 @@ public class UserInfoInput extends Activity {
         return lResult;
     }
 
+    private TextView createStatementTextView(Spanned iStatement) {
+        TextView lResult = new TextView(this);
+        lResult.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+        lResult.setMaxWidth((int) (R.dimen.conversation_statement_maxWidth * this.getResources().getDisplayMetrics().density + 0.5f));
+        lResult.setPadding(0, 5, 0, 5);
+        lResult.setText(iStatement);
+        return lResult;
+    }
+
     private void showQuestion()
     {
         try
         {
             this.priQuestion = this.priScriptManager.GetAQuestion();
             if (priQuestion != null) {
+                priIsFirstTimeAsking = false;
 //            if (this.priQuestion == null) {}
                 this.priAnwserFragmentInterface = this.getQuestionFragment(this.priQuestion);
 //            if (this.priAnwserFragmentInterface == null) {}
@@ -334,7 +369,9 @@ public class UserInfoInput extends Activity {
             {
                 priIsFinishedAsking = true;
                 updateProgressBar();
-                this.showFinishMessage();
+                if (!priIsFirstTimeAsking) {
+                    this.showFinishMessage();
+                }
                 this.clearAnswer();
                 this.switchTaskbarToLightTheme(false);
             }
@@ -342,7 +379,9 @@ public class UserInfoInput extends Activity {
         catch (Exception ex){
             priIsFinishedAsking = true;
             updateProgressBar();
-            this.showFinishMessage();
+            if (!priIsFirstTimeAsking) {
+                this.showFinishMessage();
+            }
             this.clearAnswer();
             this.switchTaskbarToLightTheme(false);
             return;

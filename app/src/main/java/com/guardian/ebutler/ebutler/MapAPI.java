@@ -42,7 +42,7 @@ public class MapAPI extends FragmentActivity implements OnMapReadyCallback, Goog
     private HashMap<Marker, com.guardian.ebutler.ebutler.dataclasses.Location> priMarkerLocationMap;
     private com.guardian.ebutler.ebutler.dataclasses.Location priCurrentLocation = null;
     private boolean priIsMarkerClicked = false;
-    final private float MIN_ZOOM = 12;
+    final private float MIN_ZOOM = (float) 13.75;
     final public static int PERMISSION_REQUEST_CODE = 1;
     final static public int NULL_REQUEST = 0;
 
@@ -173,10 +173,8 @@ public class MapAPI extends FragmentActivity implements OnMapReadyCallback, Goog
 
     public void onMapAPILoaded() {
         List<com.guardian.ebutler.ebutler.dataclasses.Location> lLocations = MapHelper.getInstance(priThis).nearbyATMs;
-        Log.w("tab", Integer.toString(lLocations.size()));
         priMarkerLocationMap = new HashMap<>();
         for (com.guardian.ebutler.ebutler.dataclasses.Location lLocation : lLocations) {
-            Log.w("tab", lLocation.pubName);
             LatLng lLatLng = new LatLng(lLocation.pubCoorX, lLocation.pubCoorY);
             priMarkerLocationMap.put(priMap.addMarker(new MarkerOptions().position(lLatLng).title(lLocation.pubName)), lLocation);
         }

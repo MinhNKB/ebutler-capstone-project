@@ -110,8 +110,8 @@ public class MapHelper {
             Location lLocation = new Location();
             lLocation.pubName = lLocationObject.getString("name");
             lLocation.pubAndress = lLocationObject.getString("vicinity");
-            lLocation.pubCoorX = lLocationObject.getJSONObject("geometry").getJSONObject("location").getInt("lat");
-            lLocation.pubCoorY = lLocationObject.getJSONObject("geometry").getJSONObject("location").getInt("lng");
+            lLocation.pubCoorX = (float) lLocationObject.getJSONObject("geometry").getJSONObject("location").getDouble("lat");
+            lLocation.pubCoorY = (float) lLocationObject.getJSONObject("geometry").getJSONObject("location").getDouble("lng");
             lReturnValue.add(lLocation);
         }
         return lReturnValue;
