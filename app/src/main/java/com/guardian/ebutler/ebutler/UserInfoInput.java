@@ -69,7 +69,8 @@ public class UserInfoInput extends Activity {
         this.initializeDatabase();
         this.preprocessProgressBar();
         this.setupConversation();
-
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        databaseHelper.setAlarms();
     }
 
     private void setupConversation() {

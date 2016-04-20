@@ -59,7 +59,7 @@ public class Alarm extends BroadcastReceiver
         Intent i = new Intent(context, Alarm.class);
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
         am.set(AlarmManager.RTC_WAKEUP, iStartTime, pi);
-        Log.w("wel", "set one time");
+        Log.w("wel", "set one time alarm");
     }
 
     public void SetAlarm(Context context, long iStartTime, long iRepeatTime) {
@@ -67,6 +67,8 @@ public class Alarm extends BroadcastReceiver
         Intent i = new Intent(context, Alarm.class);
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
         am.setRepeating(AlarmManager.RTC_WAKEUP, iStartTime, iRepeatTime, pi);
+        Log.w("wel", "set repeatable alarm");
+        Log.w("wel", String.valueOf(iStartTime) + "/" + String.valueOf(iRepeatTime));
     }
 
     public void CancelAlarm(Context context) {
