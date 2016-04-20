@@ -1,28 +1,21 @@
 package com.guardian.ebutler.ebutler;
 
-import android.app.AlertDialog;
+import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.text.InputType;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,26 +28,23 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
-import com.guardian.ebutler.world.Global;
+import com.guardian.ebutler.maphelper.MapHelper;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 public class MapAPI extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, MapAPICallbackActivityInterface {
-
-    public static final String LOCATION_EXTRA = "Location Extra";
     private GoogleMap priMap;
-    private Context priThis;
+    private MapAPI priThis;
     private ImageButton priButtonCancel;
-    private ImageButton priButtonDelete;
-    private ImageButton priButtonDone;
     private TextView priLocationAddressTextView;
     private HashMap<Marker, com.guardian.ebutler.ebutler.dataclasses.Location> priMarkerLocationMap;
     private com.guardian.ebutler.ebutler.dataclasses.Location priCurrentLocation = null;
     private boolean priIsMarkerClicked = false;
     final private float MIN_ZOOM = 12;
     final public static int PERMISSION_REQUEST_CODE = 1;
+    final static public int NULL_REQUEST = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,18 +53,14 @@ public class MapAPI extends FragmentActivity implements OnMapReadyCallback, Goog
         priThis = this;
         findViewByIds();
         bindEvents();
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.api_map);
         mapFragment.getMapAsync(this);
     }
 
-    private void returnResult(int iResultCode, com.guardian.ebutler.ebutler.dataclasses.Location rReturnLocation) {
-        Intent resultIntent = new Intent();
-        if (rReturnLocation != null) {
-            Global.getInstance().pubTaskLocation = rReturnLocation;
-        }
-        setResult(iResultCode, resultIntent);
+    private void navigateBack() {
+        Intent lIntent = new Intent();
+        setResult(Activity.RESULT_OK, lIntent);
         finish();
     }
 
@@ -82,76 +68,14 @@ public class MapAPI extends FragmentActivity implements OnMapReadyCallback, Goog
         priButtonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                returnResult(RESULT_CANCELED, null);
-            }
-        });
-
-        priButtonDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO: delete Location here
-            }
-        });
-
-        priButtonDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (priCurrentLocation != null) {
-                    returnResult(RESULT_OK, priCurrentLocation);
-                } else {
-                    final com.guardian.ebutler.ebutler.dataclasses.Location lNewLocation = new com.guardian.ebutler.ebutler.dataclasses.Location();
-                    LatLng lCenterOfMap = priMap.getCameraPosition().target;
-                    lNewLocation.pubCoorX = (float) lCenterOfMap.latitude;
-                    lNewLocation.pubCoorY = (float) lCenterOfMap.longitude;
-                    lNewLocation.pubAndress = priLocationAddressTextView.getText().toString();
-                    AlertDialog.Builder lBuilder = new AlertDialog.Builder(priThis);
-                    lBuilder.setTitle("Ghi nhớ địa điểm");
-
-                    final EditText lInput = new EditText(priThis);
-                    lInput.setInputType(InputType.TYPE_CLASS_TEXT);
-                    ColorDrawable lBackgroundColor = null;
-                    if (Build.VERSION.SDK_INT > 23) {
-                        lBackgroundColor = new ColorDrawable(getResources().getColor(R.color.transparent, getTheme()));
-                    } else {
-                        lBackgroundColor = new ColorDrawable(getResources().getColor(R.color.transparent));
-                    }
-                    lInput.setBackground(lBackgroundColor);
-                    lInput.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-                    lInput.setHint("Tên địa điểm (ví dụ: nhà, công ti, v.v.)");
-                    LinearLayout lLinearLayout = new LinearLayout(priThis);
-                    int pixels = getResources().getDimensionPixelSize(R.dimen.layout_padding_double);
-                    lLinearLayout.addView(lInput);
-                    lInput.setPadding(pixels, pixels, pixels, pixels);
-                    lBuilder.setView(lLinearLayout);
-
-                    lBuilder.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            lNewLocation.pubName = lInput.getText().toString().trim();
-                            if (lNewLocation.pubName.length() < 1) {
-                                lNewLocation.pubName = "Chưa đặt tên";
-                            }
-                            returnResult(RESULT_OK, lNewLocation);
-                        }
-                    });
-                    lBuilder.setNegativeButton("Quay lại", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-
-                    lBuilder.show();
-                }
+                navigateBack();
             }
         });
     }
 
     private void findViewByIds() {
-        priButtonCancel = (ImageButton)findViewById(R.id.map_location_buttonCancel);
-        priButtonDelete = (ImageButton)findViewById(R.id.map_location_buttonDelete);
-        priButtonDone = (ImageButton)findViewById(R.id.map_location_buttonDone);
-        priLocationAddressTextView = (TextView) findViewById(R.id.map_location_locationAddress);
+        priButtonCancel = (ImageButton)findViewById(R.id.map_api_buttonCancel);
+        priLocationAddressTextView = (TextView) findViewById(R.id.map_api_locationAddress);
     }
 
     @Override
@@ -244,24 +168,18 @@ public class MapAPI extends FragmentActivity implements OnMapReadyCallback, Goog
     }
 
     private void setupMarkers() {
-        List<com.guardian.ebutler.ebutler.dataclasses.Location> lLocations = null;
-        try
-        {
-            DatabaseHelper iHelper = new DatabaseHelper(this);
-            lLocations = iHelper.GetAllLocations();
-        }
-        catch (Exception ex){
-            ex.printStackTrace();
-        }
-        priMarkerLocationMap = new HashMap<>();
-        for (com.guardian.ebutler.ebutler.dataclasses.Location lLocation : lLocations) {
-            LatLng lLatLng = new LatLng(lLocation.pubCoorX, lLocation.pubCoorY);
-            priMarkerLocationMap.put(priMap.addMarker(new MarkerOptions().position(lLatLng).title(lLocation.pubName)), lLocation);
-        }
+        MapHelper.getInstance(priThis).getNearbyATM(priThis);
     }
 
     public void onMapAPILoaded() {
-
+        List<com.guardian.ebutler.ebutler.dataclasses.Location> lLocations = MapHelper.getInstance(priThis).nearbyATMs;
+        Log.w("tab", Integer.toString(lLocations.size()));
+        priMarkerLocationMap = new HashMap<>();
+        for (com.guardian.ebutler.ebutler.dataclasses.Location lLocation : lLocations) {
+            Log.w("tab", lLocation.pubName);
+            LatLng lLatLng = new LatLng(lLocation.pubCoorX, lLocation.pubCoorY);
+            priMarkerLocationMap.put(priMap.addMarker(new MarkerOptions().position(lLatLng).title(lLocation.pubName)), lLocation);
+        }
     }
 
     @Override
