@@ -226,6 +226,7 @@ public class ScriptManager {
             Task lNewTask = new Task();
 
             lNewTask.pubName = iTaskSuggestionInformation.pubTaskName;
+            lNewTask.pubLocation = new ArrayList<Location>();
             lNewTask.pubTime = lInputDate;
             lNewTask.pubStatus = Status.Pending;
             lNewTask.pubPriority = Priority.Normal;

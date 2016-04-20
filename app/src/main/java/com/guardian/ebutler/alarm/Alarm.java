@@ -19,6 +19,7 @@ import android.util.Log;
 
 import com.guardian.ebutler.ebutler.Dashboard;
 import com.guardian.ebutler.ebutler.R;
+import com.guardian.ebutler.ebutler.UserInfoInput;
 
 import java.util.List;
 
@@ -53,7 +54,7 @@ public class Alarm extends BroadcastReceiver
         mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
         long[] pattern = {10000};
         mBuilder.setVibrate(pattern);
-        Intent resultIntent = new Intent(context, Dashboard.class);
+        Intent resultIntent = new Intent(context, UserInfoInput.class);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addParentStack(Dashboard.class);
