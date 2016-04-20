@@ -1,6 +1,9 @@
 package com.guardian.ebutler.ebutler.dataclasses;
 
 import android.content.Context;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.util.Log;
 
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
@@ -289,8 +292,16 @@ public class ScriptManager {
         return GetAScript("Evening");
     }
 
-    public String CreateTaskNotification(Task rTask) {
-        return "Sắp tới là ngày " + rTask.pubName.toLowerCase() + " vào lúc " + DateTimeHelper.getDateStringFromDate(rTask.pubTime);
+    public Spanned CreateTaskNotification(String rTasks, Boolean iIsHtml) {
+
+        String lRawString = "Sắp tới là ngày: <br/>" + rTasks;
+        Spanned lReturnValue = null;
+        if (iIsHtml) {
+            lReturnValue = Html.fromHtml(lRawString);
+        } else {
+            lReturnValue = new SpannableString(lRawString);
+        }
+        return lReturnValue;
     }
 
     public String ToMapAPIChatStatement() {
