@@ -1,11 +1,9 @@
 package com.guardian.ebutler.ebutler;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,7 +32,7 @@ import com.guardian.ebutler.fragments.answers.TextboxFragment;
 import com.guardian.ebutler.fragments.answers.TimeFragment;
 import com.guardian.ebutler.fragments.answers.TimeSpanFragment;
 import com.guardian.ebutler.fragments.answers.YesNoFragment;
-import com.guardian.ebutler.maphelper.MapHelper;
+import com.guardian.ebutler.world.Global;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +56,7 @@ public class UserInfoInput extends Activity {
     private View priProgressBar;
     private int priToBeAskedQuestionCategory = -1;
     private RelativeLayout priPreviousButlerChatStatement = null;
+    private Boolean priIsFirstTimeAsking = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +74,7 @@ public class UserInfoInput extends Activity {
     private void setupConversation() {
         switchTaskbarToLightTheme(false);
 
-        int lTiming = 1000;
+        int lTiming = 500;
         final UserInfoInput lSelf = this;
         new android.os.Handler().postDelayed(
                 new Runnable() {
@@ -85,37 +84,40 @@ public class UserInfoInput extends Activity {
                 },
                 lTiming
         );
+        if (Global.getInstance().pubFirstTimeInput) {
+            Boolean lHasPayTask = false;
+            DatabaseHelper lHelper = DatabaseHelper.getInstance(null);
+            List<Task> lComingTask = lHelper.GetComingTasks();
+            for (Task lTask : lComingTask) {
+                final Task fTask = lTask;
+                lTiming += 2000;
+                new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                lSelf.createConversationStatementToDashboardEvent(priScriptManager.CreateTaskNotification(fTask), true);
+                            }
+                        },
+                        lTiming
+                );
+                if (CustomListAdapter.normalizeVietnameseString(lTask.pubName).toLowerCase().contains("dong tien")) {
+                    lHasPayTask = true;
+                }
+            }
 
-        Boolean lHasPayTask = false;
-        DatabaseHelper lHelper = DatabaseHelper.getInstance(null);
-        List<Task> lComingTask = lHelper.GetComingTasks();
-        for (Task lTask : lComingTask) {
-            final Task fTask = lTask;
-            lTiming += 2000;
-            new android.os.Handler().postDelayed(
-                    new Runnable() {
-                        public void run() {
-                            lSelf.createConversationStatementToDashboardEvent(priScriptManager.CreateTaskNotification(fTask), true);
-                        }
-                    },
-                    lTiming
-            );
-            if (CustomListAdapter.normalizeVietnameseString(lTask.pubName).toLowerCase().contains("dong tien")) {
-                lHasPayTask = true;
+            if (lHasPayTask) {
+                lTiming += 2000;
+                new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                lSelf.createConversationStatementToMapAPIEvent(priScriptManager.ToMapAPIChatStatement(), true);
+                            }
+                        },
+                        lTiming
+                );
             }
         }
 
-        if (lHasPayTask) {
-            lTiming += 2000;
-            new android.os.Handler().postDelayed(
-                    new Runnable() {
-                        public void run() {
-                            lSelf.createConversationStatementToMapAPIEvent(priScriptManager.ToMapAPIChatStatement(), true);
-                        }
-                    },
-                    lTiming
-            );
-        }
+        Global.getInstance().pubFirstTimeInput = false;
 
         lTiming += 2000;
         new android.os.Handler().postDelayed(
@@ -318,6 +320,7 @@ public class UserInfoInput extends Activity {
         {
             this.priQuestion = this.priScriptManager.GetAQuestion();
             if (priQuestion != null) {
+                priIsFirstTimeAsking = false;
 //            if (this.priQuestion == null) {}
                 this.priAnwserFragmentInterface = this.getQuestionFragment(this.priQuestion);
 //            if (this.priAnwserFragmentInterface == null) {}
@@ -333,7 +336,9 @@ public class UserInfoInput extends Activity {
             {
                 priIsFinishedAsking = true;
                 updateProgressBar();
-                this.showFinishMessage();
+                if (!priIsFirstTimeAsking) {
+                    this.showFinishMessage();
+                }
                 this.clearAnswer();
                 this.switchTaskbarToLightTheme(false);
             }
@@ -341,7 +346,9 @@ public class UserInfoInput extends Activity {
         catch (Exception ex){
             priIsFinishedAsking = true;
             updateProgressBar();
-            this.showFinishMessage();
+            if (!priIsFirstTimeAsking) {
+                this.showFinishMessage();
+            }
             this.clearAnswer();
             this.switchTaskbarToLightTheme(false);
             return;

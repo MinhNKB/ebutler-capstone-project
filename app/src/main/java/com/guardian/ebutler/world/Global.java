@@ -33,6 +33,7 @@ public class Global {
     }
 
     public Task pubNewTask;
+    public Boolean pubFirstTimeInput = true;
 
     public int dpToPx(Context iContext, int idp) {
         DisplayMetrics displayMetrics = iContext.getResources().getDisplayMetrics();

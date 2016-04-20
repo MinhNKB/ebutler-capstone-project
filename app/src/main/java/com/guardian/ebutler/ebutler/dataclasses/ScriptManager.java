@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
+import com.guardian.ebutler.timehelper.DateTimeHelper;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -289,7 +290,7 @@ public class ScriptManager {
     }
 
     public String CreateTaskNotification(Task rTask) {
-        return "Bạn có công việc " + rTask.pubName.toLowerCase() + " vào lúc " + rTask.pubTime;
+        return "Sắp tới là ngày " + rTask.pubName.toLowerCase() + " vào lúc " + DateTimeHelper.getDateStringFromDate(rTask.pubTime);
     }
 
     public String ToMapAPIChatStatement() {

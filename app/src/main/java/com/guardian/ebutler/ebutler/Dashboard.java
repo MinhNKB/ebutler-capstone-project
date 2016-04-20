@@ -31,6 +31,7 @@ import com.guardian.ebutler.ebutler.custom.*;
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 import com.guardian.ebutler.ebutler.dataclasses.*;
 import com.guardian.ebutler.fragments.MiniTaskFragment;
+import com.guardian.ebutler.timehelper.DateTimeHelper;
 import com.guardian.ebutler.world.Global;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
@@ -436,8 +437,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
                 if (lTask.pubTime == null)
                     lThirdLine = "Không có thời gian";
                 else
-                    lThirdLine = "Tạo vào lúc " + lTask.pubTime.getHours() + ":" + lTask.pubTime.getMinutes() +","
-                            + " ngày " + lTask.pubTime.getDate() + "/" + (lTask.pubTime.getMonth() + 1) + "/" + (lTask.pubTime.getYear() + 1900);
+                    lThirdLine = "Tạo vào lúc " + DateTimeHelper.getDateStringFromDate(lTask.pubTime);
                 break;
         }
         return lThirdLine;
@@ -450,8 +450,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
                 if (lTask.pubTime == null)
                     lSecondLine = "Không có thời gian";
                 else
-                    lSecondLine = "Nhắc vào lúc " + lTask.pubTime.getHours() + ":" + lTask.pubTime.getMinutes() +","
-                            + " ngày " + lTask.pubTime.getDate() + "/" + (lTask.pubTime.getMonth() + 1) + "/" + (lTask.pubTime.getYear() + 1900);
+                    lSecondLine = "Nhắc vào lúc " + DateTimeHelper.getDateStringFromDate(lTask.pubTime);
                 break;
             case CheckList:
                 if (lTask.pubDescription == null || lTask.pubDescription.equals(""))
