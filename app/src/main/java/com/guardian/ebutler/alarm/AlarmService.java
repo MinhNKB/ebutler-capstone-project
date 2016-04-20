@@ -28,58 +28,73 @@ public class AlarmService extends Service
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
-        DatabaseHelper iHelper = new DatabaseHelper(this);
-        List<Task> lTaskList = iHelper.GetAllTasks();
-        for (Task lTask: lTaskList) {
-            if (lTask.pubTaskType == TaskType.OneTimeReminder)
-            {
-                Log.w("wel", "checking one time reminder");
-                if (lTask.pubTime.getTime() > (new Date()).getTime()) {
+        try
+        {
+            DatabaseHelper iHelper = new DatabaseHelper(this);
+            List<Task> lTaskList = iHelper.GetAllTasks();
+            for (Task lTask: lTaskList) {
+                if (lTask.pubTaskType == TaskType.OneTimeReminder)
+                {
+                    Log.w("wel", "checking one time reminder");
+                    if (lTask.pubTime.getTime() > (new Date()).getTime()) {
+                        Alarm lAlarm = new Alarm();
+                        lAlarm.SetAlarm(this, lTask.pubTime.getTime());
+                    }
+                }
+                else if (lTask.pubTaskType == TaskType.PeriodicReminder && lTask.pubRepeat != null){
+                    Log.w("wel", "checking repeatable reminder");
                     Alarm lAlarm = new Alarm();
-                    lAlarm.SetAlarm(this, lTask.pubTime.getTime());
-                }
-            }
-            else if (lTask.pubTaskType == TaskType.PeriodicReminder){
-                Log.w("wel", "checking repeatable reminder");
-                Alarm lAlarm = new Alarm();
-                long repeat = 0;
-                switch (lTask.pubRepeat) {
-                    case "Mỗi ngày":
-                        repeat = getDateDuration();
-                        break;
-                    case "Mỗi tuần":
-                        repeat = getWeekDuration();
-                        break;
-                    case "Mỗi tháng":
-                        repeat = getMonthDuration();
-                        break;
-                    case "Mỗi năm":
-                        repeat = getYearDuration();
-                        break;
-                }
-                while (lTask.pubTime.getTime() < (new Date()).getTime()) {
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTime(lTask.pubTime);
+                    long repeat = 0;
                     switch (lTask.pubRepeat) {
                         case "Mỗi ngày":
-                            cal.add(Calendar.DATE, 1);
+                            repeat = getDateDuration();
                             break;
                         case "Mỗi tuần":
-                            cal.add(Calendar.WEEK_OF_YEAR, 1);
+                            repeat = getWeekDuration();
                             break;
                         case "Mỗi tháng":
-                            cal.add(Calendar.MONTH, 1);
+                            repeat = getMonthDuration();
                             break;
                         case "Mỗi năm":
-                            cal.add(Calendar.YEAR, 1);
+                            repeat = getYearDuration();
                             break;
                     }
-                    lTask.pubTime = new Date(cal.getTimeInMillis());
-                    iHelper.UpdateATask(lTask);
+                    while (lTask.pubTime.getTime() < (new Date()).getTime()) {
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(lTask.pubTime);
+                        switch (lTask.pubRepeat) {
+                            case "Mỗi ngày":
+                                cal.add(Calendar.DATE, 1);
+                                break;
+                            case "Mỗi tuần":
+                                cal.add(Calendar.WEEK_OF_YEAR, 1);
+                                break;
+                            case "Mỗi tháng":
+                                cal.add(Calendar.MONTH, 1);
+                                break;
+                            case "Mỗi năm":
+                                cal.add(Calendar.YEAR, 1);
+                                break;
+                        }
+                        lTask.pubTime = new Date(cal.getTimeInMillis());
+                        iHelper.UpdateATask(lTask);
+                    }
+                    lAlarm.SetAlarm(this, lTask.pubTime.getTime(), repeat);
                 }
-                lAlarm.SetAlarm(this, lTask.pubTime.getTime(), repeat);
             }
+
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.HOUR, 8);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.SECOND, 0);
+            Alarm alarm = new Alarm();
+            alarm.SetAlarm(this, cal.getTimeInMillis(), getDateDuration());
+
         }
+        catch (Exception ex){
+            Log.w("wel", ex.toString());
+        }
+
         return START_STICKY;
     }
 

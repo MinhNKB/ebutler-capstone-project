@@ -3,11 +3,13 @@ package com.guardian.ebutler.alarm;
 /**
  * Created by Duy on 4/14/2016.
  */
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
@@ -17,6 +19,8 @@ import android.util.Log;
 
 import com.guardian.ebutler.ebutler.Dashboard;
 import com.guardian.ebutler.ebutler.R;
+
+import java.util.List;
 
 public class Alarm extends BroadcastReceiver
 {
@@ -28,9 +32,16 @@ public class Alarm extends BroadcastReceiver
         PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
         wl.acquire();
 
-        createNotification(context, "eBulter", "Bạn có thông báo mới!!!");
-
+        if (isForeground("com.guardian.ebutler.alarm", context) == false)
+            createNotification(context, "eBulter", "Bạn có thông báo mới!!!");
         wl.release();
+    }
+
+    public boolean isForeground(String myPackage, Context context) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> runningTaskInfo = manager.getRunningTasks(1);
+        ComponentName componentInfo = runningTaskInfo.get(0).topActivity;
+        return componentInfo.getPackageName().equals(myPackage);
     }
 
     private void createNotification(Context context, String title, String content) {

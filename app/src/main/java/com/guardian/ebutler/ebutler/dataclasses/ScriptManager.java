@@ -230,6 +230,7 @@ public class ScriptManager {
             lNewTask.pubStatus = Status.Pending;
             lNewTask.pubPriority = Priority.Normal;
             lNewTask.pubTaskType = TaskType.OneTimeReminder;
+            lNewTask.pubRepeat = "Không lặp lại";
             return lNewTask;
         } catch (ParseException e) {
             Log.w("ScriptManager",e.getMessage());

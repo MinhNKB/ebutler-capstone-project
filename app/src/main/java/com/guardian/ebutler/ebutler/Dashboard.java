@@ -353,7 +353,8 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
     private void switchView(boolean iIsCalendarView) {
         this.priIsCalendarView = iIsCalendarView;
         this.priImageButtonViewType.setImageResource(this.priIsCalendarView == true ? R.mipmap.ic_list : R.mipmap.ic_date_range);
-        this.priCustomExpandableListView.setVisibility(this.priIsCalendarView == true ? View.GONE : View.VISIBLE);
+        if (iIsCalendarView == true)
+            this.priCustomExpandableListView.setVisibility(View.GONE);
         this.priLinearLayoutCalendarView.setVisibility(this.priIsCalendarView == true ? View.VISIBLE : View.GONE);
     }
 
