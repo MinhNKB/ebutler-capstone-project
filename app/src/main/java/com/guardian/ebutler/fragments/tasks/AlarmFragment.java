@@ -55,7 +55,7 @@ public class AlarmFragment extends AbstractTaskFragment {
         rNewTask.pubTime = getTimeFromDateTextbox();
         rNewTask.pubLocation = priTaskLocations;
         rNewTask.pubRepeat = priCustomListItems.get(2).pubThirdLine;
-        if (rNewTask.pubRepeat != "Không lặp lại")
+        if (!rNewTask.pubRepeat.equals("Không lặp lại"))
             rNewTask.pubTaskType = TaskType.PeriodicReminder;
         else
             rNewTask.pubTaskType = TaskType.OneTimeReminder;
