@@ -288,6 +288,14 @@ public class ScriptManager {
         return GetAScript("Evening");
     }
 
+    public String CreateTaskNotification(Task rTask) {
+        return "Bạn có công việc " + rTask.pubName.toLowerCase() + " vào lúc " + rTask.pubTime;
+    }
+
+    public String ToMapAPIChatStatement() {
+        return "Sắp tới bạn có chi phí cần phải thanh toán, bạn có muốn xem qua những địa điểm thanh toán gần nhất?";
+    }
+
     public String GetAFinishString()
     {
         return GetAScript("Thanks");

@@ -1,9 +1,11 @@
 package com.guardian.ebutler.ebutler;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.guardian.ebutler.ebutler.custom.CustomListAdapter;
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 import com.guardian.ebutler.ebutler.dataclasses.Condition;
 import com.guardian.ebutler.ebutler.dataclasses.Question;
@@ -46,7 +49,6 @@ public class UserInfoInput extends Activity {
     private ImageButton priButtonDecline;
     private ImageButton priButtonOk;
     private ImageButton priButtonDashboard;
-    private ImageButton priButtonAdd;
     private ScrollView priScrollViewAnswer;
     private LinearLayout priLinearLayoutAnswer;
     private RelativeLayout priRelativeLayoutForSimpleAnswer;
@@ -65,10 +67,76 @@ public class UserInfoInput extends Activity {
         this.setupUI(findViewById(R.id.user_info_input_parent));
         this.priScriptManager = new ScriptManager(this);
         this.initializeDatabase();
-        this.createConversationStatement(priScriptManager.GetAGreeting(), true);
-        this.showQuestionGroup();
-        this.showQuestion();
         this.preprocessProgressBar();
+        this.setupConversation();
+
+    }
+
+    private void setupConversation() {
+        switchTaskbarToLightTheme(false);
+
+        int lTiming = 1000;
+        final UserInfoInput lSelf = this;
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        lSelf.createConversationStatement(priScriptManager.GetAGreeting(), true);
+                    }
+                },
+                lTiming
+        );
+
+        Boolean lHasPayTask = false;
+        DatabaseHelper lHelper = DatabaseHelper.getInstance(null);
+        List<Task> lComingTask = lHelper.GetComingTasks();
+        for (Task lTask : lComingTask) {
+            final Task fTask = lTask;
+            lTiming += 2000;
+            new android.os.Handler().postDelayed(
+                    new Runnable() {
+                        public void run() {
+                            lSelf.createConversationStatementToDashboardEvent(priScriptManager.CreateTaskNotification(fTask), true);
+                        }
+                    },
+                    lTiming
+            );
+            if (CustomListAdapter.normalizeVietnameseString(lTask.pubName).toLowerCase().contains("dong tien")) {
+                lHasPayTask = true;
+            }
+        }
+
+        if (lHasPayTask) {
+            lTiming += 2000;
+            new android.os.Handler().postDelayed(
+                    new Runnable() {
+                        public void run() {
+                            lSelf.createConversationStatementToMapAPIEvent(priScriptManager.ToMapAPIChatStatement(), true);
+                        }
+                    },
+                    lTiming
+            );
+        }
+
+        lTiming += 2000;
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        lSelf.showQuestionGroup();
+                    }
+                },
+                lTiming
+        );
+
+        lTiming += 2000;
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        lSelf.showQuestion();
+                    }
+                },
+                lTiming
+        );
+
     }
 
     private void showQuestionGroup() {
@@ -110,7 +178,6 @@ public class UserInfoInput extends Activity {
         this.priButtonDecline = (ImageButton) findViewById(R.id.user_info_input_buttonDecline);
         this.priButtonOk = (ImageButton) findViewById(R.id.user_info_input_buttonOk);
         this.priButtonDashboard = (ImageButton) findViewById(R.id.user_info_input_buttonDashboard);
-        this.priButtonAdd = (ImageButton) findViewById(R.id.user_info_input_buttonAdd);
         this.priScrollViewAnswer = (ScrollView) findViewById(R.id.user_info_input_customScrollViewAnswer);
         this.priLinearLayoutAnswer = (LinearLayout) findViewById(R.id.user_info_input_linearLayoutAnswer);
         this.priRelativeLayoutForSimpleAnswer = (RelativeLayout) findViewById(R.id.user_info_input_relativeLayoutForSimpleAnswer);
@@ -192,7 +259,29 @@ public class UserInfoInput extends Activity {
         priPreviousButlerChatStatement = rRelativeLayout;
     }
 
-    private void createConversationStatement(String iStatement, boolean iIsButler){
+    public void createConversationStatementToDashboardEvent(String iStatement, boolean iIsButler) {
+        RelativeLayout lResult = createConversationStatement(iStatement, iIsButler);
+        final UserInfoInput lSelf = this;
+        lResult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lSelf.navigateToDashboard();
+            }
+        });
+    }
+
+    public void createConversationStatementToMapAPIEvent(String iStatement, boolean iIsButler) {
+        RelativeLayout lResult = createConversationStatement(iStatement, iIsButler);
+        final UserInfoInput lSelf = this;
+        lResult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lSelf.startMapAPIForResult();
+            }
+        });
+    }
+
+    public RelativeLayout createConversationStatement(String iStatement, boolean iIsButler){
         removeButlerChatHeadline();
         RelativeLayout lResult = new RelativeLayout(this);
         lResult.setLayoutParams(this.createStatementLayoutParam(iIsButler));
@@ -204,6 +293,7 @@ public class UserInfoInput extends Activity {
         lResult.addView(this.createStatementTextView(iStatement));
         this.priLinearLayoutConversation.addView(lResult);
         this.scrollScrollViewQuestion(View.FOCUS_DOWN);
+        return lResult;
     }
 
     private LinearLayout.LayoutParams createStatementLayoutParam(boolean iIsButler) {
@@ -307,10 +397,9 @@ public class UserInfoInput extends Activity {
     }
 
     private void changeButtonSetVisibility(boolean iIsLightTheme) {
-        this.priButtonOk.setVisibility(iIsLightTheme == true ? View.VISIBLE: View.GONE);
-        this.priButtonDecline.setVisibility(iIsLightTheme == true ? View.VISIBLE: View.GONE);
+        this.priButtonOk.setVisibility(iIsLightTheme == true ? View.VISIBLE : View.GONE);
+        this.priButtonDecline.setVisibility(iIsLightTheme == true ? View.VISIBLE : View.GONE);
         this.priButtonDashboard.setVisibility(iIsLightTheme == true ? View.GONE : View.VISIBLE);
-        this.priButtonAdd.setVisibility(iIsLightTheme == true ? View.GONE : View.VISIBLE);
     }
 
     public void buttonClear_onClick(View view){
@@ -368,7 +457,16 @@ public class UserInfoInput extends Activity {
     }
 
     public void buttonMenu_onClick(View view) {
+        navigateToDashboard();
+    }
+
+    private void navigateToDashboard() {
         Intent intent = new Intent(this, Dashboard.class);
         startActivity(intent);
+    }
+
+    private void startMapAPIForResult() {
+        Intent lIntent = new Intent(this, MapAPI.class);
+        startActivityForResult(lIntent, MapAPI.NULL_REQUEST);
     }
 }

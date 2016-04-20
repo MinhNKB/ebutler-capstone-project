@@ -12,7 +12,6 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.guardian.ebutler.ebutler.MapAPICallbackActivityInterface;
 import com.guardian.ebutler.ebutler.MapLocation;
@@ -24,8 +23,6 @@ import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -52,7 +49,7 @@ public class MapHelper {
         priContext = iContext;
     }
 
-    public List<Location> nearbyATM = null;
+    public List<Location> nearbyATMs = null;
     public void getNearbyATM(MapAPICallbackActivityInterface rMapAPIActivity) {
         getCurrentLocation(priContext, rMapAPIActivity);
     }
@@ -70,7 +67,7 @@ public class MapHelper {
                 @Override
                 public void onLocationChanged(android.location.Location location) {
                     LatLng lCoordinates = new LatLng(location.getLatitude(), location.getLongitude());
-                    nearbyATM = getATMNear(lCoordinates);
+                    nearbyATMs = getATMNear(lCoordinates);
                     rMapAPIActivity.onMapAPILoaded();
                 }
 

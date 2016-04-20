@@ -87,8 +87,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/blue_button"
             android:src="@mipmap/ic_dashboard"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:id="@+id/user_info_input_buttonDashboard"
             android:scaleType="fitCenter"
@@ -118,21 +117,6 @@
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             android:onClick="buttonOk_onClick"
-            />
-
-        <ImageButton
-            android:visibility="gone"
-            android:layout_width="@dimen/taskbar_iconSize"
-            android:layout_height="match_parent"
-            android:background="@drawable/blue_button"
-            android:src="@mipmap/ic_add"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:id="@+id/user_info_input_buttonAdd"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
-            android:onClick="buttonAdd_onClick"
             />
     </RelativeLayout>
     <com.guardian.ebutler.ebutler.custom.CustomScrollView

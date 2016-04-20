@@ -3,12 +3,13 @@ package com.guardian.ebutler.ebutler;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.TimePicker;
+
+import com.guardian.ebutler.timehelper.DateTimeHelper;
 
 public class ChooseTime extends Activity {
 
@@ -30,26 +31,12 @@ public class ChooseTime extends Activity {
 
                 TimePicker timePicker = (TimePicker)findViewById(R.id.choose_time_timePicker);
                 timePicker.clearFocus();
-                String result = "";
-                if (Build.VERSION.SDK_INT >= 23 )
-                    result += String.format("%02d", timePicker.getHour());
-                else
-                    result += String.format("%02d", timePicker.getCurrentHour());
-                result += ":";
-                if (Build.VERSION.SDK_INT >= 23 )
-                    result += String.format("%02d", timePicker.getMinute());
-                else
-                    result += String.format("%02d", timePicker.getCurrentMinute());
+                String result = DateTimeHelper.getTimeFromTimePicker(timePicker);
                 returnIntent.putExtra("time", result);
 
                 DatePicker datePicker = (DatePicker)findViewById(R.id.choose_time_datePicker);
                 datePicker.clearFocus();
-                result = "";
-                result += String.format("%02d", datePicker.getDayOfMonth());
-                result += "-";
-                result += String.format("%02d", datePicker.getMonth() + 1);
-                result += "-";
-                result += String.format("%04d", datePicker.getYear());
+                result = DateTimeHelper.getDateFromDatePicker(datePicker);
                 returnIntent.putExtra("date", result);
 
                 setResult(Activity.RESULT_OK, returnIntent);

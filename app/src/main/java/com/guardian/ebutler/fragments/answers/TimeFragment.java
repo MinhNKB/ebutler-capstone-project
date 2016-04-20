@@ -9,6 +9,7 @@ import android.widget.TimePicker;
 
 import com.guardian.ebutler.ebutler.R;
 import com.guardian.ebutler.ebutler.dataclasses.Condition;
+import com.guardian.ebutler.timehelper.DateTimeHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -79,29 +80,14 @@ public class TimeFragment extends AbstractAnswerFragment {
         } else {
             lMinute = Integer.parseInt(priDefaultValue.get(0)) - 1;
         }
-        if(Build.VERSION.SDK_INT >= 23) {
-            lTimePicker.setHour(lHour);
-            lTimePicker.setMinute(lMinute);
-        } else {
-            lTimePicker.setCurrentHour(lHour);
-            lTimePicker.setCurrentMinute(lMinute);
-        }
+        DateTimeHelper.setTimeToTimePicker(lTimePicker, lHour, lMinute);
 
     }
 
     public String getChatStatement() {
-        String lReturnValue = "";
         TimePicker lTimePicker = (TimePicker)(getView().findViewById(R.id.fragment_time_TimePicker));
         lTimePicker.clearFocus();
-        if (Build.VERSION.SDK_INT >= 23 )
-            lReturnValue += String.format("%02d", lTimePicker.getHour());
-        else
-            lReturnValue += String.format("%02d", lTimePicker.getCurrentHour());
-        lReturnValue += ":";
-        if (Build.VERSION.SDK_INT >= 23 )
-            lReturnValue += String.format("%02d", lTimePicker.getMinute());
-        else
-            lReturnValue += String.format("%02d", lTimePicker.getCurrentMinute());
+        String lReturnValue = DateTimeHelper.getTimeFromTimePicker(lTimePicker);
         return lReturnValue;
     }
 
@@ -113,16 +99,7 @@ public class TimeFragment extends AbstractAnswerFragment {
         lReturnValue.pubType = "Time";
         TimePicker lTimePicker = (TimePicker)(getView().findViewById(R.id.fragment_time_TimePicker));
         lTimePicker.clearFocus();
-        String result = "";
-        if (Build.VERSION.SDK_INT >= 23 )
-            result += String.format("%02d", lTimePicker.getHour());
-        else
-            result += String.format("%02d", lTimePicker.getCurrentHour());
-        result += ":";
-        if (Build.VERSION.SDK_INT >= 23 )
-            result += String.format("%02d", lTimePicker.getMinute());
-        else
-            result += String.format("%02d", lTimePicker.getCurrentMinute());
+        String result = DateTimeHelper.getTimeFromTimePicker(lTimePicker);
         lReturnValue.pubValue = result;
         lReturnValues.add(lReturnValue);
         return lReturnValues;

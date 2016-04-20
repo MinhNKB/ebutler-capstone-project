@@ -224,7 +224,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         lDB.close();
     }
 
-    public void setAlarms(){
+    public void setAlarms() {
         priContext.stopService(new Intent(priContext, AlarmService.class));
         priContext.startService(new Intent(priContext, AlarmService.class));
     }
@@ -264,6 +264,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return lResult;
     }
 
+    public List<Task> GetComingTasks() {
+        String[] columns = new String[] {"Name", "Time", "Priority", "Status"};
+        Cursor lCursor = this.getWritableDatabase().query("Task", columns, null, null, null, null, "Time DESC LIMIT 3");
+        List<Task> lResult = new ArrayList<Task>();
+        int lNameIndex = lCursor.getColumnIndex("Name");
+        int lTimeIndex = lCursor.getColumnIndex("Time");
+        int lPriorityIndex = lCursor.getColumnIndex("Priority");
+        int lStatusIndex = lCursor.getColumnIndex("Status");
+
+        //Vòng lặp lấy dữ liệu của con trỏ
+        for(lCursor.moveToFirst(); !lCursor.isAfterLast(); lCursor.moveToNext()){
+            Task lTempTask = new Task();
+            lTempTask.pubName = lCursor.getString(lNameIndex);
+            lTempTask.pubTime = getTimeFromString(lCursor.getString(lTimeIndex));
+            lTempTask.pubPriority = Priority.valueOf(lCursor.getString(lPriorityIndex));
+            lTempTask.pubStatus = Status.valueOf(lCursor.getString(lStatusIndex));
+
+            lResult.add(lTempTask);
+        }
+        lCursor.close();
+        return lResult;
+    }
 
     private Date getTimeFromString(String iDateString) {
         Date lReturnDate = null;
