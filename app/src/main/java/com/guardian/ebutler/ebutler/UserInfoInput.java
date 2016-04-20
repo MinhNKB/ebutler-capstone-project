@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,6 +31,7 @@ import com.guardian.ebutler.fragments.answers.TextboxFragment;
 import com.guardian.ebutler.fragments.answers.TimeFragment;
 import com.guardian.ebutler.fragments.answers.TimeSpanFragment;
 import com.guardian.ebutler.fragments.answers.YesNoFragment;
+import com.guardian.ebutler.maphelper.MapHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +83,6 @@ public class UserInfoInput extends Activity {
 
     public void progressBubbleClicked(int iCategory) {
         if (iCategory == -1) {
-            Log.w("cool", "I'm cool");
             return;
         }
         if (priIsFinishedAsking) {
