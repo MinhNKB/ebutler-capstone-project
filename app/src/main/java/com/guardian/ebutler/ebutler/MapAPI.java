@@ -35,14 +35,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
-import com.guardian.ebutler.resourcehelper.ResourceGetter;
 import com.guardian.ebutler.world.Global;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class MapLocation extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+public class MapAPI extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, MapAPICallbackActivityInterface {
 
     public static final String LOCATION_EXTRA = "Location Extra";
     private GoogleMap priMap;
@@ -60,7 +59,7 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map_location);
+        setContentView(R.layout.activity_map_api);
         priThis = this;
         findViewByIds();
         bindEvents();
@@ -110,7 +109,12 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback,
 
                     final EditText lInput = new EditText(priThis);
                     lInput.setInputType(InputType.TYPE_CLASS_TEXT);
-                    ColorDrawable lBackgroundColor = ResourceGetter.getColorFromId(R.color.transparent, priThis);
+                    ColorDrawable lBackgroundColor = null;
+                    if (Build.VERSION.SDK_INT > 23) {
+                        lBackgroundColor = new ColorDrawable(getResources().getColor(R.color.transparent, getTheme()));
+                    } else {
+                        lBackgroundColor = new ColorDrawable(getResources().getColor(R.color.transparent));
+                    }
                     lInput.setBackground(lBackgroundColor);
                     lInput.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
                     lInput.setHint("Tên địa điểm (ví dụ: nhà, công ti, v.v.)");
@@ -130,12 +134,6 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback,
                             returnResult(RESULT_OK, lNewLocation);
                         }
                     });
-//                    lBuilder.setNeutralButton("Bỏ qua", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            returnResult(RESULT_CANCELED, lNewLocation);
-//                        }
-//                    });
                     lBuilder.setNegativeButton("Quay lại", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -260,6 +258,10 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback,
             LatLng lLatLng = new LatLng(lLocation.pubCoorX, lLocation.pubCoorY);
             priMarkerLocationMap.put(priMap.addMarker(new MarkerOptions().position(lLatLng).title(lLocation.pubName)), lLocation);
         }
+    }
+
+    public void onMapAPILoaded() {
+
     }
 
     @Override

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,6 +32,7 @@ import com.guardian.ebutler.fragments.answers.TextboxFragment;
 import com.guardian.ebutler.fragments.answers.TimeFragment;
 import com.guardian.ebutler.fragments.answers.TimeSpanFragment;
 import com.guardian.ebutler.fragments.answers.YesNoFragment;
+import com.guardian.ebutler.maphelper.MapHelper;
 
 import java.util.ArrayList;
 import java.util.List;
