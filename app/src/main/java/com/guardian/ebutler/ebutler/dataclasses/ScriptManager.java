@@ -306,7 +306,7 @@ public class ScriptManager {
     }
 
     public String ToMapAPIChatStatement() {
-        return "Sắp tới bạn có chi phí cần phải thanh toán, bạn có muốn xem qua những địa điểm thanh toán gần nhất?";
+        return "Sắp tới bạn có chi phí cần phải thanh toán, bạn có thể click vào đây để xem qua những địa điểm thanh toán gần nhất.";
     }
 
     public String GetAFinishString()
