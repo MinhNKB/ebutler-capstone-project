@@ -99,16 +99,18 @@ public class UserInfoInput extends Activity {
                 }
             }
 
-            lTiming += 2000;
-            final String fTasks = lTasks;
-            new android.os.Handler().postDelayed(
-                    new Runnable() {
-                        public void run() {
-                            lSelf.createConversationStatementToDashboardEvent(priScriptManager.CreateTaskNotification(fTasks, true), true);
-                        }
-                    },
-                    lTiming
-            );
+            if (lComingTask.size() > 0) {
+                lTiming += 2000;
+                final String fTasks = lTasks;
+                new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                lSelf.createConversationStatementToDashboardEvent(priScriptManager.CreateTaskNotification(fTasks, true), true);
+                            }
+                        },
+                        lTiming
+                );
+            }
 
             if (lHasPayTask) {
                 lTiming += 2000;
