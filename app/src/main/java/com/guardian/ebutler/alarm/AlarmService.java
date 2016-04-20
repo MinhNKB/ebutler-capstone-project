@@ -83,12 +83,12 @@ public class AlarmService extends Service
                 }
             }
 
-            Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.HOUR, 8);
-            cal.set(Calendar.MINUTE, 0);
-            cal.set(Calendar.SECOND, 0);
-            Alarm alarm = new Alarm();
-            alarm.SetAlarm(this, cal.getTimeInMillis(), getDateDuration());
+//            Calendar cal = Calendar.getInstance();
+//            cal.set(Calendar.HOUR, 8);
+//            cal.set(Calendar.MINUTE, 0);
+//            cal.set(Calendar.SECOND, 0);
+//            Alarm alarm = new Alarm();
+//            alarm.SetAlarm(this, cal.getTimeInMillis(), getDateDuration());
 
         }
         catch (Exception ex){

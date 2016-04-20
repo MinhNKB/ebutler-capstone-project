@@ -116,7 +116,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
             this.setCustomExpandableListViewListeners();
         }
         catch (Exception ex){
-            ex.printStackTrace();
+            Log.w("wel", ex.toString());
         }
     }
 
@@ -292,8 +292,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
 
     public void initCustomListView()
     {
-        try
-        {
+        try {
             DatabaseHelper iHelper = new DatabaseHelper(this);
             this.priTaskList = iHelper.GetAllTasks();
             this.performSort();
@@ -301,7 +300,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
             this.setCustomListViewListeners();
         }
         catch (Exception ex){
-            ex.printStackTrace();
+            Log.w("wel", ex.toString());
         }
     }
 
