@@ -3,6 +3,7 @@ package com.guardian.ebutler.fragments.answers;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
@@ -70,15 +71,15 @@ public class TimeFragment extends AbstractAnswerFragment {
         TimePicker lTimePicker = (TimePicker)(view.findViewById(R.id.fragment_time_TimePicker));
         int lMinute, lHour;
         Calendar lCalendar = Calendar.getInstance();
-        if (priDefaultValue == null || priDefaultValue.size() < 2) {
+        if (priDefaultValue == null || priDefaultValue.size() < 1) {
             lHour = lCalendar.get(Calendar.HOUR_OF_DAY);
         } else {
-            lHour = Integer.parseInt(priDefaultValue.get(1));
+            lHour = Integer.parseInt(priDefaultValue.get(0));
         }
         if (priDefaultValue == null || priDefaultValue.size() < 2) {
             lMinute = lCalendar.get(Calendar.MINUTE);
         } else {
-            lMinute = Integer.parseInt(priDefaultValue.get(0)) - 1;
+            lMinute = Integer.parseInt(priDefaultValue.get(1));
         }
         DateTimeHelper.setTimeToTimePicker(lTimePicker, lHour, lMinute);
 
