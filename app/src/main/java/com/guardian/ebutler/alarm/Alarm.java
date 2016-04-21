@@ -21,6 +21,7 @@ import com.guardian.ebutler.ebutler.Dashboard;
 import com.guardian.ebutler.ebutler.R;
 import com.guardian.ebutler.ebutler.UserInfoInput;
 
+import java.util.Date;
 import java.util.List;
 
 public class Alarm extends BroadcastReceiver
@@ -71,7 +72,7 @@ public class Alarm extends BroadcastReceiver
         Intent i = new Intent(context, Alarm.class);
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
         am.set(AlarmManager.RTC_WAKEUP, iStartTime, pi);
-        Log.w("wel", "set one time alarm");
+        Log.w("wel", "set one time alarm at " + (new Date(iStartTime)).toString());
     }
 
     public void SetAlarm(Context context, long iStartTime, long iRepeatTime) {

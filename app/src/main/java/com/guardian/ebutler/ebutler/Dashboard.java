@@ -179,7 +179,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
                 long lRemainingTime = lTask.pubTime.getTime() - lCurrentDate.getTime();
                 long hours = TimeUnit.MILLISECONDS.toHours(lRemainingTime);
                 long days = hours/24;
-                if (days <= 7 && days > 0)
+                if (days <= 7 && days >= 0)
                     lThisWeek.add(lTask);
                 else
                     lRemain.add(lTask);
@@ -354,6 +354,8 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
         this.priImageButtonViewType.setImageResource(this.priIsCalendarView == true ? R.mipmap.ic_list : R.mipmap.ic_date_range);
         if (iIsCalendarView == true)
             this.priCustomExpandableListView.setVisibility(View.GONE);
+        else if (priIsSearchView == false)
+            this.priCustomExpandableListView.setVisibility(View.VISIBLE);
         this.priLinearLayoutCalendarView.setVisibility(this.priIsCalendarView == true ? View.VISIBLE : View.GONE);
     }
 
