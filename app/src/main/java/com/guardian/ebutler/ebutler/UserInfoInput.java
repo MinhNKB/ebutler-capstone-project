@@ -93,7 +93,8 @@ public class UserInfoInput extends Activity {
             List<Task> lComingTask = lHelper.GetComingTasks();
             String lTasks = "";
             for (Task lTask : lComingTask) {
-                lTasks += " - " + lTask.pubName + " lúc " + DateTimeHelper.getDateStringFromDate(lTask.pubTime) + "<br/>";
+                String lDisplayName = lTask.pubName.length() > 0 ? lTask.pubName : "Chưa đặt tên";
+                        lTasks += " - " + lDisplayName + " lúc " + DateTimeHelper.getDateStringFromDate(lTask.pubTime) + "<br/>";
                 if (CustomListAdapter.normalizeVietnameseString(lTask.pubName).toLowerCase().contains("dong tien")) {
                     lHasPayTask = true;
                 }
