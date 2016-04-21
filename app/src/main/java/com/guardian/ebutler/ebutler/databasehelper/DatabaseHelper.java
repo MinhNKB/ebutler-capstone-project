@@ -266,7 +266,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public List<Task> GetComingTasks() {
         String[] columns = new String[] {"Name", "Time", "Priority", "Status"};
-        Cursor lCursor = this.getWritableDatabase().query("Task", columns, null, null, null, null, "Time DESC LIMIT 3");
+        Cursor lCursor = this.getWritableDatabase().query("Task", columns, "TaskType = ? OR TaskType = ?", new String[]{"OneTimeReminder", "PeriodicReminder"}, null, null, "Time DESC LIMIT 3");
         List<Task> lResult = new ArrayList<Task>();
         int lNameIndex = lCursor.getColumnIndex("Name");
         int lTimeIndex = lCursor.getColumnIndex("Time");
