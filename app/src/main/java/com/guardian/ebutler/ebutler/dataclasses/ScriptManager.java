@@ -226,10 +226,12 @@ public class ScriptManager {
             Task lNewTask = new Task();
 
             lNewTask.pubName = iTaskSuggestionInformation.pubTaskName;
+            lNewTask.pubLocation = new ArrayList<Location>();
             lNewTask.pubTime = lInputDate;
             lNewTask.pubStatus = Status.Pending;
             lNewTask.pubPriority = Priority.Normal;
             lNewTask.pubTaskType = TaskType.OneTimeReminder;
+            lNewTask.pubRepeat = "Không lặp lại";
             return lNewTask;
         } catch (ParseException e) {
             Log.w("ScriptManager",e.getMessage());

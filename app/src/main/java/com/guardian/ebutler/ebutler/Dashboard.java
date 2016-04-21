@@ -116,7 +116,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
             this.setCustomExpandableListViewListeners();
         }
         catch (Exception ex){
-            ex.printStackTrace();
+            Log.w("wel", ex.toString());
         }
     }
 
@@ -292,8 +292,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
 
     public void initCustomListView()
     {
-        try
-        {
+        try {
             DatabaseHelper iHelper = new DatabaseHelper(this);
             this.priTaskList = iHelper.GetAllTasks();
             this.performSort();
@@ -301,7 +300,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
             this.setCustomListViewListeners();
         }
         catch (Exception ex){
-            ex.printStackTrace();
+            Log.w("wel", ex.toString());
         }
     }
 
@@ -353,7 +352,8 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
     private void switchView(boolean iIsCalendarView) {
         this.priIsCalendarView = iIsCalendarView;
         this.priImageButtonViewType.setImageResource(this.priIsCalendarView == true ? R.mipmap.ic_list : R.mipmap.ic_date_range);
-        this.priCustomExpandableListView.setVisibility(this.priIsCalendarView == true ? View.GONE : View.VISIBLE);
+        if (iIsCalendarView == true)
+            this.priCustomExpandableListView.setVisibility(View.GONE);
         this.priLinearLayoutCalendarView.setVisibility(this.priIsCalendarView == true ? View.VISIBLE : View.GONE);
     }
 
@@ -404,6 +404,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
     public static String getThirdLine(Task lTask) {
         String lThirdLine = null;
         switch (lTask.pubTaskType) {
+            case PeriodicReminder:
             case OneTimeReminder:
                 if (lTask.pubLocation != null){
                     lThirdLine = "";
@@ -446,6 +447,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
     public static String getSecondLine(Task lTask) {
         String lSecondLine = null;
         switch (lTask.pubTaskType) {
+            case PeriodicReminder:
             case OneTimeReminder:
                 if (lTask.pubTime == null)
                     lSecondLine = "Không có thời gian";

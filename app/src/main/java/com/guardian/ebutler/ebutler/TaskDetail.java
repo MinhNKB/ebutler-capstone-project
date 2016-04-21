@@ -4,18 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import java.util.ArrayList;
-import android.widget.Toast;
 
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
-import com.guardian.ebutler.ebutler.dataclasses.Location;
 import com.guardian.ebutler.ebutler.dataclasses.Priority;
 import com.guardian.ebutler.ebutler.dataclasses.Status;
 import com.guardian.ebutler.ebutler.dataclasses.Task;
@@ -74,6 +70,10 @@ public class TaskDetail extends Activity {
                 break;
             case OneTimeReminder:
                 priTaskFragment = AlarmFragment.newInstance();
+                break;
+            case PeriodicReminder:
+                priTaskFragment = AlarmFragment.newInstance();
+                break;
             default:
                 break;
         }
@@ -96,8 +96,8 @@ public class TaskDetail extends Activity {
                 DatabaseHelper iHelper = new DatabaseHelper(priThis);
                 priTask.pubName = priEditTextTaskName.getText().toString();
                 priTask.pubStatus = Status.Pending;
-                if (priTask.pubCategory == null || priTask.pubCategory.equals(""))
-                    priTask.pubCategory = "Khác";
+                if (priTask.pubRepeat == null || priTask.pubRepeat.equals(""))
+                    priTask.pubRepeat = "Khác";
                 priTask.pubPriority = Priority.Important;
                 priTaskFragment.getValues(priTask);
                 if (Global.getInstance().pubSelectedTask == null)

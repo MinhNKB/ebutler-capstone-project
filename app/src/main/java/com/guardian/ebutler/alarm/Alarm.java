@@ -3,11 +3,13 @@ package com.guardian.ebutler.alarm;
 /**
  * Created by Duy on 4/14/2016.
  */
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
@@ -17,6 +19,9 @@ import android.util.Log;
 
 import com.guardian.ebutler.ebutler.Dashboard;
 import com.guardian.ebutler.ebutler.R;
+import com.guardian.ebutler.ebutler.UserInfoInput;
+
+import java.util.List;
 
 public class Alarm extends BroadcastReceiver
 {
@@ -28,9 +33,16 @@ public class Alarm extends BroadcastReceiver
         PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
         wl.acquire();
 
-        createNotification(context, "eBulter", "Bạn có thông báo mới!!!");
-
+        if (isForeground("com.guardian.ebutler.alarm", context) == false)
+            createNotification(context, "eBulter", "Bạn có thông báo mới!!!");
         wl.release();
+    }
+
+    public boolean isForeground(String myPackage, Context context) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> runningTaskInfo = manager.getRunningTasks(1);
+        ComponentName componentInfo = runningTaskInfo.get(0).topActivity;
+        return componentInfo.getPackageName().equals(myPackage);
     }
 
     private void createNotification(Context context, String title, String content) {
@@ -42,7 +54,7 @@ public class Alarm extends BroadcastReceiver
         mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
         long[] pattern = {10000};
         mBuilder.setVibrate(pattern);
-        Intent resultIntent = new Intent(context, Dashboard.class);
+        Intent resultIntent = new Intent(context, UserInfoInput.class);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addParentStack(Dashboard.class);
@@ -59,7 +71,7 @@ public class Alarm extends BroadcastReceiver
         Intent i = new Intent(context, Alarm.class);
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
         am.set(AlarmManager.RTC_WAKEUP, iStartTime, pi);
-        Log.w("wel", "set one time");
+        Log.w("wel", "set one time alarm");
     }
 
     public void SetAlarm(Context context, long iStartTime, long iRepeatTime) {
@@ -67,6 +79,8 @@ public class Alarm extends BroadcastReceiver
         Intent i = new Intent(context, Alarm.class);
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
         am.setRepeating(AlarmManager.RTC_WAKEUP, iStartTime, iRepeatTime, pi);
+        Log.w("wel", "set repeatable alarm");
+        Log.w("wel", String.valueOf(iStartTime) + "/" + String.valueOf(iRepeatTime));
     }
 
     public void CancelAlarm(Context context) {
