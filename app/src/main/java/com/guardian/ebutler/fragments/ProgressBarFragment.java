@@ -153,10 +153,10 @@ public class ProgressBarFragment extends Fragment {
     }
 
     private void setPercentages() {
-        setPercentage(0, R.id.progress_bar_firstBubble);
-        setPercentage(25, R.id.progress_bar_secondBubble);
-        setPercentage(50, R.id.progress_bar_thirdBubble);
-        setPercentage(75, R.id.progress_bar_forthBubble);
+        setPercentage(20, R.id.progress_bar_firstBubble);
+        setPercentage(40, R.id.progress_bar_secondBubble);
+        setPercentage(60, R.id.progress_bar_thirdBubble);
+        setPercentage(80, R.id.progress_bar_forthBubble);
         setPercentage(100, R.id.progress_bar_fifthBubble);
     }
 
