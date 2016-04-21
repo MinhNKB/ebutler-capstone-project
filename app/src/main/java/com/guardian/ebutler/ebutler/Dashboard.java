@@ -550,6 +550,11 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
             switchToSearchView(false);
             return;
         }
+        else if (priIsCalendarView == true){
+            switchView(false);
+            return;
+        }
+
         Intent setIntent = new Intent(this, UserInfoInput.class);
         setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(setIntent);
