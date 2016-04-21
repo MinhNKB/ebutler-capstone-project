@@ -55,7 +55,7 @@ public class Alarm extends BroadcastReceiver
         mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
         long[] pattern = {10000};
         mBuilder.setVibrate(pattern);
-        Intent resultIntent = new Intent(context, UserInfoInput.class);
+        Intent resultIntent = new Intent(context, Dashboard.class);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addParentStack(Dashboard.class);
