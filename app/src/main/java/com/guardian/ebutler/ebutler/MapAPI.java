@@ -39,6 +39,7 @@ public class MapAPI extends FragmentActivity implements OnMapReadyCallback, Goog
     private ImageButton priButtonCancel;
     private ImageButton priButtonMyLocation;
     private TextView priLocationAddressTextView;
+    private LatLng priCurrentCoordinates = null;
     private HashMap<Marker, com.guardian.ebutler.ebutler.dataclasses.Location> priMarkerLocationMap;
     private com.guardian.ebutler.ebutler.dataclasses.Location priCurrentLocation = null;
     private boolean priIsMarkerClicked = false;
@@ -74,7 +75,9 @@ public class MapAPI extends FragmentActivity implements OnMapReadyCallback, Goog
         priButtonMyLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (priCurrentCoordinates != null) {
+                    priMap.moveCamera(CameraUpdateFactory.newLatLng(priCurrentCoordinates));
+                }
             }
         });
     }
@@ -94,40 +97,35 @@ public class MapAPI extends FragmentActivity implements OnMapReadyCallback, Goog
     }
 
     private void setupViewLocation() {
-        final LocationManager lLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        final String lLocationProvider = LocationManager.NETWORK_PROVIDER;
+        LocationManager lLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        String lLocationProvider = LocationManager.NETWORK_PROVIDER;
         if ( ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
 
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
         }
         if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION ) == PackageManager.PERMISSION_GRANTED) {
-            new Thread(){
+            lLocationManager.requestSingleUpdate(lLocationProvider, new LocationListener() {
                 @Override
-                public void run() throws SecurityException {
-                    lLocationManager.requestSingleUpdate(lLocationProvider, new LocationListener() {
-                        @Override
-                        public void onLocationChanged(Location location) {
-                            LatLng lCoordinates = new LatLng(location.getLatitude(), location.getLongitude());
-                            priMap.moveCamera(CameraUpdateFactory.newLatLng(lCoordinates));
-                        }
-
-                        @Override
-                        public void onStatusChanged(String provider, int status, Bundle extras) {
-                            Log.w("tab", Integer.toString(status));
-                        }
-
-                        @Override
-                        public void onProviderEnabled(String provider) {
-                            Log.w("tab", provider);
-                        }
-
-                        @Override
-                        public void onProviderDisabled(String provider) {
-                            Toast.makeText(priThis, "GPS đã bị vô hiệu hóa",Toast.LENGTH_LONG).show();
-                        }
-                    }, null);
+                public void onLocationChanged(Location location) {
+                    priCurrentCoordinates = new LatLng(location.getLatitude(), location.getLongitude());
+                    priMap.moveCamera(CameraUpdateFactory.newLatLng(priCurrentCoordinates));
                 }
-            }.run();
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+                    Log.w("tab", Integer.toString(status));
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+                    Log.w("tab", provider);
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+                    Toast.makeText(priThis, "GPS đã bị vô hiệu hóa",Toast.LENGTH_LONG).show();
+                }
+            }, null);
         }
     }
 

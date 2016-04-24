@@ -69,11 +69,11 @@
             android:layout_width="@dimen/taskbar_iconSize"
             android:layout_height="match_parent"
             android:background="@drawable/blue_button"
-            android:src="@mipmap/ic_delete_white"
-            android:contentDescription="@string/map_location_textButtonDelete"
+            android:src="@mipmap/ic_my_location"
+            android:contentDescription="@string/map_location_textButtonMyLocation"
             android:layout_centerVertical="true"
             android:layout_centerInParent="true"
-            android:id="@+id/map_location_buttonDelete"
+            android:id="@+id/map_location_buttonMyLocation"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true" />
         <ImageButton
