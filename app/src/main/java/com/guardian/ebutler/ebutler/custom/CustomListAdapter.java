@@ -149,7 +149,7 @@ public class CustomListAdapter extends BaseAdapter implements Filterable{
                 List<CustomListItem> lFounded = new ArrayList<CustomListItem>();
                 for (CustomListItem item: (List<CustomListItem>) lResult.values
                      ) {
-                    if (this.priFilters[0] == true && item.pubTaskType != null && item.pubTaskType == TaskType.OneTimeReminder){
+                    if (this.priFilters[0] == true && item.pubTaskType != null && (item.pubTaskType == TaskType.OneTimeReminder || item.pubTaskType == TaskType.PeriodicReminder) ){
                         lFounded.add(item);
                         continue;
                     }
