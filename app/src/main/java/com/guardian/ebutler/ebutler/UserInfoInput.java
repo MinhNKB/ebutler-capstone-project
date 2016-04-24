@@ -2,9 +2,11 @@ package com.guardian.ebutler.ebutler;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,6 +37,8 @@ import com.guardian.ebutler.fragments.answers.TimeSpanFragment;
 import com.guardian.ebutler.fragments.answers.YesNoFragment;
 import com.guardian.ebutler.timehelper.DateTimeHelper;
 import com.guardian.ebutler.world.Global;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -203,7 +207,7 @@ public class UserInfoInput extends Activity {
             try{
                 this.createConversationStatement(this.priAnwserFragmentInterface.getChatStatement(), false);
                 this.clearAnswer();
-                Task lNewTask = this.priScriptManager.AnwserQuestion(this.priAnwserFragmentInterface.getValues());
+                Task lNewTask = this.priScriptManager.AnswerQuestion(this.priAnwserFragmentInterface.getValues());
                 if(lNewTask!=null) {
                     DatabaseHelper lHelper = DatabaseHelper.getInstance(null);
                     lHelper.InsertATask(lNewTask);
@@ -211,7 +215,7 @@ public class UserInfoInput extends Activity {
                 this.showQuestion();
             }
             catch (Exception ex){
-                showToast(ex.getMessage());
+                ex.printStackTrace();
                 return;
             }
         } else {
@@ -233,7 +237,7 @@ public class UserInfoInput extends Activity {
                     }
                 }
             } catch (Exception ex) {
-                showToast(ex.getMessage());
+                ex.printStackTrace();
                 return;
             }
         }
@@ -446,7 +450,7 @@ public class UserInfoInput extends Activity {
     }
 
     public void buttonClear_onClick(View view){
-//        this.priScriptManager.AnwserQuestion(this.priAnwserFragmentInterface == null ?
+//        this.priScriptManager.AnswerQuestion(this.priAnwserFragmentInterface == null ?
 //                null : this.priAnwserFragmentInterface.getValues());
 //        this.priIsFinishedAsking = true;
 //        updateProgressBar();
@@ -454,7 +458,7 @@ public class UserInfoInput extends Activity {
 //        this.showFinishMessage();
 //        this.switchTaskbarToLightTheme(false);
         if(!priIsFinishedAsking) {
-            this.priScriptManager.AnwserQuestion(null);
+            this.priScriptManager.AnswerQuestion(null);
 //            this.priIsFinishedAsking = true;
             updateProgressBar();
             this.createConversationStatement(getResources().getString(R.string.user_info_denyAQuestion), false);

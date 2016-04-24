@@ -1,20 +1,22 @@
 package com.guardian.ebutler.ebutler.dataclasses;
 
 import android.content.Context;
+import android.os.Build;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.util.Log;
 
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
-import com.guardian.ebutler.timehelper.DateTimeHelper;
 
+import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -95,7 +97,7 @@ public class ScriptManager {
 //            lLastDateAsked.pubValue = dateFormat.format(date);
 //            lLastDateAsked.pubType = "Date";
 //            lTemp.add(lLastDateAsked);
-//            lDBHelper.InsertUserInformations(lTemp);
+//            lDBHelper.InsertOrReplaceUserInformations(lTemp);
 //        }
 //        {
 //            if(lLastDateAsked.pubValue.equals(dateFormat.format(date)))
@@ -176,13 +178,13 @@ public class ScriptManager {
         return null;
     }
 
-    public Task AnwserQuestion(List<Condition> iNewInformation)
+    public Task AnswerQuestion(List<Condition> iNewInformation)
     {
         DatabaseHelper lHelper = DatabaseHelper.getInstance(null);
         priCurrentQuestion.pubIsAsked = true;
         lHelper.UpdateAQuestion(priCurrentQuestion);
-        if(iNewInformation!=null) {
-            lHelper.InsertUserInformations(iNewInformation);
+        if(iNewInformation != null) {
+            lHelper.InsertOrReplaceUserInformations(iNewInformation);
             if(iNewInformation.size()==1 && iNewInformation.get(0).pubType=="Date")
             {
                 if(priTaskSuggestions.containsKey(iNewInformation.get(0).pubConditionName))

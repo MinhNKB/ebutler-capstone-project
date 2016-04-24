@@ -461,7 +461,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return lResult;
     }
 
-    public void InsertUserInformations(List<Condition> iNewInformation) {
+    public void InsertOrReplaceUserInformations(List<Condition> iNewInformation) {
         try {
             SQLiteDatabase lDB = this.getWritableDatabase();
             for(int i =0;i<iNewInformation.size();i++) {
@@ -470,13 +470,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 lValues.put("PropertyName", lInformation.pubConditionName);
                 lValues.put("Value", lInformation.pubValue);
                 lValues.put("Type", lInformation.pubType);
+                lDB.delete("UserInformation", "PropertyName=?", new String[]{lInformation.pubConditionName});
                 lDB.insert("UserInformation", null, lValues);
             }
             lDB.close();
         }
         catch(Exception ex)
         {
-            Log.w("DatabseHelper", ex.getMessage());
+            Log.w("DatabaseHelper", ex.getMessage());
 
         }
     }
