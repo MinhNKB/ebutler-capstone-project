@@ -78,6 +78,7 @@ public class Global {
 
     public int getTaskTypeDrawable(Task iTask) {
         switch (iTask.pubTaskType){
+            case PeriodicReminder:
             case OneTimeReminder:
                 return R.mipmap.ic_alarm;
             case CheckList:
