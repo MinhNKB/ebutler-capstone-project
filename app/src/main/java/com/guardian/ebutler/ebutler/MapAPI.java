@@ -27,7 +27,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 import com.guardian.ebutler.maphelper.MapHelper;
 
 import java.util.HashMap;
@@ -38,6 +37,7 @@ public class MapAPI extends FragmentActivity implements OnMapReadyCallback, Goog
     private GoogleMap priMap;
     private MapAPI priThis;
     private ImageButton priButtonCancel;
+    private ImageButton priButtonMyLocation;
     private TextView priLocationAddressTextView;
     private HashMap<Marker, com.guardian.ebutler.ebutler.dataclasses.Location> priMarkerLocationMap;
     private com.guardian.ebutler.ebutler.dataclasses.Location priCurrentLocation = null;
@@ -71,11 +71,18 @@ public class MapAPI extends FragmentActivity implements OnMapReadyCallback, Goog
                 navigateBack();
             }
         });
+        priButtonMyLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private void findViewByIds() {
         priButtonCancel = (ImageButton)findViewById(R.id.map_api_buttonCancel);
         priLocationAddressTextView = (TextView) findViewById(R.id.map_api_locationAddress);
+        priButtonMyLocation = (ImageButton)findViewById(R.id.map_api_myLocation);
     }
 
     @Override
