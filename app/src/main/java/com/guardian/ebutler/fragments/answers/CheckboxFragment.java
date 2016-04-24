@@ -1,5 +1,6 @@
 package com.guardian.ebutler.fragments.answers;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -10,6 +11,8 @@ import android.widget.LinearLayout;
 import com.guardian.ebutler.ebutler.R;
 import com.guardian.ebutler.ebutler.dataclasses.Condition;
 import com.guardian.ebutler.resourcehelper.EnumDisplayStringHelper;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -49,11 +52,11 @@ public class CheckboxFragment extends AbstractAnswerFragment {
     public static CheckboxFragment newInstance(ArrayList<String> rConditionList, ArrayList<String> rEnumList, ArrayList<String> rDefaultValue) {
         CheckboxFragment fragment = new CheckboxFragment();
         Bundle args = new Bundle();
+
         args.putSerializable(ARG_PARAM1, rConditionList);
         args.putSerializable(ARG_PARAM2, rEnumList);
         args.putSerializable(ARG_PARAM3, rDefaultValue);
         fragment.setArguments(args);
-
 
         return fragment;
     }
@@ -72,6 +75,7 @@ public class CheckboxFragment extends AbstractAnswerFragment {
     public String getChatStatement() {
         String lReturnValue = "";
         Boolean lFirstAnswer = true;
+
         for (String lOptionName :
                 priOptionNameList) {
             if (((CheckBox) getView().findViewWithTag(lOptionName)).isChecked()) {
@@ -106,11 +110,13 @@ public class CheckboxFragment extends AbstractAnswerFragment {
 
     public ArrayList<Condition> getValues() {
         ArrayList<Condition> lReturnValues = new ArrayList<>();
+
         int index = 0;
         for (String lConditionName :
                 priConditionList) {
             String lOptionName = priOptionNameList.get(index);
             ++index;
+
             Condition lReturnValue = new Condition();
             lReturnValue.pubConditionName = lConditionName;
             lReturnValue.pubType = "Boolean";

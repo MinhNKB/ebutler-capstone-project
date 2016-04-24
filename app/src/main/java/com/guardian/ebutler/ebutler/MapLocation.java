@@ -47,13 +47,14 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback,
     private GoogleMap priMap;
     private Context priThis;
     private ImageButton priButtonCancel;
-    private ImageButton priButtonDelete;
+    private ImageButton priButtonMyLocation;
     private ImageButton priButtonDone;
     private TextView priLocationAddressTextView;
+    private LatLng priCurrentCoordinates = null;
     private HashMap<Marker, com.guardian.ebutler.ebutler.dataclasses.Location> priMarkerLocationMap;
     private com.guardian.ebutler.ebutler.dataclasses.Location priCurrentLocation = null;
     private boolean priIsMarkerClicked = false;
-    final private float MIN_ZOOM = 12;
+    final private float MIN_ZOOM = (float) 13.75;
     final public static int PERMISSION_REQUEST_CODE = 1;
 
     @Override
@@ -86,10 +87,12 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback,
             }
         });
 
-        priButtonDelete.setOnClickListener(new View.OnClickListener() {
+        priButtonMyLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: delete Location here
+                if (priCurrentCoordinates != null) {
+                    priMap.moveCamera(CameraUpdateFactory.newLatLng(priCurrentCoordinates));
+                }
             }
         });
 
@@ -150,7 +153,7 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback,
 
     private void findViewByIds() {
         priButtonCancel = (ImageButton)findViewById(R.id.map_location_buttonCancel);
-        priButtonDelete = (ImageButton)findViewById(R.id.map_location_buttonDelete);
+        priButtonMyLocation = (ImageButton)findViewById(R.id.map_location_buttonMyLocation);
         priButtonDone = (ImageButton)findViewById(R.id.map_location_buttonDone);
         priLocationAddressTextView = (TextView) findViewById(R.id.map_location_locationAddress);
     }
@@ -174,8 +177,8 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback,
             lLocationManager.requestSingleUpdate(lLocationProvider, new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
-                    LatLng lCoordinates = new LatLng(location.getLatitude(), location.getLongitude());
-                    priMap.moveCamera(CameraUpdateFactory.newLatLng(lCoordinates));
+                    priCurrentCoordinates = new LatLng(location.getLatitude(), location.getLongitude());
+                    priMap.moveCamera(CameraUpdateFactory.newLatLng(priCurrentCoordinates));
                 }
 
                 @Override

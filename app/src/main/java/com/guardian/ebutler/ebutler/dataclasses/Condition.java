@@ -8,4 +8,7 @@ public class Condition {
     public String pubType;
     public String pubValue;
 
+    public Condition () {
+
+    }
 }

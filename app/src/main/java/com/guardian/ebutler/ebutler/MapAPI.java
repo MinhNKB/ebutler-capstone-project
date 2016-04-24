@@ -27,7 +27,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 import com.guardian.ebutler.maphelper.MapHelper;
 
 import java.util.HashMap;
@@ -38,7 +37,9 @@ public class MapAPI extends FragmentActivity implements OnMapReadyCallback, Goog
     private GoogleMap priMap;
     private MapAPI priThis;
     private ImageButton priButtonCancel;
+    private ImageButton priButtonMyLocation;
     private TextView priLocationAddressTextView;
+    private LatLng priCurrentCoordinates = null;
     private HashMap<Marker, com.guardian.ebutler.ebutler.dataclasses.Location> priMarkerLocationMap;
     private com.guardian.ebutler.ebutler.dataclasses.Location priCurrentLocation = null;
     private boolean priIsMarkerClicked = false;
@@ -71,11 +72,20 @@ public class MapAPI extends FragmentActivity implements OnMapReadyCallback, Goog
                 navigateBack();
             }
         });
+        priButtonMyLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (priCurrentCoordinates != null) {
+                    priMap.moveCamera(CameraUpdateFactory.newLatLng(priCurrentCoordinates));
+                }
+            }
+        });
     }
 
     private void findViewByIds() {
         priButtonCancel = (ImageButton)findViewById(R.id.map_api_buttonCancel);
         priLocationAddressTextView = (TextView) findViewById(R.id.map_api_locationAddress);
+        priButtonMyLocation = (ImageButton)findViewById(R.id.map_api_myLocation);
     }
 
     @Override
@@ -97,8 +107,8 @@ public class MapAPI extends FragmentActivity implements OnMapReadyCallback, Goog
             lLocationManager.requestSingleUpdate(lLocationProvider, new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
-                    LatLng lCoordinates = new LatLng(location.getLatitude(), location.getLongitude());
-                    priMap.moveCamera(CameraUpdateFactory.newLatLng(lCoordinates));
+                    priCurrentCoordinates = new LatLng(location.getLatitude(), location.getLongitude());
+                    priMap.moveCamera(CameraUpdateFactory.newLatLng(priCurrentCoordinates));
                 }
 
                 @Override
@@ -131,13 +141,9 @@ public class MapAPI extends FragmentActivity implements OnMapReadyCallback, Goog
                 } else {
                     priCurrentLocation = null;
                 }
-                String lNearbyAddress = getAddress(cameraPosition.target.latitude, cameraPosition.target.longitude);
-                if (lNearbyAddress.length() > 0) {
-                    priLocationAddressTextView.setText(lNearbyAddress);
-                    priLocationAddressTextView.setVisibility(View.VISIBLE);
-                } else {
-                    priLocationAddressTextView.setVisibility(View.GONE);
-                }
+
+                setupAddressCallback(cameraPosition.target.latitude, cameraPosition.target.longitude);
+
                 if (cameraPosition.zoom < MIN_ZOOM)
                     priMap.animateCamera(CameraUpdateFactory.zoomTo(MIN_ZOOM));
             }
@@ -145,33 +151,44 @@ public class MapAPI extends FragmentActivity implements OnMapReadyCallback, Goog
         priMap.setOnMarkerClickListener(this);
     }
 
-    private String getAddress(Double iLatitude, Double iLongitude) {
-        Geocoder lGeocoder = new Geocoder(this, Locale.ENGLISH);
-        String lReturnValue = "";
-        List<Address> lAddresses = null;
-        try {
-            lAddresses = lGeocoder.getFromLocation(iLatitude, iLongitude, 1);
-            if (lAddresses.size() > 0) {
-                Address lReturnedAddress = lAddresses.get(0);
-                for (int i = 0; i < lReturnedAddress.getMaxAddressLineIndex(); i++) {
-                    lReturnValue += lReturnedAddress.getAddressLine(i);
-                    if (i + 1 < lReturnedAddress.getMaxAddressLineIndex()) {
-                        lReturnValue += ", ";
+    private void setupAddressCallback(final Double iLatitude, final Double iLongitude) {
+        final Context priThis = this;
+        new Thread(){
+            @Override
+            public void run() {
+                Geocoder lGeocoder = new Geocoder(priThis, Locale.ENGLISH);
+                String lReturnValue = "";
+                List<Address> lAddresses = null;
+                try {
+                    lAddresses = lGeocoder.getFromLocation(iLatitude, iLongitude, 1);
+                    if (lAddresses.size() > 0) {
+                        Address lReturnedAddress = lAddresses.get(0);
+                        for (int i = 0; i < lReturnedAddress.getMaxAddressLineIndex(); i++) {
+                            lReturnValue += lReturnedAddress.getAddressLine(i);
+                            if (i + 1 < lReturnedAddress.getMaxAddressLineIndex()) {
+                                lReturnValue += ", ";
+                            }
+                        }
                     }
+                    if (lReturnValue.length() > 0) {
+                        priLocationAddressTextView.setText(lReturnValue);
+                        priLocationAddressTextView.setVisibility(View.VISIBLE);
+                    } else {
+                        priLocationAddressTextView.setVisibility(View.GONE);
+                    }
+                } catch (Exception e) {
+                    Log.e("tab", "Error getting address");
+                    e.printStackTrace();
                 }
             }
-        } catch (Exception e) {
-            Log.e("tab", "Error getting address");
-            e.printStackTrace();
-        }
-        return lReturnValue;
+        }.run();
     }
 
     private void setupMarkers() {
         MapHelper.getInstance(priThis).getNearbyATM(priThis);
     }
 
-    public void onMapAPILoaded() {
+    public synchronized void onMapAPILoaded() {
         List<com.guardian.ebutler.ebutler.dataclasses.Location> lLocations = MapHelper.getInstance(priThis).nearbyATMs;
         priMarkerLocationMap = new HashMap<>();
         for (com.guardian.ebutler.ebutler.dataclasses.Location lLocation : lLocations) {
