@@ -27,7 +27,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 import com.guardian.ebutler.maphelper.MapHelper;
 
 import java.util.HashMap;
@@ -87,35 +86,40 @@ public class MapAPI extends FragmentActivity implements OnMapReadyCallback, Goog
     }
 
     private void setupViewLocation() {
-        LocationManager lLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        String lLocationProvider = LocationManager.NETWORK_PROVIDER;
+        final LocationManager lLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        final String lLocationProvider = LocationManager.NETWORK_PROVIDER;
         if ( ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
 
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
         }
         if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION ) == PackageManager.PERMISSION_GRANTED) {
-            lLocationManager.requestSingleUpdate(lLocationProvider, new LocationListener() {
+            new Thread(){
                 @Override
-                public void onLocationChanged(Location location) {
-                    LatLng lCoordinates = new LatLng(location.getLatitude(), location.getLongitude());
-                    priMap.moveCamera(CameraUpdateFactory.newLatLng(lCoordinates));
-                }
+                public void run() throws SecurityException {
+                    lLocationManager.requestSingleUpdate(lLocationProvider, new LocationListener() {
+                        @Override
+                        public void onLocationChanged(Location location) {
+                            LatLng lCoordinates = new LatLng(location.getLatitude(), location.getLongitude());
+                            priMap.moveCamera(CameraUpdateFactory.newLatLng(lCoordinates));
+                        }
 
-                @Override
-                public void onStatusChanged(String provider, int status, Bundle extras) {
-                    Log.w("tab", Integer.toString(status));
-                }
+                        @Override
+                        public void onStatusChanged(String provider, int status, Bundle extras) {
+                            Log.w("tab", Integer.toString(status));
+                        }
 
-                @Override
-                public void onProviderEnabled(String provider) {
-                    Log.w("tab", provider);
-                }
+                        @Override
+                        public void onProviderEnabled(String provider) {
+                            Log.w("tab", provider);
+                        }
 
-                @Override
-                public void onProviderDisabled(String provider) {
-                    Toast.makeText(priThis, "GPS đã bị vô hiệu hóa",Toast.LENGTH_LONG).show();
+                        @Override
+                        public void onProviderDisabled(String provider) {
+                            Toast.makeText(priThis, "GPS đã bị vô hiệu hóa",Toast.LENGTH_LONG).show();
+                        }
+                    }, null);
                 }
-            }, null);
+            }.run();
         }
     }
 
@@ -131,13 +135,9 @@ public class MapAPI extends FragmentActivity implements OnMapReadyCallback, Goog
                 } else {
                     priCurrentLocation = null;
                 }
-                String lNearbyAddress = getAddress(cameraPosition.target.latitude, cameraPosition.target.longitude);
-                if (lNearbyAddress.length() > 0) {
-                    priLocationAddressTextView.setText(lNearbyAddress);
-                    priLocationAddressTextView.setVisibility(View.VISIBLE);
-                } else {
-                    priLocationAddressTextView.setVisibility(View.GONE);
-                }
+
+                setupAddressCallback(cameraPosition.target.latitude, cameraPosition.target.longitude);
+
                 if (cameraPosition.zoom < MIN_ZOOM)
                     priMap.animateCamera(CameraUpdateFactory.zoomTo(MIN_ZOOM));
             }
@@ -145,33 +145,44 @@ public class MapAPI extends FragmentActivity implements OnMapReadyCallback, Goog
         priMap.setOnMarkerClickListener(this);
     }
 
-    private String getAddress(Double iLatitude, Double iLongitude) {
-        Geocoder lGeocoder = new Geocoder(this, Locale.ENGLISH);
-        String lReturnValue = "";
-        List<Address> lAddresses = null;
-        try {
-            lAddresses = lGeocoder.getFromLocation(iLatitude, iLongitude, 1);
-            if (lAddresses.size() > 0) {
-                Address lReturnedAddress = lAddresses.get(0);
-                for (int i = 0; i < lReturnedAddress.getMaxAddressLineIndex(); i++) {
-                    lReturnValue += lReturnedAddress.getAddressLine(i);
-                    if (i + 1 < lReturnedAddress.getMaxAddressLineIndex()) {
-                        lReturnValue += ", ";
+    private void setupAddressCallback(final Double iLatitude, final Double iLongitude) {
+        final Context priThis = this;
+        new Thread(){
+            @Override
+            public void run() {
+                Geocoder lGeocoder = new Geocoder(priThis, Locale.ENGLISH);
+                String lReturnValue = "";
+                List<Address> lAddresses = null;
+                try {
+                    lAddresses = lGeocoder.getFromLocation(iLatitude, iLongitude, 1);
+                    if (lAddresses.size() > 0) {
+                        Address lReturnedAddress = lAddresses.get(0);
+                        for (int i = 0; i < lReturnedAddress.getMaxAddressLineIndex(); i++) {
+                            lReturnValue += lReturnedAddress.getAddressLine(i);
+                            if (i + 1 < lReturnedAddress.getMaxAddressLineIndex()) {
+                                lReturnValue += ", ";
+                            }
+                        }
                     }
+                    if (lReturnValue.length() > 0) {
+                        priLocationAddressTextView.setText(lReturnValue);
+                        priLocationAddressTextView.setVisibility(View.VISIBLE);
+                    } else {
+                        priLocationAddressTextView.setVisibility(View.GONE);
+                    }
+                } catch (Exception e) {
+                    Log.e("tab", "Error getting address");
+                    e.printStackTrace();
                 }
             }
-        } catch (Exception e) {
-            Log.e("tab", "Error getting address");
-            e.printStackTrace();
-        }
-        return lReturnValue;
+        }.run();
     }
 
     private void setupMarkers() {
         MapHelper.getInstance(priThis).getNearbyATM(priThis);
     }
 
-    public void onMapAPILoaded() {
+    public synchronized void onMapAPILoaded() {
         List<com.guardian.ebutler.ebutler.dataclasses.Location> lLocations = MapHelper.getInstance(priThis).nearbyATMs;
         priMarkerLocationMap = new HashMap<>();
         for (com.guardian.ebutler.ebutler.dataclasses.Location lLocation : lLocations) {

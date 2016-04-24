@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.guardian.ebutler.ebutler.MapAPICallbackActivityInterface;
 import com.guardian.ebutler.ebutler.MapLocation;
@@ -50,8 +51,14 @@ public class MapHelper {
     }
 
     public List<Location> nearbyATMs = null;
-    public void getNearbyATM(MapAPICallbackActivityInterface rMapAPIActivity) {
-        getCurrentLocation(priContext, rMapAPIActivity);
+    public void getNearbyATM(final MapAPICallbackActivityInterface rMapAPIActivity) {
+        final Context lContext = priContext;
+        new Thread(){
+            @Override
+            public void run() {
+                getCurrentLocation(lContext, rMapAPIActivity);
+            }
+        }.run();
     }
 
     private void getCurrentLocation(Context rContext, final MapAPICallbackActivityInterface rMapAPIActivity) {
