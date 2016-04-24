@@ -231,7 +231,7 @@ public class ScriptManager {
             lNewTask.pubLocation = new ArrayList<Location>();
             lNewTask.pubTime = lInputDate;
             lNewTask.pubStatus = Status.Pending;
-            lNewTask.pubPriority = Priority.Normal;
+            lNewTask.pubPriority = Priority.Important;
             lNewTask.pubTaskType = TaskType.OneTimeReminder;
             lNewTask.pubRepeat = "Không lặp lại";
             return lNewTask;

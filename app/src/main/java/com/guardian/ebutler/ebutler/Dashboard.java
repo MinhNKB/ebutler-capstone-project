@@ -1,14 +1,9 @@
 package com.guardian.ebutler.ebutler;
 
 import android.app.Activity;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -24,9 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.guardian.ebutler.alarm.AlarmService;
 import com.guardian.ebutler.ebutler.custom.*;
 import com.guardian.ebutler.ebutler.databasehelper.DatabaseHelper;
 import com.guardian.ebutler.ebutler.dataclasses.*;
@@ -89,6 +82,8 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
     private Calendar priCalendar;
     private Date priSelectedDate;
 
+    private boolean priIsCustomListViewLoaded = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,12 +92,13 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
 //        Global.getInstance().pubSelectedTask = null;
         this.findViewsByIds();
         this.initSort();
-        this.initCustomListView();
+//        this.initCustomListView();
         this.initCustomExpandableListView();
         this.initCalendarView();
         this.initSearchView();
         this.setupUI(findViewById(R.id.dashboard_parent));
         Global.getInstance().pubNewTask = null;
+
     }
 
 
@@ -292,12 +288,15 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
 
     public void initCustomListView()
     {
+        if (priIsCustomListViewLoaded == true)
+            return;
         try {
             DatabaseHelper iHelper = new DatabaseHelper(this);
             this.priTaskList = iHelper.GetAllTasks();
             this.performSort();
             this.performFilter();
             this.setCustomListViewListeners();
+            priIsCustomListViewLoaded = true;
         }
         catch (Exception ex){
             Log.w("wel", ex.toString());
@@ -499,6 +498,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
         if (iIsSearchView == true){
             this.priSearchView.setIconified(false);
             this.priSearchView.requestFocusFromTouch();
+            this.initCustomListView();
         }
         else {
             this.setButtonAlarmBackground(true);
