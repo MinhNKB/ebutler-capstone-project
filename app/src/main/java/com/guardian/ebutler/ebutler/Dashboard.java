@@ -107,6 +107,7 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
             if (this.priTaskList == null){
                 DatabaseHelper iHelper = new DatabaseHelper(this);
                 this.priTaskList = iHelper.GetAllTasks();
+                iHelper.close();
             }
             this.addTasksToCustomExpandableListView();
             this.setCustomExpandableListViewListeners();
@@ -554,7 +555,6 @@ public class Dashboard extends android.support.v4.app.FragmentActivity {
             switchView(false);
             return;
         }
-
         Intent setIntent = new Intent(this, UserInfoInput.class);
         setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(setIntent);

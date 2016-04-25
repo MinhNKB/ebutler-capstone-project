@@ -99,6 +99,7 @@ public class TaskDetail extends Activity {
                 if (priTask.pubRepeat == null || priTask.pubRepeat.equals(""))
                     priTask.pubRepeat = "Khác";
                 priTask.pubPriority = Priority.Important;
+
                 priTaskFragment.getValues(priTask);
                 if (Global.getInstance().pubSelectedTask == null)
                     iHelper.InsertATask(priTask);

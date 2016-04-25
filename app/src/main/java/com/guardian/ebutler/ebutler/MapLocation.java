@@ -250,6 +250,7 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback,
         {
             DatabaseHelper iHelper = new DatabaseHelper(this);
             lLocations = iHelper.GetAllLocations();
+            iHelper.close();
         }
         catch (Exception ex){
             ex.printStackTrace();
