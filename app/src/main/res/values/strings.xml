@@ -1,3 +1,183 @@
 <resources>
     <string name="app_name">eButler</string>
+
+    <string name="search_bar_queryHint">Cần trợ giúp?</string>
+
+    <string name="textButtonNext">Tiếp Tục</string>
+    <string name="textButtonPrev">Quay Lại</string>
+    <string name="textButtonOk">Chấp Nhận</string>
+    <string name="textButtonDecline">Bỏ Qua</string>
+    <string name="textButtonFinish">Kết Thúc</string>
+    <string name="textButtonReview">Review</string>
+
+    <string name="user_wizard_textButtonSubmitConfirm">Về Trang Chính</string>
+
+    <string name="info_request_butlerIntroduction">
+        Xin chào bạn, Từ nay tôi sẽ là quản gia của bạn. Bạn vui lòng cập nhật một vài thông tin cá nhân giúp tôi không?
+    </string>
+    <string name="user_info_butlerQuestion">
+        Vui lòng nhập thông tin của bạn
+    </string>
+    <string name="info_declined_butlerSpeech">
+        Bạn đã bỏ qua thông tin cá nhân, Tuy nhiên bạn nên sớm cập nhật thông tin cần thiết để có trải nghiệm tốt nhất với tôi
+    </string>
+    <string name="info_finish_butlerSpeech">
+        Chúc mừng! Bạn đã hoàn tất việc nhập những thông tin cần thiết
+    </string>
+    <string name="info_finish_butlerConfirm">
+        Chọn hoàn thành để cập nhật thông tin cá nhân của bạn
+    </string>
+
+    <string name="user_info_denyAQuestion">Tôi không muốn trả lời câu hỏi này</string>
+    <string name="user_info_labelName">Họ Tên</string>
+    <string name="user_info_labelGender">Giới Tính</string>
+    <string name="user_info_labelDOB">Ngày Sinh</string>
+    <string name="wizard_field_labelAddress">Địa chỉ</string>
+    <string name="wizard_form_labelMaritalStatus">Tình trạng Gia Định</string>
+
+    <string name="task_detail_hintTaskName">Tiêu đề</string>
+    <string name="task_detail_labelTime">Lúc:</string>
+    <string name="task_detail_hintTime">giờ</string>
+    <string name="task_detail_hintDate">ngày</string>
+    <string name="task_detail_labelLocation">Địa điểm:</string>
+    <string name="task_detail_hintLocation">địa điểm</string>
+    <string name="task_detail_labelRepeat">Lặp lại</string>
+    <string name="task_detail_labelCalling">Tôi sẽ nhắc bạn gọi</string>
+    <string name="task_detail_hintCalling">Mở danh bạ</string>
+    <string name="task_detail_textButtonAddPlugin">Thêm Checklist</string>
+    <string name="task_detail_textButtonFinish">Hoàn thành</string>
+    <string name="task_detail_textButtonCancel">Hủy</string>
+    <string name="location_detail_labelDetail">Chi tiết địa điểm</string>
+    <string name="choose_location_textButtonAddLocation">Thêm</string>
+    <string name="location_detail_textButtonEditLocation">Chỉnh sửa</string>
+
+    <string name="task_list_butlerSpeechGreetings">Hãy chọn loại hóa đơn mà bạn muốn nhắc nhớ.</string>
+    <string name="bill_list_notFound">Để thêm loại hóa đơn với từ khóa đã nhập, nhấn </string>
+
+    <string name="category_list_addHint">Nhập để thêm loại công việc mới</string>
+    <string name="category_list_butlerSpeechGreetings">Bạn muốn tôi ghi lại loại công việc gì?</string>
+
+    <string name="dashboard_butlerSpeechGreetings">Đây là những việc bạn cần làm sắp tới.</string>
+    <string name="dashboard_addNoteHint">Ghi chú nhanh...</string>
+
+    <string name="choose_time_textButtonConfirm">Xác nhận</string>
+    <string name="taskbar_LabelSetting">Tùy chỉnh</string>
+    <string name="taskbar_LabelDashboard">Dashboard</string>
+
+    <string name="fragment_yes_no_StringAccept">Có</string>
+    <string name="fragment_yes_no_StringDecline">Không</string>
+
+    <string name="fragment_time_span_textStartTime">Thời gian bắt đầu: </string>
+    <string name="fragment_time_span_textEndTime">Thời gian kết thúc: </string>
+
+    <string name="user_info_input_greetings">Chúc bạn một ngày tốt lành ^^</string>
+
+    <string name="checkbox_fragment_null_string_true">Không chọn</string>
+    <string name="textbox_fragment_null_string_false">Bạn không được để trống</string>
+    <string name="timespan_fragment_wrong_format_false">Thời gian kết thúc phải lớn hơn bắt đầu</string>
+    <string name="multipleChoice_fragment_null_option_false">Bạn chưa chọn</string>
+
+    <string name="choose_time_ButlerChatStatment">Tôi sẽ nhắc bạn thực hiện công việc này lúc:</string>
+    <string name="choose_time_DateLabel">Ngày:</string>
+    <string name="choose_time_TimeLabel">Giờ:</string>
+    <string name="choose_location_ButlerChatStatment">Tôi sẽ nhắc công việc này khi bạn ở:</string>
+    <string name="task_detail_ButlerChatStatment">Hãy cho tôi biết thông tin công việc</string>
+
+    <string name="enum_value_male">Nam</string>
+    <string name="enum_value_female">Nữ</string>
+
+    <string name="enum_value_monday">Thứ hai</string>
+    <string name="enum_value_tuesday">Thứ ba</string>
+    <string name="enum_value_wednesday">Thứ tư</string>
+    <string name="enum_value_thursday">Thứ năm</string>
+    <string name="enum_value_friday">Thứ sáu</string>
+    <string name="enum_value_saturday">Thứ bảy</string>
+    <string name="enum_value_sunday">Chủ nhật</string>
+
+    <string name="enum_value_single">Độc thân</string>
+    <string name="enum_value_married">Đã kết hôn</string>
+
+    <string name="enum_value_phone">Điện thoại</string>
+    <string name="enum_value_cable">Cáp TV</string>
+    <string name="enum_value_electric">Điện</string>
+    <string name="enum_value_water">Nước</string>
+
+    <string name="enum_value_car">Xe hơi</string>
+    <string name="enum_value_motor">Xe máy</string>
+    <string name="enum_value_bike">Xe đạp</string>
+    <string name="enum_value_walk">Đi bộ</string>
+
+    <string name="enum_value_fridge">Tủ lạnh</string>
+    <string name="enum_value_conditioner">Máy lạnh</string>
+    <string name="enum_value_washing_machine">Máy giặt</string>
+
+    <string name="enum_value_measles">Sởi</string>
+    <string name="enum_value_mumps">Quai bị</string>
+    <string name="enum_value_hepatitis">Viêm gan</string>
+    <string name="enum_value_varicella">Thủy đậu</string>
+    <string name="enum_value_rubella">Rubella</string>
+
+    <string name="enum_value_relax">Nghỉ dưỡng</string>
+    <string name="enum_value_explore">Khám phá</string>
+    <string name="enum_value_venture">Phiêu lưu, mạo hiểm</string>
+
+    <string name="enum_value_europe">Âu</string>
+    <string name="enum_value_asian">Á</string>
+
+    <string name="enum_value_romance">Tình cảm</string>
+    <string name="enum_value_adventure">Phiêu lưu</string>
+    <string name="enum_value_science">Khoa học</string>
+    <string name="enum_value_horror">Kinh dị</string>
+    <string name="enum_value_fiction">Viễn tưởng</string>
+    <string name="enum_value_journals">Báo, tạp chí</string>
+
+    <string name="enum_value_pop">Pop</string>
+    <string name="enum_value_rock">Rock</string>
+    <string name="enum_value_rap">Rap</string>
+    <string name="enum_value_jazz">Jazz</string>
+    <string name="enum_value_country">Đồng quê</string>
+    <string name="enum_value_electronic">Điện tử</string>
+
+    <string name="enum_value_dog">Chó</string>
+    <string name="enum_value_cat">Mèo</string>
+    <string name="enum_value_other">Khác</string>
+
+    <string name="enum_value_student">Học sinh, sinh viên</string>
+    <string name="enum_value_worker">Công nhân</string>
+    <string name="enum_value_officestaff">Nhân viên văn phòng</string>
+    <string name="enum_value_engineer">Kĩ sư</string>
+    <string name="enum_value_farmer">Nông nghiệp</string>
+    <string name="enum_value_otherjob">Khác</string>
+
+    <string name="enum_value_below10mil">Dưới 10 triệu</string>
+    <string name="enum_value_below20mil">Dưới 20 triệu</string>
+    <string name="enum_value_below50mil">Dưới 50 triệu</string>
+    <string name="enum_value_above50mil">Trên 50 triệu</string>
+
+    <string name="task_type_name_note">Ghi chú</string>
+    <string name="task_type_name_checkList">Danh sách</string>
+    <string name="task_type_name_oneTimeReminder">Nhắc nhớ</string>
+    <string name="task_type_name_periodicReminder">Nhắc nhở định kỳ</string>
+
+    <string name="task_type_description_note">Ghi chú</string>
+    <string name="task_type_description_checkList">Danh sách</string>
+    <string name="task_type_description_oneTimeReminder">Nhắc nhớ</string>
+    <string name="task_type_description_periodicReminder">Nhắc nhở định kỳ</string>
+    <string name="title_activity_task_type_list">TaskTypeList</string>
+
+    <string name="task_type_list_butlerSpeechGreetings">Vui lòng chọn loại công việc</string>
+
+    <string name="fragment_note_HintNote">Nội dung ghi chú</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_checklist_HintCheckList">Thêm vào danh sách</string>
+    <string name="title_activity_map">Map</string>
+    <string name="map_ButlerStatement">Hãy chọn địa điểm nhắc nhở</string>
+    <string name="title_activity_map_location">Map</string>
+    <string name="map_location_hintLocationName">Tên địa điểm</string>
+    <string name="map_location_textButtonDone">Xác nhận</string>
+    <string name="map_location_textButtonCancel">Quay lại</string>
+    <string name="map_location_textButtonMyLocation">Vị trí của tôi</string>
+    <string name="title_activity_map_api">Map</string>
 </resources>

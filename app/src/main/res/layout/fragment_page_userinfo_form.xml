@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/WizardPageContainer">
+
+    <TextView style="@style/WizardPageTitle" />
+
+    <TextView style="@style/WizardFormLabel"
+        android:id="@+id/butler_info_text" />
+
+    <ScrollView android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:scrollbarStyle="outsideOverlay">
+
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView style="@style/WizardFormLabel"
+                android:text="@string/user_info_labelName" />
+
+            <EditText android:id="@+id/wizard_field_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:saveEnabled="false"
+                android:inputType="text"
+                android:layout_marginBottom="16dp" />
+
+
+            <TextView style="@style/WizardFormLabel"
+                android:text="@string/user_info_labelGender" />
+
+            <Spinner android:id="@+id/wizard_field_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:saveEnabled="false"
+                android:inputType="text"
+                android:layout_marginBottom="16dp"
+                android:entries="@array/user_info_genderOptions"/>
+
+            <TextView style="@style/WizardFormLabel"
+                android:text="@string/user_info_labelDOB" />
+
+            <DatePicker android:id="@+id/wizard_field_dob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:saveEnabled="false"
+                android:inputType="text"
+                android:layout_marginBottom="16dp" />
+
+            <TextView style="@style/WizardFormLabel"
+                android:text="@string/wizard_field_labelAddress" />
+
+            <EditText android:id="@+id/wizard_field_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:saveEnabled="false"
+                android:inputType="text"
+                android:layout_marginBottom="16dp" />
+
+            <TextView style="@style/WizardFormLabel"
+                android:text="@string/wizard_form_labelMaritalStatus" />
+
+            <Spinner android:id="@+id/wizard_field_marriedstats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:saveEnabled="false"
+                android:inputType="text"
+                android:layout_marginBottom="16dp"
+                android:entries="@array/user_info_maritalStatusOptions"/>
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

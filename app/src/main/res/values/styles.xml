@@ -1,11 +1,127 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorHint">@color/textDisabledBlack</item>
+        <item name="android:textColor">@color/textPrimaryBlack</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:colorBackground">@color/background</item>
+        <item name="actionBarStyle">@style/Widget.AppCompat.ActionBar</item>
+
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:datePickerStyle">@android:style/Widget.DatePicker</item>
     </style>
 
+    <style name="TextAppearanceFinish" parent="android:TextAppearance.Holo.Medium">
+        <item name="android:textColor">#fff</item>
+    </style>
+
+    <style name="WizardPageContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="WizardPageTitle">
+        <item name="android:id">@android:id/title</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:paddingLeft">?android:attr/listPreferredItemPaddingLeft</item>
+        <item name="android:textSize">36sp</item>
+        <item name="android:textColor">#ff0099cc</item>
+        <item name="android:fontFamily">sans-serif-thin</item>
+    </style>
+
+    <style name="WizardFormLabel">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:textAppearance">?android:textAppearanceSmall</item>
+        <item name="android:textColor">@color/textPrimaryBlack</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+    </style>
+
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/caldroid_lighter_gray</item>
+    </style>
+
+
+    <style name="CaldroidCustom">
+        <item name="styleCaldroidViewLayout">@style/CaldroidCustomCalendarViewLayout</item>
+        <item name="styleCaldroidLeftArrow">@style/CaldroidCustomLeftButton</item>
+        <item name="styleCaldroidRightArrow">@style/CaldroidCustomRightButton</item>
+        <item name="styleCaldroidMonthName">@style/CaldroidCustomMonthName</item>
+        <item name="styleCaldroidGridView">@style/CaldroidCustomGridView</item>
+        <item name="styleCaldroidNormalCell">@style/CaldroidCustomNormalCell</item>
+        <item name="styleCaldroidSquareCell">@style/CaldroidCustomSquareCell</item>
+        <item name="styleCaldroidWeekdayView">@style/CaldroidCustomWeekday</item>
+    </style>
+    <style name="CaldroidCustomArrowButton">
+        <item name="android:layout_width">@dimen/taskbar_iconSize</item>
+        <item name="android:layout_height">@dimen/taskbar_iconSize</item>
+    </style>
+    <style name="CaldroidCustomCalendarViewLayout">
+        <item name="android:background">@color/background</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="CaldroidCustomCell">
+        <item name="android:textColor">@drawable/caldroid_custom_text_color</item>
+        <item name="android:background">@drawable/caldroid_custom_cell</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="CaldroidCustomGridView">
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:listSelector">@null</item>
+        <item name="android:background">@color/background</item>
+        <item name="android:horizontalSpacing">1dp</item>
+        <item name="android:padding">1dp</item>
+        <item name="android:verticalSpacing">1dp</item>
+    </style>
+    <style name="CaldroidCustomLeftButton" parent="CaldroidCustomArrowButton">
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:background">@mipmap/ic_keyboard_arrow_left_grey</item>
+    </style>
+    <style name="CaldroidCustomMonthName">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:layout_marginBottom">6dp</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">21sp</item>
+    </style>
+    <style name="CaldroidCustomNormalCell" parent="CaldroidCustomCell">
+        <item name="android:padding">5dp</item>
+    </style>
+    <style name="CaldroidCustomRightButton" parent="CaldroidCustomArrowButton">
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:background">@mipmap/ic_keyboard_arrow_right_grey</item>
+    </style>
+    <style name="CaldroidCustomSquareCell" parent="CaldroidCustomCell"/>
+    <style name="CaldroidCustomWeekday">
+        <item name="android:textColor">@color/textDisabledBlackMiddle</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
 </resources>

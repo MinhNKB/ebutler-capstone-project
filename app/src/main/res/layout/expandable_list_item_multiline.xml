@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="6dp">
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="?android:expandableListPreferredChildPaddingLeft"/>
+    <ImageView
+        android:id="@+id/list_item_multiline_imageButton"
+        android:layout_width="@dimen/taskbar_iconSize"
+        android:layout_height="@dimen/taskbar_iconSize"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/blue_round_button_clicked"
+        android:src="@mipmap/ic_alarm"
+        android:scaleType="fitCenter"
+        android:layout_marginRight="@dimen/layout_padding"
+        android:adjustViewBounds="true"
+        />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/list_item_multiline_firstLine"
+            android:layout_width="fill_parent"
+            android:layout_height="26dp"
+            android:layout_alignParentTop="true"
+            android:gravity="center_vertical"
+            android:text="Tập thể dục buổi sáng"
+            android:textSize="@dimen/font_size_extra_large"
+            android:singleLine="true"/>
+        <TextView
+            android:id="@+id/list_item_multiline_secondLine"
+            android:layout_width="fill_parent"
+            android:layout_height="20dp"
+            android:layout_below="@id/list_item_multiline_firstLine"
+            android:layout_marginBottom="2dp"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="Sáng nay 7 giờ 30 phút"
+            android:textSize="@dimen/font_size_medium"
+            />
+        <TextView
+            android:id="@+id/list_item_multiline_thirdLine"
+            android:layout_width="fill_parent"
+            android:layout_height="18dp"
+            android:layout_below="@id/list_item_multiline_secondLine"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="Đã trễ 20ph"
+            android:textColor="@color/textDisabledBlack"
+            android:textSize="@dimen/font_size_small" />
+    </RelativeLayout>
+</LinearLayout>

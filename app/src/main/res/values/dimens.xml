@@ -1,5 +1,42 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- Other resources-->
+    <dimen name="step_pager_tab_width">32dp</dimen>
+    <dimen name="step_pager_tab_height">3dp</dimen>
+    <dimen name="step_pager_tab_spacing">4dp</dimen>
+    <!-- End other resources-->
+
+    <dimen name="activity_horizontal_margin">0dp</dimen>
+    <dimen name="activity_vertical_margin">0dp</dimen>
+
+    <dimen name="layout_padding_half">3dp</dimen>
+    <dimen name="layout_padding">6dp</dimen>
+    <dimen name="layout_padding_double">12dp</dimen>
+    <dimen name="layout_padding_triple">18dp</dimen>
+    <dimen name="paragraph_padding">32dp</dimen>
+    <dimen name="taskbar_height">42dp</dimen>
+    <dimen name="taskbar_iconSize">30dp</dimen>
+    <dimen name="topbar_height">42dp</dimen>
+
+    <dimen name="conversation_statement_maxWidth">240dp</dimen>
+    <dimen name="answer_maxHeight">100dp</dimen>
+    <dimen name="choose_location_LabelSize">18sp</dimen>
+    <dimen name="task_detail_TextTitleHeight">48dp</dimen>
+    <dimen name="inline_icon_size">26dp</dimen>
+    <dimen name="icon_size_small">18dp</dimen>
+
+    <dimen name="fragment_alarm_edittext_minwidth">80dp</dimen>
+    <dimen name="fragment_alarm_edittext_minwidth_double">160dp</dimen>
+
+    <dimen name="font_size_xxl">20sp</dimen>
+    <dimen name="font_size_extra_large">18sp</dimen>
+    <dimen name="font_size_large">16sp</dimen>
+    <dimen name="font_size_medium">14sp</dimen>
+    <dimen name="font_size_small">12sp</dimen>
+
+    <dimen name="progress_bar_reached">2.4dp</dimen>
+    <dimen name="progress_bar_unreached">3dp</dimen>
+    <dimen name="map_marker_size">24dp</dimen>
+    <dimen name="map_location_labelPadding">66dp</dimen>
+    <dimen name="progress_bar_bubbleSize">20dp</dimen>
 </resources>

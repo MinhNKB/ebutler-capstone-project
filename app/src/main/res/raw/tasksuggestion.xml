@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tasks>
+	<Task>
+		<PropertyName>PhoneDate</PropertyName>		
+		<Time>0;0;0</Time>
+		<Repeat>0;1;0</Repeat>
+		<TaskName>Đóng tiền điện thoại</TaskName>
+	</Task>
+	<Task>
+		<PropertyName>CableDate</PropertyName>		
+		<Time>0;0;0</Time>
+		<Repeat>0;1;0</Repeat>
+		<TaskName>Đóng tiền truyền hình cáp</TaskName>
+	</Task>
+	<Task>
+		<PropertyName>ElectricityDate</PropertyName>		
+		<Time>0;0;0</Time>
+		<Repeat>0;1;0</Repeat>
+		<TaskName>Đóng tiền điện</TaskName>
+	</Task>
+	<Task>
+		<PropertyName>WaterDate</PropertyName>		
+		<Time>0;0;0</Time>
+		<Repeat>0;1;0</Repeat>
+		<TaskName>Đóng tiền nước</TaskName>
+	</Task>
+	<Task>
+		<PropertyName>VehicleMaintenance</PropertyName>		
+		<Time>0;0;0</Time>
+		<Repeat>0;3;0</Repeat>
+		<TaskName>Bảo trì xe</TaskName>
+	</Task>
+	<Task>
+		<PropertyName>VehicleInsurance</PropertyName>		
+		<Time>0;-7;0</Time>
+		<Repeat>1;0;0</Repeat>
+		<TaskName>Mua bảo hiểm xe</TaskName>
+	</Task>
+	<Task>
+		<PropertyName>FridgeMaintenance</PropertyName>		
+		<Time>0;0;0</Time>
+		<Repeat>0;6;0</Repeat>
+		<TaskName>Bảo trì tủ lạnh</TaskName>
+	</Task>
+	<Task>
+		<PropertyName>ConditionerMaintenance</PropertyName>		
+		<Time>0;0;0</Time>
+		<Repeat>0;6;0</Repeat>
+		<TaskName>Bảo trì máy lạnh</TaskName>
+	</Task>
+	<Task>
+		<PropertyName>WashingMachineMaintenance</PropertyName>		
+		<Time>0;0;0</Time>
+		<Repeat>0;6;0</Repeat>
+		<TaskName>Bảo trì máy giặt</TaskName>
+	</Task>
+	<Task>
+		<PropertyName>LastCheckup</PropertyName>		
+		<Time>0;0;0</Time>
+		<Repeat>0;6;0</Repeat>
+		<TaskName>Khám sức khỏe</TaskName>
+	</Task>
+	<Task>
+		<PropertyName>PetVaccinationDate</PropertyName>		
+		<Time>0;0;0</Time>
+		<Repeat>1;0;0</Repeat>
+		<TaskName>Tiêm ngừa cho thú cưng</TaskName>
+	</Task>
+	<Task>
+		<PropertyName>MarriedDay</PropertyName>
+		<Time>0;0;0</Time>
+		<Repeat>1;0;0</Repeat>
+		<TaskName>Kỉ niệm ngày cưới</TaskName>
+	</Task>
+	<Task>
+		<PropertyName>FemalePartnerDoB</PropertyName>
+		<Time>0;0;0</Time>
+		<Repeat>1;0;0</Repeat>
+		<TaskName>Sinh nhật vợ</TaskName>
+	</Task>
+	<Task>
+		<PropertyName>MalePartnerDoB</PropertyName>
+		<Time>0;0;0</Time>
+		<Repeat>1;0;0</Repeat>
+		<TaskName>Sinh nhật chồng</TaskName>
+	</Task>
+	<Task>
+		<PropertyName>LoverDOB</PropertyName>
+		<Time>0;0;0</Time>
+		<Repeat>1;0;0</Repeat>
+		<TaskName>Sinh nhật người yêu</TaskName>
+	</Task>
+	<Task>
+		<PropertyName>MeetLoverDay</PropertyName>
+		<Time>0;0;0</Time>
+		<Repeat>1;0;0</Repeat>
+		<TaskName>Kỉ niệm ngày quen nhau</TaskName>
+	</Task>
+	<Task>
+		<PropertyName>FatherDoB</PropertyName>
+		<Time>0;0;0</Time>
+		<Repeat>1;0;0</Repeat>
+		<TaskName>Sinh nhật ba</TaskName>
+	</Task>
+	<Task>
+		<PropertyName>MotherDoB</PropertyName>
+		<Time>0;0;0</Time>
+		<Repeat>1;0;0</Repeat>
+		<TaskName>Sinh nhật mẹ</TaskName>
+	</Task>
+</Tasks>

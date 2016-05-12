@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".ChooseTime"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="bottom"
+        >
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/layout_padding_double">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:maxHeight="50dp"
+                android:maxWidth="50dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/butler_gif"/>
+            <TextView
+                android:visibility="visible"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical"
+                android:text="@string/choose_time_ButlerChatStatment"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/layout_padding_double"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/choose_time_TimeLabel"
+                android:textSize="@dimen/choose_location_LabelSize"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:padding="@dimen/layout_padding_double"
+                />
+
+            <TimePicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/choose_time_timePicker"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                />
+
+        </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/layout_padding_double">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_time_DateLabel"
+            android:textSize="@dimen/choose_location_LabelSize"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:padding="@dimen/layout_padding_double"
+            />
+        <DatePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/choose_time_datePicker"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:padding="@dimen/layout_padding_double"
+            android:layout_margin="@dimen/layout_padding_double"
+            />
+
+    </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/taskbar_height"
+            android:gravity="bottom"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorPrimary"
+            >
+            <ImageButton
+                android:layout_width="@dimen/taskbar_iconSize"
+                android:layout_height="match_parent"
+                android:background="@drawable/blue_button"
+                android:src="@mipmap/ic_done"
+                android:contentDescription="@string/choose_time_textButtonConfirm"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/choose_time_buttonConfirm"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                />
+
+            <ImageButton
+                android:layout_width="@dimen/taskbar_iconSize"
+                android:layout_height="match_parent"
+                android:background="@drawable/blue_button"
+                android:src="@mipmap/ic_clear"
+                android:contentDescription="@string/task_detail_textButtonCancel"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/choose_time_buttonCancel"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>
