@@ -82,6 +82,7 @@ public class AlarmService extends Service
                     lAlarm.SetAlarm(this, lTask.pubTime.getTime(), repeat);
                 }
             }
+            iHelper.close();
 
 //            Calendar cal = Calendar.getInstance();
 //            cal.set(Calendar.HOUR, 8);

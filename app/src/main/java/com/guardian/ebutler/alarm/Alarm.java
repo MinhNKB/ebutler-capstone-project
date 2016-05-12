@@ -29,22 +29,26 @@ public class Alarm extends BroadcastReceiver
     @Override
     public void onReceive(Context context, Intent intent)
     {
-        Log.w("wel", "received!");
-        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
-        wl.acquire();
-
-        if (isForeground("com.guardian.ebutler.alarm", context) == false)
+        try {
+            Log.w("wel", "received!");
+            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
+            wl.acquire();
+//        if (isForeground("com.guardian.ebutler.alarm", context) == false)
             createNotification(context, "eBulter", "Bạn có thông báo mới!!!");
-        wl.release();
+            wl.release();
+        }
+        catch (Exception ex){
+            Log.w("wel", ex.toString());
+        }
     }
 
-    public boolean isForeground(String myPackage, Context context) {
-        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> runningTaskInfo = manager.getRunningTasks(1);
-        ComponentName componentInfo = runningTaskInfo.get(0).topActivity;
-        return componentInfo.getPackageName().equals(myPackage);
-    }
+//    public boolean isForeground(String myPackage, Context context) {
+//        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+//        List<ActivityManager.RunningTaskInfo> runningTaskInfo = manager.getRunningTasks(1);
+//        ComponentName componentInfo = runningTaskInfo.get(0).topActivity;
+//        return componentInfo.getPackageName().equals(myPackage);
+//    }
 
     private void createNotification(Context context, String title, String content) {
         NotificationCompat.Builder mBuilder =
@@ -52,13 +56,14 @@ public class Alarm extends BroadcastReceiver
                         .setSmallIcon(R.drawable.ic_ebutler_notification)
                         .setContentTitle(title)
                         .setContentText(content);
+
         mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
         long[] pattern = {10000};
         mBuilder.setVibrate(pattern);
-        Intent resultIntent = new Intent(context, Dashboard.class);
+        Intent resultIntent = new Intent(context, UserInfoInput.class);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(Dashboard.class);
+        stackBuilder.addParentStack(UserInfoInput.class);
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(resultPendingIntent);
@@ -72,7 +77,7 @@ public class Alarm extends BroadcastReceiver
         Intent i = new Intent(context, Alarm.class);
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
         am.set(AlarmManager.RTC_WAKEUP, iStartTime, pi);
-        Log.w("wel", "set one time alarm at " + (new Date(iStartTime)).toString());
+        Log.w("wel", "set one time alarm at " + (new Date(iStartTime)).toString() + ", " + String.valueOf(iStartTime));
     }
 
     public void SetAlarm(Context context, long iStartTime, long iRepeatTime) {
@@ -81,7 +86,7 @@ public class Alarm extends BroadcastReceiver
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
         am.setRepeating(AlarmManager.RTC_WAKEUP, iStartTime, iRepeatTime, pi);
         Log.w("wel", "set repeatable alarm");
-        Log.w("wel", String.valueOf(iStartTime) + "/" + String.valueOf(iRepeatTime));
+        Log.w("wel", (new Date(iStartTime)).toString() + "/" + String.valueOf(iRepeatTime));
     }
 
     public void CancelAlarm(Context context) {

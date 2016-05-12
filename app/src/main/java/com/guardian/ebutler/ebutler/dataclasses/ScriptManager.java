@@ -17,6 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -200,12 +201,19 @@ public class ScriptManager {
         try {
             SimpleDateFormat lDateFormat = new SimpleDateFormat("dd/MM/yyyy");
             Date lInputDate = lDateFormat.parse(iCondition.pubValue);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(lInputDate);
 
             String[] lTimes = iTaskSuggestionInformation.pubTime.replace(" ","").split(";");
 
-            lInputDate.setMonth(lInputDate.getMonth()+Integer.parseInt(lTimes[0]));
-            lInputDate.setDate(lInputDate.getDate() + Integer.parseInt(lTimes[1]));
-            lInputDate.setHours(7);
+            cal.add(Calendar.MONTH, Integer.parseInt(lTimes[0]));
+            cal.add(Calendar.DATE, Integer.parseInt(lTimes[1]));
+            cal.set(Calendar.HOUR, 7);
+
+            lInputDate.setTime(cal.getTimeInMillis());
+//            lInputDate.setMonth(lInputDate.getMonth()+Integer.parseInt(lTimes[0]));
+//            lInputDate.setDate(lInputDate.getDate() + Integer.parseInt(lTimes[1]));
+//            lInputDate.setHours(7);
 
             Date lCurrentDate = new Date();
             if(lInputDate.before(lCurrentDate))
@@ -214,26 +222,36 @@ public class ScriptManager {
                 if(lDiffDays>=Math.abs(Integer.parseInt(lTimes[1])))
                 {
                     String[] lRepeat = iTaskSuggestionInformation.pubRepeat.replace(" ", "").split(";");
-                    lInputDate.setYear(lInputDate.getYear() + Integer.parseInt(lRepeat[0]));
-                    lInputDate.setMonth(lInputDate.getMonth() + Integer.parseInt(lRepeat[1]));
-                    lInputDate.setDate(lInputDate.getDate() + Integer.parseInt(lRepeat[2]));
+
+
+                    cal.add(Calendar.YEAR, Integer.parseInt(lRepeat[0]));
+                    cal.add(Calendar.MONTH, Integer.parseInt(lRepeat[1]));
+                    cal.add(Calendar.DATE, Integer.parseInt(lRepeat[2]));
+//                    lInputDate.setYear(lInputDate.getYear() + Integer.parseInt(lRepeat[0]));
+//                    lInputDate.setMonth(lInputDate.getMonth() + Integer.parseInt(lRepeat[1]));
+//                    lInputDate.setDate(lInputDate.getDate() + Integer.parseInt(lRepeat[2]));
                 }
                 else
                 {
                     lInputDate = lCurrentDate;
-                    lInputDate.setDate(lInputDate.getDate() + 1);
-                    lInputDate.setHours(7);
+                    cal.add(Calendar.DATE, 1);
+                    cal.set(Calendar.HOUR, 7);
+//                    lInputDate.setDate(lInputDate.getDate() + 1);
+//                    lInputDate.setHours(7);
                 }
             }
-            Task lNewTask = new Task();
+            lInputDate.setTime(cal.getTimeInMillis());
+
+            Task lNewTask = new TaskOneTimeReminder();
 
             lNewTask.pubName = iTaskSuggestionInformation.pubTaskName;
-            lNewTask.pubLocation = new ArrayList<Location>();
-            lNewTask.pubTime = lInputDate;
             lNewTask.pubStatus = Status.Pending;
-            lNewTask.pubPriority = Priority.Important;
-            lNewTask.pubTaskType = TaskType.OneTimeReminder;
             lNewTask.pubRepeat = "Không lặp lại";
+            lNewTask.pubPriority = Priority.Important;
+
+            lNewTask.pubTime = lInputDate;
+            lNewTask.pubTaskType = TaskType.OneTimeReminder;
+
             return lNewTask;
         } catch (ParseException e) {
             Log.w("ScriptManager",e.getMessage());
